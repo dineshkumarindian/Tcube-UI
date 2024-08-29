@@ -1,0 +1,281 @@
+<mat-sidenav-container class="navcontainter">
+  <mat-sidenav-content>
+    <div id="wrap" class="style">
+      <div class="container-fluid d-flex justify-content-between page-header">
+        <h3 class="page-title" *ngIf="!isJobIdAvailable">Add Job
+        </h3>
+        <h3 class="page-title" *ngIf="isJobIdAvailable">Update Job
+        </h3>
+        <span><button class="move_tojobs" matTooltipPosition="left" (click)="removeLocal()"
+            matTooltip="Back to active jobs" [routerLink]="['/jobs']" routerLinkActive="router-link-active"><img
+              class="ph_back_arrow_img" src="../../assets/images/back.png"></button></span>
+      </div>
+      <section class="container-fluid ">
+        <div class="input-content-wrap card card-bg p-3 mb-4">
+          <form [formGroup]="jobsFormGroup">
+            <!-- <h2 style="color:#cbcaca;">Project Configuration Details</h2>  -->
+            <div class="row pt-4">
+              <div class="ml-3 lablestyle col-2 matSelectError">Project</div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-select [formControl]="projectCtrl" placeholder="Project&nbsp; *" #singleSelect
+                    [(ngModel)]="selectedProjectId" (selectionChange)="selectedProjectEvent($event)"
+                    [disabled]="this.jobId">
+                    <mat-option>
+                      <ngx-mat-select-search [formControl]="projectFilterCtrl" placeholderLabel="Search Project..."
+                        noEntriesFoundLabel="'no match found'">
+                      </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngIf="ProjectDetailsList.length == 0" class="text-secondary">No data available!
+                    </mat-option>
+                    <mat-option *ngFor="let data of filteredproject | async" [value]="data.id">
+                      {{data.project_name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error class="errorfix" *ngIf="projectCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="ml-3 lablestyle col-2">Job Name</div>
+              <mat-form-field appearance="standard" class="col-8">
+                <mat-label>Job Name</mat-label>
+                <input matInput placeholder="Job Name" formControlName="job_name" required
+                  (ngModelChange)="jobNameCheck($event)" />
+                <!-- <mat-error>{{requiredMessage}}</mat-error> -->
+                <mat-error>
+                  <div *ngIf="jobsFormGroup.get('job_name').hasError('required')">
+                    {{requiredMessage}}
+                  </div>
+                  <div *ngIf="jobsFormGroup.get('job_name').hasError('pattern')">
+                    {{whiteSpaceMessage}}
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="row jobNameErr">
+              <div class="ml-3 col-2"></div>
+              <p *ngIf="isjobNameAvail && !jobsFormGroup.get('job_name').hasError('required')" class="mat-error ml-3">
+                {{existMessage}}</p>
+            </div>
+
+
+            <div class="row">
+              <div class="ml-3 lablestyle col-2">Start Date</div>
+              <mat-form-field appearance="standard" class="col-8">
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="s_date">
+                <!-- <mat-error>Field Required!</mat-error> -->
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="ml-3 lablestyle col-2">End Date</div>
+              <mat-form-field appearance="standard" class="col-8">
+                <mat-label>End Date</mat-label>
+                <input [min]="jobsFormGroup.controls['s_date'].value" matInput [matDatepicker]="picker2"
+                  formControlName="e_date">
+                <!-- <mat-error>Field Required!</mat-error> -->
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="ml-3 lablestyle col-2">Estimated Hours</div>
+              <mat-form-field appearance="standard" class="col-8">
+                <mat-label>Estimated hours</mat-label>
+                <input matInput type="number" placeholder="00" min="0" formControlName="hours">
+                <mat-error class="customized_error">
+                  <div class="errorfix" *ngIf="jobsFormGroup.controls['hours'].hasError('pattern')">
+                    {{whiteSpaceMessage}}
+                  </div>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="row pt-4" [hidden]="isJobIdAvailable">
+              <div class="ml-3 lablestyle col-2">Assignees</div>
+              <!-- <div class="col-8"> -->
+              <!-- <ng-multiselect-dropdown [placeholder]="'Select Users'" [settings]="dropdownsettings"
+                                [data]="usersdropdownList" [(ngModel)]="usersselectedItems"
+                                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+                                (ngModelChange)="usersfunction($event)">
+                            </ng-multiselect-dropdown> -->
+              <div class="col-8">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-select [formControl]="AssigneeCtrl" placeholder="Select Users&nbsp; *" #select multiple
+                    [(ngModel)]="usersselectedItems" (ngModelChange)="usersfunction($event)">
+                    <mat-option>
+                      <ngx-mat-select-search [formControl]="AssigneeFilterCtrl" placeholderLabel="Search Users..."
+                        noEntriesFoundLabel="'no match found'">
+                      </ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngIf="employeeDetails.length == 0" class="text-secondary" disabled
+                      [hidden]="employeeDetails.length !== 0">No data available!</mat-option>
+
+                    <div class="select-all pl-3" *ngIf="employeeDetails.length != 0">
+                      <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                        *ngIf="(filteredAssignee | async)?.length > 0" (change)="toggleAllSelection()">Select All</mat-checkbox>
+                    </div>
+                    <mat-option *ngFor="let data of filteredAssignee | async" [value]="data">
+                      <!-- {{data.employeeDetails.firstname}} {{data.employeeDetails.lastname}} -->
+                      {{data.map.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error class="errorfix" *ngIf="AssigneeCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+              </div>
+              <!-- </div> -->
+            </div>
+            <div *ngIf="showusers && !isJobIdAvailable" class="py-4">
+              <div *ngFor="let object of userlist; let i = index">
+                <div class="row py-2">
+                  <div class="ml-3 lablestyle col-2"></div>
+                  <mat-form-field class="col-5">
+                    <input matInput [value]="object.name" type="text" required>
+                  </mat-form-field>
+                  <div class="text-input lablestyle col-3">
+                    <input type="text" [value]="object.rph" (change)="rphchangeuser(i,$event.target.value)"
+                      placeholder="Rate Per Hour">
+                    <label for="input1">RPH</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- for Update method-->
+
+            <div class="row pt-4" [hidden]="!isJobIdAvailable">
+              <div class="ml-3 lablestyle col-2">Assignees</div>
+              <div class="col-8">
+                <mat-form-field appearance="outline" style="width: 100%;">
+                  <mat-select [formControl]="AssigneeCtrl" placeholder="Select Users&nbsp;" #updatejob multiple
+                    [(ngModel)]="updateUsersselectedItems" (ngModelChange)="updateUsersfunction($event)">
+                    <mat-option>
+                      <ngx-mat-select-search [formControl]="AssigneeFilterCtrl" placeholderLabel="Search Users..."
+                        noEntriesFoundLabel="'no match found'">
+                      </ngx-mat-select-search>
+                    </mat-option>
+                    <div class="select-all pl-3" *ngIf="employeeDetails.length != 0">
+                      <mat-checkbox [(ngModel)]="allSelectedjob" [ngModelOptions]="{standalone: true}"
+                      *ngIf="(filteredAssignee | async)?.length > 0"  (change)="toggleAllSelectionjob()">Select All</mat-checkbox>
+                    </div>
+
+                    <mat-option *ngFor="let data of filteredAssignee | async" [value]="data.map.id">
+                      <!-- {{data.employeeDetails.firstname}} {{data.employeeDetails.lastname}} -->
+                      {{data.map.name}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error class="errorfix" *ngIf="AssigneeCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div *ngIf="showusers && isJobIdAvailable" class="py-4">
+              <div *ngFor="let object of userlist; let i = index">
+                <div class="row py-2">
+                  <div class="ml-3 lablestyle col-2"></div>
+                  <mat-form-field class="col-5">
+                    <input matInput [value]="object.name" type="text" required>
+                  </mat-form-field>
+                  <div class="text-input lablestyle col-3">
+                    <input type="text" [value]="object.rph" (change)="rphchangeuser(i,$event.target.value)"
+                      placeholder="Rate Per Hour">
+                    <label for="input1">RPH</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="ml-3 lablestyle col-2">Rate Per Hour</div>
+              <mat-form-field appearance="standard" class="col-8">
+                <mat-label>RPH</mat-label>
+                <input type="number" min="0" matInput formControlName="rate_per_hour">
+                <mat-error class="customized_error">
+                  <div class="errorfix"
+                    *ngIf="jobsFormGroup.controls['rate_per_hour'].hasError('pattern') && !jobsFormGroup.controls['rate_per_hour'].hasError('required')">
+                    {{whiteSpaceMessage}}
+                  </div>
+                </mat-error>
+
+              </mat-form-field>
+            </div>
+            <!-- <div class="row py-4">
+              <div class="ml-3 lablestyle col-2">Description</div>
+              <mat-form-field appearance="fill" class="col-8"> -->
+            <!-- <mat-label>Textarea</mat-label> -->
+            <!-- <textarea matInput formControlName="description" placeholder="Description"></textarea>
+                <mat-error>Field Required!</mat-error>
+              </mat-form-field>
+            </div> -->
+            <div class="row py-4">
+              <div class="ml-3 lablestyle col-2">Description</div>
+              <div class="col-8 ckeditorArea">
+                <!-- [config]="{ placeholder:'Enter the job description here!', toolbar: [ 'bold', 'italic', 'bulletedList' ] }" -->
+                <ckeditor [formControl]="description" [editor]="Editor" (ready)="onReady($event)" name="description"
+                  [config]="{ placeholder:'Enter the job description here!',
+                toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ]}"
+                  class="ckeditor-style">
+                </ckeditor>
+                <div class="ck_editor_length mat-error" *ngIf="description.errors?.maxlength">
+                  {{characterLength}}
+                </div>
+                <div class="ck_editor_length mat-hint" *ngIf="description.errors?.required">
+                  Maximum 5000 characters allowed
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="ml-3 lablestyle col-2">Billable Status</div>
+              <!-- <mat-form-field appearance="standard" class="col-8">
+                            <mat-label>Bill</mat-label>
+                            <mat-select [(ngModel)]="selectedValue" name="bill">
+                                <mat-option *ngFor="let bill of bills" [value]="bill.value">
+                                    {{bill.value}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+              <mat-form-field appearance="outline" class="col-8">
+                <mat-select [formControl]="billCtrl" placeholder="Bill" #singleSelect>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="billFilterCtrl" placeholderLabel="Search ..."
+                      noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+
+                  <mat-option *ngFor="let data of filteredbill | async" [value]="data.name">
+                    {{data.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="billCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+            <!-- Keep form active section after create -->
+            <div class="row mt-2">
+              <div class="ml-3 lablestyle col-2"></div>
+              <div class="col-9">
+                <mat-checkbox *ngIf="!isJobIdAvailable" class="example-margin" [disabled]="isJobIdAvailable"
+                  (change)="keepEditor($event)">Create another job</mat-checkbox>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="ml-3 lablestyle col-2"></div>
+              <div class="btns col-8 px-3">
+                <button *ngIf="!isJobIdAvailable" class="btn btn-confirm"
+                  [disabled]="jobsFormGroup.invalid || AssigneeCtrl.invalid || projectCtrl.invalid || billCtrl.invalid || isjobNameAvail"
+                  (click)="addJob()" type="submit">Save</button>
+
+                <button *ngIf="isJobIdAvailable" class="btn btn-confirm"
+                  [disabled]="jobsFormGroup.controls['job_name'].invalid || jobsFormGroup.controls['hours'].invalid || jobsFormGroup.controls['rate_per_hour'].invalid || jobsFormGroup.controls['description'].invalid || AssigneeCtrl.invalid || projectCtrl.invalid || billCtrl.invalid || isjobNameAvail"
+                  (click)="updateJob()">Update</button>
+
+                <button class="btn btn-cancel" [routerLink]="['/jobs']"
+                  routerLinkActive="router-link-active">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

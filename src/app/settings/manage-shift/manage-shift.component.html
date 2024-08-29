@@ -1,0 +1,110 @@
+<section class="manage-shift">
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <h3 class="set-heading">SHIFT
+                <span class="pull-right rs_btns">
+                    <div class="setting_add_btns">
+                        <button class="mx-2" mat-stroked-button [routerLink]="['/add-shift']">
+                            <mat-icon mat-icon-button>add</mat-icon><span class="btn_txt">
+                                Add Shift</span>
+                        </button>
+                    </div>
+                </span>
+            </h3>
+        </div>
+    </div>
+    <div class="mat-elevation-z8 mb-4">
+        <div class="row">
+            <div class="col-6">
+                <div class="table_bulk_dele">
+                    <button class="example-icon" *ngIf="BulkDeleteShift" class="bulk-delete-icon"
+                        matTooltip="Delete selected shifts" matTooltipPosition="right" (click)="callBulkDeleteShift()">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="filter-form-sec">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyFiltershift($event)" placeholder="Search shift ..." #input>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <table mat-table [dataSource]="shiftDataSource" matSort>
+
+            <ng-container matColumnDef="selector">
+
+                <th mat-header-cell *matHeaderCellDef>
+                    <mat-checkbox (change)="$event ? toggleAllRowsShift() : null; bulk_delete_shift()"
+                        [checked]="selection_shift.hasValue() && isAllSelectedShift()"
+                        [indeterminate]="selection_shift.hasValue() && !isAllSelectedShift()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection_shift.toggle(row) : null; bulk_delete_shift()"
+                        [checked]="selection_shift.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="shift">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Shift
+                </th>
+                <td mat-cell *matCellDef="let element" class="td_text_lowercased">
+                    <p class="td_text_firstltr_capitalized mb-0">{{element.shift}}</p>
+                </td>
+
+            </ng-container>
+            <ng-container matColumnDef="startTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Start Time
+                </th>
+                <td mat-cell *matCellDef="let element" class="td_text_lowercased">
+                    <p class="td_text_firstltr_capitalized mb-0">{{element.start_time | date:'shortTime' }}</p>
+                    <span class="ml-5" *ngIf="!element.start_time">-</span>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="endTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>End Time</th>
+                <td mat-cell *matCellDef="let element" class="td_text_lowercased">
+                    <p class="td_text_firstltr_capitalized mb-0">{{element.end_time | date:'shortTime'}}</p>
+                    <span class="ml-5" *ngIf="!element.end_time">-</span>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="totalHours">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Hours</th>
+                <td mat-cell *matCellDef="let element" class="td_text_lowercased">
+                    <p class="td_text_firstltr_capitalized mb-0"><mat-chip>{{element.totalTime}}</mat-chip></p>
+                    <span class="ml-5" *ngIf="!element.totalTime">-</span>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-raised-button class="editbtn" (click)="editShift(element.id)">
+                        Edit
+                    </button>
+                    <button mat-raised-button class="deletebtn" (click)="callDeleteShiftDialog(element.id)">
+                        Delete
+                    </button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsShift"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsShift">
+            </tr>
+
+        </table>
+        <div *ngIf="nodata" class="text-center text-danger alert-danger no-search-match p-3">
+            {{noDataFoundMessage}}
+        </div>
+        <div *ngIf="shiftFilter && filterData!=''" class="text-center text-danger alert-danger no-search-match p-3">
+            No Data Matching For "{{filterData}}"
+        </div>
+        <mat-paginator class="paginator" [pageSize]="10" [length]="100" [pageSizeOptions]="tablePaginationOption"
+            aria-label="Select page">
+        </mat-paginator>
+    </div>
+</section>

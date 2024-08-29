@@ -1,0 +1,69 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0)" size = "large" color = "#fff" type = "square-loader" [fullScreen] = "true"> 
+    <img style="width:150px; display: block; margin: 0 auto;" src="../assets/images/loader_gif.gif" />
+  </ngx-spinner>
+<div class="edit">
+    <ng-container> 
+        <div class="input-content-wrap card card-bg  job-add-user-form">
+            <!-- <div class="header">
+                <h6 class="pull-left" style="padding-top: 16px; font-weight: bold;margin-left: 1em; color: #0e5eb8;">Add
+                    Users</h6>
+            </div> -->
+            <div class="dialog-header">
+                <h3 class="page-title">{{addUser}}</h3>
+                <!-- <span class="pull-right add-btn">
+                    <mat-icon mat-dialog-close matTooltip="Manage users"  class="mat-icon" (click)="manageusers()">person_add
+                    </mat-icon>
+                </span> -->
+                <span class="pull-right cls-btn">
+                    <mat-icon (click)="closeDialog()" matTooltip="Close"
+                        class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+                </span>
+            </div>
+            <form class="ClientFormGroup  px-3 pb-3">
+                <div class="row pt-2 mt-0">
+                    <!-- <div class="ml-3 lablestyle col-2">Assignees</div> -->
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-12 my-3">
+                        <mat-select [formControl]="AssigneeCtrl" placeholder="Select Users" multiple
+                            [(ngModel)]="usersselectedItems" (ngModelChange)="usersfunction($event)">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="AssigneeFilterCtrl"
+                                    placeholderLabel="Search Users..." noEntriesFoundLabel="'no match found'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let data of filteredAssignee | async" [value]="data.id">
+                                {{data.firstname}} {{data.lastname}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error class="errorfix" *ngIf="AssigneeCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="showusers" class="userList py-3">
+                    <div *ngFor="let object of userlist; let i = index">
+                        <div class="row">
+                            <!-- <div class="lablestyle col-6"></div> -->
+                            <mat-form-field class="col-6">
+                                <input matInput [value]="object.name" type="text" required>
+                            </mat-form-field>
+                            <div class="text-input text-input-rph mt-2 labelstyle col-6">
+                                <input type="text" [value]="object.rph" (change)="rphchangeuser(i,$event.target.value)"
+                                    placeholder="Rate Per Hour">
+                                <label for="input1">RPH</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="Note_message mat-hint" *ngIf="Bulkusers">Users will be added to selected all projects only</p>
+                <div class="d-flex justify-content-end">
+                    <div class="btns px-3">
+                        <button class="btn btn-cancel" (click)="closeDialog()">Cancel</button>
+                        <button class="btn btn-confirm" [disabled]=" AssigneeCtrl.invalid"
+                            (click)="updateUsers()" *ngIf="addUser == 'Update Staff'">Update</button>
+                            <button class="btn btn-confirm" [disabled]=" AssigneeCtrl.invalid"
+                            (click)="updateUsers()" *ngIf="addUser == 'Add User'">Add</button>
+                    </div>
+                </div>
+            </form>
+         </div>
+    </ng-container> 
+</div>

@@ -1,0 +1,15 @@
+<div class="dialog-header">
+    <h3 class="page-title">New Release Available</h3>
+    <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+            type="button">close</mat-icon>
+    </span>
+</div>
+<div mat-dialog-content>
+    <div class="dialog-question mb-2">Are you sure want to get the latest release?</div>
+    <div class="dialog-hint-content"></div>
+</div>
+<div align="end" class="dialog-btns px-3 mb-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button class="cnfm-btn" (click)="refresh()">Confirm</button>
+</div>

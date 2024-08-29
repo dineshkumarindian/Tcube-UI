@@ -1,0 +1,150 @@
+<div class="delete">
+    <div class="dialog-header">
+        <h3 class="page-title">{{statusheader}}</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <div *ngIf="data.key == 'tommorrow'" class="dialog-question"  >
+            {{taskUpdateMsg}}
+            <!-- Are you sure want to move the task to tommorrow-({{displayDate}}) ? -->
+        </div>
+        <div *ngIf="data.key == 'dayAfterTommorrow'" class="dialog-question">
+            {{taskUpdateMsg}}
+            <!-- Are you sure want to move the task to day after tommorrow-({{displayDate}}) ? -->
+        </div>
+        <div *ngIf="data.key == 'custom' ">
+            <div class="row mx-4 my-3 d-flex justify-content-center">
+                <mat-form-field appearance="standard" class="col-10">
+                    <mat-label>Task Date</mat-label>
+                    <input matInput [matDatepicker]="sPicker" [min]="todayDate" required readonly
+                        [formControl]="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="sPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #sPicker></mat-datepicker>
+                    <mat-error>Field required!</mat-error>
+                    <mat-hint>Choose task date!</mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+        <div *ngIf="data.key == 'attendanceSubmit' " class="dialog-question">
+            Take some time to submit the tasks
+        </div>
+        <div *ngIf="data.key == 'attendanceUpdate' " class="dialog-question">
+            Take some time to update the tasks
+        </div>
+        <div *ngIf="data.key == 'updatesWithNewTasks' " class="TasksUpdateDialog">
+            <!-- <div cdkDropList class="example-list mb-3" (cdkDropListDropped)="drop($event)">
+                <div class="row example-box" *ngFor="let task of taskDetails" cdkDrag>
+                    <div class="col-8">{{task.day_task}}</div>
+                    <div class="col-2">{{task.project_name}}</div>
+                    <div class="col-2">{{task.status}}</div>
+                </div>
+            </div> -->
+            <div class="mb-3 oldTaskSec">
+                <div class="row m-0 py-2 taskContent" *ngFor="let task of taskDetails ;let i = index;"
+                    [ngStyle]="{'borderBottom': i != taskDetails.length-1 ? 'none':''}">
+                    <div class="col-8">{{task.day_task}}</div>
+                    <div class="col-2 d-flex align-items-center">
+                        <span class="mb-0 projectStyle">{{task.project_name}}</span>
+                    </div>
+                    <div class="col-2 d-flex align-items-center">
+                        <span class="mb-0 statusStyle">{{task.status}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="text-right">
+                <button *ngIf="tasks.length == 0" mat-raised-button class="edit-btn" (click)="addTask()">Add new tasks</button>
+                <button *ngIf="tasks.length == 0" mat-raised-button class="edit-btn" (click)="addTaskRoute()">From backlogs</button>
+            </div>
+            <div>
+                <form [formGroup]="taskForm">
+                    <div formArrayName="tasks">
+                        <div *ngFor="let task of getControls(); let i=index">
+                            <div [formGroupName]="i">
+                                <div class="row m-0 align-items-center">
+                                    <div class="col-6 col-md-6">
+                                        <mat-form-field appearance="fill">
+                                            <mat-label>Task</mat-label>
+                                            <textarea rows="1" matInput formControlName="day_task" required></textarea>
+                                            <mat-error>Field required!</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        <mat-form-field appearance="outline">
+                                            <mat-select formControlName="project_id" required placeholder="Project *">
+                                                <mat-option>
+                                                    <ngx-mat-select-search [formControl]="projectFilterCtrl"
+                                                        placeholderLabel="Search ..."
+                                                        noEntriesFoundLabel="'no match found'">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngIf="noProjects" [disabled]="true">No data available!
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of filteredproject | async"
+                                                    [value]="data.id">
+                                                    {{data.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error class="errorfix">Field required!</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-3 col-md-3">
+                                        <mat-form-field appearance="outline">
+                                            <mat-select placeholder="Status" formControlName="status" required>
+                                                <mat-option [value]="data" *ngFor="let data of statusOptions">{{data}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error class="errorfix">Field required!</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button *ngIf="(tasks.length-1) == i" [disabled]="tasks.at(i).invalid"
+                                        class="edit-btn mr-2" mat-raised-button (click)="addTask()">Add</button>
+                                    <button class="approvedcancelbtn" mat-raised-button
+                                        (click)="removeTask(i)">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div *ngIf="data.key == 'bulkStatusUpdate' " class="bulkStatusUpdate">
+            <mat-form-field appearance="outline">
+                <mat-select [formControl]="taskStatus" name="taskStatus" placeholder="Select task status" required>
+                    <mat-option *ngFor="let status of statusList" [value]="status">{{status}}</mat-option>
+                </mat-select>
+                <mat-error class="errorfix">Field required!</mat-error>
+            </mat-form-field>
+            <!-- <mat-chip-listbox>
+                <mat-chip-option *ngFor="let status of statusList">{{status}}</mat-chip-option>
+            </mat-chip-listbox> -->
+        </div>
+    </div>
+    <div class="dialog-btns p-3"
+        *ngIf="(data.key == 'tommorrow') || (data.key == 'dayAfterTommorrow') || (data.key == 'custom')">
+        <button mat-raised-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+        <button mat-raised-button (click)="taskDateUpdate()" class="cnfm-btn" *ngIf="statusheader == 'Move'">Move</button>
+        <button mat-raised-button (click)="taskDateUpdate()" class="cnfm-btn" *ngIf="statusheader == 'Duplicate'">Duplicate</button>
+    </div>
+    <div class="dialog-btns p-3" *ngIf="data.key == 'attendanceSubmit' || data.key == 'attendanceUpdate'  ">
+        <button mat-raised-button mat-dialog-close class="skip-btn">Skip</button>
+        <button mat-raised-button *ngIf="data.key2 == true " class="upgrade-btn" (click)="updateEmpDetails()">Remind
+            me</button>
+        <button mat-raised-button (click)="moveToDayPlanner()" class="edit-btn">Day planner</button>
+    </div>
+    <div class="p-3 dialog-btns" *ngIf="data.key == 'updatesWithNewTasks'">
+        <button mat-raised-button (click)="sendToSlack()" [disabled]="taskForm.invalid || uTCBtnDisable"
+            class="updateBtn edit-btn">Update to channel</button>
+    </div>
+    <!--bulk status update-->
+    <div  class="dialog-btns p-3"
+        *ngIf="(data.key == 'bulkStatusUpdate') || (data.key == 'bulkDeleteUpdate')">
+        <button mat-raised-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+        <button mat-raised-button (click)="taskBulkUpdate()" class="cnfm-btn"
+            [disabled]="taskStatus.invalid">Update</button>
+    </div>
+</div>

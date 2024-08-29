@@ -1,0 +1,394 @@
+<section class="w-100 d-contents pjt-section">
+    <!-- ** Total Projects and Jobs -->
+    <div class="col-md-6 col-sm-12 col-lg-6 p-0" *ngIf="isShown">
+        <div class="ng-star-inserted card  my-2 card-style">
+            <h3>Total Projects and Jobs</h3>
+            <div class="table-card noheader">
+                <div *ngIf="myjobsdata && myjobsdataloader != true" class="text-center">
+                    <img style="width:300px; height:300px;" src="../../assets/images/No data.png" alt="no data"
+                        class="pr-menu-icon">
+
+                    <div>{{noDataMsg}}</div>
+                </div>
+                <div *ngIf="myjobsdataloader" class="text-center cover">
+                    <div class="loderwrapperstyle">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                    </div>
+                </div>
+                <table mat-table [dataSource]="dataSource4" class="mat-elevation-z0 w-100">
+                    <!-- Implicit Column -->
+                    <ng-container matColumnDef="Job">
+                        <th mat-header-cell *matHeaderCellDef> sheet_Name </th>
+                        <!-- <td mat-cell *matCellDef="let element"> {{element.projectDetails.project_name}}<mat-icon
+                                class="dot-icon"> fiber_manual_record
+                            </mat-icon><span style="font-size: 11px;
+                                color: #72a4bb;">{{element.job_name}}</span></td> -->
+                        <td mat-cell *matCellDef="let element">
+                            <div class="td_text_lowercased">
+                                <div class="td_text_firstltr_capitalized">
+                                    <h6 class="project_name m-0 p-0 d-inline"
+                                        [ngStyle]="{'color': element.is_activated == true ? '#003d71 ' : '#6c757dc9' }"
+                                        [matTooltipDisabled]="element.is_activated" matTooltip="Inactive project"
+                                        matTooltipPosition="above">{{element.project_name}} </h6>
+                                    <br>
+                                    <!-- <span class="project_name">{{element.projectDetails.project_name}} </span> -->
+                                    <span style="position: relative; left: 3px" class="td_text_lowercased">
+                                        <span *ngIf="element.job_name == 'Design'" class="design_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small
+                                                class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                        </span>
+                                        <span *ngIf="element.job_name == 'Testing'" class="testing_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small
+                                                class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                        </span>
+                                        <span *ngIf="element.job_name == 'Development'" class="develop_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small
+                                                class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                        </span>
+                                        <span *ngIf="element.job_name == 'Meeting'" class="meet_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small
+                                                class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                        </span>
+                                        <span *ngIf="element.job_name == 'Others'" class="other_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small
+                                                class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                        </span>
+                                        <span
+                                            *ngIf="element.job_name != 'Others' && element.job_name != 'Meeting' && element.job_name != 'Development' && element.job_name != 'Testing' && element.job_name !='Design'"
+                                            class="Total_default_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small
+                                                class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Estimated_hours Column -->
+                    <ng-container matColumnDef="Estimated_hours">
+                        <th mat-header-cell *matHeaderCellDef> Estimated_hours </th>
+                        <td mat-cell *matCellDef="let data" class="td_width">
+                            <div class="d-flex flex-column align-items-start small td_text_lowercased">
+
+                                <span class="td_text_firstltr_capitalized">Estimated Hours</span>
+                                <span>{{data.hours}}</span>
+                                <span *ngIf="data.hours == null ">0</span>
+
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- logged_hours Column -->
+                    <ng-container matColumnDef="logged_hours">
+                        <th mat-header-cell *matHeaderCellDef> logged_hours </th>
+                        <td mat-cell *matCellDef="let data" class="td_width">
+                            <div class="d-flex flex-column align-items-start small td_text_lowercased">
+
+                                <span class="td_text_firstltr_capitalized">Logged Hours</span>
+                                <span>{{data.logged_hours}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- started_date Column -->
+                    <ng-container matColumnDef="started_date">
+                        <th mat-header-cell *matHeaderCellDef> started_date </th>
+                        <td mat-cell *matCellDef="let data" class="td_width">
+                            <div class="d-flex flex-column align-items-start small td_text_lowercased">
+
+                                <span class="td_text_firstltr_capitalized">Start Date</span>
+                                <span>{{data.start_date |date:"dd-MM-yyyy"}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- end_date Column -->
+                    <ng-container matColumnDef="end_date">
+                        <th mat-header-cell *matHeaderCellDef> end_date </th>
+                        <td mat-cell *matCellDef="let data" class="td_width">
+                            <div class="d-flex flex-column align-items-start small td_text_lowercased">
+
+                                <span class="td_text_firstltr_capitalized">End Date</span>
+                                <span>{{data.end_date |date:"dd-MM-yyyy"}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <!-- <ng-container matColumnDef="Status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let data">
+                            <div *ngIf="data.Status==='Aprroved'; else pending">
+                                <img style="width: 18px" src="../../assets/images/checked.png">
+                            </div>
+                            <ng-template #pending>
+                                <img style="width: 21px" src="../../assets/images/pending.png">
+                            </ng-template>
+                        </td>
+                    </ng-container> -->
+
+                    <tr mat-header-row *matHeaderRowDef="myjobColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: myjobColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ** My Projects and Jobs -->
+    <div class="col-md-6 col-sm-12 col-lg-4 p-0">
+        <div class="ng-star-inserted card mr-2  my-2 card-style">
+            <h3>My Projects and Jobs</h3>
+            <div class="table-card noheader">
+                <div *ngIf="myjobsdata && myjobsdataloader != true" class="text-center">
+                    <img style="width:300px; height:300px;" src="../../assets/images/No data.png" alt="no data"
+                        class="pr-menu-icon">
+
+                    <div>{{noDataMsg}}</div>
+                </div>
+                <div *ngIf="myjobsdataloader" class="text-center cover">
+                    <div class="loderwrapperstyle">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                    </div>
+                </div>
+                <table mat-table [dataSource]="dataSource2" class="mat-elevation-z0 w-100">
+                    <!-- Implicit Column -->
+                    <ng-container matColumnDef="Job">
+                        <th mat-header-cell *matHeaderCellDef> sheet_Name </th>
+                        <!-- <td mat-cell *matCellDef="let element"> {{element.projectDetails.project_name}}<mat-icon
+                            class="dot-icon"> fiber_manual_record
+                        </mat-icon><span style="font-size: 11px;
+                            color: #72a4bb;">{{element.job_name}}</span></td> -->
+                        <td mat-cell *matCellDef="let element" style="width: 0px;">
+                            <div class="">
+                                <h6 class="project_name m-0 p-0 d-inline td_text_lowercased"
+                                    [ngStyle]="{'color': element.is_activated == true ? '#003d71' : '#6c757dc9' }"
+                                    matTooltip="Inactive project" [matTooltipDisabled]="element.is_activated"
+                                    matTooltipPosition="above"><p class="td_text_firstltr_capitalized">{{element.project_name}}</p> </h6>
+                                <!-- <br> -->
+                                <!-- <span class="project_name">{{element.projectDetails.project_name}} </span> -->
+                                <span>
+                                    <span *ngIf="element.job_name == 'Design'" class="design_style">
+                                        <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                        <small
+                                            class="job_name"><small class="td_text_firstltr_capitalized">{{element.job_name}}</small></small>
+                                    </span>
+                                    <span *ngIf="element.job_name == 'Testing'" class="testing_style">
+                                        <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                        <small
+                                            class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                    </span>
+                                    <span *ngIf="element.job_name == 'Development'" class="develop_style">
+                                        <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                        <small
+                                            class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                    </span>
+                                    <span *ngIf="element.job_name == 'Meeting'" class="meet_style">
+                                        <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                        <small
+                                            class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                    </span>
+                                    <span *ngIf="element.job_name == 'Others'" class="other_style">
+                                        <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                        <small
+                                            class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                    </span>
+                                    <span
+                                        *ngIf="element.job_name != 'Others' && element.job_name != 'Meeting' && element.job_name != 'Development' && element.job_name != 'Testing' && element.job_name !='Design'"
+                                        class="default_style">
+                                        <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                        <small
+                                            class="job_name td_text_firstltr_capitalized">{{element.job_name}}</small>
+                                    </span>
+                                </span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Estimated_hours Column -->
+                    <ng-container matColumnDef="Estimated_hours">
+                        <th mat-header-cell *matHeaderCellDef> Estimated_hours </th>
+                        <td mat-cell *matCellDef="let data" class="td_width">
+                            <div class="d-flex flex-column align-items-start small ml-3 td_text_lowercased">
+
+                                <span class="td_text_firstltr_capitalized">Estimated Hours</span>
+                                <span>{{data.hours}}</span>
+                                <span *ngIf="data.hours == null ">0</span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- logged_hours Column -->
+                    <ng-container matColumnDef="logged_hours">
+                        <th mat-header-cell *matHeaderCellDef> logged_hours </th>
+                        <td mat-cell *matCellDef="let data">
+                            <div class="d-flex flex-column align-items-start small td_text_lowercased">
+
+                                <span class="td_text_firstltr_capitalized">Logged Hours</span>
+                                <span>{{data.logged_hours}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- started_date Column -->
+                    <ng-container matColumnDef="started_date">
+                        <th mat-header-cell *matHeaderCellDef> started_date </th>
+                        <td mat-cell *matCellDef="let data">
+                            <!-- <div class="d-flex flex-column align-items-start small">
+
+                            <span>Start date</span>
+                            <span>{{data.start_date |date:"dd-MM-yyyy"}}</span>
+                        </div> -->
+                        </td>
+                    </ng-container>
+
+                    <!-- end_date Column -->
+                    <ng-container matColumnDef="end_date">
+                        <th mat-header-cell *matHeaderCellDef> end_date </th>
+                        <td mat-cell *matCellDef="let data">
+                            <!-- <div class="d-flex flex-column align-items-start small">
+
+                            <span>End Date</span>
+                            <span>{{data.end_date |date:"dd-MM-yyyy"}}</span>
+                        </div> -->
+                        </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <!-- <ng-container matColumnDef="Status">
+                    <th mat-header-cell *matHeaderCellDef> Status </th>
+                    <td mat-cell *matCellDef="let data">
+                        <div *ngIf="data.Status==='Aprroved'; else pending">
+                            <img style="width: 18px" src="../../assets/images/checked.png">
+                        </div>
+                        <ng-template #pending>
+                            <img style="width: 21px" src="../../assets/images/pending.png">
+                        </ng-template>
+                    </td>
+                </ng-container> -->
+
+                    <tr mat-header-row *matHeaderRowDef="myjobColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: myjobColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- ** My Timelogs    -->
+    <div class="col-md-6 col-sm-12 col-lg-4 p-0" *ngIf="showBillSection">
+        <div class="ng-star-inserted card my-2 mr-2 card-style">
+            <h3>My Timelogs</h3>
+            <div class="table-card noheader">
+                <div *ngIf="timetabloder" class="text-center cover">
+                    <div class="loderwrapperstyle">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                    </div>
+                </div>
+                <mat-tab-group class="justify-content-center" *ngIf="tabactvive && timetabloder!=true"
+                    [selectedIndex]="4">
+                    <span>
+                    </span>
+                    <mat-tab *ngFor="let tab of timetab; let index = index" [label]="tab.date">
+                        <div *ngIf="tab.data?.length > 0" class="pull-right m-3 small">
+                            <span class="mr-3">Total Hours</span>
+                            <span class="totaltime px-3 py-1">
+                                {{tab.total_time}}</span>
+                        </div>
+                        <div *ngIf="tab.data?.length < 1" class="text-center">
+                            <img style="width:300px; height:300px;" src="../../assets/images/No data.png" alt="no data"
+                                class="pr-menu-icon">
+                            <div>{{noDataMsg}}</div>
+                        </div>
+                        <table mat-table [dataSource]="tab.data" class="mat-elevation-z0 w-100">
+                            <!-- task Column -->
+                            <ng-container matColumnDef="task">
+                                <th mat-header-cell *matHeaderCellDef> task </th>
+                                <!-- <td mat-cell *matCellDef="let element"> {{element.project}}<mat-icon
+                                    class="dot-icon"> fiber_manual_record
+                                </mat-icon><span style="font-size: 11px;
+                                color: #72a4bb;">{{element.job}}</span></td> -->
+                                <td mat-cell *matCellDef="let element">
+                                    <h6 class="project_name m-0 p-0 d-inline">{{element.project}} </h6>
+                                    <span style="position: relative; left: 3px">
+                                        <span *ngIf="element.job == 'Design'" class="design_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small class="job_name">{{element.job}}</small>
+                                        </span>
+                                        <span *ngIf="element.job == 'Testing'" class="testing_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small class="job_name">{{element.job}}</small>
+                                        </span>
+                                        <span *ngIf="element.job == 'Development'" class="develop_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small class="job_name">{{element.job}}</small>
+                                        </span>
+                                        <span *ngIf="element.job == 'Meeting'" class="meet_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small class="job_name">{{element.job}}</small>
+                                        </span>
+                                        <span *ngIf="element.job == 'Others'" class="other_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small class="job_name">{{element.job}}</small>
+                                        </span>
+                                        <span
+                                            *ngIf="element.job != 'Others' && element.job != 'Meeting' && element.job != 'Development' && element.job != 'Testing' && element.job !='Design'"
+                                            class="default_style">
+                                            <!-- <mat-icon class="dot-icon"> fiber_manual_record</mat-icon> -->
+                                            <small class="job_name">{{element.job}}</small>
+                                        </span>
+                                    </span>
+                                </td>
+                                <!-- <td mat-cell *matCellDef="let data"> {{data.job}} </td> -->
+                            </ng-container>
+                            <!-- Time Column -->
+                            <ng-container matColumnDef="time">
+                                <th mat-header-cell *matHeaderCellDef> Time </th>
+                                <td mat-cell *matCellDef="let data">
+                                    <div *ngIf="data.is_active!='1'">
+                                        <span>{{data.task_duration}}</span>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <!-- status Column -->
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell *matHeaderCellDef> status </th>
+                                <td mat-cell *matCellDef="let data">
+                                    <div *ngIf="data.is_active!='1' else run">
+                                        <img style="width: 18px" src="../../assets/images/checked.png"
+                                            alt="checked_button" class="pr-menu-icon">
+                                    </div>
+                                    <ng-template #run>
+                                        <img style="width: 30px" src="../../assets/images/loaders.gif" alt="play_button"
+                                            class="pr-menu-icon">
+                                    </ng-template>
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnstimelog"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnstimelog;"></tr>
+                        </table>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</section>

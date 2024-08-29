@@ -1,0 +1,306 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title">{{heading}}</h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <button matTooltipPosition="left" mat-icon-button matTooltip="Back to leave tracker settings"
+                    [routerLink]="['/leave-tracker-settings']" routerLinkActive="router-link-active">
+                    <img src="../../assets/images/back.png" class="mb-4 ph_back_arrow_img">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="container-fluid">
+    <div class="input-content-wrap card card-bg p-3 mb-4">
+        <!-- leavetype form -->
+        <form [formGroup]="LeaveTypeFormGroup" *ngIf="leavetypeform">
+            <div class="row mt-1 date_pick">
+                <div class="ml-3 labelstyle col-2">Start Year</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>Start year</mat-label>
+                    <input matInput [matDatepicker]="dp" readonly formControlName="st_year_int" [min]="minDateLT"
+                        [max]="maxDateLT" (dateChange)="chosenYearHandler1($event.value, dp)" required>
+                    <mat-error>{{requiredMessage}}</mat-error>
+                    <mat-datepicker-toggle matSuffix [for]="dp">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #dp startView="multi-year" (yearSelected)="chosenYearHandler1($event, dp)"
+                        panelClass="jp-year-picker">
+                    </mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">End Year</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>End year</mat-label>
+                    <input matInput formControlName="ed_year_int" required readonly>
+                    <mat-error>{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Leave Type</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>Leave type</mat-label>
+                    <input matInput type="text" pattern="[a-zA-Z][a-zA-Z ]+" formControlName="leavetype"
+                        placeholder="Leave type" (ngModelChange)="onCreateLeave()" required />
+                    <mat-error>
+                        <div class="mat-error" *ngIf="LeaveTypeFormGroup.get('leavetype').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                        <!-- <div [hidden]="!leavetype.hasError('pattern')">Only alphabetsallowed</div> -->
+                        <div class="mat-error" *ngIf="LeaveTypeFormGroup.get('leavetype').hasError('pattern')">
+                            {{validMessage}}
+                        </div>
+                    </mat-error>
+                    <!-- <mat-error *ngIf="onLeavetType">Leave type already exist!</mat-error> -->
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="col-8 mat-error exitMessage" *ngIf="onLeavetType">
+                    {{exitMessage}}
+                </div>
+            </div>
+            <!-- oninput="this.value = Math.abs(this.value)" "  -->
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Available Days</div>
+                <div class="col-8">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Available days</mat-label>
+                        <input matInput type="number" min="0" formControlName="available_days"
+                            (ngModelChange)="onAvailableDays($event)" (keypress)="numberOnly($event)" placeholder="Available days" required />
+                        <mat-error>
+                            <div *ngIf="LeaveTypeFormGroup.get('available_days').hasError('required')">
+                                {{requiredMessage}}
+                            </div>
+                            <!-- <div *ngIf ="LeaveTypeFormGroup.get('available_days').hasError('max')">
+                                available days can be accepted year of days
+                            </div> -->
+
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- <div *ngIf="available_days?.invalid && (available_days.dirty || available_days.touched)"
+                        class="alert alert-danger">
+                        <div *ngIf="available_days.errors.required">
+                            Available days is required.
+                        </div>
+                    </div> -->
+
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="col-8 mat-error" *ngIf="isavailableDays">
+                    <small>Available days can be accepted year of days</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Pre-Leave Notice Period</div>
+                <div class="col-8">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Pre-leave notice period</mat-label>
+                        <input matInput type="number" formControlName="duration_before_request_leave" (keypress)="numberOnly($event)" placeholder="Pre-leave notice period" required />
+                        <mat-error>
+                            <div *ngIf="LeaveTypeFormGroup.get('duration_before_request_leave').hasError('required')">
+                                {{requiredMessage}}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- <div class=" text-danger" *ngIf="description.errors?.maxlength">
+                    Character of length is exceeded!
+                </div> -->
+
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Leave Type image</div>
+                <div class="col-8">
+                    <div class="row file_upload_sect">
+                        <div class="col-3">
+                            <input type="file" capture accept="image/png,image/jpeg,image/jpg" formControlname="actimg"
+                                name="companyLogo" hidden #FileSelect (change)="onFileChanged($event)">
+
+                            <button type="button" mat-raised-button class="chooseBtn mr-2" (click)="FileSelect.click()">
+                                <mat-icon class="align-middle">image</mat-icon>
+                                Choose image
+                            </button>
+                        </div>
+                        <div class="col-9">
+                            <div class="preview_right_align">
+                                <div *ngIf="this.attachmentCopy != null">
+                                    <img [src]="url || ''" class="ml-md-3 img-fluid">
+                                </div>
+                                <div class="text-dark" *ngIf="this.attachmentCopy == null" style="font-size: small;">
+                                    File preview</div>
+                                <div *ngIf="this.attachmentName != null" class="text-right">
+                                    <span class="text-center">
+                                        {{this.attachmentName}}
+                                    </span>
+                                    <button (click)="cancel()" mat-icon-button matTooltip="Remove">
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-2"></div>
+                <div class="col-8 ml-4">
+                    <p class="mat-hint mb-0" *ngIf="buttonactivate_addleavetype">Accepts only
+                        png, jpeg and jpg image format with upto 500kb</p>
+                    <p class="mat-error mb-0" *ngIf="!buttonactivate_addleavetype">Accepts only png, jpeg and jpg
+                        image format with upto 500kb</p>
+                    <mat-error [innerHtml]="msg" *ngIf="msg"></mat-error>
+                </div>
+            </div>
+            <div class="row btns ml-1">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="btns col-5 p-0">
+                    <button *ngIf="addltform" class="btn btn-confirm" color="primary" (click)="addLeaveType()"
+                        [disabled]="LeaveTypeFormGroup.invalid || onLeavetType || !buttonactivate_addleavetype || isavailableDays">Add</button>
+                    <button *ngIf="editltform" class="btn btn-confirm mr-2" color="primary" (click)="updateLeaveType()"
+                        [disabled]="LeaveTypeFormGroup.invalid || !buttonactivate_addleavetype || onLeavetType || isavailableDays">Update</button>
+                    <button class="btn btn-cancel" (click)="togglecancelleavetype()">Cancel</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- holiday form -->
+        <form [formGroup]="holidayFormGroup" *ngIf="holidayform">
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">
+                    <h6>Leave Name</h6>
+                </div>
+                <mat-form-field appearance="standard" class="col-6">
+                    <mat-label>Leave name</mat-label>
+                    <input matInput formControlName="leave_name" placeholder="Leave Name"
+                        (ngModelChange)="onLeaveName()" required />
+                    <mat-error>
+                        <div class="leaveTypeErrorMesage"
+                            *ngIf="holidayFormGroup.get('leave_name').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                        <div class="leaveTypeErrorMesage"
+                            *ngIf="holidayFormGroup.get('leave_name').hasError('pattern')">
+                            {{validMessage}}
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="col-5" *ngIf="customLeaveName">
+                    <small class="mat-error">{{exitMessage}}</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">
+                    <h6>Leave Date</h6>
+                </div>
+                <mat-form-field appearance="standard" class="col-6 holiday-date">
+                    <mat-label>Choose a leave date</mat-label>
+                    <input matInput [matDatepicker]="picker" [min]="startOfYear" [max]="endOfYear"
+                        [matDatepickerFilter]="weeksDatesFilter" formControlName="leave_date" required
+                        (ngModelChange)="onLeaveDate($event)" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error>{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row mb-1">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="col-5" *ngIf="customHolidayDate">
+                    <small class="mat-error">{{exitMessage}}</small>
+                </div>
+            </div>
+            <div class="row btns ml-2">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="btns col-5 p-0">
+                    <button class="btn btn-confirm" color="primary" (click)="addHoliday()"
+                        [disabled]="holidayFormGroup.invalid || customLeaveName || customHolidayDate">Add</button>
+                    <button class="btn btn-cancel" (click)="togglecancelholiday()">Cancel</button>
+                </div>
+            </div>
+        </form>
+        <!-- gov holiday form -->
+        <form [formGroup]="existingHolidayFormGroup" *ngIf="govholidayform">
+            <app-gov-holiday-forms></app-gov-holiday-forms>
+            <!-- <div>
+            <div class="row py-2 pb-2">
+                <div class="ml-3 labelstyle col-2">
+                    <h6>Country</h6>
+                </div>
+                <mat-form-field class="col-7" appearance="outline">
+                    <mat-select formControlName="country_name" placeholder="Select country"
+                        (selectionChange)="countrySelectEvent($event.value.code)">
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="countryFilterCtrl"
+                                placeholderLabel="Search Country..." noEntriesFoundLabel="'no match found'">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filteredCountry | async" [value]="data">
+                            {{data.country}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row py-2 pb-2">
+                <div class="ml-3 labelstyle col-2">
+                    <h6>Holiday Name</h6>
+                </div>
+                <mat-form-field class="col-7" appearance="outline">
+                    <mat-select formControlName="leave_name" [(ngModel)]="updateHolidayNameselectedItems" #select
+                        multiple (selectionChange)="holidaySelectEvent($event.value)" placeholder="Select holiday">
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="holidayFilterCtrl"
+                                placeholderLabel="Search Holiday..." noEntriesFoundLabel="'no match found'">
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <div class="select-all pl-3">
+                            <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"*ngIf="currentYearPublicHolidays.length != 0"
+                                (change)="toggleAllSelection()">Select All</mat-checkbox>
+                        </div>
+                        <mat-option *ngFor="let data of filteredholiday | async"
+                            [disabled]="holidayLeaveNameInclude(data.holiday_name,data.start)" [value]="data"
+                            matTooltip="The holiday name or date already exceeded"
+                            [matTooltipDisabled]="holidayLeaveNameTooltip(data.holiday_name,data.start)">
+                            {{data.holiday_name}}<small>&nbsp;-&nbsp;{{data.start | date : 'dd/MM/yyyy'}}</small>
+                        </mat-option>
+                        <mat-option *ngIf="currentYearPublicHolidays.length == 0" disabled>
+                            No data available!
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="col-5" *ngIf="isLeaveHoliday==true">
+                    <small class="mat-error">{{exitMessage}}</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="col-5" *ngIf="govHolidayLeaveDate">
+                    <small class="mat-error">{{exitMessage}}</small>
+                </div>
+            </div>
+            <div class="row btns" style="margin-top: 10px;">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="btns col-5 p-0 ml-3">
+                    <button class="btn btn-confirm" color="primary" (click)="addExistingHoliday()"
+                        [disabled]="existingHolidayFormGroup.invalid || govHolidayLeaveDate">Add</button>
+                    <button class="btn btn-cancel" (click)="toggleExistingHoliday()">Cancel</button>
+                </div>
+            </div>
+            </div> -->
+        </form>
+    </div>
+</section>

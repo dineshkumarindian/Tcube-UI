@@ -1,0 +1,188 @@
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-4">
+      <h3 class="page-title" *ngIf="!IsPlanIdAvailable">Add Pricing Plan</h3>
+      <h3 class="page-title" *ngIf="IsPlanIdAvailable">Edit Pricing Plan</h3>
+    </div>
+    <div class="col-md-8">
+      <div class="pfr">
+        <button mat-icon-button matTooltipPosition="left" matTooltip="Back To manage pricing plan"
+          [routerLink]="['/pricing-plan']" routerLinkActive="router-link-active">
+          <img class="ph_back_arrow_img mb-4" src="../../assets/images/back.png">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<section class="addplan">
+  <div class="container-fluid mb-3">
+    <div class="input-content-wrap card card-bg p-3 mb-4">
+      <div class="planform">
+        <form [formGroup]="pricingFormGroup">
+          <div class="row">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Plan Name</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>Plan Name</mat-label>
+                <input matInput placeholder="Plan name" formControlName="p_name" required
+                  (ngModelChange)="onCheckPlanName()">
+                <mat-error>{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="ml-3 lablestyle col-4"></div>
+            <div class="col-6 Errormsg text-danger" *ngIf="duplicate_pname">Plan name already
+              exist</div>
+          </div>
+          <div class="row mt-3">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Currency</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field style="width: 100%;" appearance="outline" class="p-0">
+                <mat-select formControlName="currency" placeholder="Select Currency" #singleSelect>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="currencyFilterCtrl" placeholderLabel="Search Currency..."
+                      noEntriesFoundLabel="'no matching found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+
+                  <mat-option *ngFor="let data of filteredCurrency | async" [value]="data.text">
+                    {{data.text}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="error_mt">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Category</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field style="width: 100%;" appearance="outline" class="p-0">
+                <mat-select formControlName="category" placeholder="Select Category"
+                  (selectionChange)="selectCategoryDetails($event)" #singleSelect>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="categoryFilterCtrl" placeholderLabel="Search Category..."
+                      noEntriesFoundLabel="'no matching found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+
+                  <mat-option *ngFor="let data of filteredCategory | async" [value]="data.text">
+                    {{data.text}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="error_mt">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Days Valid</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>Days Valid</mat-label>
+                <input type="number" matInput placeholder="Days Valid" [min]="minDaysValid" [max]="maxDaysValid"
+                  formControlName="days" required>
+                <!-- Error for required field -->
+                <mat-error *ngIf="pricingFormGroup.controls['days'].hasError('required')">
+                  {{requiredMessage}}
+                </mat-error>
+
+                <!-- Error for exceeding max value -->
+                <mat-error *ngIf="pricingFormGroup.controls['days'].hasError('max')">
+                  Accept maximum of {{ maxDaysValid }} days!
+                </mat-error>
+
+                <!-- Error for falling below min value -->
+                <mat-error *ngIf="pricingFormGroup.controls['days'].hasError('min')">
+                  Accept  minimum{{ minDaysValid }} days!
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mt-2" *ngIf="!isYearAccessField">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Per User Amount</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>Per User Amount</mat-label>
+                <input type="number" matInput placeholder="Per User Amount" formControlName="amount" required>
+                <mat-error>{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row mt-2" *ngIf="isYearAccessField">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Plan Amount</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>Plan Amount</mat-label>
+                <input type="number" matInput placeholder="Plan Amount" formControlName="amount" required>
+                <mat-error>{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row mt-2" *ngIf="isYearAccessField">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Users Limit</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>Users Limit</mat-label>
+                <input type="number" matInput placeholder="Users Limit" formControlName="users" required>
+                <mat-error>{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class="row mt-3">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Modules</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-select formControlName="modules" placeholder="Select Modules" #select multiple
+                  (ngModelChange)="onCheckModules($event)" multiple [(ngModel)]="selectedAccess" required>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="accessFilterCtrl" placeholderLabel="Search modules..."
+                      noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <div class="select-all pl-3">
+                    <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                      *ngIf="(filteredAccess | async)?.length > 0" (change)="toggleAllSelection()">Select
+                      All</mat-checkbox>
+                  </div>
+                  <mat-option *ngFor="let data of filteredAccess | async" [value]="data">
+                    {{data}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="error_mt">{{requiredMessage}}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- <div class="row mt-4">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">Description</div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea rows="2" matInput name="desc" formControlName="description"></textarea>
+              </mat-form-field>
+            </div>
+          </div> -->
+
+          <div class="row mt-2">
+            <div class="ml-3 lablestyled-none d-md-block d-lg-block col-4 col-md-4"></div>
+            <div class="btns col-12 col-md-6 px-1 mt-3">
+              <div class="btns col-12 col-md-8 px-3">
+                <button class="btn btn-confirm" [disabled]="pricingFormGroup.invalid || duplicate_pname"
+                  *ngIf="!IsPlanIdAvailable" (click)="duplicatemodules()">Submit</button>
+                <button class="btn btn-confirm" [disabled]="pricingFormGroup.invalid || duplicate_pname"
+                  *ngIf="IsPlanIdAvailable" (click)="updateplan()">Update</button>
+                <button class="btn btn-cancel" [routerLink]="['/pricing-plan']"
+                  routerLinkActive="router-link-active">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,157 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">Manage Attendance Actions
+            </h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <button mat-raised-button class="add_create_btn_mi add-action" (click)="addactioncard()">
+                            <mat-icon mat-icon-button>add</mat-icon>Add Action</button>
+                    <button mat-icon-button matTooltipPosition="below" matTooltip="Back to attendance settings"
+                        [routerLink]="['/attendance-settings']" routerLinkActive="router-link-active"><img
+                            class="ph_back_arrow_img mb-4" src="../../assets/images/back.png">
+                    </button>
+            
+            </div>
+        </div>
+    </div>
+</div>
+<section class="manage-action-cards">
+    <div class="col-md-12">
+        <div class="cardHead">
+            <section class="mt-4">
+                <div class="card-setting-container px-0 mb-3">
+                    <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="toggle('in')">
+                        <div class="card" [ngStyle]="{'background-color':isIncardActive?'#00214c':'#ffffff' }">
+                            <div class="content">
+                                <div class="imgBx">
+                                    <img src="..//../assets/images/In_section.png">
+                                </div>
+                                <div class="contentBx">
+                                    <h3 [ngStyle]="{'color':isIncardActive?'#f6f6f6':'#00214c'}">In Actions</h3>
+                                </div>
+                            </div>
+                            <ul class="sci">
+                                <li>
+                                    <p [ngStyle]="{'color':isIncardActive?'#f6f6f6':'#00214c'}">{{incards.length}}
+                                        Actions</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="toggle('out')">
+                        <div class="card" [ngStyle]="{'background-color':isOutcardActive?'#00214c':'#ffffff' }">
+                            <div class="content">
+                                <div class="imgBx">
+                                    <img src="..//../assets/images/Out_section.png">
+                                </div>
+                                <div class="contentBx">
+                                    <h3 [ngStyle]="{'color':isOutcardActive?'#f6f6f6':'#00214c'}">Out Actions</h3>
+                                </div>
+                            </div>
+                            <ul class="sci">
+                                <li>
+                                    <p [ngStyle]="{'color':isOutcardActive?'#f6f6f6':'#00214c'}">{{outcards.length}}
+                                        Actions</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="toggle('back')">
+                        <div class="card" [ngStyle]="{'background-color':isBackcardActive?'#00214c':'#ffffff' }">
+                            <div class="content">
+                                <div class="imgBx">
+                                    <img src="..//../assets/images/Back_section.png">
+                                </div>
+                                <div class="contentBx">
+                                    <h3 [ngStyle]="{'color':isBackcardActive?'#f6f6f6':'#00214c'}">Back Actions</h3>
+                                </div>
+                            </div>
+                            <ul class="sci">
+                                <li>
+                                    <p [ngStyle]="{'color':isBackcardActive?'#f6f6f6':'#00214c'}">{{backcards.length}}
+                                        Actions</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div *ngIf="showallcards" class="card-sec mb-3">
+            <div class="card ml-2">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="col-7 m-0">{{this.cardheader}} </h5>
+                    <div class="col-4">
+                        <!-- ../../assets/images/reset.png -->
+                        <img *ngIf="reset_toggle && !actionmultipleselect" (click)="resetToggle()"
+                            class="pull-right btn rst-btn p-0" src="../../../../assets/images/arrows.png" width="30"
+                            alt="reset" matTooltipPosition="below" matTooltip="Click here to get default actions">
+                        <span *ngIf="!reset_toggle && !actionmultipleselect" class="delete-button pull-right">
+                            <button mat-flat-button color="primary" style="background-color: #0e5eb8; color: white"
+                                (click)="resetSection(this.cardheader)">Confirm</button>
+                            <button (click)="resetToggle()" mat-flat-button color="warn">Cancel</button>
+                        </span>
+                        <mat-icon *ngIf="actionmultipleselect && !actionmultipledelete && this.actionCardsIds.length>1"
+                            matTooltip="Delete Selected Actions" matTooltipPosition="right"
+                            (click)="bulkdeleteaction()" class="pull-right mat-icon delete">delete</mat-icon>
+                        <span *ngIf="actionmultipledelete && actionmultipleselect" class="delete-button pull-right">
+                            <button mat-flat-button color="primary" style="background-color: #0e5eb8; color: white"
+                                (click)="bulkdeleteaction()">Confirm</button>
+                            <button (click)="multiDeleteActionToggle()" mat-flat-button color="warn">Cancel</button>
+                        </span>
+                    </div>
+                    <label class="col-1 checkcontainer m-3" (click)="actionmultiselect()" matTooltipPosition="below"
+                        matTooltip="Multiselect for delete">
+                        <input type="checkbox" [checked]="actionmultipleselect">
+                        <div class="checkmark"></div>
+                    </label>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex flex-wrap">
+                        <div class="col-4 add-btn text-center" (click)="addcardsection(this.cardheader)">
+                            <img class="pt-3" src="../../../assets/images/add-card.png" width="45" alt="icon">
+                            <div class="title pt-2">
+                                <p class="font-weight-bold">ADD</p>
+                            </div>
+                        </div>
+                        <div *ngFor="let card of cards" class="col-4 box-part text-center">
+                            <img [src]=card.action_image alt="icon">
+                            <div class="title">
+                                <span><button mat-icon-button [matMenuTriggerFor]="menu">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+                                    <label *ngIf="actionmultipleselect" class="cont m-0 cardcheckbox">
+                                        <input type="checkbox" (click)="actioncardselect(card.id)">
+                                        <span></span>
+                                    </label>
+                                    <mat-menu #menu="matMenu" xPosition="after">
+                                        <div class="d-flex mx-1">
+                                            <button mat-menu-item (click)="editactioncard(card.id)"
+                                                class="text-center action-edit p-0 m-1" matTooltipPosition="below"
+                                                matTooltip="Edit">
+                                                <mat-icon [ngStyle]="{'color':'#003a72c4'}" class="m-0">edit
+                                                </mat-icon>
+                                                <!-- <span>Edit</span> -->
+                                            </button>
+                                            <button mat-menu-item (click)="deleteaction(card.id, card.current_section)"
+                                                class="text-center action-delete p-0 m-1" matTooltipPosition="below"
+                                                matTooltip="Delete">
+                                                <mat-icon color="warn" class="m-0">delete
+                                                </mat-icon>
+                                                <!-- <span>Delete</span> -->
+                                            </button>
+                                        </div>
+
+                                    </mat-menu>
+                                </span>
+                                <h4>{{card.action}}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

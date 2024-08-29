@@ -1,0 +1,332 @@
+<!-- <div id="container"></div> -->
+<div class="userleavereport" id="box">
+  <div class="page-header d-flex align-items-center justify-content-between">
+    <h3 class="page-title  mt-3">Leave tracker reports
+      <!-- <span class="atDR-submen">Employee leave report</span> -->
+      <p class="subtitle-color" *ngIf="activeusers">(Active staff reports)
+      </p>
+      <p class="subtitle-color" *ngIf="inactiveattendance">(Inactive staff reports)
+      </p>
+    </h3>
+
+    <div>
+      <div class="d-flex  align-items-center">
+        <button class="redirect-btn timesheet-btn mr-3" matTooltip="Move to active staff report"
+          (click)="activeuseattendance() " *ngIf="inactiveattendance">
+          <span>
+            <mat-icon mat-icon-button class="pl-2">arrow_right_alt</mat-icon>
+          </span>
+        </button>
+        <button class="inactive_jobs_by_status timesheet-btn mr-3" matTooltip="Move to inactive staff report"
+          (click)="inactiveusers()" matTooltipPosition="below" *ngIf="activeusers">
+          <div>
+            <mat-icon mat-icon-button>last_page</mat-icon>
+          </div>
+        </button>
+        <div class="pfr bak_btn_style" matTooltipPosition="left" matTooltip="Back to reports"
+          [routerLink]="['/reports']" routerLinkActive="router-link-active"><img class="ph_back_arrow_img"
+            src="../../assets/images/back.png"></div>
+      </div>
+    </div>
+
+  </div>
+  <div class="mt-4 d-flex search flex-wrap align-items-center justify-content-center container-fluid row">
+    <!-- ***This section for to select a employeee name for leave trcaker reports *** -->
+    <div class="align-items-center h-60">
+      <mat-form-field appearance="outline">
+        <mat-select [formControl]="userCtrl" placeholder="Staff&nbsp;" #select multiple
+          (selectionChange)="selectEmploy($event.value)">
+          <mat-option>
+            <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Search Staff..."
+              noEntriesFoundLabel="'no matching staff found'"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngIf="employeeData.length==0" disabled="true">No data available!</mat-option>
+          <!-- <mat-option [value]="data">
+            All employee
+          </mat-option> -->
+
+          <div class="select-all" *ngIf="employeeData.length > 1">
+            <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+              (change)="toggleAllSelection()">All Staff</mat-checkbox>
+          </div>
+
+          <mat-option (click)="optionClick()" *ngFor="let data of filtereduser | async" [value]="data.id"
+            class="text-capitalize">
+            {{data.name}}
+          </mat-option>
+
+        </mat-select>
+        <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- ***This section for to select a date range for leave trcaker reports *** -->
+    <div class="align-items-center h-60 ">
+      <mat-form-field appearance="outline">
+        <mat-select [formControl]="dateCtrl" placeholder="Date range&nbsp;" #singleSelect
+          (selectionChange)="selectChangeHandler($event.value)">
+          <mat-option>
+            <ngx-mat-select-search [formControl]="dateFilterCtrl" placeholderLabel="Search date range..."
+              noEntriesFoundLabel="'no matching date range found'"></ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngFor="let data of filtereddate | async" [value]="data.data" class="text-capitalize">
+            {{data.data}}
+          </mat-option>
+        </mat-select>
+        <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Date picker for custom date picker -->
+    <mat-form-field *ngIf="customdate==true" appearance="outline" class=" mb-2 align-items-center h-60">
+      <input matInput type="text" [matDatepicker]="picker1" placeholder="From Date" [max]="maxDate"
+        [formControl]="start" />
+      <mat-error class="errorfix" *ngIf="start.hasError('required')">{{requiredMessage}}</mat-error>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="customdate==true" appearance="outline" class=" mb-2 align-items-center h-60">
+      <input matInput type="text" [matDatepicker]="picker2" placeholder="To Date" [disabled]="!start.value"
+        [formControl]="end" [min]="start.value" [max]="maxDate" (dateChange)="todatechange()">
+      <mat-error class="errorfix" *ngIf="end.hasError('required')">{{requiredMessage}}</mat-error>
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <div class="fixed-btn align-items-center h-60 ">
+      <button mat-raised-button class="mr-2 sbmt-btn"
+        [disabled]="(customdate && !customdatevalidation) || (userCtrl.hasError('required') || dateCtrl.hasError('required'))"
+        (click)="findreport()">Find</button>
+      <button mat-raised-button color="warn" (click)="cancelform()" style="line-height: 25px;"> Cancel</button>
+    </div>
+
+  </div>
+  <div [hidden]="show">
+    <div class="d-flex flex-column align-items-center">
+      <img src="../../../../assets/images/search_report.png" alt="Report search image" class="w-25">
+      <h3>Enter the fields to search reports...!</h3>
+    </div>
+  </div>
+  <div *ngIf="leavetracker_report">
+    <h1 class="text-center mt-3" *ngIf="!No_Data_Found">({{startdates |date:"dd-MM-yyyy"}} to {{enddates |
+      date:"dd-MM-yyyy"}})</h1>
+    <div class="container-fluid overwritestyle mt-3">
+      <!--------------------- all employeee bar chart ---------------------------->
+      <div *ngIf="No_Data_Found" class="text-center">
+        <img width="25%" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+        <div>{{nodataMsg}}</div>
+      </div>
+      <div *ngIf="!No_Data_Found">
+        <div class="row chart-responsive" *ngIf="Multiple_select">
+          <div class="col-12">
+            <div class="ng-star-inserted card mr-2 my-2 card-style">
+              <h3>All users</h3>
+              <!-- <h3 *ngIf="allSelected">All users</h3>
+              <h3 *ngIf="!allSelected">Users</h3> -->
+
+              <div id="alldatareport" class="p-1"></div>
+            </div>
+          </div>
+        </div>
+        <!-- -----------------------single employee select bar chart----------------------- -->
+        <div class="row chart-responsive" *ngIf="Single_user">
+          <div class="col-12">
+            <div class="ng-star-inserted card mr-2 my-2 card-style">
+              <h3>{{username}}</h3>
+              <div id="container" class="p-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="mt-4 mb-4" *ngIf="leavetracker_report_table">
+        <h3 class="page-title">Leave details</h3>
+      </div> -->
+      <!-- ************************************* Leave tracker reports table ************************************ -->
+      <div *ngIf="leavetracker_report_table && !No_Data_Found">
+        <div class="col-12 row justify-content-between">
+          <!-------------------Data export --------------------- -->
+          <div class="btn table-excel-export-btn d-flex align-items-center pl-0" type="button">
+            <button class="button" matTooltipPosition="right" matTooltip="Export Report">
+              <div class="icon">
+                <img class="shere btn-size" src="../../assets/images/export-file.png">
+                <button class="icon-shere ml-1" (click)="exportAsXLSX()">
+                  XLSX
+                </button>
+                <button class="icon-shere mx-1" (click)="exportAsXLS()">
+                  XLS
+                </button>
+                <button class="icon-shere mr-1" (click)="exportAsCSV()">
+                  CSV
+                </button>
+              </div>
+              <p class="m-0">Leave Report</p>
+            </button>
+          </div>
+          <!-- ------------------------Filter field ------------------------------>
+          <div>
+            <mat-form-field appearance="standard" class="filter-form-sec">
+              <mat-label>Filter</mat-label>
+              <input matInput (keyup)="applyFilter($event)" placeholder="Search ..." #input>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="p-0 col-md-12 leavetracker_reports_table mat-elevation-z8 mb-4">
+          <div class=" row col-12 d-flex align-item-center justify-content-between p-0">
+            <div class="col-md-6 d-flex align-items-center">
+              <div *ngIf="!Single_user">
+                <h3 class="bold_style page-title">{{username}}</h3>
+              </div>
+              <div *ngIf="Single_user" class="row ">
+                <h3 class="bold_style page-title">{{Leave_name}}</h3>
+                <div class="row d-flex align-content-around lcount_section">
+                  <div class="mr-3 ml-2">Taken : {{takenLeave}}</div>
+                  <div>Available days : {{availLeave}}</div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+
+          <!--  -->
+          <!-- <div class="col-md-6 d-flex flex-row flex-row-reverse">
+          <div class="filter-form-sec mb-2">
+              <mat-form-field appearance="standard" *ngIf="showManageLeaveTypeTable">
+                  <mat-label>Filter</mat-label>
+                  <input matInput (keyup)="applyFilterLeavetype($event)" placeholder="Search Leave Type ..."
+                      #input>
+              </mat-form-field>
+          </div>
+      </div> -->
+          <!--  -->
+          <div *ngIf="leavetracker_report_table">
+            <table mat-table [dataSource]="dataSourcereports" matSort>
+
+              <!-- ID Column -->
+              <ng-container matColumnDef="empid">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Staff Id</th>
+                <td mat-cell *matCellDef="let row"> {{row.emp_id}} </td>
+              </ng-container>
+
+              <!-- Progress Column -->
+              <ng-container matColumnDef="employeename">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Staff Name</th>
+                <td mat-cell *matCellDef="let row" class="td_text_lowercased">
+                  <p class="td_text_firstltr_capitalized mb-0">{{row.emp_name}}</p>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="leavetype">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Leave Type</th>
+                <td mat-cell *matCellDef="let row"><button class="mat_chip_style_primary td_text_lowercased">
+                    <p class="td_text_firstltr_capitalized mb-0">{{row.leave_type}}</p>
+                  </button>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="applied_date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Applied Date</th>
+                <td mat-cell *matCellDef="let row">{{row.created_time |  date:"dd-MM-yyyy" }}</td>
+              </ng-container>
+              <!-- Fruit Column -->
+              <ng-container matColumnDef="startdate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                <td mat-cell *matCellDef="let row"> {{row.start_date}} </td>
+              </ng-container>
+              <ng-container matColumnDef="enddate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>End Date</th>
+                <td mat-cell *matCellDef="let row"> {{row.end_date}}</td>
+              </ng-container>
+              <ng-container matColumnDef="reportername">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Reporter Name</th>
+                <td mat-cell *matCellDef="let row" class="td_text_lowercased">
+                  <p class="td_text_firstltr_capitalized mb-0">{{row.reporter_name}}</p>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="daystaken">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Days Taken</th>
+                <td mat-cell *matCellDef="let row"> <button mat-mini-fab class="totaldays">
+                    {{row.total_days}}
+                  </button></td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <!-- <div *ngIf="alldetails?.length == 0" class="text-center text-danger alert-danger no-search-match p-3">
+            No Data Found..!
+          </div> -->
+            <div *ngIf="leavetypeFilter" class="text-center text-danger alert-danger no-search-match p-3">
+              No Data Matching For "{{this.filterData}}"
+            </div>
+            <mat-paginator #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+              [pageSizeOptions]="tablePaginationOption" aria-label="Select page of users"></mat-paginator>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="example-container mat-elevation-z8 atDR-table mb-3" *ngIf="leavetracker_report_table"> -->
+
+      <!-- <mat-table #table [dataSource]="dataSourcereports" matSort> -->
+      <!-- <ng-container matColumnDef="empid">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Employee Id</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.emp_id}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="employeename">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Employee name</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.emp_name}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="leavetype">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Leave type</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button mat-raised-button class="mat_chip_style_primary">{{element.leave_type}}</button>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="startdate">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Start date</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.start_date |
+                date:"dd-MM-yyyy"}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="enddate">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>End date</mat-header-cell>
+              <mat-cell *matCellDef="let element;">{{element.end_date | date:"dd-MM-yyyy"}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="reportername">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Reporter name</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{element.reporter_name}}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="daystaken">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Days taken</mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button mat-mini-fab class="totaldays">
+                  {{element.total_days}}
+                </button>
+              </mat-cell>
+            </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;">
+          </mat-row> -->
+      <!-- </mat-table> -->
+
+      <!-- <div *ngIf="alldetails?.length == 0" class="text-center text-danger alert-danger no-search-match p-3">
+          No Data Found..!
+        </div>
+        <mat-paginator #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+          [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator> -->
+
+      <!-- </div> -->
+
+    </div>
+  </div>
+</div>

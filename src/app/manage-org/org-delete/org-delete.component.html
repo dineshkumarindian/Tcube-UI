@@ -1,0 +1,45 @@
+<!-- <div class="delete">
+    <div mat-dialog-content>
+      <div>Are you sure want to delete ?</div>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-raised-button color="red" mat-dialog-close>No</button>
+      <button mat-raised-button color="primary" (click)=" deleteDetails()">Yes</button>
+    </div>
+  </div> -->
+
+<div class="delete">
+  <div class="dialog-header">
+    <h3 class="page-title">Org Delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <div>Are you sure want to delete ?</div>
+    <small class="red">
+      If delete the organization, it will be the permanent delete better you can deactivate the organization
+    </small>
+    <form [formGroup]="orgdeleteformgroup">
+      <div class="row justify-content-center">
+        <mat-form-field appearance="fill" style="width: 95% ; margin-top: 5px;">
+          <mat-label>Comments</mat-label>
+          <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+          <mat-error>Field Required!</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="deleteDetails()" [disabled]="orgdeleteformgroup.invalid"
+      class="cnfm-btn">Confirm</button>
+  </div>
+</div>
+<!-- <div *ngIf="isDeletedOrg">
+<h1>deleted</h1>
+</div> -->
+<!-- <div *ngIf="isDeletedOrg">
+<h1>deleted</h1>
+</div> -->

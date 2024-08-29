@@ -1,0 +1,338 @@
+.requested_org {
+    // margin-bottom: 88px;
+
+    // .reject_content{
+    //     // margin-bottom: 137px;
+    // }
+
+
+    .orgTable {
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+        mat-table {
+            // width: 100%;
+            // // margin-top: 30px;
+            // position: sticky;
+            // border-top: 5px solid #e4eaee;
+            // border-radius: 4px;
+            // border-radius: 10px 10px 0 0;
+            // box-shadow: rgba(0, 0, 0, 0.27) 0px 5px 15px;
+
+            mat-header-cell {
+                background-color: #e4eaee;
+                color: #0e5eb8;
+                font-size: 14px;
+                // margin-left: 4px;
+            }
+
+            // mat-header-cell, 
+            // mat-cell {
+            //     word-break: break-all !important;
+            //     margin-right: 20px !important;
+            // }
+
+            // .orgname{
+            //     ::ng-deep .mat-cell:first-of-type {
+            //         padding-left: 0 !important;
+            //     }
+            // }
+            mat-header-row {
+                background-color: #e4eaee;
+            }
+
+            .link_td {
+                color: #007bff;
+                font-weight: 500;
+                cursor: auto;
+            }
+
+            .org_id_style{
+                color: #007bff;
+                font-weight: 500;
+            }
+            .org_id_style:hover{
+                cursor: pointer;
+                text-decoration: underline;
+            }
+            // .deletebtn {
+            //     outline: none;
+            //     background-color: #f73838 !important;
+            // }
+
+            .rejectbtn {
+                outline: none;
+                background-color: #c90707 !important;
+            }
+            .active-btn{
+                cursor: auto;
+            }
+            .not-proccess{
+                background-color: #727272 !important;
+                color: white !important;
+                cursor: auto;
+            }
+
+            .delete-btn {
+                outline: none;
+                background-color: red !important
+            }
+
+            // button {
+            //     background-color: #093a79;
+            //     line-height: 25px;
+            //     font-size: 13px;
+            //     min-width: 40px;
+            //     padding: 0 5px;
+            // }
+            // button {
+            //     background-color: #093a79;
+            //     line-height: 25px;
+            //     font-size: 13px;
+            //     min-width: 64px;
+            //     padding: 0 5px;
+            // }
+
+            //tstyle for reduce the checkbox colomn
+            .mat-column-selector {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 5% !important;
+                width: 9% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+             .mat-column-organization_id {
+                // width: 10% !important;
+                // flex: 0 0 15% !important;
+
+            }
+            .mat-column-orgname {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 15% !important;
+                width: 15% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            } .mat-column-name {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 12% !important;
+                width: 12% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            } .mat-column-email {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 15% !important;
+                width: 15% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+            .mat-column-created_time {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 12% !important;
+                width: 12% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                word-break: break-word;
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+            .mat-column-Rejected_Date {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 12% !important;
+                width: 12% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+            .mat-column-Reason {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 12% !important;
+                width: 12% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+            .mat-column-action {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 10% !important;
+                width: 10% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+            .mat-column-actions {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 25% !important;
+                width: 25% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+            // .status-btn{
+               
+            // }
+        }
+                .mail_issue_style {
+                    color: white !important;
+                    font-weight: 500 !important;
+                    text-align: center !important;
+                    line-height: 21px !important;
+                    padding: 1px 8px !important;
+                    outline: none !important;
+                    transition: all 100ms ease-out !important;
+                    border-radius: 4px !important;
+                    border: none !important;
+                }
+        
+                .approve-btn-disabled {
+                    cursor: not-allowed !important;
+                    color: #000000 !important;
+                    background-color: #ffffff !important;
+                    border: 1px solid grey;
+                }
+                }
+
+    // .deleterow {
+    //     // height: 15px;
+    //     // width: 99%;
+    //     display: flex;
+    //     align-items: center;
+
+    //     .icondeleteorg {
+    //         // display: flex;
+    //         align-items: center;
+    //         padding: 0 0 0 35px;
+
+    //         // mat-icon {
+    //         //     cursor: pointer;
+    //         //     color: #a2a2a2;
+    //         // }
+
+    //         // mat-icon:hover {
+    //         //     cursor: pointer;
+    //         //     color: #ff3b3b;
+    //         // }
+
+    //         button {
+    //             border: 0.5px solid #dcd5d5;
+    //             border-radius: 4px;
+    //             width: 30px;
+    //             height: 30px;
+    //             line-height: 10px;
+    //             position: relative;
+    //             left: -4px;
+    //             top: -3px;
+    //             background: white;
+
+    //             .mat-icon {
+    //                 font-size: 17px;
+    //                 color: red;
+    //                 height: 17px;
+    //                 width: 17px;
+    //             }
+    //         }
+
+    //         button:hover {
+    //             border: 0.5px solid red;
+    //             background-color: red;
+
+    //             .mat-icon {
+    //                 font-size: 17px;
+    //                 color: white;
+
+    //             }
+
+    //         }
+
+    //     }
+
+    // }
+
+    // mat-cell:first-of-type,
+    // mat-footer-cell:first-of-type,
+    // mat-header-cell:first-of-type {
+    //     padding-left: 24px;
+    //     margin-right: -1px;
+    // }
+
+}
+
+.manage_pricing_plan {
+    .table-section {
+        .container-fluid {
+            .orgTable {
+                box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            }
+        }
+    }
+}

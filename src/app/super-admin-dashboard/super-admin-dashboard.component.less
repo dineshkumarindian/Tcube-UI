@@ -1,0 +1,336 @@
+
+
+// Org Count details style ends
+
+
+// Org Count starts
+.orgCountDetails {
+  overflow-x: hidden ;
+  margin-bottom: 381px;
+  .card-counter {
+    box-shadow: 2px 2px 10px #DADADA;
+    margin: 5px;
+    padding: 20px 10px;
+    background-color: #fff;
+    height: 100px;
+    border-radius: 5px;
+    transition: .3s linear all;
+  }
+
+  .card-counter:hover {
+    box-shadow: 4px 4px 20px #DADADA;
+    transition: .3s linear all;
+  }
+
+  .card-counter.primary {
+    background-color: #007bff;
+    color: #FFF;
+  }
+
+  .card-counter.danger {
+    background-color: #ef5350;
+    color: #FFF;
+  }
+  .card-counter.inactive {
+    background-color: #C31A31;
+    color: #FFF;
+  }
+
+  .card-counter.success {
+    background-color: #66bb6a;
+    color: #FFF;
+  }
+
+  .card-counter.info {
+    background-color: #26c6da;
+    color: #FFF;
+  }
+
+  .card-counter i {
+    font-size: 5em;
+    opacity: 0.2;
+  }
+
+  .card-counter .count-numbers {
+    position: absolute;
+    right: 35px;
+    top: 20px;
+    font-size: 32px;
+    display: block;
+    font-weight: 900;
+  }
+  .card-counter .count-name {
+    position: absolute;
+    right: 35px;
+    top: 65px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    // text-transform: capitalize;
+    opacity: 0.7;
+    display: block;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .totalcountloader {
+        position: absolute;
+        top: 48px;
+        left: 200px;
+        // top: 25%;
+        // left: 62%;
+        transform: translate(-50%, -50%);
+        // position: absolute;
+    
+        .bar {
+          width: 2px;
+          height: 20px;
+          background: #f2f5f8;
+          display: inline-block;
+          transform-origin: bottom center;
+          border-top-right-radius: 20px;
+          border-top-left-radius: 20px;
+          /*   box-shadow:5px 10px 20px inset rgba(255,23,25.2); */
+          animation: loader 1.2s linear infinite;
+        }
+    
+        .bar1 {
+          animation-delay: 0.1s;
+        }
+    
+        .bar2 {
+          animation-delay: 0.2s;
+        }
+    
+        .bar3 {
+          animation-delay: 0.3s;
+        }
+    
+        .bar4 {
+          animation-delay: 0.4s;
+        }
+    
+        .bar5 {
+          animation-delay: 0.5s;
+        }
+    
+        .bar6 {
+          animation-delay: 0.6s;
+        }
+    
+        .bar7 {
+          animation-delay: 0.7s;
+        }
+    
+        .bar8 {
+          animation-delay: 0.8s;
+        }
+    
+        @keyframes loader {
+          0% {
+            transform: scaleY(0.1);
+            // background: ;
+          }
+    
+          50% {
+            transform: scaleY(1);
+            background: #e9ecef;
+          }
+    
+          100% {
+            transform: scaleY(0.1);
+            background: transparent;
+          }
+        }
+      }
+}
+// Org Count ends
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius     : 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    border-radius     : 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  }
+
+  *{
+    box-sizing: border-box;
+  }
+//   .super-admin{
+//     .admindashboard-wrapper{
+//         .align{
+//             display       : flex;
+//             flex-direction: row;
+//             flex-wrap     : wrap;
+            
+//         .card-style{
+//         height    : 460px;
+//         cursor    : default;
+//         }
+//     }
+//     }
+//   }  
+.superadmin_dashboard-page{
+    .align {
+        display       : flex;
+        flex-direction: row;
+        flex-wrap     : wrap;
+      }
+    .dashboard-wrapper-style{
+      .mrg_bottom{
+        margin-bottom: 80px;
+      }
+        .card-style {
+            // width : 570px;
+            // height    : 460px;
+            // padding: 10px;
+            cursor    : default;
+      
+            h3 {
+              text-align      : center;
+              background-color: #e4eaee;
+              padding         : 6px;
+              color           : #003d71;
+              font-weight: 600;
+              font-size: 22px;
+            }
+            #container {
+              height: 380px;
+          }
+          .highcharts-figure,
+          .highcharts-data-table table {
+              min-width: 550px;
+              // max-width: 800px;
+              margin: 1em auto;
+          }
+          .renewal-table{
+            width: 100%;
+            td.mat-cell{
+              border-bottom-width: 0px !important;
+              border-bottom-style: none;
+            }
+            // border-collapse: collapse;
+          //   td,th{
+          //   // color:#04b5e4;
+          //  }
+          }
+          .renewal-table td,.renewal-table th{
+            padding: 8px 10px;
+            text-align: left;
+            font-size: 14px;
+            //border: 1px solid #ddd;
+          }
+          // .renewal-table th{
+          //   font-weight: bold;
+          //   color: #000000;
+          //   // background-color: #6fb2d2;
+          //   // color: #ffffff;
+          // }
+          // .renewal-table tr:nth-child(even){
+          //   background-color: #f5f5f5;
+          // }
+          .renewal-plan{
+            // margin: 10px 0px 0px 15px;
+            font-weight: 500;
+            background-color: #FFE28C;
+            border-radius   : 8px 8px 8px 0px;
+            
+
+            
+          }
+          .renewal-amount{
+            font-weight: bold;
+          }
+          .client-org{
+            font-weight: 600;
+            color: #003d71;
+            text-shadow: 0 0 black;
+          }
+        }
+        .material-icons{
+          font-size: 20px;
+        }
+        .account-balance{
+          display: flex;
+          align-items: center;
+          button{
+            margin-left: 10px;
+            min-width: 15px;
+            line-height: 25px;
+            padding: 0px 10px;
+            height: 32px;
+            border-radius: 11px;
+          }
+
+        }
+        .balance-amount{
+          display: inline-block;
+          margin-left: 10px;
+        }
+
+        // .align{
+        //     display: flex;
+        //     flex-direction: row;
+        //     flex-wrap     : wrap;
+        // }
+        .transaction{
+          float: left;
+          text-align: right;
+          margin-left: 10px;
+          font-family: sans-serif;
+          font-style: unset;
+          font-weight: 700;
+        }
+        .weeklydays{
+          float: right;
+          text-align: left;
+          p{
+            span{
+              margin: 0px 10px;
+              font-size: 12px;
+              font-weight: 500;
+
+            }
+            cursor: pointer;
+          }
+        }
+        .transaction-table{
+          font-family: sans-serif;
+          thead{
+            padding: 8px 10px;
+          text-align: left;
+          font-size: 14px;
+          tr{
+            th{
+              font-weight: 500;
+              color: #757575;
+            }
+          }
+          }
+          tbody{
+          padding: 8px 10px;
+          text-align: left;
+          font-size: 14px;
+          }
+          tr{
+            th{
+              font-weight: 100;
+            }
+          }
+        }
+        .amount-rate{
+          font-weight: 700;
+        }
+    }
+
+    .table-card{
+      overflow-x: auto;
+      height: 412px;
+    }
+
+}
+

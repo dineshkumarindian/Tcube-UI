@@ -1,0 +1,131 @@
+<div class="delete" *ngIf="bulkLeavetype">
+  <div class="dialog-header">
+    <h3 class="page-title">{{data.header}} Delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <p class="dialog-question">Are you sure want to delete?</p>
+    <small *ngIf="bulkDesignation" style="color: #ff5e5e">
+      Please cross check the users designation , If you assign this designation to any users please change to another or
+      new designation .
+    </small>
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button *ngIf="!bulkDesignation" (click)="deleteLeaveTypeConfoirm();"
+      class="cnfm-btn">Confirm</button>
+    <button mat-flat-button *ngIf="bulkDesignation" (click)="bulkDeleteDesignation();" class="cnfm-btn">Confirm</button>
+  </div>
+</div>
+
+<div class="delete" *ngIf="bulkDeleteClientType">
+  <div class="dialog-header">
+    <h3 class="page-title">Active client bulk delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <p class="dialog-question">Are you sure want to delete?</p>
+    <small style="color: #ff5e5e">
+      If delete the clients,all projects under this client will be removed .
+    </small>
+    <!-- <small style="color: #ff5e5e">
+        If delete the leave types , all users deleted under this organizations .
+      </small> -->
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="bulkDeleteClientDetails()" class="cnfm-btn">Confirm</button>
+  </div>
+</div>
+
+<div class="delete" *ngIf="bulkDeleteInactiveType">
+  <div class="dialog-header">
+    <h3 class="page-title">Inactive client bulk delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <p class="dialog-question">Are you sure want to delete?</p>
+    <small style="color: #ff5e5e">
+      If delete the clients,all projects under this client will be removed .
+    </small>
+    <!-- <small style="color: #ff5e5e">
+        If delete the leave types , all users deleted under this organizations .
+      </small> -->
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="bulkDeleteClientDetails()" class="cnfm-btn">Confirm</button>
+  </div>
+</div>
+
+<!-- !!For Bulk delete role dialog box -->
+<div class="delete" *ngIf="bulkRoleType">
+  <div class="dialog-header">
+    <h3 class="page-title">Role Bulk Delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <p class="dialog-question">Are you sure want to delete?</p>
+    <small style="color: #ff5e5e">
+      Please cross check the users roles , If you assign this roles to any users please change to
+      another or new role otherwise it affects the login for the users .
+    </small>
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="bulkDeleteRoleConfirm()" class="cnfm-btn">Confirm</button>
+  </div>
+</div>
+<div class="delete" *ngIf="bulkDeleteHolidays">
+  <div class="dialog-header">
+    <h3 class="page-title">{{data.header}} Delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <p class="dialog-question">Are you sure want to delete?</p>
+    <small *ngIf="bulkDesignation" style="color: #ff5e5e">
+      Please cross check the users designation , If you assign this designation to any users please change to another or
+      new designation .
+    </small>
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="bulkdeleteHolidays()" class="cnfm-btn">Confirm</button>
+
+  </div>
+</div>
+<!--Bulk user delete-->
+<div class="delete" *ngIf="bulkDeleteInactiveUser">
+  <div class="dialog-header">
+    <h3 class="page-title">User Bulk Delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <p class="dialog-question">Are you sure want to delete?</p>
+    <small style="color: #ff5e5e">
+      If delete the users,all projects under this user will be removed .
+    </small>
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="bulkDeleteUser()" class="cnfm-btn">Confirm</button>
+  </div>
+</div>

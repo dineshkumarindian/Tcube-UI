@@ -1,0 +1,24 @@
+<div class="delete">
+    <div *ngIf="alertForRoleIssue">
+        <div class="header">
+            <h5>Error</h5>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" role="img" type="button">close
+                </mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <div>Your role has been deleted !</div>
+            <small style="color: #ff5e5e">
+                Please contact administrator
+            </small>
+        </div>
+        <div class="btns pr-3 pt-2">
+            <button mat-flat-button class="cnfm-btn" mat-dialog-close>Ok</button>
+        </div>
+    </div>
+    <div>
+        <!-- this div you can use another alert with dynamically with ngIf -->
+    </div>
+</div>

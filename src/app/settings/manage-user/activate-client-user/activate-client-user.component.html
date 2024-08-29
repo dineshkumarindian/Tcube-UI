@@ -1,0 +1,29 @@
+<div class="delete">
+    <div class="dialog-header">
+      <h3 class="page-title">{{header}}</h3>
+      <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+          type="button">close</mat-icon>
+      </span>
+    </div>
+    <div mat-dialog-content>
+      <div>Are you sure want to {{data.value}} ?</div>
+      <!-- activate client and user -->
+      <div *ngIf="clientActDeact2">
+        <form [formGroup]="activateformgroup">
+          <div class="deactivate1">
+            <mat-form-field appearance="fill" style="width: 100% ; margin-top: 5px; ">
+              <mat-label>Comments</mat-label>
+              <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+      <!-- *** -->
+    </div>
+    <div align="end" class="dialog-btns p-3" style="margin-top: 15px;">
+      <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+      <button mat-flat-button (click)="action()" class="cnfm-btn">Confirm</button>
+    </div>
+  </div>
+  

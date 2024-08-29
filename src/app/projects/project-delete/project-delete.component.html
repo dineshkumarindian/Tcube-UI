@@ -1,0 +1,21 @@
+<div class="delete">
+  <div class="dialog-header">
+    <h3 class="page-title">Project Delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <div>Are you sure want to delete ?</div>
+    <small class="red">Jobs also will be deleted under this project</small>
+  </div>
+  <!-- <div mat-dialog-actions align="end" class="del-btn">
+    <button mat-raised-button color="red" mat-dialog-close>No</button>
+    <button class="ybtn" color="primary" mat-raised-button (click)="deleteDetails()">Yes</button>
+  </div> -->
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button class="cnfm-btn">Confirm</button>
+  </div>
+</div>

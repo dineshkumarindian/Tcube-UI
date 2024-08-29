@@ -1,0 +1,54 @@
+<div class="delete">
+  <div class="dialog-header">
+    <h3 class="page-title">{{header}}</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <p class="dialog-question">Are you sure want to {{data}} ?</p>
+    <small style="color: #ff5e5e" *ngIf="data== 'deactivate' ">
+      The user will be removed from assigned projects and jobs also .
+    </small>
+    <small style="color: #ff5e5e" *ngIf="data== 'deactivate client' ">
+      If deactivate the client , all projects under this client will be deactivated .
+    </small>
+    <div *ngIf="clientActDeact">
+      <form [formGroup]="deactivateformgroup">
+        <div class="row justify-content-center">
+          <mat-form-field appearance="standard" style="width: 90% ;">
+            <mat-label>Comments</mat-label>
+            <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="clientActDeact1">
+      <form [formGroup]="deactivateformgroup">
+        <div class="deactivate">
+          <mat-form-field appearance="fill" style="width: 100% ; margin-top: 5px;">
+            <mat-label>Comments</mat-label>
+            <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+    <!-- activate client and user -->
+    <div *ngIf="clientActDeact2">
+      <form [formGroup]="deactivateformgroup">
+        <div class="deactivate1">
+          <mat-form-field appearance="fill" style="width: 100% ; margin-top: 5px; ">
+            <mat-label>Comments</mat-label>
+            <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+    <!-- *** -->
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="action()" class="cnfm-btn">Confirm</button>
+  </div>
+</div>

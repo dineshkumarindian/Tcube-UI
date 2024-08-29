@@ -1,0 +1,546 @@
+<section class="time-tracker">
+  <mat-sidenav-container class="example-container" [hasBackdrop]="true">
+    <!-- sidnav for the view, edit, delete the time intervals of the task -->
+    <mat-sidenav #drawer position="start">
+      <div class="my-2">
+        <h3 class="mx-2 my-3 page-title">{{dates | date:'dd-MM-yyyy'}}<span (click)="drawer.toggle()"
+            class="pull-right mx-2">
+            <mat-icon class="mat-icon notranslate material-icons mat-icon-no-color" color="warn" role="img"
+              type="button">close</mat-icon>
+          </span></h3>
+        <div class="table-stylecustom">
+          <div class="sidenav-timer-table">
+            <table mat-table [dataSource]="time_interval_datasource">
+              <!-- Position Column -->
+              <ng-container matColumnDef="start_time">
+                <th mat-header-cell *matHeaderCellDef> Start time</th>
+                <td mat-cell *matCellDef="let element"><span
+                    *ngIf="timer_edit || edit_timer_id != element.id">{{element.start_time}}</span>
+                  <span *ngIf="!timer_edit && edit_timer_id == element.id">
+                    <form [formGroup]="start"><input type="time" class="form-control" formControlName="srt_time"></form>
+                  </span>
+                </td>
+              </ng-container>
+
+              <!-- Name Column -->
+              <ng-container matColumnDef="end_time">
+                <th mat-header-cell *matHeaderCellDef> End time </th>
+                <!-- <td mat-cell *matCellDef="let element"> 09:46 AM </td> -->
+                <td mat-cell *matCellDef="let element"> <span
+                    *ngIf="timer_edit || edit_timer_id != element.id">{{element.end_time}}</span>
+                  <span *ngIf="!timer_edit && edit_timer_id == element.id">
+                    <form [formGroup]="end"><input type="time" class="form-control" formControlName="ed_time"></form>
+                  </span>
+                </td>
+                <input>
+              </ng-container>
+
+              <!-- Weight Column -->
+              <ng-container matColumnDef="duration">
+                <th mat-header-cell *matHeaderCellDef>Duration</th>
+                <td mat-cell *matCellDef="let element"> {{element.duration}}</td>
+              </ng-container>
+
+              <!-- actions Column -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let element" class="actions">
+                  <!-- *ngIf="checkdate == today_date_str" -->
+                  <span>
+                    <span class="action" *ngIf="drawer_deleted && timer_edit">
+                      <span class="edit-button"><button
+                          (click)="edittimer(element.id,element.start_time,element.end_time)" mat-icon-button
+                          class="example-icon action-btn">
+                          <mat-icon matTooltip="Edit" class="pr-menu-icon ">edit
+                          </mat-icon>
+                        </button>
+                      </span>
+                      <span class="delete-button" *ngIf="element.id!=active_timer_id">
+                        <button (click)="drawer_delete(element.id)" mat-icon-button class="example-icon action-btn">
+                          <mat-icon matTooltip="Delete" class="pr-menu-icon">delete
+                          </mat-icon>
+                        </button>
+                      </span>
+                    </span>
+                    <span *ngIf="!timer_edit && edit_timer_id == element.id" class="td_cnfmcncl_btns">
+                      <button mat-flat-button class="td_cnfm_btn"
+                        (click)="edittimeintervals(element.id)"><small>Save</small></button>
+                      <button (click)="edittimer(element.id,element.start_time,element.end_time)" mat-flat-button
+                        color="warn"><small>Cancel</small></button>
+                    </span>
+                    <span *ngIf="!drawer_deleted && element.id === drawer_delete_id" class="td_cnfmcncl_btns">
+                      <button (click)="drawer_confirm_delete(element.id)" mat-flat-button
+                        class="td_cnfm_btn"><small>Confirm</small></button>
+                      <button (click)="drawer_delete(element.id)" mat-flat-button
+                        color="warn"><small>Cancel</small></button>
+                    </span>
+                  </span>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="time_interval_displayedcolumns; sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: time_interval_displayedcolumns;"></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="total-hours fixed-btn">
+          <hr>
+          <h4 class="m-2">Total Hours</h4>
+          <p class="ml-2">{{total_task_time}}</p>
+        </div>
+      </div>
+    </mat-sidenav>
+    <!-- sidenav to view the filter for the time-tracker -->
+    <mat-sidenav #drawer2 position="end">
+      <div class="filter-sec">
+        <div class="d-flex justify-content-between align-items-center mx-3">
+          <h3 class="page-title">Filter</h3>
+          <button mat-icon-button (click)="drawer2.toggle()">
+            <mat-icon color="warn">close</mat-icon>
+          </button>
+        </div>
+        <form [formGroup]="filterform">
+          <div class="card-stylecustom">
+            <div id="clickout" class="mt-2" *ngIf="isDropdown">
+              <label>Period</label>
+              <ng-multiselect-dropdown class="singleselect" formControlName="period" [placeholder]="'Select Period'"
+                [settings]="perioddropdownsetting" [data]="perioddropdownList" [(ngModel)]="periodselectedItems"
+                (onSelect)="onItemSelect($event)" (ngModelChange)="periodchange($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <span *ngIf="custom_date === 'Custom'">
+              <mat-form-field appearance="standard" class="col-6">
+                <mat-label>From Date</mat-label>
+                <input matInput type="text" [matDatepicker]="picker1" formControlName="from_date" />
+                <!-- <mat-error>Field Required!</mat-error> -->
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+              <mat-form-field appearance="standard" class="col-6">
+                <mat-label>To Date</mat-label>
+                <input matInput type="text" [matDatepicker]="picker2"
+                  [disabled]="!filterform.controls['from_date'].value" formControlName="to_date"
+                  [min]="filterform.controls['from_date'].value">
+                <!-- <mat-error>Field Required!</mat-error> -->
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </span>
+            <div class="mt-2">
+              <label>Clients</label>
+              <ng-multiselect-dropdown formControlName="client" [placeholder]="'Select Client'"
+                (click)="settouchedcli()" [settings]="dropdownSettings" [data]="clientdropdownList"
+                [(ngModel)]="clientselectedItems" (onSelect)="onItemSelect($event)"
+                (ngModelChange)="setprojectbydetaiils($event)" required (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+
+              <span *ngIf="filterform.touched && filterform.get('client').errors && filterform.get('client').errors"
+                style="color: red;">
+                *Select client field
+              </span>
+
+            </div>
+            <div class="mt-2">
+              <label>Projects</label>
+              <ng-multiselect-dropdown formControlName="fltr_projects" [placeholder]="'Select Projects'"
+                (click)="settouchedprj()" [settings]="dropdownSettings" [data]="projectdropdownList"
+                [(ngModel)]="projectselectedItems" (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)"
+                (ngModelChange)="setjobbyprojectdetaiils($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="mt-2">
+              <label>Jobs</label>
+              <ng-multiselect-dropdown formControlName="fltr_jobs" [placeholder]="'Select Jobs'"
+                [settings]="dropdownSettings" [data]="jobsdropdownList" [(ngModel)]="jobsselectedItems"
+                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="mt-2">
+              <label>Billable Status</label>
+              <ng-multiselect-dropdown formControlName="fltr_bill" [placeholder]="'Select Billable Status'"
+                [settings]="dropdownSettings" [data]="billdropdownList" [(ngModel)]="billselectedItems"
+                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="mt-2">
+              <label>Approval Status</label>
+              <ng-multiselect-dropdown formControlName="status" [placeholder]="'Select approval status'"
+                [settings]="dropdownSettings" [data]="approvedropdownList" [(ngModel)]="approveselectedItems"
+                (onSelect)="onItemSelect($event)" (onSelectAll)="onSelectAll($event)">
+              </ng-multiselect-dropdown>
+            </div>
+            <div class="mt-3 filter-fixed-btn">
+              <button mat-raised-button color="info" class="sbmt-btn mx-2" (click)="filter();drawer2.toggle()"
+                [disabled]="custom_date === 'Custom' && !filterform.controls['to_date'].value">Search</button>
+              <button mat-raised-button color="warn" (click)="resetfilter()"> Reset</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="page-header">
+        <div class="row">
+          <div class="col-md-4">
+            <h3 class="page-title">Time Tracker</h3>
+          </div>
+          <div class="col-md-3 datepicker_sec">
+            <span class="datepicker_select">
+              <mat-form-field appearance="fill" class="example-full-width invisible p-0"
+                style="width:0px; height: 0px;">
+                <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)" [formControl]="datepicker"
+                  [max]="maxDate">
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <button mat-icon-button (click)="previousdate()">
+                <mat-icon>chevron_left</mat-icon>
+              </button>
+              <span class="mx-5 datestyle" (click)="picker.open()">
+                <h6 class="d-inline">{{dates | date:'dd-MM-yyyy'}}</h6>
+              </span>
+              <button mat-icon-button (click)="nextdate()" [disabled]="nextdisable">
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+            </span>
+          </div>
+          <div class="col-md-5 btn_sec">
+            <div class="pfr">
+              <button mat-icon-button matTooltip="Quick add task" matTooltipPosition="below" (click)="quickAddTask()">
+                <mat-icon class="add-btn-quick">add_circle</mat-icon>
+              </button>
+
+              <button mat-button class="tb_dropdown_btn" [matMenuTriggerFor]="menu1">
+                Timesheets<mat-icon>keyboard_arrow_down</mat-icon>
+              </button>
+
+              <button mat-icon-button class="filtericon" (click)="drawer2.toggle();resetfilter()" matTooltip="Filter"
+                matTooltipPosition="below"><i class='fas fa-filter'></i></button>
+
+              <button mat-button class="exprt-btn" [matMenuTriggerFor]="menu">
+                <!-- <mat-icon>download</mat-icon> -->
+                <span><img src="../../assets/images/import123.png"></span>
+                Export
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="exportAsXLSX()">XLSX</button>
+        <button mat-menu-item (click)="exportAsXLS()">XLS</button>
+        <button mat-menu-item (click)="exportAsCSV()">CSV</button>
+      </mat-menu>
+      <mat-menu #menu1="matMenu">
+        <button mat-menu-item [routerLink]="['/timesheets']" routerLinkActive="router-link-active">My
+          Timesheets</button>
+        <button mat-menu-item [routerLink]="['/approvals']" routerLinkActive="router-link-active">My
+          Approvals</button>
+      </mat-menu>
+      <div class="container-fluid">
+        <div class="users-input">
+          <form [formGroup]="taskForm">
+            <div class="row">
+              <div class="col-md-5 pr-0">
+                <mat-form-field appearance="outline">
+                  <div
+                    matTooltip="The timer feature is not compatible with past dates, Please utilize the quick add functionality to include your tasks"
+                    matTooltipPosition="below" [matTooltipDisabled]="nextdisable">
+                    <input matInput [ngModel]="ngmodel_task" (keydown)="Space($event)"
+                      placeholder="What are you working on? *" formControlName="task" required
+                      (ngModelChange)="resetprojobbill($event)" autocomplete="off">
+                  </div>
+                </mat-form-field>
+                <small class="text-danger"
+                  *ngIf="(taskForm.controls['project'].dirty || taskForm.controls['project'].touched) && taskForm.value.task == ''">
+                  {{requiredMessage}}
+                </small>
+              </div>
+              <div class="col-md-2 pr-0">
+                <mat-form-field appearance="outline" (click)="settouchedtask()">
+                  <div
+                    matTooltip="The timer feature is not compatible with past dates, Please utilize the quick add functionality to include your tasks"
+                    matTooltipPosition="below" [matTooltipDisabled]="nextdisable">
+                    <mat-select formControlName="project" placeholder="Select Project *" #singleSelect required
+                      (selectionChange)="setjobsbyprojectid($event.value)">
+                      <mat-option *ngIf="taskForm.value.task != ''">
+                        <ngx-mat-select-search placeholderLabel="Search Project..."
+                          noEntriesFoundLabel="'no matching project found'" [formControl]="projectFilterCtrl">
+                          <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                          <span ngxMatSelectNoEntriesFound *ngIf="projectJobsAccess">
+                            <span class="dropdown-addbtn cursor-pointer shadow" (click)="addProject()">
+                              <h6 class="font-weight-550"><mat-icon>add</mat-icon>Add Project<span *ngIf="projectFilterCtrl.value" class="mx-1 notification-submodule-color"><span>(</span>{{projectFilterCtrl.value}}<span>)</span></span></h6>
+                            </span>
+                        </span>
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <div *ngIf="taskForm.value.task != ''">
+                        <mat-option *ngFor="let data of filteredproject | async" [value]="data.name">
+                          {{data.name}}
+                        </mat-option>
+                        <mat-option *ngIf="project.length == 0" disabled><span class="d-flex justify-content-center">No data available!</span></mat-option>
+                        <mat-option *ngIf="project.length == 0 && projectJobsAccess">
+                          <span class="dropdown-addbtn cursor-pointer shadow" (click)="addProject()">
+                            <h6 class="font-weight-550"><mat-icon class="mx-1">add</mat-icon>Add Project<span *ngIf="projectFilterCtrl.value" class="mx-1 notification-submodule-color"><span>(</span>{{projectFilterCtrl.value}}<span>)</span></span></h6>
+                          </span>
+                        </mat-option>
+                      </div>
+                    </mat-select>
+                  </div>
+                </mat-form-field>
+                <small class="text-danger"
+                  *ngIf="(taskForm.controls['job'].dirty || taskForm.controls['job'].touched) && taskForm.value.project == ''">
+                  {{requiredMessage}}
+                </small>
+              </div>
+              <div class="col-md-2 pr-0">
+                <mat-form-field appearance="outline" (click)="settouchedproject()">
+                  <div
+                    matTooltip="The timer feature is not compatible with past dates, Please utilize the quick add functionality to include your tasks"
+                    matTooltipPosition="below" [matTooltipDisabled]="nextdisable">
+                    <mat-select formControlName="job" placeholder="Select Job *" #singleSelect required
+                      (selectionChange)="setbillbyjobid($event.value)">
+                      <mat-option *ngIf="taskForm.value.project != ''">
+                        <ngx-mat-select-search placeholderLabel="Search Job..."
+                          noEntriesFoundLabel="'no matching job found'" [formControl]="jobFilterCtrl">
+                          <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                          <span ngxMatSelectNoEntriesFound *ngIf="projectJobsAccess">
+                            <span class="dropdown-addbtn cursor-pointer shadow" (click)="addJob()">
+                              <h6 class="font-weight-550"><mat-icon class="mx-1">add</mat-icon>Add Job<span *ngIf="jobFilterCtrl.value" class="mx-1 notification-submodule-color"><span>(</span>{{jobFilterCtrl.value}}<span>)</span></span></h6>
+                            </span>
+                        </span>
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <mat-option *ngIf="job.length == 0 && taskForm.value.project != ''" disabled><span class="d-flex justify-content-center">No data available!</span></mat-option>
+                      <mat-option *ngIf="job.length == 0 && taskForm.value.project != '' && projectJobsAccess">
+                        <span class="dropdown-addbtn cursor-pointer shadow" (click)="addJob()">
+                          <h6 class="font-weight-550"><mat-icon class="mx-1">add</mat-icon>Add Job<span *ngIf="jobFilterCtrl.value" class="mx-1 notification-submodule-color"><span>(</span>{{jobFilterCtrl.value}}<span>)</span></span></h6>
+                        </span>
+                      </mat-option>
+                      <div *ngIf="taskForm.value.project != ''">
+                        <mat-option *ngFor="let data of filteredjob | async" [value]="data.name"
+                          [disabled]="data.mail_sended == true"
+                          matTooltip="Logged hours exceeded , contact project manager"
+                          [matTooltipDisabled]="data.mail_sended == false " matTooltipPosition="left">
+                          {{data.name}}
+                        </mat-option>
+                      </div>
+                    </mat-select>
+                  </div>
+                </mat-form-field>
+                <small class="text-danger"
+                  *ngIf="(taskForm.controls['bill'].dirty || taskForm.controls['bill'].touched) && taskForm.value.job == ''">
+                  {{requiredMessage}}
+                </small>
+              </div>
+              <div class="col-md-2 pr-0">
+                <mat-form-field appearance="outline" (click)="settouchedjob()">
+                  <div
+                    matTooltip="The timer feature is not compatible with past dates, Please utilize the quick add functionality to include your tasks"
+                    matTooltipPosition="below" [matTooltipDisabled]="nextdisable">
+                    <mat-select formControlName="bill" placeholder="Select bill *" #singleSelect required>
+                      <mat-option *ngIf="taskForm.value.job != ''">
+                        <ngx-mat-select-search placeholderLabel="Bill..." noEntriesFoundLabel="'no match found'"
+                          [formControl]="billFilterCtrl">
+                          <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                        </ngx-mat-select-search>
+                      </mat-option>
+                      <div *ngIf="taskForm.value.job != ''">
+                        <mat-option *ngFor="let data of filteredbill | async" [value]="data.name">
+                          {{data.name}}
+                        </mat-option>
+                      </div>
+                    </mat-select>
+                  </div>
+                </mat-form-field>
+              </div>
+              <div class="col-md-1 timer-button pr-0" *ngIf="timer_button">
+                <button [disabled]="!taskForm.valid" mat-raised-button color="primary" (click)="createtask()"><i
+                    class="material-icons">timer</i>Start</button>
+              </div>
+              <div class="col-md-1 stop-timer pr-0" *ngIf="!timer_button">
+                <button mat-raised-button color="primary" (click)='stopBtnClicked()'>
+                  <h6>{{clockTimer}}</h6>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="table-section mt-2">
+          <span class="delete-button mx-3" *ngIf="bulk_delete_data.length > 1 && isPause">
+            <button (click)="bulk_delete_dialog()" mat-icon-button class="example-icon action-btn" class="mb-1">
+              <mat-icon matTooltip="Bulk delete" class="pr-menu-icon">delete
+              </mat-icon>
+            </button>
+          </span>
+          <table #table mat-table [dataSource]=tabledata>
+            <!-- Checkbox Column -->
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef class="checkbox_column">
+                <mat-checkbox (change)="$event ? masterToggle() : null; bulk_delete();"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()"
+                  [disabled]="checkbox_disabled || checkbox_select_all">
+                </mat-checkbox>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-checkbox (click)="$event.stopPropagation()"
+                  (change)="$event ? selection.toggle(row) : null; bulk_delete();" [checked]="selection.isSelected(row)"
+                  [aria-label]="checkboxLabel(row)"
+                  [disabled]="checkbox_disabled || row.approval_status !='Not submitted' && row.approval_status !='Updated'">
+                </mat-checkbox>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date_of_request">
+              <th mat-header-cell *matHeaderCellDef>Date</th>
+              <td mat-cell *matCellDef="let element"> {{element.date_of_request | date: 'dd-MM-yyyy'}} </td>
+            </ng-container>
+            <ng-container matColumnDef="task">
+              <th mat-header-cell *matHeaderCellDef>
+                <p class="m-0 p-0" *ngIf="!reset_filter_btn">{{dates | date:'dd-MM-yyyy'}}</p>
+              </th>
+              <td mat-cell *matCellDef="let element"> {{element.task}} </td>
+            </ng-container>
+
+            <!-- project-job Column -->
+            <ng-container matColumnDef="project">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element">
+                <h6 class="project_name m-0 p-0 d-inline">{{element.project}} </h6>
+                <span class="px-1">
+                  <span *ngIf="element.job == 'Design'" class="design_style">
+                    <small class="job_name">{{element.job}}</small>
+                  </span>
+                  <span *ngIf="element.job == 'Testing'" class="testing_style">
+                    <small class="job_name">{{element.job}}</small>
+                  </span>
+                  <span *ngIf="element.job == 'Development'" class="develop_style">
+                    <small class="job_name">{{element.job}}</small>
+                  </span>
+                  <span *ngIf="element.job == 'Meeting'" class="meet_style">
+                    <small class="job_name">{{element.job}}</small>
+                  </span>
+                  <span *ngIf="element.job == 'Others'" class="other_style">
+                    <small class="job_name">{{element.job}}</small>
+                  </span>
+                  <span
+                    *ngIf="element.job != 'Others' && element.job != 'Meeting' && element.job != 'Development' && element.job != 'Testing' && element.job !='Design'"
+                    class="tt_default_style">
+                    <small class="job_name">{{element.job}}</small>
+                  </span>
+                </span>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bill">
+              <th mat-header-cell *matHeaderCellDef></th>
+              <td mat-cell *matCellDef="let element"> {{element.bill}} </td>
+            </ng-container>
+
+            <!-- duration Column -->
+            <ng-container matColumnDef="task_duration">
+              <th mat-header-cell *matHeaderCellDef class="duration_header">{{total_task_duration}}</th>
+              <td mat-cell *matCellDef="let element"> <span>
+                  <span *ngIf="!timer_button && element.id===active_timer_id && element.time_interval != null"
+                    class="clockTimer">
+                    <h6 class="d-inline">{{clockTimer}}</h6>
+                  </span>
+                  <span *ngIf="element.approval_status != 'Not submitted' && element.approval_status != 'Updated'"
+                    class="time_td"
+                    matTooltip="Already {{element.approval_status}} hours, you cannot edit the tasks and hours!">{{element.task_duration}}</span>
+                  <span
+                    *ngIf="timer_button && element.approval_status ==='Not submitted' && element.time_interval != null || element.id != active_timer_id && element.approval_status ==='Not submitted' && element.time_interval != null ||
+                    timer_button && element.approval_status ==='Updated' && element.time_interval != null || element.id != active_timer_id && element.approval_status ==='Updated' && element.time_interval != null"
+                    class="time_td cursor-pointer" matTooltip="Edit time"
+                    (click)="task_time_intervals(element.id,element.time_interval); drawer.toggle();">{{element.task_duration}}</span>
+
+                  <span
+                    *ngIf="element.time_interval == null && element.approval_status =='Not submitted' || element.time_interval == null && element.approval_status =='Updated'">
+                    {{element.task_duration}}
+                  </span>
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>
+                <span class="reset-button" *ngIf="reset_filter_btn">
+                  <button matTooltip="Reset filter" (click)="getalltaskdata()" mat-icon-button
+                    class="example-icon action-btn">
+                    <mat-icon class="material-icons-round">sync
+                    </mat-icon>
+                  </button></span>
+              </th>
+              <td mat-cell *matCellDef="let element">
+
+                <span *ngIf="element.approval_status ==='Not submitted' || element.approval_status ==='Updated'">
+                  <span *ngIf="deleted && nextdisable">
+                    <span class="play-button" *ngIf="isPause && timer_button && element.time_interval != null"><button
+                        matTooltip="Play timer" (click)="pauseBtnClicked(element)" mat-icon-button
+                        class="example-icon action-btn">
+                        <mat-icon class="pr-menu-icon ">play_arrow
+                        </mat-icon>
+                      </button>
+                    </span>
+                    <span class="pause-button" *ngIf="element.id===active_timer_id"><button (click)="stopBtnClicked()"
+                        mat-icon-button class="example-icon action-btn">
+                        <mat-icon class="pr-menu-icon ">pause</mat-icon>
+                        <img src="../../assets/images/loaders.gif" matTooltip="Pause timer" alt="play_button"
+                          class="pr-menu-icon">
+                      </button>
+                    </span>
+                  </span>
+                  <span class="action" *ngIf="deleted">
+                    <span class="edit-button" *ngIf="element.time_interval != null"><button
+                        (click)="edittaskdetails(element)" mat-icon-button class="example-icon action-btn">
+                        <mat-icon matTooltip="Edit" class="pr-menu-icon ">edit
+                        </mat-icon>
+                      </button>
+                    </span>
+                    <span class="edit-button" *ngIf="element.time_interval == null"><button
+                        (click)="editQuickAddTask(element)" mat-icon-button class="example-icon action-btn">
+                        <mat-icon matTooltip="Edit" class="pr-menu-icon ">edit
+                        </mat-icon>
+                      </button>
+                    </span>
+                    <span class="delete-button" *ngIf="element.id!=active_timer_id">
+                      <button (click)="delete(element.id)" mat-icon-button class="example-icon action-btn">
+                        <mat-icon matTooltip="Delete" class="pr-menu-icon">delete
+                        </mat-icon>
+                      </button>
+                    </span>
+                  </span>
+                  <span *ngIf="!deleted && element.id === delete_id" class="td_cnfmcncl_btns">
+                    <button (click)="deletetask(element.id)" mat-flat-button
+                      class="td_cnfm_btn"><small>Confirm</small></button>
+                    <button (click)="delete(element.id)" mat-flat-button color="warn"><small>Cancel</small></button>
+                  </span>
+                </span>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; let i = index; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns; ">
+            </tr>
+          </table>
+          <div *ngIf="no_data.length == 0" class="text-center text-danger alert-danger no-search-match p-3 border">
+            {{noRecordMsg}}
+          </div>
+        </div>
+      </div>
+      <div class="submit-section">
+        <button mat-stroked-button color="primary" (click)="timelog_submit_dialog()"
+          [disabled]="sbmt_timelog_btn || checkbox_disabled">
+          <span [matTooltipDisabled]="!sbmt_timelog_btn" matTooltip="No log hours available to submit">
+            <p>Submit Timelogs
+              <span>
+                <mat-icon>open_in_new</mat-icon>
+              </span>
+            </p>
+          </span>
+        </button>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</section>

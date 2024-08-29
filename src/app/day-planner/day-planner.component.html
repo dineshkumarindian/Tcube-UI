@@ -1,0 +1,335 @@
+<section class="dayPlanner">
+    <mat-sidenav-container class="example-container" [hasBackdrop]="true">
+        <!-- <mat-sidenav #drawer mode="over">Can be used when needed</mat-sidenav> -->
+        <mat-sidenav-content>
+            <div class="DPDetails">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-3 col-md-4">
+                            <h3 class="page-title">My Day Planner</h3>
+                        </div>
+                        <div class="col-7 col-md-4 d-flex justify-content-center">
+                            <span class="datepicker_select d-flex align-items-center">
+                                <mat-form-field appearance="fill" class="example-full-width invisible p-0"
+                                    style="width:0px; height: 0px;">
+                                    <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)"
+                                        [formControl]="datepicker">
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                <button mat-icon-button (click)="previousdate() ; redirectStatusUpdate()"  [disabled]="!tasksGetted">
+                                    <mat-icon>chevron_left</mat-icon>
+                                </button>
+                                <p class="mx-2 mb-0 datestyle" (click)="picker.open()">{{selectedDate |
+                                    date:'dd-MM-yyyy'}}</p>
+                                <button mat-icon-button (click)="nextdate() ; redirectStatusUpdate()" [disabled]="!tasksGetted">
+                                    <mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="col-2 col-md-4" > <!--*ngIf="isSelectedDateIsToday"-->
+                            <div class="pfr">
+                                <button mat-raised-button class="add_create_btn_mi" (click)="addTaskRoute()"> <!-- [routerLink]="['/add-day-task']" routerLinkActive="router-link-active"-->
+                                    <mat-icon mat-icon-button>add</mat-icon>Add Task
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mainContent m-0 pb-2 justify-content-center">
+                    <div class="col">
+                        <div class="row mb-2 m-0 justify-content-between align-items-center">
+                            <div class="col">
+                                <span class="edit-button mr-2" *ngIf="bulkTasksArray.length > 1">
+                                    <button [matMenuTriggerFor]="bulkMoreIcon" mat-icon-button class="example-icon action-btn"
+                                        class="mb-1">
+                                        <mat-icon matTooltip="More" class="pr-menu-icon">more_vert
+                                        </mat-icon>
+                                    </button>
+                                </span>
+                                <!-- <span class="done-button mr-2" *ngIf="bulkTasksArray.length > 1 && !isSubmitted">
+                                    <button (click)="bulkStatusChange()" mat-icon-button class="example-icon action-btn"
+                                        class="mb-1">
+                                        <mat-icon matTooltip="Bulk status" class="pr-menu-icon">done
+                                        </mat-icon>
+                                    </button>
+                                </span>
+                                <span class="done-button mr-2" *ngIf="bulkTasksArray.length > 1 && !isSubmitted">
+                                    <button [matMenuTriggerFor]="duplicatemenu" mat-icon-button class="example-icon action-btn"
+                                        class="mb-1">
+                                        <mat-icon matTooltip="Bulk duplicate" class="pr-menu-icon">library_add
+                                        </mat-icon>
+                                    </button>
+                                </span>
+                                <span class="done-button mr-2" *ngIf="bulkTasksArray.length > 1 && !isSubmitted">
+                                    <button [matMenuTriggerFor]="bulkMoveMenu" mat-icon-button class="example-icon action-btn"
+                                        class="mb-1">
+                                        <mat-icon matTooltip="Bulk move" class="pr-menu-icon">fast_forward
+                                        </mat-icon>
+                                    </button>
+                                </span> -->
+                                <mat-menu #bulkMoveMenu="matMenu">
+                                    <button mat-menu-item
+                                        (click)="bulkMoveOrDuplicate('tommorrow' , 'dateChange' ,'move')"
+                                        *ngIf="selectedDate == permanentTodayDate">Tomorrow</button>
+                                    <button mat-menu-item
+                                        (click)="bulkMoveOrDuplicate('dayAfterTommorrow' , 'dateChange','move')"
+                                        *ngIf="selectedDate == permanentTodayDate">Day after tomorrow</button>
+                                    <button mat-menu-item
+                                        (click)="bulkMoveOrDuplicate('custom' , 'dateChange','move')">Custom</button>
+                                </mat-menu>
+                                <mat-menu #bulkMoreIcon="matMenu">
+                                    <button mat-menu-item *ngIf="selectedDate == permanentTodayDate" [matMenuTriggerFor]="duplicatemenu">Duplicate</button>
+                                    <button mat-menu-item *ngIf="selectedDate == permanentTodayDate && isUpdated" [matMenuTriggerFor]="bulkMoveMenu">Move</button>
+                                    <button mat-menu-item *ngIf="selectedDate != permanentTodayDate && isUpdated" (click)="bulkMoveOrDuplicate('custom' , 'dateChange','move')">Move</button>
+                                    <button mat-menu-item *ngIf="selectedDate != permanentTodayDate" (click)="bulkMoveOrDuplicate('custom' , 'duplicate','copy')">Duplicate</button>
+                                    <button mat-menu-item (click)="bulkStatusChange()" [disabled]="(!isUpdated && !isSubmitted) || (isUpdated && isSubmitted)">Status</button>
+                                    <button mat-menu-item (click)="bulkDelete()" [disabled]="(!isUpdated && !isSubmitted) || (isUpdated && !isSubmitted)">Delete</button>
+                                </mat-menu>
+                                <mat-menu #duplicatemenu="matMenu">
+                                    <button mat-menu-item
+                                        (click)="bulkMoveOrDuplicate('tommorrow' , 'duplicate' ,'copy')"
+                                        *ngIf="selectedDate == permanentTodayDate">Tomorrow</button>
+                                    <button mat-menu-item
+                                        (click)="bulkMoveOrDuplicate('dayAfterTommorrow' , 'duplicate','copy')"
+                                        *ngIf="selectedDate == permanentTodayDate">Day after tomorrow</button>
+                                    <button mat-menu-item
+                                        (click)="bulkMoveOrDuplicate('custom' , 'duplicate','copy')">Custom</button>
+                                </mat-menu>
+                                <!-- <span class="delete-button" *ngIf="bulkTasksArray.length > 1">
+                                    <button (click)="bulkDelete()" mat-icon-button class="example-icon action-btn"
+                                        class="mb-1">
+                                        <mat-icon matTooltip="Bulk delete" class="pr-menu-icon">delete
+                                        </mat-icon>
+                                    </button>
+                                </span> -->
+                            </div>
+                            <div class="col">
+                                <div class="row justify-content-end">
+                                    <div>
+                                        <mat-form-field appearance="outline">
+                                            <mat-select [formControl]="project" placeholder="Filter By Project"
+                                                (selectionChange)="filterByProject($event)">
+                                                <mat-option>
+                                                    <ngx-mat-select-search [formControl]="projectFilterCtrl"
+                                                        placeholderLabel="Search ..."
+                                                        noEntriesFoundLabel="'no match found'">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngIf="noProjects" [disabled]="true">No data available!
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of filteredproject | async" [value]="data">
+                                                    {{data.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="d-flex align-items-center p-0 ml-2">
+                                        <span class="mat-filter-refresh-btn" *ngIf="refreshIcon">
+                                            <button matTooltip="Reset filter" (click)="refreshTasks()" mat-icon-button
+                                                class="example-icon action-btn">
+                                                <mat-icon class="pr-menu-icon ">refresh</mat-icon>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- <div class="">
+                                    
+                                </div>
+                                <div class="">
+                                    
+                                </div> -->
+                            </div>
+                        </div>
+                        <div *ngIf="tasksGetted" class="card DPfirstCard" [style.maxHeight.px]="getTaskCardHeight()">
+                            <div
+                                class="row d-flex flex-row align-items-center justify-content-start DPfirstCard-Header m-0 px-3">
+
+                                <div class="select-all mr-3 mt-2"
+                                    *ngIf="dayTaskDetails.length >0">
+                                    <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                                        (change)="toggleAllSelection()"></mat-checkbox>
+                                </div>
+
+                                <h5 class="m-0">{{todayDate | date:'EEE, dd-MM-yyyy'}} </h5>
+                                <!-- <mat-icon class="DPmoreIcon">more_horiz</mat-icon> -->
+                            </div>
+                            <div class="DPfirstCard-Details" *ngFor="let task of dayTaskDetails; let i=index ;">
+                                <div class="row m-0">
+                                    <div class="col-10 firstTaskContent">
+                                        <div class="row">
+                                            <div class="pl-3 d-flex align-items-center justify-content-center">
+                                                <mat-checkbox [checked]="task.is_selected"
+                                                    (change)="showOptions($event , task)"></mat-checkbox>
+                                            </div>
+                                            <div class="col-11">
+                                                <p class="mb-0 mainTask">{{task.day_task}}</p>
+                                                <p class="mb-2 descriptionTask">{{task.description}}</p>
+                                                <span class="d-flex">
+                                                    <small class="mb-0 mr-3 dateTask">{{task.date |
+                                                        date:"dd-MM-yyyy"}}</small>
+                                                    <small class="mb-0 projectTask">{{task.project_name}}</small>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!-- <mat-option (click)="optionClick()" [value]="task.id" class="text-capitalize"></mat-option> -->
+                                    </div>
+                                    <div
+                                        class="col-2 secondTaskContent d-flex flex-wrap align-items-center justify-content-end">
+                                        <span
+                                            [matTooltip]="(isUpdated && isSubmitted) ? 'After posting tasks to a channel, you can update task status' : ''">
+                                            <button mat-raised-button class="DPstatusBtn mr-3"
+                                                [disabled]="(!isUpdated && !isSubmitted) || (isUpdated && isSubmitted)"
+                                                [matMenuTriggerFor]="statusmenu"
+                                                [ngStyle]="{'background-color': task.status == 'Inprogress' ? '#29C7BE' : task.status == 'Done' ?'#2AAB49' : task.status == 'Todo' ?'#DC3545' : '#6c757dc9'}">
+                                                {{task.status}}
+                                            </button>
+                                        </span>
+                                        <mat-icon class="DPmoreIcon" [matMenuTriggerFor]="menu"
+                                            (click)="checkEdit(task.created_time)">more_horiz</mat-icon>
+                                    </div>
+                                </div>
+                                <mat-menu #statusmenu="matMenu">
+                                    <button mat-menu-item *ngFor="let data of statusList" [value]="data"
+                                        (click)="finalUpdateArr(task, data)">{{data}}</button>
+                                    <!-- (click)="updateDayTaskStatus(task , data); finalUpdateArr(task, data)">{{data}}</button> -->
+                                </mat-menu>
+                                <mat-menu #menu="matMenu">
+                                    <button mat-menu-item *ngIf="showEditBtn" (click)="editTask(task)">Edit</button>
+                                    <button mat-menu-item [matMenuTriggerFor]="datemenu" *ngIf="task.status != 'Done' && selectedDate == permanentTodayDate">Move</button>
+                                    <button mat-menu-item [matMenuTriggerFor]="duplicatemenu" *ngIf="selectedDate == permanentTodayDate">Duplicate</button>
+                                    <button mat-menu-item *ngIf="task.status != 'Done' && selectedDate != permanentTodayDate" (click)="tommorrowClicked(task , 'custom' , 'dateChange','move')">Move</button>
+                                    <button mat-menu-item *ngIf="selectedDate != permanentTodayDate" (click)="tommorrowClicked(task , 'custom' , 'duplicate','copy')">Duplicate</button>
+                                    <!-- <button *ngIf="selectedDate != permanentTodayDate" mat-menu-item [matMenuTriggerFor]="customemenu">Custom</button> -->
+                                    <!-- <button mat-menu-item matTooltip="Move to backlogs" disabled
+                                        matTooltipPosition="left">Backlogs</button> -->
+                                    <button mat-menu-item (click)="deleteDayTaskDialog(task.id)"
+                                        [disabled]="(!isUpdated && !isSubmitted) || (isUpdated && !isSubmitted)">Delete</button>
+                                </mat-menu>
+                                <mat-menu #datemenu="matMenu">
+                                    <button mat-menu-item
+                                        (click)="tommorrowClicked(task , 'tommorrow' , 'dateChange' ,'move')"
+                                        *ngIf="selectedDate == permanentTodayDate">Tomorrow</button>
+                                    <button mat-menu-item
+                                        (click)="tommorrowClicked(task , 'dayAfterTommorrow' , 'dateChange','move')"
+                                        *ngIf="selectedDate == permanentTodayDate">Day after tomorrow</button>
+                                    <button mat-menu-item
+                                        (click)="tommorrowClicked(task , 'custom' , 'dateChange','move')">Custom</button>
+                                </mat-menu>
+                                <mat-menu #duplicatemenu="matMenu">
+                                    <button mat-menu-item
+                                        (click)="tommorrowClicked(task , 'tommorrow' , 'duplicate' ,'copy')"
+                                        *ngIf="selectedDate == permanentTodayDate">Tomorrow</button>
+                                    <button mat-menu-item
+                                        (click)="tommorrowClicked(task , 'dayAfterTommorrow' , 'duplicate','copy')"
+                                        *ngIf="selectedDate == permanentTodayDate">Day after tomorrow</button>
+                                    <button mat-menu-item
+                                        (click)="tommorrowClicked(task , 'custom' , 'duplicate','copy')">Custom</button>
+                                </mat-menu>
+                                <!-- <mat-menu #customemenu="matMenu">
+                                    <button mat-menu-item (click)="tommorrowClicked(task , 'custom' , 'dateChange','move')">Move</button>
+                                    <button mat-menu-item (click)="tommorrowClicked(task , 'custom' , 'duplicate','copy')">Duplicate</button>
+                                </mat-menu> -->
+                            </div>
+
+                            <div *ngIf="dayTaskDetails.length != 0 "
+                                class="row d-flex justify-content-end align-items-center m-0 pr-2 py-2 finalSubmitBtnSec">
+                                <mat-icon
+                                    *ngIf="!showActionBtns && isSubmitted && isSelectedDateIsToday && showSubmitReminderIcon "
+                                    matTooltip="Remind me" class="DPreminderIcon mr-3" (click)="showBtns()">
+                                    access_alarms</mat-icon>
+                                <mat-icon
+                                    *ngIf="!showActionBtns && !isSubmitted && isUpdated && isSelectedDateIsToday && showUpdateReminderIcon "
+                                    matTooltip="Remind me" class="DPreminderIcon mr-3" (click)="showBtns()">
+                                    access_alarms</mat-icon>
+                                <span *ngIf="showActionBtns">
+                                    <button mat-raised-button class="edit-btn" (click)="updateEmpDetails()">Yes</button>
+                                    <button mat-raised-button class="delete-btn" (click)="hideBtns()">No</button>
+                                </span>
+                                <!--Here used the nested ternary operator to show the tooltip for diff conditions-->
+                                <span
+                                    [matTooltip]="noIntegrationAvailable ? 'No integration available' : isIntegrationPaused ? 'Please resume the integration to send tasks to integrated apps' : '' ">
+                                    <button mat-raised-button class="edit-btn"
+                                        [disabled]="isIntegrationPaused || !notTodayDate || noIntegrationAvailable || pTCBtnDisable"
+                                        type="submit" *ngIf="isSubmitted" (click)="sendToSlack('planForTheDay')">Post to
+                                        channel</button>
+                                </span>
+                                <!--Here used the nested ternary operator to show the tooltip for diff conditions-->
+                                <span
+                                    [matTooltip]="noIntegrationAvailable ? 'No integration available' : isIntegrationPaused ? 'Please resume the integration to send tasks to integrated apps' : '' ">
+                                    <button mat-raised-button class="edit-btn"
+                                        [disabled]="isIntegrationPaused || noIntegrationAvailable" type="submit"
+                                        *ngIf="isUpdated && !isSubmitted" (click)="openUpdateDialog()">Update to
+                                        channel</button>
+                                </span>
+                            </div>
+                            <div *ngIf="dayTaskDetails.length == 0"
+                                class="d-flex flex-column align-items-center text-muted justify-content-center DPtasksNoData">
+                                <img class="mb-2" src="assets/images/empty-box-1.png">
+                                {{noDataMessage}}
+                            </div>
+                        </div>
+                        <div *ngIf="!tasksGetted" class=" card">
+                            <div class="row m-0 mb-2 is-loading-header">
+                            </div>
+                            <div class="row mainContent m-0 px-2 py-3 justify-content-center">
+                                <div class="col-10 mb-3 firstTaskContent">
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <p class="mb-2 mainTask is-loading-task"></p>
+                                            <!-- <p class="mb-2 descriptionTask">dfvd</p> -->
+                                            <span class="d-flex">
+                                                <small class="mb-0 mr-3 is-loading-project"></small>
+                                                <small class="mb-0 is-loading-project"></small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-2 secondTaskContent d-flex flex-wrap align-items-center justify-content-end">
+                                    <!-- <button mat-raised-button class="DPstatusBtn mr-3">ff</button> -->
+                                    <p class="is-loading-button mb-0"></p>
+                                </div>
+                                <div class="col-10 mb-3 firstTaskContent">
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <p class="mb-2 mainTask is-loading-task"></p>
+                                            <!-- <p class="mb-2 descriptionTask">dfvd</p> -->
+                                            <span class="d-flex">
+                                                <small class="mb-0 mr-3 is-loading-project"></small>
+                                                <small class="mb-0 is-loading-project"></small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-2 secondTaskContent d-flex flex-wrap align-items-center justify-content-end">
+                                    <!-- <button mat-raised-button class="DPstatusBtn mr-3">ff</button> -->
+                                    <p class="is-loading-button mb-0"></p>
+                                </div>
+                                <div class="col-10 firstTaskContent">
+                                    <div class="row">
+                                        <div class="col-11">
+                                            <p class="mb-2 mainTask is-loading-task"></p>
+                                            <!-- <p class="mb-2 descriptionTask">dfvd</p> -->
+                                            <span class="d-flex">
+                                                <small class="mb-0 mr-3 is-loading-project"></small>
+                                                <small class="mb-0 is-loading-project"></small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="col-2 secondTaskContent d-flex flex-wrap align-items-center justify-content-end">
+                                    <!-- <button mat-raised-button class="DPstatusBtn mr-3">ff</button> -->
+                                    <p class="is-loading-button mb-0"></p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</section>

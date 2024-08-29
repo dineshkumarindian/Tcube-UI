@@ -1,0 +1,219 @@
+<!-- <h3 class="page-title">{{actionsection}} - Action <span class="pull-right cncl-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon material-icons mat-icon-no-color" type="button">
+            close</mat-icon>
+    </span></h3> -->
+<div class="dialog-header">
+    <h3 class="page-title">{{actionsection}} - Action </h3>
+    <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+            type="button">close</mat-icon>
+    </span>
+
+</div>
+<section class="attendanceAction">
+
+    <div class="">
+        <!-- 		<div class="row">
+                    <div class="col-lg-12">
+                        <h5 class="page-header">Punch Cards
+                    </div>
+                </div> -->
+        <div class="c">
+            <section class="panel">
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div id="all" class="tab-pane active">
+                            <div class="p-4 scroll-response">
+                                <div class="row" style="justify-content: space-evenly;">
+                                    <span *ngFor="let card of cards; let i = index" class="col-4 box-part text-center"
+                                        [id]="'actionId'+i"
+                                        (click)="i != cancelIndex ?clickcard(card): canceleleave(card)">
+
+                                        <div class="">
+                                            <img [src]=card.action_image alt="icon">
+                                            <div class="title">
+                                                <h4>{{card.action}}</h4>
+                                            </div>
+                                        </div>
+
+                                    </span>
+                                    <div class="col-4 box-part text-center" (click)="togglefield()" id="other">
+                                        <img src="../../../assets/images/punch-cards-icon/others-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Others</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div *ngIf="data.activeHours !='0' && data.action=='out for lunch' || data.action=='out for break' || data.action=='Feeling sick will take rest' || data.action=='Out now will connect later' ||  data.action=='Out for personal work' ||  data.action=='Out for official work' "
+                                class="">
+                                <div class="row">
+                                    <div id="BackToWork" (click)="clickcard('Back to work')"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/back-work-white.png"
+                                            alt="icon">
+                                        <div class="title">
+                                            <h4>Back to work</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm box-part text-center" (click)="togglefieldback()">
+                                        <img src="../../../assets/images/punch-cards-icon/others-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Others</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <!-- <div *ngIf="data.actiontype !='out' && data.actiontype=='in' && data.action!='out for lunch' && data.action!='out for break' && data.action!='Feeling sick will take rest' && data.action!='Out now will connect later' && data.action!='Out for personal work' && data.action!='Out for official work' || data.activeHours=='0'"
+                                class="">
+                                <div class="row">
+                                    <div id="amIn" (click)="clickcard('I am in from office')" mat-dialog-close
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/office-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>I'm in from office</h4>
+                                        </div>
+                                    </div>
+                                    <div id="WorkingRemotely" (click)="clickcard('I am in from home')"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/home-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>I'm in from home</h4>
+                                        </div>
+                                    </div>
+                                    <div id="OffToday" *ngIf="data.action!='Off today'" (click)="clickcard('Off today')"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/leave-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Off today</h4>
+                                        </div>
+                                    </div>
+                                    <div id="OffToday" *ngIf="data.action=='Off today'" (click)="offtoday()"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/leave-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Cancel Leave</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="Commuting" (click)="clickcard('Commuting')"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/travel-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Commuting</h4>
+                                        </div>
+                                    </div>
+                                    <div id="Other" class="col-sm box-part text-center" (click)="togglefieldin()">
+                                        <img src="../../../assets/images/punch-cards-icon/others-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Others</h4>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="data.actiontype =='out'" class="">
+                                <div class="row">
+                                    <div id="OutWillCFH" (click)="clickcard('Out now will connect later')"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/cf-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Out now will connect later</h4>
+                                        </div>
+                                    </div>
+                                    <div id="OutForPW" (click)="clickcard('Out for personal work')"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/pwrk-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Out for personal work</h4>
+                                        </div>
+                                    </div>
+                                    <div id="OutForOfficial" (click)="clickcard('Out for official work')"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/officialwork-white.png"
+                                            alt="icon">
+                                        <div class="title">
+                                            <h4>Out for official work</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div id="FeelingSick" (click)="clickcard('Feeling sick will take rest')"
+                                        class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/sick-white.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Feeling sick will take rest</h4>
+                                        </div>
+                                    </div>
+                                    <div id="Out" (click)="clickcard('I am out')" class="col-sm box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/out-sign-white.png"
+                                            alt="icon">
+                                        <div class="title">
+                                            <h4>I'm out</h4>
+                                        </div>
+                                    </div>
+                                    <div id="OutForBreak" (click)="clickcard('out for break')"
+                                        class="box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/out_for_break.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Out for break</h4>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div id="OutForLunch" (click)="clickcard('out for lunch')"
+                                        class="box-part text-center">
+                                        <img src="../../../assets/images/punch-cards-icon/out_for_lunch.png" alt="icon">
+                                        <div class="title">
+                                            <h4>Out for Lunch</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div> -->
+                            <div class="p-4" *ngIf="checkboxActionOut">
+                                <div *ngIf="showother" class="otherfield mx-3 row">
+                                    <input matInput placeholder="Give a reason" [formControl]="othercontroller"
+                                        class="form-control" required autocomplete="off"
+                                        (keyup.enter)="!othercontroller.valid ? '' :othervalue()">
+                                    <div class="switchsec">
+                                        <label class="rocker rocker-small">
+                                            <input type="checkbox" [(ngModel)]="labelPosition">
+                                            <div class="switch-left" (click)="switchinout('out')" value="out">Out</div>
+                                            <div class="switch-right" (click)="switchinout('in')" value="in">In</div>
+                                        </label>
+                                    </div>
+                                    <button mat-raised-button class="other-btn mt-2" [disabled]="!othercontroller.valid"
+                                        (click)="othervalue()" style="margin-left: 8px; height: 34px;">Enter</button>
+
+                                </div>
+                            </div>
+                            <div class="p-4" *ngIf="!checkboxActionOut">
+                                <div *ngIf="showother" class="otherfield mx-3 row">
+                                    <input matInput placeholder="Give a reason" [formControl]="othercontroller"
+                                        class="form-control" required autocomplete="off"
+                                        (keyup.enter)="!othercontroller.valid ? '' :othervalue()">
+                                    <div class="switchsec">
+                                        <label class="rocker rocker-small">
+                                            <input type="checkbox">
+                                            <div class="switch-left" (click)="switchinout('out')" value="out">Out</div>
+                                            <div class="switch-right" (click)="switchinout('in')" value="in">In</div>
+                                        </label>
+                                    </div>
+                                    <button mat-raised-button class="other-btn mt-2" [disabled]="!othercontroller.valid"
+                                        (click)="othervalue()" style="margin-left: 8px; height: 34px;">Enter</button>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>

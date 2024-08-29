@@ -1,0 +1,54 @@
+.project-jobs-settings {
+
+  //card section
+  .lt-card-section {
+    .cardHead {
+      section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        clip-path: circle(30% at right 70%);
+      }
+
+      section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        clip-path: circle(20% at 10% 10%);
+      }
+    }
+  }
+  .header-style{
+    color:#0d57ac !important; 
+  }
+
+  .radio-btn-style {
+    .example-radio-group {
+    ::ng-deep  .mat-radio-disabled {
+      .mat-radio-label {
+        cursor: not-allowed;
+      }
+      .mat-radio-outer-circle{
+        border-color: rgba(0,0,0,.38) !important;
+      }
+    .mat-radio-inner-circle{
+      background-color: #727272 !important;
+    }
+  
+    }
+    //   mat-radio-button .mat-accent .mat-radio-inner-circle {
+    //     background-color: #727272 !important;
+    //   }
+
+    //   mat-radio-button .mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    //     border-color: #727272 !important;
+    //   }
+    }
+  }
+}

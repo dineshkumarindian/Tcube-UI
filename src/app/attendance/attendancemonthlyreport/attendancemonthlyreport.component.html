@@ -1,0 +1,298 @@
+<section class="attendanceReportsSection">
+  <!-- <div class="pt-3 mb-3" class="header py-1">
+    <div class="container-fluid head alt-head">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 class="col-5 m-0 p-0">Attendance Reports
+          <small class="atMR-submen">Monthly Reports Details</small>
+        </h3>
+        <mat-form-field appearance="fill" class="example-full-width invisible p-0"
+          style="width:0px; height: 0px; position: relative; top: -27px; right: 30px;">
+          <input matInput [matDatepicker]="dp" [formControl]="date" [max]="maxDate">
+          <mat-datepicker #dp startView="year" (monthSelected)="chosenMonthHandler($event, dp)"
+            panelClass="example-month-picker"></mat-datepicker>
+        </mat-form-field>
+        <span class="col-3 d-flex align-items-center">
+  
+          <button mat-icon-button (click)="previous()">
+            <mat-icon>chevron_left</mat-icon>
+          </button>
+          <h6 class="mx-2 my-0 datestyle" (click)="dp.open()">
+            {{startdates | date:'
+            MMM, yyyy'}}
+          </h6>
+          <button mat-icon-button (click)="next()" [disabled]="nextdisable">
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+        </span>
+        <span class="col-4 d-flex justify-content-end p-0" style="margin-bottom: 4px;"><button class="backbtn"
+            matTooltipPosition="left" matTooltip="Back To Attendance" [routerLink]="['/attendance']"
+            routerLinkActive="router-link-active"><img style=" width: 32px;"
+              src="../../assets/images/back.png"></button></span>
+      </div>
+      
+    </div>
+  </div> -->
+  <div class="page-header d-flex align-items-center justify-content-between">
+    <h3 class="page-title">
+      Attendance Reports
+      <p class="m-0 subtitle-color">(Monthly Reports Details)</p>
+    </h3>
+
+    <span class="col-3 p-0 d-flex align-items-center">
+
+      <button mat-icon-button (click)="previous()" class="btn">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <h6 class="mx-2 my-0 cursor-pointer " (click)="dp.open()">
+        {{startdates | date:'
+        MMM, yyyy'}}
+      </h6>
+      <button mat-icon-button (click)="next()" class="btn" [disabled]="nextdisable">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+      <mat-form-field appearance="fill" class="example-full-width invisible p-0"
+        style="width:0px; height: 0px; position: relative; top: -27px; left: -225px;">
+        <input matInput [matDatepicker]="dp" [formControl]="date" [max]="maxDate">
+        <mat-datepicker #dp startView="year" (monthSelected)="chosenMonthHandler($event, dp)"
+          panelClass="example-month-picker"></mat-datepicker>
+      </mat-form-field>
+    </span>
+    <button class="backbtn" matTooltipPosition="left" matTooltip="Back to attendance" [routerLink]="['/attendance']">
+      <img class="ph_back_arrow_img" src="../../assets/images/back.png">
+    </button>
+  </div>
+
+  <div class="container-fluid overwritestyle mt-3">
+    <!-- <div class="row col-12"> -->
+    <!-- <div class="col-6"></div> -->
+    <div class=" row col-12 d-flex align-item-center justify-content-between p-0">
+      <button class="col-6 btn table-excel-export-btn" type="button">
+        <!-- <img style=" width: 32px;" src="../../assets/images/export-file.png"> -->
+        <button class="button" matTooltipPosition="right" matTooltip="Export Report">
+          <div class="icon">
+            <img class="shere btn-size" src="../../assets/images/export-file.png">
+            <button class="icon-shere ml-1"
+              (click)="exporter.exportTable('xlsx', {fileName: this.emp_name + ' '  + yearofmonth + ' Attendance Report'})">
+              XLSX
+            </button>
+            <button class="icon-shere mx-1"
+              (click)="exporter.exportTable('xls', {fileName: this.emp_name + ' ' + yearofmonth + ' Attendance Report'})">
+              XLS
+            </button>
+            <button class="icon-shere mr-1"
+              (click)="exporter.exportTable('csv', {fileName: this.emp_name  + ' ' + yearofmonth +' Attendance Report'})">
+              CSV
+            </button>
+          </div>
+          <p class="m-0">Monthly Report</p>
+        </button>
+      </button>
+      <div class="col-6">
+        <mat-form-field appearance="standard" class="filter-form-sec">
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="Search ..." #input>
+        </mat-form-field>
+      </div>
+
+    </div>
+    <!-- </div> -->
+    <div class="bottom-space">
+      <div class="example-container atMR-table mat-elevation-z8">
+        <div class="reportsTable">
+          <div class="tablescroll">
+            <mat-table #table [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" class="table_tc"
+              [hiddenColumns]="[6]" matSort>
+              <div>
+                <ng-container matColumnDef="date">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Date</mat-header-cell>
+                  <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                    {{element.date}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="firstIn">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>First In</mat-header-cell>
+                  <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                    {{element.firstIn}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="lastout">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Last Out</mat-header-cell>
+                  <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">{{element.lastout}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="activeHours">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Active Hours</mat-header-cell>
+                  <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                    <div class="activehrs btn">
+                      {{element.activeHours}} HMS
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="inactiveHours">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Break Hours</mat-header-cell>
+                  <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                    <div class="inactivehrs btn">
+                      {{element.inactiveHours}} HMS
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="outForBreak">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Out For Break</mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">{{element.outForBreak}}</mat-cell>
+
+          </ng-container> -->
+
+                <ng-container matColumnDef="timediff">
+                  <mat-header-cell *matHeaderCellDef>(+ Overtime ) / (- Deviation)</mat-header-cell>
+                  <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                    <div *ngIf="element?.deviation">
+                      - {{element.deviation}}
+                    </div>
+                    <div *ngIf="element?.overtime">
+                      + {{element.overtime}}
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Logs">
+                  <mat-header-cell *matHeaderCellDef>Logs</mat-header-cell>
+                  <mat-cell *matCellDef="let element; let i=index" (click)="details(i)" [id]="'logId'+i"
+                    class="cursor-pointer">
+                    <!-- <mat-icon class="workicon" 
+                   matBadgeColor="accent" matBadgeSize="small">work</mat-icon> -->
+                    <img src="../../../assets/images/report_view.png" alt="view">
+                  </mat-cell>
+                </ng-container>
+
+              </div>
+              <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row"
+                [cdkDetailRow]="row" [cdkDetailRowTpl]="tpl">
+              </mat-row>
+
+            </mat-table>
+          </div>
+          <div *ngIf="alldetails.length == 0" class="text-center text-danger alert-danger no-search-match p-3">
+            {{nodataMswg}}
+          </div>
+          <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+            No Data Matching For "{{this.filterData}}"
+          </div>
+          <mat-paginator (page)="resetlog($event)" #paginator [pageSize]="pageSize"
+            [pageSizeOptions]="tablePaginationOption"></mat-paginator>
+
+        </div>
+      </div>
+      <ng-template #tpl let-element>
+        <div class="mat-row detail-row expandablerowstyle" [@detailExpand] style="overflow: hidden">
+          <div class="container">
+            <div class="d-flex justify-content-center text-slab text-uppercase heading my-4">Attendance Logs</div>
+          </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="main-timeline">
+                  <div class="timeline" *ngFor="let data of expand_details; let i = index">
+                    <div class="timeline-content">
+                      <div *ngIf="data.image">
+                        <div class="timeline-icon">
+                          <img class="img-width" [src]="data.image" alt="icon">
+                          <!-- <img [src]=data.image alt="action image"> -->
+                        </div>
+                      </div>
+                      <div *ngIf="!data.image">
+                        <div class="timeline-icon">
+                          <img class="img-width" src="../../../assets/images/punch-cards-icon/others-white.png"
+                            alt="icon">
+                        </div>
+                      </div>
+                      <!-- <div *ngIf="data.action ==='I am in'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/office-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='Working remotely'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/home-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='Off today'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/leave-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='Back to work'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/back-work-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='Commuting'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/travel-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='Out will connect from home'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/cf-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='Out for personal work'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/pwrk-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='Out for official work'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/officialwork-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.Action ==='Feeling sick will leave office'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/sick-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='Out of office'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/out-sign-white.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='out for break'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/out_for_break.png" alt="icon"></div>
+                    </div>
+                    <div *ngIf="data.action ==='out for lunch'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/out_for_lunch.png" alt="icon"></div>
+                    </div> -->
+                      <!-- <div *ngIf="data.action !='I am in' && data.action !='Working remotely'  && data.action !='Off today' && data.action !='Back to work' && data.action !='Commuting' && data.action !='Out will connect from home' && data.action !='Out for personal work' && data.action !='Out for official work' && data.action !='Feeling sick will leave office' && data.action !='Out of office' && data.action !='out for break' && data.action !='out for lunch'">
+                      <div class="timeline-icon"><img class="img-width"
+                          src="../../../assets/images/punch-cards-icon/others-white.png" alt="icon"></div>
+                    </div>  -->
+                      <h3 class="title">{{data.timeOfAction}}</h3>
+                      <div class="description ">
+                        <div class="row">
+                          <p class="col-5">Action</p>
+                          <p class="col-1">:</p>
+                          <p class="col-5">{{data.action}}</p>
+                        </div>
+                        <div class="row">
+                          <p class="col-5">Action Type</p>
+                          <p class="col-1">:</p>
+                          <p class="col-5">{{data.actionType}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+</section>
+
+<!-- <div>
+    <button mat-raised-button
+      (click)="exporter.exportTable('xlsx', {fileName:yearofmonth+' Month Report'})">Xlsx</button>
+    <button mat-raised-button
+      (click)="exporter.exportTable('xls', {fileName:yearofmonth+' Month Report'})">Xls</button>
+    <button mat-raised-button (click)="exporter.exportTable('csv', {fileName:yearofmonth+' Month Report'})">Csv</button>
+    <button mat-raised-button
+      (click)="exporter.exportTable('json', {fileName:yearofmonth+' Month Report'})">Json</button>
+    <button mat-raised-button (click)="exporter.exportTable('txt', {fileName:yearofmonth+' Month Report'})">Txt</button>
+
+  </div> -->

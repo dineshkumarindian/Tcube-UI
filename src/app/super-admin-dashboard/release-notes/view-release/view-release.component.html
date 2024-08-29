@@ -1,0 +1,59 @@
+<div class="container view-release-form">
+    <div class="top-form p-4">
+        <div id="contentToConvert">
+            <div class="col-md-12 text-center">
+                <img src="{{data.companyLogo}}" height="150" width="150">
+                <div class="versiondata">{{data.version}}</div>
+            </div>
+            <div class="col-md-12 text-center release-notes-heading">
+                <div class="release-title">{{data.title}}</div>
+                <div class="release-date"> <span>(</span>{{data.dor | date}}<span>)</span></div>
+            </div>
+        </div>
+        <div id="contentToPageContent" class="pt-4">
+            <div class="row" *ngIf ="whatsNew != '' ">
+                <div class="col-md-12 content-head">
+                    <h2>what's new</h2>
+                    <p [innerHTML]="whatsNew" class="new-content"></p>
+                </div>
+            </div>
+            <div class="row" *ngIf ="improvement != '' ">
+                <div class="col-md-12 content-head">
+                    <h2>Improvements</h2>
+                    <p [innerHTML]="improvement" class="new-content"></p>
+                </div>
+            </div>
+            <div class="row" *ngIf ="bugFixes != '' ">
+                <div class="col-md-12 content-head">
+                    <h2>Bug Fixes</h2>
+                    <p [innerHTML]="bugFixes" class="new-content"></p>
+                </div>
+            </div>
+            <div class="row" *ngIf ="comingSoon != '' ">
+                <div class="col-md-12 content-head">
+                    <h2>coming soon</h2>
+                    <p [innerHTML]="comingSoon" class="new-content"></p>
+                </div>
+            </div>
+            <div class="row" *ngIf ="general != '' ">
+                <div class="col-md-12 content-head">
+                    <h2>general</h2>
+                    <p [innerHTML]="general" class="new-content"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-dialog-actions>
+    <div class="container button-style">
+        <div>
+            <button class="btns btn-cancels" (click)="onNoClick()">Back</button>
+        </div>
+        <div *ngIf="!isInternActiveId">
+            <button class="btns btn-confirms" (click)="createDetails()">Ok</button>
+        </div>
+        <div *ngIf="isInternActiveId">
+            <button class="btns btn-confirms" (click)="updateList()">Ok</button>
+        </div>
+    </div>
+</mat-dialog-actions>

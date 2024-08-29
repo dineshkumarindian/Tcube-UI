@@ -1,0 +1,15 @@
+<div class="delete">
+  <div class="dialog-header">
+    <h3 class="page-title pull-left">Bulk delete alert</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <p>Are you sure, you want to delete the letter(s) ?</p>
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button  (click)="deleteDetails()" class="cnfm-btn">Confirm</button>
+  </div>
+</div>

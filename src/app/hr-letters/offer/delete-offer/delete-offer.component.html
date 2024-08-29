@@ -1,0 +1,17 @@
+<div class="delete">
+  <div class="dialog-header">
+    <h3 class="page-title pull-left">Offer letter delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <div>Are you sure you want to delete ?</div>
+    <!-- <small style="color: rgb(248, 74, 74)">Offer Letter will also be deleted</small> -->
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="deleteUserDetails(data.id)" class="cnfm-btn">Confirm</button>
+  </div>
+</div>

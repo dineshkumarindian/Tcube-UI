@@ -1,0 +1,37 @@
+---
+
+stages:
+  - prod-app-build
+  - prod-deploy
+
+prod-app-build:
+  stage: prod-app-build
+  image: node:16.13-alpine
+  script:
+    - npm config set legacy-peer-deps true
+    - npm install
+    - npm run build:uat
+    - ng build --configuration production
+  only:
+   - production
+  when: manual
+  allow_failure: false
+  artifacts:
+    paths:
+    - dist
+
+prod-app-deploy:
+  stage: prod-deploy
+  image: alpine:3.17
+  before_script:
+    - apk add openssh-client
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - scp -r -o StrictHostKeyChecking=no dist root@192.46.215.193:/opt/ui
+  only:
+   - production
+  when: on_success
+

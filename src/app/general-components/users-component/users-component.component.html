@@ -1,0 +1,21 @@
+<div class="dialog-header">
+    <h3 class="page-title">Access Users</h3>
+    <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+            type="button">close</mat-icon>
+    </span>
+</div>
+<section class="users-dialog">
+    <div mat-dialog-content>
+        <div class="card text-center mb-3">
+            <div class="card-body">
+                <span *ngFor="let team of UserList" class="mb-1 mr-3">
+                <button mat-stroked-button class="mb-1 storkeBtn">{{team.firstname}} {{team.lastname}}</button>
+                </span>
+                <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+            </div>
+            
+        </div>
+
+    </div>
+</section>

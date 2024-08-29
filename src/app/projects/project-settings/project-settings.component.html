@@ -1,0 +1,126 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">Project/Jobs settings</h3>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+            <div class="pfr">
+                <button mat-raised-button class="add_create_btn_mi" [routerLink]="['/add-client']"
+                    routerLinkActive="router-link-active" *ngIf="activecard != 'mail'">
+                    <mat-icon mat-icon-button>add</mat-icon>Create client
+                </button>
+            </div>
+            <button class="redirect-btn d-flex align-items-center justify-content-center ml-4" matTooltip="Move to projects" matTooltipPosition="below"
+            [routerLink]="['/projects']" routerLinkActive="router-link-active">
+            <div>
+                <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+            </div>
+        </button>
+        </div>
+        
+
+    </div>
+</div>
+<section class="project-jobs-settings">
+
+    <div class="lt-card-section">
+        <div class="col-md-12 mb-3">
+            <div class="cardHead">
+                <section>
+                    <div class="card-setting-container mx-0 px-0 my-4">
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="togglecards('client')">
+                            <div class="card"
+                                [ngStyle]="{'background-color':activecard=='client'?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="activecard=='client'">
+                                        <img src="..//../assets/images/clients_white.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="activecard!='client'">
+                                        <img src="..//../assets/images/clients.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="activecard=='client'" style="color: white !important;">Manage clients
+                                        </h3>
+                                        <h3 *ngIf="activecard!='client'" style="color:#7f8291 !important;">Manage
+                                            clients
+                                        </h3>
+                                    </div>
+                                </div>
+                                <ul class="sci">
+                                    <li *ngIf="showclients">
+                                        <p style="color: white !important;">
+                                            {{count_str}}</p>
+                                    </li>
+                                    <li *ngIf="!showclients">
+                                        <p style="color:#7f8291 !important;">
+                                            {{count_str}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="togglecards('mail')">
+                            <div class="card" [ngStyle]="{'background-color':activecard=='mail'?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="activecard=='mail'">
+                                        <img src="..//../assets/images/mail-white.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="activecard!='mail'">
+                                        <img src="..//../assets/images/mail.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="activecard=='mail'" style="color: white !important;">Manage Mail
+                                        </h3>
+                                        <h3 *ngIf="activecard!='mail'" style="color:#7f8291 !important;">Manage Mail
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="my-4" *ngIf="activecard=='client'">
+        <app-manage-client-details></app-manage-client-details>
+    </div>
+    <div class="my-4 container-fluid" *ngIf="activecard=='mail'">
+        <div class="reminders-card-sec">
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="col-7 header-style">Email Notification </h5>
+                </div>
+                <div class="card-body2">
+                    <div class="row  mx-3 pt-3">
+                        <!-- <div class="col-3"><b>Notify Mail for Projects & Jobs :</b></div> -->
+                        <div class="col-md-12 radio-btn-style">
+                            <!-- matTooltip="Please verify the mail configurations" -->
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                                [disabled]="notifyDisable" [matTooltip]="notifyDisable ? 'Please verify the mail integration':''" [(ngModel)]="NotifyMail">
+                                <mat-radio-button class="example-radio-button mr-3" *ngFor="let option of yesOrNoOption"
+                                    [value]="option" (change)="radioButtonClickedSlackMailConfig($event)">
+                                    {{option}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="row mx-3 pb-3">
+                        <!-- <div class="col-3"></div> -->
+                        <div class="col-md-12" [innerHTML] ="projectJobNoteMessage">
+                            <!-- <small>If Yes, User will receive mail notification for projects and jobs</small> -->
+                        </div>
+                    </div>
+                    <div class="row mx-3 pb-3">
+                        <div class="col-9">
+                            <div class="btns">
+                                <button class="btn btn-confirm" [disabled]="!yesOrNoMailConfig"
+                                    (click)="SaveOrUpdateModuleMail()">Save
+                                    changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

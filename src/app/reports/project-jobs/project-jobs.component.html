@@ -1,0 +1,257 @@
+<section class="performance-metrics">
+  <div class="page-header d-flex align-items-center justify-content-between">
+    <h3 class="page-title">Project Staff Report</h3>
+    <div class="d-flex align-items-center">
+      <button mat-icon-button
+        class="pfr bak_btn_style"
+        matTooltipPosition="left"
+        matTooltip="Back to reports"
+        [routerLink]="['/reports']"
+        routerLinkActive="router-link-active"
+      >
+        <img class="ph_back_arrow_img" src="../../assets/images/back.png" />
+      </button>
+    </div>
+  </div>
+  <!-- <div class="mt-4 d-flex search flex-wrap align-items-center justify-content-center container-fluid row"  > -->
+  <!-- ***This section for to select a project name for reports *** -->
+  <!-- <div class="mb-2 align-items-center h-60">
+      <mat-form-field appearance="outline">
+        <mat-select
+          required
+          placeholder="Project *"
+          [formControl]="projectCtrl"
+        >
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="projectFilterCtrl"
+              placeholderLabel="Search ..."
+              noEntriesFoundLabel="'no match found'"
+            >
+            </ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngIf="noProjects" [disabled]="true"
+            >No data available!
+          </mat-option>
+          <mat-option
+            *ngFor="let data of filteredproject | async"
+            [value]="data"
+          >
+            {{ data.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error style="margin-top: 20px; margin-left: 2px"
+          >Field required!
+        </mat-error>
+      </mat-form-field>
+    </div> -->
+
+  <div class="mt-4 d-flex search flex-wrap align-items-center justify-content-center container-fluid">
+    <div class="mb-2 align-items-center h-60">
+      <!-- ***This section for to select a project name for reports *** -->
+      <mat-form-field appearance="outline" style="width: 100%;">
+        <mat-select
+          required
+          placeholder="Project *"
+          [formControl]="projectCtrl"
+        >
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="projectFilterCtrl"
+              placeholderLabel="Search ..."
+              noEntriesFoundLabel="'no match found'"
+            >
+            </ngx-mat-select-search>
+          </mat-option>
+          <mat-option *ngIf="noProjects" [disabled]="true"
+            >No data available!
+          </mat-option>
+          <mat-option
+            *ngFor="let data of filteredproject | async"
+            [value]="data"
+          >
+            {{ data.name }}
+          </mat-option>
+        </mat-select>
+        <mat-error style="margin-top: 20px; margin-left: 2px"
+          >Field required!
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="mb-2 align-items-center h-60">
+      <mat-form-field style="width: 100%" appearance="outline">
+        <mat-select
+          [formControl]="dateCtrl"
+          placeholder="Date range&nbsp;"
+          #singleSelect
+          (selectionChange)="selectChangeHandler($event.value)"
+        >
+          <mat-option>
+            <ngx-mat-select-search
+              [formControl]="dateFilterCtrl"
+              placeholderLabel="Search date range..."
+              noEntriesFoundLabel="'no matching date range found'"
+            ></ngx-mat-select-search>
+          </mat-option>
+
+          <mat-option
+            *ngFor="let data of filtereddate | async"
+            [value]="data.data"
+          >
+            {{ data.data }}
+          </mat-option>
+        </mat-select>
+        <mat-error class="errorfix" *ngIf="dateCtrl.hasError('required')">{{
+          requiredMessage
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Date picker for custom date picker -->
+    <div class="mb-2 align-items-center h-60" *ngIf="customdate==true">
+      <mat-form-field  style="width: 100%" appearance="outline" class=""  >
+        <input
+          matInput
+          type="text"
+          [matDatepicker]="picker1"
+          placeholder="From Date"
+          [max]="maxDate"
+          [formControl]="start" />
+        <mat-error class="errorfix" *ngIf="start.hasError('required')">{{
+          requiredMessage
+        }}</mat-error>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="mb-2 align-items-center h-60" *ngIf="customdate==true">
+      <mat-form-field  appearance="outline" style="width: 100%" class=""  >
+        <input matInput type="text" [matDatepicker]="picker2" (dateChange)="todatechange()"
+          placeholder="To Date" 
+          [disabled]="!start.value"
+          [formControl]="end"
+          [min]="start.value"
+          [max]="maxDate" />
+        <mat-error class="errorfix" *ngIf="end.hasError('required')">{{
+          requiredMessage
+        }}</mat-error>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+    
+
+    
+    <div class="fixed-btn mb-2 align-items-center h-60">
+      <button
+        mat-raised-button
+        class="mr-2 sbmt-btn"
+        [disabled]="(customdate && !customdatevalidation)|| projectCtrl.hasError('required') || dateCtrl.hasError('required')" (click)="getProjectJobsReport()"  >
+        Find
+      </button>
+      <button mat-raised-button color="warn" (click)="cancelform()">
+        Cancel
+      </button>
+    </div>
+  </div>
+  <!-- </div> -->
+  <div [hidden]="show">
+    <div class="d-flex flex-column align-items-center">
+      <img
+        src="../../../../assets/images/search_report.png"
+        alt="Report search image"
+        class="w-25"
+      />
+      <h3>Enter the fields to search reports...!</h3>
+    </div>
+  </div>
+
+  <section *ngIf="show">
+    <div
+      class="row col-12 p-0 m-0 d-flex justify-content-center totalHours my-5"
+    >
+      <div class="cardH">
+        <div class="container">
+          <figure class="loader">
+            <div class="dot white"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </figure>
+        </div>
+
+        <div class="cardH-header">
+          <h1 class="w-75 text-center">{{ project_name }}</h1>
+          <span class="user-job-count">Project Users - {{ tot_emp }}</span>
+          <span class="user-job-count">Jobs - {{ job_Count }}</span>
+        </div>
+        <div class="tot-hours">{{ tot_hrs }} Hrs</div>
+      </div>
+    </div>
+    <div class="mt-5"></div>
+    <div class="mb-5">
+      <div class="row col-12 p-0 m-0 d-flex justify-content-end">        
+        <section class="w-100 d-contents bil-section col-md-12">
+          <!-- **** Job Hours-->
+          <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="ng-star-inserted card my-2 card-style">
+              <h3>Project Job Hours</h3>
+              <div *ngIf="!no_job"  id="job_hours"></div>
+              <div class="text-center" *ngIf="no_job">
+                <img
+                  width="300"
+                  src="../../assets/images/No data.png"
+                  alt="no data"
+                  class="pr-menu-icon"
+                />
+                <div>{{ nodataMsg }}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <button class="btn table-excel-export-btn" type="button">
+          <button
+            class="button"
+            matTooltipPosition="right"
+            matTooltip="Export Report"
+          >
+            <div class="icon">
+              <img
+                class="shere btn-size"
+                src="../../assets/images/export-file.png"
+              />
+              <button class="icon-shere ml-1" (click)="exportAsXLSX()">
+                XLSX
+              </button>
+              <button class="icon-shere mx-1" (click)="exportAsXLS()">
+                XLS
+              </button>
+              <button class="icon-shere mr-1" (click)="exportAsCSV()">
+                CSV
+              </button>
+            </div>
+            <p class="m-0">Project Report</p>
+          </button>
+        </button>
+        <section class="w-100 d-contents bil-section col-md-12">
+          <!-- **** Project(s) and Job(s)-->
+          <div class="col-md-12 col-sm-12 col-lg-12">
+            <div class="ng-star-inserted card my-2 card-style">
+              <h3>Staff Jobs Report</h3>
+              <div *ngIf="!no_data_found_project" id="project_job"></div>
+              <div class="text-center" *ngIf="no_data_found_project">
+                <img
+                  width="300"
+                  src="../../assets/images/No data.png"
+                  alt="no data"
+                  class="pr-menu-icon"
+                />
+                <div>{{ nodataMsg }}</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+</section>

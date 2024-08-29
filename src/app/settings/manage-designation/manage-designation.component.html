@@ -1,0 +1,116 @@
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <h3 class="set-heading">Designation
+            <span class="pull-right rs_btns">
+                <div class="setting_add_btns">
+                    <button class="mx-2" mat-stroked-button (click)="toggleDesignation()"
+                        *ngIf="showAdminFormBtn && !designationdetails" [routerLink]="['/add-designation']">
+                        <mat-icon mat-icon-button>add</mat-icon><span class="btn_txt">
+                            Add Designation</span>
+                    </button>
+                </div>
+            </span>
+        </h3>
+    </div>
+</div>
+<div class="mat-elevation-z8 mb-4" *ngIf="!designationdetails">
+    <div class="row">
+        <div class="col-6">
+            <div class="table_bulk_dele">
+                <button class="example-icon" *ngIf="Bulkdeletedesignation" class="bulk-delete-icon"
+                    matTooltip="Delete selected designations" matTooltipPosition="right"
+                    (click)="DesignationBulkDelete()">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="filter-form-sec">
+                <mat-form-field appearance="standard">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilterDesignation($event)"  id="searchDesignationText" placeholder="Search Designation ..."
+                        #input>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <table mat-table [dataSource]="designationDataSource" matSort>
+
+        <ng-container matColumnDef="selector">
+
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? toggleAllRowsDesignation() : null; bulk_delete_Designation()"
+                    [checked]="selection_designation.hasValue() && isAllSelecteddesigantion()"
+                    [indeterminate]="selection_designation.hasValue() && !isAllSelecteddesigantion()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <span *ngIf="row.designation != 'Administrator'">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection_designation.toggle(row) : null; bulk_delete_Designation()"
+                        [checked]="selection_designation.isSelected(row)">
+                    </mat-checkbox>
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="designation">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation
+            </th>
+            <td mat-cell *matCellDef="let element" class="td_text_lowercased"> 
+                <p class="td_text_firstltr_capitalized mb-0">{{element.designation}}</p>
+            </td>
+
+        </ng-container>
+        <ng-container matColumnDef="designation_responsibilities">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Responsibilities
+            </th>
+            <td mat-cell *matCellDef="let element" class="td_text_lowercased">
+                <p class="td_text_firstltr_capitalized mb-0">{{element.designation_responsibilities}}</p>
+                <span class="ml-5" *ngIf="!element.designation_responsibilities">-</span>
+             </td>
+
+        </ng-container>
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element">
+                <span matTooltip='You cannot edit the designation contact "sales@tcube.io"'>
+                <button mat-raised-button class="editOrgbtn" color="primary" 
+                *ngIf="element.designation == 'Administrator'" 
+                 [disabled]="true" (click)="editDesignation(element.id)">
+                    Edit
+                </button>
+                </span>
+                <button mat-raised-button class="editOrgbtn" 
+                *ngIf="element.designation != 'Administrator'"  (click)="editDesignation(element.id)">
+                    Edit
+                </button>
+                <span  matTooltip='You cannot delete the designation contact "sales@tcube.io"'>
+                <button mat-raised-button class="deleteOrgbtn" color="primary"
+                *ngIf="element.designation == 'Administrator'" 
+                 [disabled]="true"  (click)="deleteDesignationDialog(element.id)">
+                    Delete
+                </button>
+                </span>
+                <button mat-raised-button class="deleteOrgbtn" 
+                *ngIf="element.designation != 'Administrator'" (click)="deleteDesignationDialog(element.id)">
+                    Delete
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsDesignation"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsDesignation">
+        </tr>
+
+    </table>
+    <div *ngIf="nodata" class="text-center text-danger alert-danger no-search-match p-3">
+        {{noDataFoundMessage}}
+    </div>
+    <div *ngIf="designationFilter" class="text-center text-danger alert-danger no-search-match p-3">
+        No Data Matching For "{{this.filterData}}"
+    </div>
+    <mat-paginator class="paginator" [pageSize]="10" [length]="100" [pageSizeOptions]="tablePaginationOption"
+        aria-label="Select page">
+    </mat-paginator>
+</div>

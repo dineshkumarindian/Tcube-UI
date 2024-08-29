@@ -1,0 +1,185 @@
+<div class="page-header">
+  <div class="row">
+    <div class="col-6 col-md-6">
+      <h3 class="page-title">Apply Leave</h3>
+    </div>
+    <div class="col-6 col-md-6">
+      <div class="pfr">
+        <button class="backbtn" mat-icon-button matTooltipPosition="left" matTooltip="Back to leave tracker"
+          [routerLink]="['/leave-tracker']" routerLinkActive="router-link-active">
+          <img src="../../assets/images/back.png" class="ph_back_arrow_img mb-4">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="applyLeave">
+
+  <div class="container-fluid">
+    <div class="input-content-wrap card card-bg p-3 mb-4 leaveCard">
+      <!-- Apply leave  -->
+      <div class="container-fluid">
+        <form [formGroup]="leaveFormGroup">
+          <div class="row">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">
+              Staff Id
+            </div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>Staff Id</mat-label>
+                <input matInput id="empId" readonly name="empId" [formControl]="emp_id_leave">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row mt-3 mb-2">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">
+              Leave Type
+            </div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="outline">
+                <!-- <mat-label>Leave Type</mat-label> -->
+                <mat-select name="leave_type" formControlName="leave_type" required placeholder="Leave Type *"
+                  (selectionChange)="checkAvailableDays($event.value)">
+                  <!-- <mat-option *ngFor="let leaveType of leaveTypes" [value]="leaveType">{{leaveType}}</mat-option> -->
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="leaveFilterCtrl" placeholderLabel="Search ..."
+                      noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngIf="isLeaveData" [disabled]="true">No data available!</mat-option>
+
+                  <mat-option *ngFor="let data of filteredleave | async" [value]="data"
+                    [disabled]="data.available_days == data.counts && data.available_days != 0"
+                    matTooltip="You cat't apply leave, Days exceeded"
+                    [matTooltipDisabled]="data.available_days != data.counts || data.available_days ==0 ">
+                    {{data.leave_type}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="mt-3 ml-1">{{requiredMessage}}</mat-error>
+                <mat-hint class="mat-hint mt-4">{{this.leaveTypeHintMsg}}</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row  mt-3">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">
+              Start Date
+            </div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>Start Date</mat-label>
+                <!-- [max]="leaveFormGroup.controls['endDate'].value" -->
+                <input matInput [matDatepicker]="sPicker" [min]="startOfYear" [max]="endOfYear" [matDatepickerFilter]="weekendsStartDatesFilter"
+                  (dateChange)="startDateClicked()" [(ngModel)]="startDate" readonly
+                   required name="startDate"
+                  formControlName="startDate">
+                <mat-datepicker-toggle matSuffix [for]="sPicker"></mat-datepicker-toggle>
+                <mat-datepicker #sPicker></mat-datepicker>
+                <mat-error>{{requiredMessage}}</mat-error>
+                <mat-hint *ngIf="selectLeaveType == true">Disabled dates are holidays, already
+                  applied and approved leaves</mat-hint>
+                <mat-hint *ngIf="selectLeaveType == false">Select leave type</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4"></div>
+            <div class="col-12 col-md-6" *ngIf="isStartDate">
+              <small class="leave-exist">Your already applied leave for this date!</small>
+            </div>
+          </div> -->
+
+          <div class="row my-3">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">
+              End Date
+            </div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="rPicker" [min]="leaveFormGroup.controls['startDate'].value" [max]="endOfYear" [matDatepickerFilter]="weekendsEndDatesFilter"
+                  (dateChange)="endDateClicked()" [(ngModel)]="endDate" required name="endDate" formControlName="endDate"  readonly>
+                <mat-datepicker-toggle matSuffix [for]="rPicker"></mat-datepicker-toggle>
+                <mat-datepicker #rPicker></mat-datepicker>
+                <mat-error>{{requiredMessage}}</mat-error>
+                <mat-hint *ngIf="selectLeaveType == true">Disabled dates are holidays, already
+                  applied and approved leaves</mat-hint>
+                <mat-hint *ngIf="selectLeaveType == false">Select leave type</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="endDate && startDate">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">
+              Full Day/Half Day
+            </div>
+            <mat-card class="hide-card col-12 col-md-6"
+              [ngClass]="isLeaveAvailable ? 'border border-danger': 'border border-success' ">
+              <div formArrayName="full_halfDays">
+                <div *ngFor="let skill of getControls(); let i=index">
+                  <div class=" d-flex justify-content-around" [formGroupName]="i">
+                    <div class="col-3">
+                      <mat-form-field appearance="standard">
+                        <input matInput id="empId" readonly name="empId"
+                          [value]="choosenDates[i].date | date:'dd-MM-yyyy'">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-4 d-flex align-items-center">
+                      <mat-form-field appearance="outline">
+                        <mat-select matInput placeholder="Full/Half Day" formControlName="full_half"
+                          (selectionChange)="fullHalfClicked1($event ,i)">
+                          <mat-option *ngFor="let dayleave of fullHalfDay" [value]="dayleave">{{dayleave}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-4 d-flex align-items-center">
+                      <mat-form-field appearance="outline">
+                        <mat-select matInput placeholder="First/Second Half"
+                          (selectionChange)="firstSecondHalfClicked($event ,i)" formControlName="first_second">
+                          <!--[disabled]="leaveFormGroup.get('full_halfDays').at(i).get('full_half').value == 'Full Day'"-->
+                          <mat-option *ngFor="let dayleave of firstSecondHalf" [value]="dayleave">{{dayleave}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div>
+                    <h6 class="pb-3 d-inline">Leave Booked : {{newTotalDays}} Day(s) &nbsp; <span>(Weekend is
+                        excluded)</span></h6>
+                  </div>
+                </div>
+                <p class="errorLeave mat-error" *ngIf="isLeaveAvailable"> You cat't apply leave (Taken
+                  leave days exceeded)
+                </p>
+              </div>
+            </mat-card>
+          </div>
+          <div class="row">
+            <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-4 col-md-4">
+              Reason for Leave
+            </div>
+            <div class="col-12 col-md-6">
+              <mat-form-field appearance="standard">
+                <mat-label>Reason for Leave</mat-label>
+                <textarea rows="3" matInput name="reason_for_leave" formControlName="reason_for_leave" required></textarea>
+                <!-- <mat-error>Field required!</mat-error> -->
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="ml-3 lablestyled-none d-md-block d-lg-block col-4 col-md-4"></div>
+            <div class="btns col-12 col-md-6 px-3">
+              <button class="btn btn-confirm" [disabled]="leaveFormGroup.invalid || isLeaveAvailable"
+                (click)="createLeave()">Submit</button>
+              <button class="btn btn-cancel" [routerLink]="['/leave-tracker']"
+                routerLinkActive="router-link-active">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>

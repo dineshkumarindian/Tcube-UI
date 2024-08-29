@@ -1,0 +1,115 @@
+<!----- view business letter ------->
+<section class="view_content_sect">
+    <div mat-dialog-content>
+        <div class="container-fluid pt-4" id="contentToConvert">
+            <div class="row">
+                <div class="col-md-6">
+                <img src="{{data.companyLogo}}" alt="Logo" class="img-fluid">
+                </div>
+                <div class="col-md-6">
+                    <div class="float-right date-field">
+                        <h5>Date: <span>{{todayDate}}</span></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="to_section">
+                        <h5>To :</h5>
+                        <p class="underline"><span>{{data.name}},</span><br>{{data.address}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3 class="text-uppercase">{{data.programtitle}}</h3>
+                    <!-- <small><b>(Program Title)</b></small> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p [innerHTML]="description" class="description"></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-6 col-md-6">
+                    <div class="sign_section mt-3 float-right">
+                        <h5>Sincerely,</h5>
+                        <img src="{{data.directorSign}}" alt="Signature" class="img-fluid">
+                        <p>{{data.directorName}}</p>
+                        <p>{{data.signatureRole}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center footer-preview-letter">
+                    <p>{{data.companyName}}</p>
+                    <div class="line-list"></div>
+                    <div class="address_line">
+                        <p class="company-address">{{data.companyAddress}}</p>
+                    </div>
+                    <p>{{data.companyLink}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <app-add-internship (createInternshipUser)="generatePdf()"></app-add-internship> -->
+<!-- <div class="logo-img" id="logo-img">
+    <img src={{company_logo}} alt="logo" style="height:100px;width: 150px;">
+</div>
+<div class="container letter-style" id="contentToConvert">
+    <div class="top-form">
+    <div class="date-right">
+            <h5>Date:<span> {{todayDate}}</span></h5>
+        </div>
+        <div class="to-list">
+            <h4>To:</h4>
+        <p class="underline"><span>{{name}},</span><br>{{address}}</p>
+        </div>
+        <div class="heading-letter">
+            <h3>{{programtitle}}</h3>
+        </div>
+        <div [innerHTML]="description" class="description">
+        </div>
+        <div class="sign">
+            <h5>Sincerely,</h5>
+            <img src="{{directorSign}}" style="height: 100px;width: 100px;" alt="sign">
+            <p class="director">{{directorName}}</p>
+            <p class="dir">{{signatureRole}}</p>
+        </div>
+        <footer class="footer">
+            <p class="comtitle">{{companyName}}</p>
+            <div class="line">
+            </div>
+            <div class="address_line">
+                <p class="company_address">{{companyAddress}}</p>
+            </div>
+            <div class="website_link">
+                <p class="link">{{companyLink}}</p>
+            </div>
+        </footer>
+    </div>
+</div> -->
+<mat-dialog-actions class="d-flex justify-content-end button-style">
+    <div class="row">
+        <!-- <div class="ml-3 lablestyled-none d-md-block d-lg-block col-4 col-md-4"></div> -->
+        <div class="btns">
+            <button class="btn btn-confirm" *ngIf="!isInternActiveId" (click)="createList()">Ok</button>
+            <button class="btn btn-confirm" *ngIf="isInternActiveId" (click)="updateList()">Ok</button>
+            <button class="btn btn-cancel" (click)="onNoClick()">Back</button>
+        </div>
+    </div>
+    <!-- <div class="container button-style">
+        <div>
+            <button class="btns btn-cancels" (click)="onNoClick()">Back</button>
+        </div>
+        <div *ngIf="!isInternActiveId">
+            <button class="btns btn-confirms" (click)="createList()">Ok</button>
+        </div>
+        <div *ngIf="isInternActiveId">
+            <button class="btns btn-confirms" (click)="updateList()">Ok</button>
+        </div>
+    </div> -->
+</mat-dialog-actions>

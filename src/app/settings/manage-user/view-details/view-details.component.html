@@ -1,0 +1,430 @@
+<div class="viewDetails">
+    <div class="header">
+        <h5>{{data.headerData}}</h5>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                role="img" type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <div class="userDetails" *ngIf="isUser">
+            <div class="row first my-3">
+                <div class="col content">
+                    <!-- <img class="defaultImg" src="assets/images/profile.png"> -->
+                    <img *ngIf="!imgAvailable" class="defaultImg" src="assets/images/user_person.png">
+                    <img *ngIf="imgAvailable" class="profileImg" [src]="url">
+                    <div class="nameSection">
+                        <h3>{{data.mainData.firstname}} {{data.mainData.lastname}}</h3>
+                        <p class="mail">{{data.mainData.designationDetails.designation}}</p>
+                        <!-- <p class="mail" onclick="location.href= '{{data.mainData.email}}' ">{{data.mainData.email}}</p> -->
+                    </div>
+                </div>
+                <!-- </div> -->
+                <div class="card cardStyle col-5 mx-5" *ngIf="isUserProjAndjobDetails">
+                    <div class="job-content mt-2">
+                        <div class="row">
+                            <div class="col-6 pr-0 pl-0">
+                                <p class="mb-1 paragraphStyle">Total Projects <span class="spanStyle2">:</span></p>
+                                <p class="mb-1 paragraphStyle">Total Jobs <span class="spanStyle"> :</span></p>
+                            </div>
+                            <div class="col-5 p-0">
+                                <p class="mb-1 count"><b>{{projectCount}}</b></p>
+                                <p class="mb-1 count"><b>{{jobCount}}</b></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class=" second mb-3">
+                <mat-accordion class="example-headers-align" multi>
+                    <mat-expansion-panel [expanded]="true" class="mb-2">
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Work Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="workDetails">
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Id</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.id}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">First Name</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.firstname}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Last Name</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.lastname}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Email</p><span>:</span>
+                                        <!-- <p class="col-7 mb-0">{{data.mainData.email}}</p> -->
+                                        <a class="ml-3"
+                                            [href]="'mailto:' + data.mainData.email">{{data.mainData.email}}</a>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Mobile Number</p><span>:</span>
+                                        <p class="col-7 mb-0"  *ngIf="data.mainData.login_mobilenumber">
+                                            {{data.mainData.login_mobilenumber}}</p>
+                                            <p class="col-7 mb-0"  *ngIf="!data.mainData.login_mobilenumber">
+                                                -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Branch</p><span>:</span>
+                                        <!-- <p class="col-7 mb-0">{{data.mainData.email}}</p> -->
+                                        <p class="col-7 mb-0"
+                                            *ngIf="data.mainData.branchDetails">{{data.mainData.branchDetails.branch}}</p>
+                                        <p class="col-7 mb-0" *ngIf="!data.mainData.branchDetails">-</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Role</p><span>:</span>
+                                        <mat-chip class="ml-3 mb-0">{{data.mainData.roleDetails.role}}</mat-chip>
+                                        <!-- <p class="col-7 mb-0">{{data.mainData.roleDetails.role}}</p> -->
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Designation</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.designationDetails.designation}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Staff Type</p><span>:</span>
+                                        <p class="col-7 mb-0"
+                                            *ngIf="data.mainData.stafftypeDetails">{{data.mainData.stafftypeDetails.stafftype}}</p>
+                                        <p class="col-7 mb-0" *ngIf="!data.mainData.stafftypeDetails">-</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                 <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Shift</p><span>:</span>
+                                        <p class="col-7 mb-0"
+                                            *ngIf="data.mainData.manageShiftDetails">{{data.mainData.manageShiftDetails.shift}}</p>
+                                        <p class="col-7 mb-0" *ngIf="!data.mainData.manageShiftDetails">-</p>
+                                    </div>
+                                    <hr>
+                                    </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Date Of Joining</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.date_of_joining |date:"dd/MM/yyyy"}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.mainData.roleDetails.role != 'OrgAdmin' ">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Reporting Manager</p><span>:</span>
+                                        <p class="col-7 mb-0">{{reporter}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Password</p><span>:</span>
+                                        <p class="col-7 mb-0" *ngIf="show">******</p>
+                                        <p class="col-7 mb-0" *ngIf="!show">{{data.mainData.password}}</p>
+                                        <mat-icon class="mat-eye-icon" (click)="onClick()">
+                                            <i class="fa fa-eye" aria-hidden="true" *ngIf="!show"></i>
+                                            <i class="fa fa-eye-slash" aria-hidden="false" *ngIf="show"></i>
+                                        </mat-icon>
+                                    </div>
+                                    <hr>
+                                </li>
+                            </ul>
+                        </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel class="mb-2">
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Projects and Jobs
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="projectDetails mt-3">
+                            <ul *ngFor="let project of filteredProjectDetails">
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">{{project.name}}</p>
+                                        <span>:</span>
+                                        <div class="col-7 mb-0">
+                                            <mat-chip-list >
+                                                <div *ngFor="let jobInfo of filteredJobDetails">
+                                                <mat-chip
+                                                    *ngIf="jobInfo.projectId == project.id &&  project.isJobExist">{{jobInfo.jobName}}</mat-chip>
+                                           </div>
+                                                </mat-chip-list>
+                                            <p class="noJobs" *ngIf="!project.isJobExist"> No Jobs Available</p>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </li>
+                            </ul>
+                            <div *ngIf="projectDetails.length == 0" class="noProjects">
+                                No Projects And Jobs Available
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Personal Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="personalDetails">
+                            <ul>
+                                <li *ngIf="data.mainData.personal_mobile_number">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Personal Mobile No</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.personal_mobile_number}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="!data.mainData.personal_mobile_number">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Personal Mobile No</p><span>:</span>
+                                        <p class="col-7 mb-0"> &nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.mainData.personal_email">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Personal Mail</p><span>:</span>
+                                        <!-- <p class="col-7 mb-0">{{data.mainData.personal_email}}</p> -->
+                                        <a class="ml-3"
+                                            [href]="'mailto:' + data.mainData.personal_email">{{data.mainData.personal_email}}</a>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="!data.mainData.personal_email">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Personal Mail</p><span>:</span>
+                                        <p class="col-7 mb-0">&nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.mainData.date_of_birth">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Date of Birth</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.date_of_birth |date:"dd/MM/yyyy"}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="!data.mainData.date_of_birth">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Date of Birth</p><span>:</span>
+                                        <p class="col-7 mb-0">&nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.mainData.marital_status">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Marital Status</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.marital_status}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="!data.mainData.marital_status">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Marital Status</p><span>:</span>
+                                        <p class="col-7 mb-0">&nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.mainData.gender">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Gender</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.gender}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="!data.mainData.gender">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Gender</p><span>:</span>
+                                        <p class="col-7 mb-0">&nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.mainData.blood_group">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Blood Group</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.blood_group}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="!data.mainData.blood_group">
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Blood Group</p><span>:</span>
+                                        <p class="col-7 mb-0">&nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                            </ul>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+        <div class="clientDetails" *ngIf="isClient">
+            <div class="row clientHeader mt-3">
+                <div class="card col-5">
+                    <h5><span>
+                            <mat-icon>person</mat-icon>
+                        </span>{{data.mainData.client_name}}</h5>
+                    <p><span>
+                            <mat-icon> email</mat-icon>
+                        </span><a style="outline:none;"
+                            [href]="'mailto:' + data.mainData.email">{{data.mainData.email}}</a></p>
+                    <!-- <p><span>
+                            <mat-icon> email</mat-icon>
+                        </span>{{data.mainData.email}}</p> -->
+                </div>
+                <div class="card cardStyle col-5">
+                    <!-- <h6><span>Total Projects &nbsp;<b>:</b>&nbsp;
+                        </span>{{projectCount}}</h6>
+                    <p><span>Total Jobs &nbsp;<b>:</b>&nbsp;
+                        </span>{{jobCount}}</p> -->
+
+                    <div class="job-content">
+                        <div class="row">
+                            <div class="col-8">
+                                <p class="mb-1 paragraphStyle">Total Projects <span class="spanStyle2">:</span></p>
+                                <p class="mb-1 paragraphStyle">Total Jobs <span class="spanStyle">:</span></p>
+                            </div>
+                            <div class="col-2">
+                                <p class="mb-1 count"><b>{{projectCount}}</b></p>
+                                <p class="mb-1 count"><b>{{jobCount}}</b></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="second mb-3">
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [expanded]="true" class="mb-2">
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Basic Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="basicDetails">
+                            <ul>
+                                <!-- <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Id</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.id}}</p>
+                                    </div>
+                                    <hr>
+                                </li> -->
+                                <li>
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Client Name</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.client_name}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">First Name</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.firstname}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Last Name</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.lastname}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Email</p><span>:</span>
+                                        <a class="ml-3"
+                                            [href]="'mailto:' + data.mainData.email">{{data.mainData.email}}</a>
+                                        <!-- <p class="col-7 mb-0">{{data.mainData.email}}</p> -->
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Currency</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.currency}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Billing Method</p><span>:</span>
+                                        <!-- <p class="col-7 mb-0">{{data.mainData.billing_method}}</p> -->
+                                        <mat-chip class="ml-3 mb-0">{{data.mainData.billing_method}}</mat-chip>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Mobile No</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.mainData.mobile_number}}</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel class="mb-2">
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Projects and Jobs
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="projectDetails mt-3">
+                            <ul *ngFor="let project of projectDetailsWithJobs">
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">{{project[0].project_name}}</p><span>:</span>
+                                        <mat-chip-list>
+                                            <mat-chip *ngFor="let job of project[0].jobs">
+                                                {{job}}
+                                            </mat-chip>
+                                            <p class="noJobs" *ngIf=" project[0].jobs.length == 0"> No Jobs Available
+                                            </p>
+                                        </mat-chip-list>
+                                    </div>
+                                    <hr>
+                                </li>
+                            </ul>
+                            <div *ngIf="projectDetailsWithJobs.length == 0" class="noProjects">
+                                No Projects And Jobs Available
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+
+    </div>
+</div>

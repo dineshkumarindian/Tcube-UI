@@ -1,0 +1,74 @@
+<form [formGroup]="existingHolidayFormGroup">
+    <div class="row py-2 pb-2">
+        <div class="ml-3 labelstyle col-2">
+            <h6>Country</h6>
+        </div>
+
+        <mat-form-field class="col-7" appearance="outline">
+            <mat-select formControlName="country_name" placeholder="Select country *"
+                (selectionChange)="countrySelectEvent($event.value.code)">
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="countryFilterCtrl" placeholderLabel="Search Country..."
+                        noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let data of filteredCountry | async" [value]="data">
+                    {{data.country}}
+                </mat-option>
+            </mat-select>
+            <mat-error class="errorfix">{{requiredMessage}}</mat-error>
+        </mat-form-field>
+        
+    </div>
+    <div class="row py-2 pb-2">
+        <div class="ml-3 labelstyle col-2">
+            <h6>Holiday Name</h6>
+        </div>
+        <mat-form-field class="col-7" appearance="outline">
+            <mat-select formControlName="leave_name" [(ngModel)]="updateHolidayNameselectedItems" #select multiple
+                (selectionChange)="holidaySelectEvent($event.value)" placeholder="Select holiday *">
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="holidayFilterCtrl" placeholderLabel="Search Holiday..."
+                        noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                </mat-option>
+                <div class="select-all pl-3">
+                    <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                        *ngIf="currentYearPublicHolidays.length != 0" (change)="toggleAllSelection()">Select
+                        All</mat-checkbox>
+                </div>
+                <mat-option *ngFor="let data of filteredholiday | async"
+                    [disabled]="holidayLeaveNameInclude(data.holiday_name,data.start)" [value]="data"
+                    matTooltip="The holiday name or date already exceeded"
+                    [matTooltipDisabled]="holidayLeaveNameTooltip(data.holiday_name,data.start)">
+                    {{data.holiday_name}}<small>&nbsp;-&nbsp;{{data.start | date : 'dd/MM/yyyy'}}</small>
+                </mat-option>
+                <mat-option *ngIf="currentYearPublicHolidays.length == 0" disabled>
+                    No data available!
+                </mat-option>
+            </mat-select>
+            <mat-error class="errorfix">{{requiredMessage}}</mat-error>
+        </mat-form-field>
+
+    </div>
+    <div class="row">
+        <div class="ml-3 labelstyle col-2"></div>
+        <div class="col-5" *ngIf="isLeaveHoliday==true">
+            <small class="mat-error">{{exitMessage}}</small>
+        </div>
+    </div>
+    <div class="row">
+        <div class="ml-3 labelstyle col-2"></div>
+        <div class="col-5" *ngIf="govHolidayLeaveDate">
+            <small class="mat-error">{{exitMessage}}</small>
+        </div>
+    </div>
+    <div class="row btns" style="margin-top: 10px;">
+        <div class="ml-3 labelstyle col-2"></div>
+        <div class="btns col-5 p-0 ml-3">
+            <button class="btn btn-confirm" color="primary" (click)="addExistingHoliday()"
+                [disabled]="existingHolidayFormGroup.invalid || govHolidayLeaveDate">Add</button>
+            <button class="btn btn-cancel" (click)="toggleExistingHoliday()">Cancel</button>
+        </div>
+    </div>
+</form>

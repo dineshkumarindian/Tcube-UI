@@ -1,0 +1,299 @@
+.lt-settings {
+  margin-bottom: 132px;
+
+  .table-page-head {
+    margin-top: 38px;
+    margin-left: 20px;
+  }
+
+  .integration-style {
+    .header-style {
+      font-size: 15px !important;
+      font-weight: 600 !important;
+      color: #0d57ac !important;
+    }
+  }
+
+  //card section
+  .lt-card-section {
+
+    .cardHead {
+      section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        clip-path: circle(30% at right 70%);
+      }
+
+      section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        clip-path: circle(20% at 10% 10%);
+      }
+
+      .divStyle {
+        .content {
+          .sci {
+            position: relative;
+            bottom: 0px;
+            padding: 0px;
+            display: contents;
+            transition: 0.5s;
+
+            li {
+              list-style: none;
+              margin: 0 10px;
+              transform: none;
+              transition: none;
+              opacity: unset;
+            }
+          }
+
+          .sci:hover {
+            li {
+              transform: none;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+
+  .radio-btn-style {
+    .example-radio-group {
+      ::ng-deep .mat-radio-disabled {
+        .mat-radio-label {
+          cursor: not-allowed;
+        }
+
+        .mat-radio-outer-circle {
+          border-color: rgba(0, 0, 0, .38) !important;
+        }
+
+        .mat-radio-inner-circle {
+          background-color: #727272 !important;
+        }
+
+      }
+    }
+  }
+
+
+  //integration cards
+  .manage-slack-approvals {
+    .example-radio-group {
+      ::ng-deep .mat-radio-disabled {
+        .mat-radio-label {
+          cursor: not-allowed;
+        }
+
+        .mat-radio-outer-circle {
+          border-color: rgba(0, 0, 0, .38) !important;
+        }
+
+        .mat-radio-inner-circle {
+          background-color: #727272 !important;
+        }
+
+      }
+    }
+
+  }
+
+  //integration cards
+  .manage-whatsapp-approvals {
+    .example-radio-group {
+      ::ng-deep .mat-radio-disabled {
+        .mat-radio-label {
+          cursor: not-allowed;
+        }
+
+        .mat-radio-outer-circle {
+          border-color: rgba(0, 0, 0, .38) !important;
+        }
+
+        .mat-radio-inner-circle {
+          background-color: #727272 !important;
+        }
+
+      }
+    }
+
+  }
+
+  .outputSec {
+    .card-header {}
+
+    .manage-leave-notify {
+      .daily-info {
+        padding-left: 20%;
+      }
+
+      .users_btn {
+        padding-left: 0px !important;
+
+        button {
+          width: 35px !important;
+          height: 35px !important;
+          margin-bottom: 3px;
+
+          mat-icon {
+            font-size: 23px !important;
+          }
+        }
+      }
+
+      // padding-bottom: 13px;
+      // height: 150px;
+    }
+
+    .card-body {
+      .cardNoData {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+
+        img {
+          width: 200px;
+          height: 200px;
+        }
+      }
+
+      .card-body1 {
+        .activeInnerCard {
+          background: linear-gradient(120deg, #c6ecff 30%, #d4f1ff 38%, #d4f1ff 40%, #c6ecff 48%);
+          background-size: 200% 100%;
+          background-position: 100% 0;
+          animation: load89234 1.7s infinite;
+
+          .card-details {
+            color: #093a79;
+          }
+
+          .card-button {
+            background-color: #008bf8;
+          }
+        }
+
+        .activeInnerCard:hover {
+          box-shadow: rgb(186 232 255) 0px 2px 15px;
+        }
+
+        .pausedInnerCard {
+          background: linear-gradient(120deg, #FFC6C6 30%, #FFD4D4 38%, #FFD4D4 40%, #FFC6C6 48%);
+          background-size: 200% 100%;
+          background-position: 100% 0;
+          animation: load89234 1.7s infinite;
+
+          .card-details {
+            color: #910c0c;
+          }
+
+          .card-button {
+            background-color: #ff6c6c;
+          }
+        }
+
+        .pausedInnerCard:hover {
+          box-shadow: rgb(255, 186, 186) 0px 2px 15px;
+        }
+
+        .innerCard {
+          width: 100%;
+          height: 80px;
+          box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+          border: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-bottom: 25px;
+
+          // background: linear-gradient(120deg, #e5e5e5 30%, #f0f0f0 38%, #f0f0f0 40%, #e5e5e5 48%);
+          .card-button {
+            transform: translate(-50%, 125%);
+            width: 90%;
+            border-radius: 1rem;
+            border: none;
+            // background-color: #008bf8;
+            color: #fff;
+            // font-size: 12px;
+            padding: 3px 10px;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            opacity: 0;
+            transition: 0.3s ease-out;
+            line-height: 10px;
+            height: 27px;
+            cursor: context-menu;
+
+            ::ng-deep .material-icons {
+              font-size: 20px !important;
+            }
+
+            mat-icon:hover {
+              cursor: pointer;
+            }
+          }
+
+          .card-button1 {
+            transform: translate(-50%, 125%);
+            width: 90%;
+            border-radius: 1rem;
+            border: none;
+            // background-color: #008bf8;
+            color: #fff;
+            // font-size: 12px;
+            padding: 3px 10px;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            opacity: 0;
+            transition: 0.3s ease-out;
+            line-height: 10px;
+            height: 27px;
+            cursor: context-menu;
+
+            ::ng-deep .material-icons {
+              font-size: 20px !important;
+            }
+
+            mat-icon:hover {
+              cursor: pointer;
+            }
+          }
+
+          .card-details {
+            font-weight: bold;
+            text-transform: capitalize;
+          }
+        }
+
+        .innerCard:hover .card-button {
+          transform: translate(-50%, 50%);
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+::ng-deep .mat-primary .mat-pseudo-checkbox-checked,
+.mat-primary .mat-pseudo-checkbox-indeterminate {
+  background: #0c0413 !important;
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: #0c0413;
+}

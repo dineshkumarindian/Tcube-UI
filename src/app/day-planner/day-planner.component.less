@@ -1,0 +1,217 @@
+.dayPlanner {
+    margin-bottom: 25px;
+    ::ng-deep .mat-drawer-content {
+        background-color: #ffffff !important;
+      }
+    .DPDetails {
+
+        .page-header {
+            .datepicker_select {
+                position: relative;
+                bottom: 10px;
+            }
+
+            .add_create_btn_mi {
+                position: relative;
+                bottom: 3px;
+            }
+        }
+
+        .mainContent {
+            .DPfirstCard {
+                background: rgba(255, 255, 255, 0.05);
+                box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+                overflow-y: auto;
+
+                ::ng-deep .mat-checkbox-frame,
+                .mat-checkbox-background {
+                    transform: scale(0.8) !important;
+                }
+
+                .DPfirstCard-Header {
+                    background-color: #e4eaee;
+                    position: sticky;
+                    top: 0;
+                    z-index: 1;
+
+                    h5 {
+                        border-radius: 10px 10px 0 0;
+                        text-align: center;
+                        padding: 6px 0px;
+                        color: #003d71;
+                        font-weight: 600;
+                    }
+
+                    .DPmoreIcon {
+                        color: #003d71;
+                        cursor: pointer;
+                    }
+                }
+
+                .DPfirstCard-Details {
+                    padding: 10px 0px 5px 0px;
+                    backdrop-filter: blur(16px) saturate(180%);
+                    -webkit-backdrop-filter: blur(16px) saturate(180%);
+                    background-color: rgba(255, 255, 255, 0.75);
+                    border-radius: 10px;
+                    border: 1px solid rgba(209, 213, 219, 0.3);
+
+                    .firstTaskContent {
+
+                        .descriptionTask {
+                            color: #6c757d !important;
+                            font-size: 14px;
+                        }
+
+                        .dateTask {
+                            color: #ffffff;
+                            font-size: 10px;
+                            // background-color: coral;
+                            background-color: #8b8c92;
+                            padding: 0 5px;
+                            border-radius: 10px;
+                        }
+
+                        .projectTask {
+                            // color: #013b88;
+                            color: #ffffff;
+                            font-size: 10px;
+                            background-color: coral;
+                            // background-color: #8b8c92;
+                            padding: 0 5px;
+                            border-radius: 10px;
+                        }
+                    }
+
+                    .secondTaskContent {
+                        .DPstatusBtn {
+                            color: white;
+                            // background-color: #093a79;
+                            line-height: 22px;
+                            font-size: 12px;
+                            padding: 0 5px;
+                            outline: none;
+                        }
+
+                        // .DPreminderIcon {
+                        //     visibility: hidden;
+                        // }
+                        .DPstatusBtn:disabled {
+                            color: #00000059 !important;
+                            background: #dbdadf !important;
+                            cursor: not-allowed !important;
+                        }
+
+                        .mat-icon {
+                            cursor: pointer;
+                            font-size: 17px;
+                            height: 17px;
+                            width: 17px;
+                        }
+
+                        .statusControlStyle {
+                            width: 60%;
+                            margin-right: 15px;
+                        }
+                    }
+                }
+
+                .DPfirstCard-Details:hover {
+                    background-color: #fbfbfb;
+                }
+
+                .finalSubmitBtnSec {
+                    position: sticky;
+                    bottom: 0;
+                    background-color: white;
+
+                    .edit-btn:disabled {
+                        color: #00000059 !important;
+                        background: #dbdadf !important;
+                        cursor: not-allowed !important;
+                    }
+
+                    .mat-icon {
+                        cursor: pointer;
+                        font-size: 17px;
+                        height: 17px;
+                        width: 17px;
+                    }
+
+                    .DPreminderIcon:hover {
+                        color: #0f61b0;
+                    }
+                }
+
+                .DPtasksNoData {
+                    height: 300px;
+
+                    img {
+                        height: 100px;
+                        width: 100px;
+                    }
+                }
+
+            }
+
+            .DPfirstCard:hover {
+                box-shadow: 0 2px 20px rgba(0, 0, 0, 0.062);
+            }
+            .is-loading-header {
+                border: none;
+                min-height: 40px;
+                width: 100%;
+                // justify-content: space-evenly;
+                margin-left: -13px;
+                background: #eee;
+                background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+                border-radius: 5px;
+                background-size: 200% 100%;
+                animation: 1.5s shine linear infinite;
+            }
+            .is-loading-task {
+                border: none;
+                min-height: 25px;
+                width: 95%;
+                // justify-content: space-evenly;
+                margin-left: -13px;
+                background: #eee;
+                background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+                border-radius: 5px;
+                background-size: 200% 100%;
+                animation: 1.5s shine linear infinite;
+            }
+            .is-loading-project {
+                border: none;
+                min-height: 25px;
+                width: 15%;
+                // justify-content: space-evenly;
+                margin-left: -13px;
+                background: #eee;
+                background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+                border-radius: 25px;
+                background-size: 200% 100%;
+                animation: 1.5s shine linear infinite;
+            }
+            .is-loading-button {
+                border: none;
+                min-height: 30px;
+                width: 50%;
+                justify-content: space-evenly;
+                margin-left: -13px;
+                background: #eee;
+                background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+                border-radius: 5px;
+                background-size: 200% 100%;
+                animation: 1.5s shine linear infinite;
+            }
+        }
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}

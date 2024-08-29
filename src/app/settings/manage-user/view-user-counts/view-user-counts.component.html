@@ -1,0 +1,45 @@
+<div class="delete">
+    <div class="header">
+        <h5>{{headerData}}</h5>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                role="img" type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <div class="cardRole">
+            <div class="row"></div>
+            <div class="row rowStyle">
+                <div class="col col-md-4" *ngFor="let branch of list; let i=index">
+                    <!-- <div class=" card p-2 cardRoleStyle"> -->
+                    <div class=" card p-2 cardRoleStyle" [style.border-left-color]=" getColor(i)"
+                        style="border-left: 4px solid;">
+
+                        <div class="cardContent" *ngIf="!inactiveUser">
+                            <h6> {{branch.branch}}</h6>
+                            <p *ngIf="branch.active_total_counts > 1"><span
+                                    class="countStyle">{{branch.active_total_counts}}</span>
+                                Users</p>
+                            <p *ngIf="branch.active_total_counts == 1"><span
+                                    class="countStyle">{{branch.active_total_counts}}</span>
+                                User</p>
+                            <p *ngIf="branch.active_total_counts == 0">No Users</p>
+                            <p *ngIf="branch.active_total_counts == null">No Users</p>
+                        </div>
+                        <div class="cardContent" *ngIf="inactiveUser">
+                            <h6> {{branch.branch}}</h6>
+                            <p *ngIf="branch.inactive_total_counts > 1 "><span
+                                    class="countStyle">{{branch.inactive_total_counts}}</span>
+                                Users</p>
+                            <p *ngIf="branch.inactive_total_counts == 1"><span
+                                    class="countStyle">{{branch.inactive_total_counts}}</span>
+                                User</p>
+                            <p *ngIf="branch.inactive_total_counts == null ">No Users</p>
+                            <p *ngIf="branch.inactive_total_counts == 0 ">No Users</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

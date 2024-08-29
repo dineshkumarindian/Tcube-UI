@@ -1,0 +1,676 @@
+<div class="attendance">
+
+    <div class="container-fluid">
+        <div class="flex-wrap d-flex justify-content-around align-items-center attendance-header mb-4">
+            <div class="" *ngIf="shiftName == null && shiftTiming ==null">
+                <h5>General</h5>
+                <p>[09AM-06PM]</p>
+            </div>
+            <div class="" *ngIf="shiftName != null && shiftTiming !=null">
+                <h5>{{shiftName}}</h5>
+                <p>{{shiftTiming}}</p>
+            </div>
+            <div class=" mx-2">
+                <!-- <cd-timer #basicTimer format="user" id='tiles' [startTime]='Activetime' autoStart="false"  class="time"> [hours] Hrs : [minutes] Min : [seconds] Sec
+                </cd-timer> -->
+                <h5 style="line-height: 1.8 !important;" class="timeat text-center m-0">
+                    <div style="font-size: 12px;">
+                        Today Active Hours
+                    </div>
+                    <div>
+                        {{clockTimer}}
+                    </div>
+                </h5>
+            </div>
+            <div class="">
+                <button type="button" *ngIf="actiontype==='In'" class="btn float-right attendance-btn attendance-btn-in"
+                    (click)="openDialog('in')">
+                    Punch-in
+                </button>
+                <button *ngIf="actiontype==='Out'" type="button"
+                    class="btn float-right attendance-btn attendance-btn-out" (click)="openDialog('out')">
+                    Punch-out
+                </button>
+            </div>
+        </div>
+        <!-- <p>
+            <button type="button" (click)="doActionBasicTimer('start')">Start</button>
+            <button type="button" (click)="doActionBasicTimer('stop')">Stop</button>
+            <button type="button" (click)="doActionBasicTimer('resume')">Resume</button>
+            <button type="button" (click)="doActionBasicTimer('reset')">Reset</button>
+          </p> -->
+        <div class="container-fluid pb-5 mb-4">
+            <img src="../../assets/images/calendarbtn.png" alt="Calendar" class="pull-right calendarbtn"
+                matTooltipPosition="left" matTooltip="Monthly Report" [routerLink]="['/attendancemonthlyreport']"
+                routerLinkActive="router-link-active">
+        </div>
+        <div class="attendanceReportCards mb-5 pb-5">
+            <!-- col-12 col-sm-6 col-md-4 col-lg-3 -->
+            <div class="attendanceTable shadow-lg" *ngIf="sundaydata == 'no data' && sundaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Sun, {{sunday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> 0:0:0
+                        <span class="hrs"> HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li><span>First-In &nbsp; &nbsp;-</span></li>
+                        <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                        <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="sundaydata != 'no data' && sundaydata != null ">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Sun, {{sunday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> {{(sundaydata)?.ActiveHours}}
+                        <span class="hrs">HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>First-In</span>
+                                <span class="duration">{{(sundaydata)?.FirstIn}}</span>
+                            </div>
+                        </li>
+                        <!-- <li>Out for break {{(thursdaydata)?.outForBreak}} Hrs</li>
+                            <li>Out for lunch {{(thursdaydata)?.outForLunch}} Hrs</li> -->
+
+                        <li *ngFor="let data of sundaydata?.outActionReport.myArrayList">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>{{data.map.action}}</span>
+                                <span class="duration">{{data.map.duration}}</span>
+                            </div>
+                        </li>
+                        <li *ngIf="sundaydata?.Overtime">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>Overtime</span>
+                                <span class="duration">{{(sundaydata)?.Overtime}} HMS</span>
+
+                            </div>
+                        </li>
+                        <li *ngIf="sundaydata?.Deviation">
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Deviation</span>
+                                <span class="duration">{{(sundaydata)?.Deviation}} HMS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Last-Out</span>
+                                <span class="duration">{{(sundaydata)?.LastOut}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="mondaydata=='no data' && mondaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Mon, {{monday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> 0:0:0
+                        <span class="hrs">HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li><span>First-In &nbsp; &nbsp;-</span></li>
+                        <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                        <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="mondaydata != 'no data' && mondaydata != null ">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Mon, {{monday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> {{(mondaydata)?.ActiveHours}}
+                        <span class="hrs">HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>First-In</span>
+                                <span class="duration">{{(mondaydata)?.FirstIn}}</span>
+                            </div>
+                        </li>
+
+                        <li *ngFor="let data of mondaydata?.outActionReport.myArrayList">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>{{data.map.action}}</span>
+                                <span class="duration">{{data.map.duration}}</span>
+                            </div>
+                        </li>
+                        <li *ngIf="mondaydata?.Overtime">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>Overtime</span>
+                                <span class="duration">{{(mondaydata)?.Overtime}} HMS</span>
+
+                            </div>
+                        </li>
+                        <li *ngIf="mondaydata?.Deviation">
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Deviation</span>
+                                <span class="duration">{{(mondaydata)?.Deviation}} HMS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Last-Out</span>
+                                <span class="duration">{{(mondaydata)?.LastOut}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="tuesdaydata == 'no data' && tuesdaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Tue, {{tuesday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> 0:0:0
+                        <span class="hrs"> HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li><span>First-In &nbsp; &nbsp;-</span></li>
+                        <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                        <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="tuesdaydata != 'no data' && tuesdaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Tue, {{tuesday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> {{(tuesdaydata)?.ActiveHours}}
+                        <span class="hrs">HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>First-In</span>
+                                <span class="duration">{{(tuesdaydata)?.FirstIn}}</span>
+                            </div>
+                        </li>
+
+                        <li *ngFor="let data of tuesdaydata?.outActionReport.myArrayList">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>{{data.map.action}}</span>
+                                <span class="duration">{{data.map.duration}}</span>
+                            </div>
+                        </li>
+                        <li *ngIf="tuesdaydata?.Overtime">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>Overtime</span>
+                                <span class="duration">{{(tuesdaydata)?.Overtime}} HMS</span>
+
+                            </div>
+                        </li>
+                        <li *ngIf="tuesdaydata?.Deviation">
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Deviation</span>
+                                <span class="duration">{{(tuesdaydata)?.Deviation}} HMS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Last-Out</span>
+                                <span class="duration">{{(tuesdaydata)?.LastOut}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="wednesdaydata=='no data' && wednesdaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Wed, {{wednesday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> 0:0:0
+                        <span class="hrs"> HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li><span>First-In &nbsp; &nbsp;-</span></li>
+                        <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                        <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="wednesdaydata != 'no data' && wednesdaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Wed, {{wednesday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> {{(wednesdaydata)?.ActiveHours}}
+                        <span class="hrs">HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+
+                    <ul class="pb-2">
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>First-In</span>
+                                <span class="duration">{{(wednesdaydata)?.FirstIn}}</span>
+                            </div>
+                        </li>
+
+                        <li *ngFor="let data of wednesdaydata?.outActionReport.myArrayList">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>{{data.map.action}}</span>
+                                <span class="duration">{{data.map.duration}}</span>
+                            </div>
+                        </li>
+                        <li *ngIf="wednesdaydata?.Overtime">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>Overtime</span>
+                                <span class="duration">{{(wednesdaydata)?.Overtime}} HMS</span>
+
+                            </div>
+                        </li>
+                        <li *ngIf="wednesdaydata?.Deviation">
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Deviation</span>
+                                <span class="duration">{{(wednesdaydata)?.Deviation}} HMS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Last-Out</span>
+                                <span class="duration">{{(wednesdaydata)?.LastOut}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="thursdaydata == 'no data' && thursdaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Thu, {{thursday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> 0:0:0
+                        <span class="hrs"> HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li><span>First-In &nbsp; &nbsp;-</span></li>
+                        <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                        <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="thursdaydata != 'no data' && thursdaydata != null ">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Thu, {{thursday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> {{(thursdaydata)?.ActiveHours}}
+                        <span class="hrs">HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>First-In</span>
+                                <span class="duration">{{(thursdaydata)?.FirstIn}}</span>
+                            </div>
+                        </li>
+                        <!-- <li>Out for break {{(thursdaydata)?.outForBreak}} Hrs</li>
+                            <li>Out for lunch {{(thursdaydata)?.outForLunch}} Hrs</li> -->
+
+                        <li *ngFor="let data of thursdaydata?.outActionReport.myArrayList">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>{{data.map.action}}</span>
+                                <span class="duration">{{data.map.duration}}</span>
+                            </div>
+                        </li>
+                        <li *ngIf="thursdaydata?.Overtime">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>Overtime</span>
+                                <span class="duration">{{(thursdaydata)?.Overtime}} HMS</span>
+
+                            </div>
+                        </li>
+                        <li *ngIf="thursdaydata?.Deviation">
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Deviation</span>
+                                <span class="duration">{{(thursdaydata)?.Deviation}} HMS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Last-Out</span>
+                                <span class="duration">{{(thursdaydata)?.LastOut}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="fridaydata=='no data' && fridaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Fri, {{friday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> 0:0:0
+                        <span class="hrs"> HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li><span>First-In &nbsp; &nbsp;-</span></li>
+                        <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                        <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="fridaydata != 'no data' && fridaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Fri, {{friday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> {{(fridaydata)?.ActiveHours}}
+                        <span class="hrs">HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>First-In</span>
+                                <span class="duration">{{(fridaydata)?.FirstIn}}</span>
+                            </div>
+                        </li>
+                        <!-- <li>Out for break {{(thursdaydata)?.outForBreak}} Hrs</li>
+                            <li>Out for lunch {{(thursdaydata)?.outForLunch}} Hrs</li> -->
+
+                        <li *ngFor="let data of fridaydata?.outActionReport.myArrayList">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>{{data.map.action}}</span>
+                                <span class="duration">{{data.map.duration}}</span>
+                            </div>
+                        </li>
+                        <li *ngIf="fridaydata?.Overtime">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>Overtime</span>
+                                <span class="duration">{{(fridaydata)?.Overtime}} HMS</span>
+
+                            </div>
+                        </li>
+                        <li *ngIf="fridaydata?.Deviation">
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Deviation</span>
+                                <span class="duration">{{(fridaydata)?.Deviation}} HMS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Last-Out</span>
+                                <span class="duration">{{(fridaydata)?.LastOut}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="saturdaydata == 'no data' && saturdaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Sat, {{saturday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> 0:0:0
+                        <span class="hrs"> HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li><span>First-In &nbsp; &nbsp;-</span></li>
+                        <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                        <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+            <div class="attendanceTable shadow-lg" *ngIf="saturdaydata != 'no data' && saturdaydata != null">
+                <div class="attendanceTable-header">
+                    <h3 class="heading">Sat, {{saturday}}</h3>
+                    <span class="hrs-value">
+                        <span class="hrs-time"><img src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                style="width: 36px;"></span> {{(saturdaydata)?.ActiveHours}}
+                        <span class="hrs">HMS</span>
+                    </span>
+                </div>
+                <div class="hrs-content">
+                    <ul class="pb-2">
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>First-In</span>
+                                <span class="duration">{{(saturdaydata)?.FirstIn}}</span>
+                            </div>
+                        </li>
+                        <!-- <li>Out for break {{(thursdaydata)?.outForBreak}} Hrs</li>
+                            <li>Out for lunch {{(thursdaydata)?.outForLunch}} Hrs</li> -->
+
+                        <li *ngFor="let data of saturdaydata?.outActionReport.myArrayList">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>{{data.map.action}}</span>
+                                <span class="duration">{{data.map.duration}}</span>
+                            </div>
+                        </li>
+                        <li *ngIf="saturdaydata?.Overtime">
+                            <div class="d-flex flex-column align-items-center">
+
+                                <span>Overtime</span>
+                                <span class="duration">{{(saturdaydata)?.Overtime}} HMS</span>
+
+                            </div>
+                        </li>
+                        <li *ngIf="saturdaydata?.Deviation">
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Deviation</span>
+                                <span class="duration">{{(saturdaydata)?.Deviation}} HMS</span>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="d-flex flex-column align-items-center">
+                                <span>Last-Out</span>
+                                <span class="duration">{{(saturdaydata)?.LastOut}}</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <a href="#" class="read">View</a> -->
+                </div>
+            </div>
+          
+            <!-- ----------------Adding dynamic data card sections for saturday and sunday----------------------------- -->
+            <!-- <div class="sat_sun_section" *ngIf="Dynamic_card">
+                <div class="p-1 saturday_section" [ngClass]="{'margin_left': Dynamic_card}" *ngIf="Dynamic_card_saturday || Dynamic_card_sunday">
+                    <div class="attendanceTable shadow-lg" *ngIf="saturdaydata=='no data'">
+                        <div class="attendanceTable-header">
+                            <h3 class="heading">Sat, {{saturday}}</h3>
+                            <span class="hrs-value">
+                                <span class="hrs-time"><img
+                                        src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                        style="width: 36px;"></span> 0:0:0
+                                <span class="hrs"> HMS</span>
+                            </span>
+                        </div>
+                        <div class="hrs-content">
+                            <ul class="pb-2">
+                                <li><span>First-In &nbsp; &nbsp;-</span></li>
+                                <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                                <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="attendanceTable shadow-lg" *ngIf="saturdaydata!='no data'">
+                        <div class="attendanceTable-header">
+                            <h3 class="heading">Sat, {{saturday}}</h3>
+                            <span class="hrs-value">
+                                <span class="hrs-time"><img
+                                        src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                        style="width: 36px;"></span> {{(saturdaydata)?.ActiveHours}}
+                                <span class="hrs">HMS</span>
+                            </span>
+                        </div>
+                        <div class="hrs-content">
+                            <ul class="pb-2">
+                                <li>
+                                    <div class="d-flex flex-column align-items-center">
+
+                                        <span>First-In</span>
+                                        <span class="duration">{{(saturdaydata)?.FirstIn}}</span>
+                                    </div>
+                                </li>
+                                <li *ngFor="let data of saturdaydata?.outActionReport.myArrayList">
+                                    <div class="d-flex flex-column align-items-center">
+
+                                        <span>{{data.map.action}}</span>
+                                        <span class="duration">{{data.map.duration}}</span>
+                                    </div>
+                                </li>
+                                <li *ngIf="fridaydata?.Overtime">
+                                    <div class="d-flex flex-column align-items-center">
+
+                                        <span>Overtime</span>
+                                        <span class="duration">{{(saturdaydata)?.Overtime}} HMS</span>
+
+                                    </div>
+                                </li>
+                                <li *ngIf="fridaydata?.Deviation">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span>Deviation</span>
+                                        <span class="duration">{{(saturdaydata)?.Deviation}} HMS</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span>Last-Out</span>
+                                        <span class="duration">{{(saturdaydata)?.LastOut}}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> -->
+
+            <!-- <div class="p-1" *ngIf="Dynamic_card_sunday" [ngClass]="{'margin_left': Dynamic_card}">
+                    <div class="attendanceTable shadow-lg" *ngIf="sundaydata=='no data'">
+                        <div class="attendanceTable-header">
+                            <h3 class="heading">Sun, {{sunday}}</h3>
+                            <span class="hrs-value">
+                                <span class="hrs-time"><img
+                                        src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                        style="width: 36px;"></span> 0:0:0
+                                <span class="hrs"> HMS</span>
+                            </span>
+                        </div>
+                        <div class="hrs-content">
+                            <ul class="pb-2">
+                                <li><span>First-In &nbsp; &nbsp;-</span></li>
+                                <li><span>Deviation &nbsp; &nbsp;-</span></li>
+                                <li><span>Last-Out &nbsp; &nbsp;-</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="attendanceTable shadow-lg" *ngIf="sundaydata!='no data'">
+                        <div class="attendanceTable-header">
+                            <h3 class="heading">Sun, {{sunday}}</h3>
+                            <span class="hrs-value">
+                                <span class="hrs-time"><img
+                                        src="https://cdn-icons-png.flaticon.com/512/2255/2255206.png"
+                                        style="width: 36px;"></span> {{(sundaydata)?.ActiveHours}}
+                                <span class="hrs">HMS</span>
+                            </span>
+                        </div>
+                        <div class="hrs-content">
+                            <ul class="pb-2">
+                                <li>
+                                    <div class="d-flex flex-column align-items-center">
+
+                                        <span>First-In</span>
+                                        <span class="duration">{{(sundaydata)?.FirstIn}}</span>
+                                    </div>
+                                </li>
+                                <li *ngFor="let data of sundaydata?.outActionReport.myArrayList">
+                                    <div class="d-flex flex-column align-items-center">
+
+                                        <span>{{data.map.action}}</span>
+                                        <span class="duration">{{data.map.duration}}</span>
+                                    </div>
+                                </li>
+                                <li *ngIf="fridaydata?.Overtime">
+                                    <div class="d-flex flex-column align-items-center">
+
+                                        <span>Overtime</span>
+                                        <span class="duration">{{(sundaydata)?.Overtime}} HMS</span>
+
+                                    </div>
+                                </li>
+                                <li *ngIf="fridaydata?.Deviation">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span>Deviation</span>
+                                        <span class="duration">{{(sundaydata)?.Deviation}} HMS</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span>Last-Out</span>
+                                        <span class="duration">{{(sundaydata)?.LastOut}}</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> -->
+        </div>
+    </div>
+</div>

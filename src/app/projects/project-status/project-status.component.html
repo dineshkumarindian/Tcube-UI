@@ -1,0 +1,44 @@
+<div class="dialog-project-status">
+    <div class="dialog-header">
+        <h3 class="page-title">{{updateStatus}}</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon (click)="closeDialog()" matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div class="Dialog_form mt-1" mat-dialog-content>
+        <form [formGroup]="changeStatusFormGroup">
+            <mat-form-field appearance="outline">
+                <!-- <mat-label>Change Status</mat-label> -->
+                <mat-select formControlName="prjStatus" name="prjStatus" placeholder="Set project status"
+                    [disabled]="disable_matselect">
+                    <mat-option *ngFor="let status of projectStatus" [value]="status">{{status}}</mat-option>
+                </mat-select>
+                
+                <!-- <mat-hint>Select the current status of project</mat-hint> -->
+            </mat-form-field>
+            <div class="mb-5" *ngIf="disable_matselect">
+                <p class="mat-hint">In this project, all jobs should be completed, inactive or closed, then only you can able to update the project status.</p>
+            </div>
+            
+            <!-- <mat-form-field appearance="outline">
+                <mat-label>Change Status</mat-label>
+                <mat-select formControlName="prjStatus" name="prjStatus">
+                    <mat-option *ngFor="let status of projectStatus" [value]="status">{{status}}</mat-option>
+                </mat-select>
+                <mat-hint>Select the current status of project</mat-hint>
+            </mat-form-field> -->
+            <div *ngIf="!disable_matselect">
+                <mat-form-field appearance="fill" style="width: 100% ; margin-top: 8px;">
+                    <mat-label>Comments</mat-label>
+                    <textarea rows="1" matInput name="comments" formControlName="statuscomments"></textarea>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions align="end" class="dialog-btns pr-3">
+        <button mat-raised-button color="warn" (click)="closeDialog()">Cancel</button>
+        <button mat-raised-button class="cnfm-btn" (click)="editProjectStatus(changeStatusFormGroup.value)"
+            [disabled]="disable_matselect">Update</button>
+    </div>
+</div>

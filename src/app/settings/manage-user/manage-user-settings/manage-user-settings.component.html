@@ -1,0 +1,90 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-6 col-md-6">
+            <h3 class="page-title">Manage User Settings</h3>
+        </div>
+        <div class="col-6 col-md-6">
+            <div class="pfr">
+                <button class="backbtn" mat-icon-button matTooltipPosition="left" matTooltip="Back to active user"
+                    [routerLink]="['/settings']" routerLinkActive="router-link-active" (click)="canceltoggleEmp()">
+                    <img src="../../../assets/images/back.png" class="ph_back_arrow_img mb-4">
+                </button>
+            </div>
+        </div>
+        <!-- <div class="col-6 col-md-6">
+        <div class="pfr">
+          <button class="backbtn" mat-icon-button matTooltipPosition="left" matTooltip="Back To Leave Tracker"
+            [routerLink]="['/leave-tracker']" routerLinkActive="router-link-active">
+            <img src="../../assets/images/back.png" class="ph_back_arrow_img mb-4">
+          </button>
+        </div>
+      </div> -->
+    </div>
+</div>
+<section class="manage-user-settings">
+    <div class="lt-card-section">
+        <div class="col-md-12 mb-3">
+            <div class="cardHead">
+                <div class="card-setting-container mx-0 px-0 my-4">
+                    <div class="col-3 col-md-3 col-lg-3 divStyle mt-4">
+                        <div class="card" [ngStyle]="{'background-color':isActiveMailConfig?'#00214c':'#ffffff' }">
+                            <div class="content">
+                                <div class="imgBx" *ngIf="isActiveMailConfig == true">
+                                    <img src="../../../assets/images/mail-white.png">
+                                </div>
+                                <div class="imgBx" *ngIf="isActiveMailConfig == false">
+                                    <img src="../../../assets/images/mail.png">
+                                </div>
+                                <div class="contentBx">
+                                    <h3 *ngIf="isActiveMailConfig" style="color: white !important;">
+                                        Manage Mail</h3>
+                                    <h3 *ngIf="!isActiveMailConfig" style="color:#7f8291 !important;">
+                                        Manage Mail
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid manage-user-mail">
+        <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="col-7 header-style">Email Notification</h5>
+            </div>
+            <div class="card-body2">
+                <div class="row  mx-3 pt-3">
+                    <!-- <div class="col-3">
+                        <b>Notify Mail For Manage User : </b>
+                    </div> -->
+                    <div class="col-md-12 radio-btn-style">
+                        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                            [disabled]="notifyDisable" [matTooltip]="notifyDisable ? 'Please verify the mail integration':''" [(ngModel)]="isRemainderMailConfig">
+                            <mat-radio-button class="example-radio-button mr-3" *ngFor="let option of yesOrNoOption"
+                                [value]="option" (change)="radioButtonClickedManageMail($event)">
+                                {{option}}
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row mx-3 pb-3">
+                    <!-- <div class="col-3"></div> -->
+                    <div class="col-md-12" [innerHTML]="mailNoteMessage">
+                        <!-- <small>If you choose <b>Yes</b>, user will receive mail notification for manage user</small> -->
+                    </div>
+                </div>
+                <div class="row mx-3 pb-3">
+                    <div class="col-10">
+                        <div class="btns">
+                            <button class="btn btn-confirm" [disabled]="!yesOrNoMailConfig"
+                                (click)="SaveOrUpdateManageUserMailConfig()">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

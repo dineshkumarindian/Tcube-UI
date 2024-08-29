@@ -1,0 +1,16 @@
+<section class="task-bulk-delete">
+  <div class="dialog-header">
+    <h3 class="page-title">Bulk Delete</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        role="img" type="button">close</mat-icon>
+    </span>
+  </div>
+  <div mat-dialog-content>
+    <div>Are you sure want to delete {{list.length}} tasks?</div>
+  </div>
+  <div align="end" class="dialog-btns p-3">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="deleteDetails()" class="cnfm-btn">Confirm</button>
+  </div>
+</section>

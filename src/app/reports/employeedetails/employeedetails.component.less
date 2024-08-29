@@ -1,0 +1,479 @@
+button:focus {
+
+  outline: 0;
+}
+.header {
+  background: #F4F4F5;
+
+  .head h1 {
+    text-transform: capitalize;
+    font-size     : 1.5em;
+    font-weight   : 100;
+  }
+
+  .head h1 span {
+    font-size     : 11px;
+    font-weight   : 500;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    line-height   : 3em;
+    padding-left  : 0.25em;
+    color         : rgba(0, 0, 0, 0.4);
+    padding-bottom: 10px;
+  }
+
+  .head span button:focus {
+
+    outline: 0;
+  }
+
+  .alt-head h1:before {
+    left       : 50%;
+    margin-left: -30px;
+  }
+
+  .backbtn {
+    width           : 47px;
+    background-color: transparent;
+    border-color    : transparent;
+  }
+}
+
+.expandablerowstyle {
+  .heading {
+    color      : #016ee8c4;
+    font-weight: 600;
+    font-size  : 18px;
+  }
+
+  .main-timeline {
+    font-family: 'Poppins', sans-serif;
+    padding    : 14px 160px;
+
+    &:after {
+      content: '';
+      display: block;
+      clear  : both;
+    }
+
+    .timeline {
+      width        : calc(50% + 9px);
+      padding      : 20px 30px 20px 0;
+      margin       : -20px 0 0 0;
+      border-radius: 20px;
+      border       : 10px solid transparent;
+      border-right : 10px solid #c2cade;
+      float        : left;
+      position     : relative;
+
+      &:before {
+        content         : '';
+        background-color: #4aa3ff;
+        height          : 25px;
+        width           : 25px;
+        border-radius   : 50%;
+        position        : absolute;
+        right           : -18px;
+        bottom          : 40px;
+      }
+
+      &:after {
+        content         : '';
+        background-color: #4aa3ff;
+        height          : 25px;
+        width           : 25px;
+        border-radius   : 50%;
+        position        : absolute;
+        right           : -18px;
+        bottom          : 40px;
+        border-radius   : 3px;
+        transform       : rotate(45deg);
+        right           : 20px;
+      }
+
+      &:nth-child(even) {
+        float       : right;
+        padding     : 20px 0 20px 30px;
+        margin      : -20px 0 0 0;
+        border-right: none;
+        border-left : 10px solid #00214c;
+
+        &:before {
+          right: auto;
+          left : -18px;
+        }
+
+        &:after {
+          right: auto;
+          left : 20px;
+        }
+
+        .timeline-icon {
+          right: auto;
+          left : 16px;
+        }
+
+        .description {
+          margin: 20px 20px 0 80px;
+        }
+      }
+
+      &:nth-child(4n+2) {
+        &:before {
+          background-color: #4aa3ff;
+        }
+
+        &:after {
+          background-color: #4aa3ff;
+        }
+
+        .timeline-content {
+          background: linear-gradient(-45deg, #fb0054 0%, #f55b2a 100%);
+        }
+
+        .title {
+          color: #00214c;
+        }
+      }
+
+      &:nth-child(4n+3) {
+        &:before {
+          background-color: #4aa3ff;
+        }
+
+        &:after {
+          background-color: #4aa3ff;
+        }
+
+        .timeline-content {
+          background: linear-gradient(-45deg, #27b88d 0%, #22dd73 100%);
+        }
+
+        .title {
+          color: #00214c;
+        }
+      }
+
+      &:nth-child(4n+4) {
+        &:before {
+          background-color: #4aa3ff;
+        }
+
+        &:after {
+          background-color: #4aa3ff;
+        }
+
+        .timeline-content {
+          background: linear-gradient(-45deg, #fb0054 0%, #f55b2a 100%);
+        }
+
+        .title {
+          color: #00214c;
+        }
+      }
+
+      .img-width {
+        width: 55px;
+      }
+    }
+
+    .timeline-content {
+      color        : #fff;
+      background   : linear-gradient(-45deg, #27b88d 0%, #22dd73 100%);
+      // background: #00214c;
+      min-height   : 130px;
+      padding      : 0 0 20px;
+      box-shadow   : 0 0 10px rgba(0, 0, 0, 0.3);
+      border-radius: 20px;
+      display      : block;
+      overflow     : hidden;
+      position     : relative;
+      z-index      : 1;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .timeline-icon {
+      font-size  : 40px;
+      line-height: 40px;
+      position   : absolute;
+      bottom     : 15px;
+      right      : 16px;
+    }
+
+    .title {
+      color           : #00214c;
+      background-color: #fff;
+      font-size       : 16px;
+      font-weight     : 600;
+      letter-spacing  : 0.5px;
+      text-align      : center;
+      text-transform  : uppercase;
+      padding         : 12px;
+      margin          : 0 0 5px;
+    }
+
+    .description {
+      font-size     : 12px;
+      font-weight   : 300;
+      letter-spacing: 1px;
+      line-height   : 20px;
+      margin        : 20px 80px 0 20px;
+    }
+  }
+
+  @media screen and (max-width:767px) {
+    .main-timeline {
+      .timeline {
+        width       : 100%;
+        padding     : 20px 0 20px 30px;
+        margin      : -25px 0 0;
+        border-left : 10px solid #00214c;
+        border-right: none;
+
+        &:nth-child(even) {
+          width       : 100%;
+          padding     : 20px 0 20px 30px;
+          margin      : -25px 0 0;
+          border-left : 10px solid #00214c;
+          border-right: none;
+
+          &:before {
+            right: auto;
+            left : -17px;
+          }
+
+          &:after {
+            right: auto;
+            left : 20px;
+          }
+
+          .description {
+            margin: 20px 20px 0 80px;
+          }
+
+          .timeline-icon {
+            left : 16px;
+            right: auto;
+          }
+        }
+
+        &:before {
+          right: auto;
+          left : -17px;
+        }
+
+        &:after {
+          right: auto;
+          left : 20px;
+        }
+      }
+
+      .description {
+        margin: 20px 20px 0 80px;
+      }
+
+      .timeline-icon {
+        left : 16px;
+        right: auto;
+      }
+    }
+  }
+
+  @media screen and (max-width:576px) {
+    .main-timeline {
+      .timeline-content {
+        padding-bottom: 70px;
+      }
+
+      .description {
+        margin: 20px 20px 0 20px;
+      }
+
+      .timeline {
+        &:nth-child(even) {
+          .description {
+            margin: 20px 20px 0 20px;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+.export-btn {
+
+  /* From uiverse.io by @fanishah */
+  .button {
+    font-family   : inherit;
+    font-weight   : 400;
+    background    : #0b519d;
+    color         : white;
+    padding       : 1.45em 0;
+    font-size     : 17px;
+    border        : none;
+    border-radius : 0.7em;
+    letter-spacing: 0.08em;
+    position      : relative;
+    display       : flex;
+    align-content : center;
+    align-items   : center;
+    overflow      : hidden;
+    height        : 2.1em;
+    padding-left  : 3.2em;
+    padding-right : 0.7em;
+
+    .icon {
+      background     : #fff;
+      margin-right   : 1em;
+      height         : 2.2em;
+      width          : 2.2em;
+      border-radius  : 2em;
+      position       : absolute;
+      display        : flex;
+      align-items    : center;
+      justify-content: center;
+      left           : 0.3em;
+      transition     : all .7s;
+    }
+
+    &:hover {
+      .icon {
+        width        : calc(100% - 0.6rem);
+        border-radius: 0.5em;
+
+        .icon-shere {
+          display: flex;
+        }
+
+        button {
+          position          : relative;
+          // padding: 10px 40px;
+          padding           : 5px;
+          // margin: 0px 10px 10px 0px;
+          margin            : 0px;
+          width             : 90px;
+          float             : left;
+          border-radius     : 4px;
+          font-size         : 20px;
+          color             : #FFF;
+          text-decoration   : none;
+          background-color  : #00733B;
+          border            : none;
+          // border-bottom: 5px solid #ffffff;
+          // border-top: 5px solid #ffffff;
+          text-shadow       : 0px -2px #27ae60;
+          -webkit-transition: all 0.1s;
+          transition        : all 0.1s;
+
+          // &:hover {
+          //   -webkit-transform: translate(0px,5px);
+          //   -ms-transform: translate(0px,5px);
+          //   transform: translate(0px,5px);
+          //   border-bottom: 1px solid #2ecc71;
+          // }
+          &:active {
+            -webkit-transform: translate(0px, 5px);
+            -ms-transform    : translate(0px, 5px);
+            transform        : translate(0px, 5px);
+            border-bottom    : 1px solid #2ecc71;
+          }
+        }
+
+      }
+
+      .shere {
+        width        : calc(100% - 0.6rem);
+        border-radius: 0.5em;
+        display      : none;
+      }
+    }
+
+    .icon-shere {
+      color  : #000000;
+      width  : 2.5rem;
+      height : 2.5rem;
+      display: none;
+      margin : 2px;
+    }
+  }
+
+  .shere {
+    width      : 1.5rem;
+    height     : 1.5rem;
+    margin-left: 4px;
+  }
+
+  .btn-size {
+    width : 25px;
+    margin: 0;
+  }
+
+}
+
+.overwritestyle {
+  .inactive {
+    background-color: red;
+    color           : white;
+    font-size       : 14px;
+    padding         : 1px;
+    font-weight     : 500;
+    height          : 23px;
+    border-radius   : 4px;
+    text-align      : center;
+    min-width       : 69px;
+  }
+
+  .active {
+    background-color: #06b315;
+    color           : white;
+    font-size       : 14px;
+    padding         : 1px;
+    font-weight     : 500;
+    height          : 23px;
+    border-radius   : 4px;
+    text-align      : center;
+    min-width       : 69px;
+  }
+
+  mat-header-cell {
+    // background-color: #0f64c2;
+    // color           : white;
+    // font-size       : 14px;
+    background-color: #e4eaee;
+    color           : #0c55a9;
+    font-size       : 15px;
+  }
+
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity         : 0.03 !important;
+    background-color: #005691 !important;
+  }
+
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+  .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #0c0413;
+  }
+
+  ::ng-deep .mat-sort-header-arrow {
+    color: #000;
+  }
+
+  td.mat-cell,
+  td.mat-footer-cell,
+  th.mat-header-cell {
+    border-bottom-style: none;
+  }
+
+  .mat-cell,
+  .mat-footer-cell {
+    cursor: default;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

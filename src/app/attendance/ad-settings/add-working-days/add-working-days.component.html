@@ -1,0 +1,51 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-6 col-md-6">
+            <h3 class="page-title">update working days</h3>
+        </div>
+        <div class="col-6 col-md-6">
+            <div class="pfr">
+                <button class="backbtn" mat-icon-button matTooltipPosition="left" matTooltip="Back to attedance settings"
+                    [routerLink]="['/attendance-settings']" routerLinkActive="router-link-active">
+                    <img src="../../assets/images/back.png" class="ph_back_arrow_img mb-4">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="add-working-day">
+    <div class="container-fluid">
+        <div class="input-content-wrap card card-bg p-3 mb-4 leaveCard">
+            <form>
+                <div class="row">
+                    <div class="ml-3 lablestyle d-none d-md-block d-lg-block col-3 col-md-3">
+                        Choose your working days
+                    </div>
+                    <div class="col-7 col-md-7 mt-4">
+                        <form [formGroup]="workingDaysFormGroup">
+                            <div class="d-flex justify-content-between">
+                                <p><mat-checkbox formControlName="sunday" (change)="setCheckBoxChange($event,0)">Sunday</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="monday" (change)="setCheckBoxChange($event,1)">Monday</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="tuesday" (change)="setCheckBoxChange($event,2)">Tuesday</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="wednesday" (change)="setCheckBoxChange($event,3)">Wednesday</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="thursday" (change)="setCheckBoxChange($event,4)">Thursday</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="friday" (change)="setCheckBoxChange($event,5)">Friday</mat-checkbox></p>
+                                <p><mat-checkbox formControlName="saturday" (change)="setCheckBoxChange($event,6)">Saturday</mat-checkbox></p>
+                            </div>
+                        </form>
+                        <p><b>Note :&nbsp;</b>The working days are configured in attendance and leave tracker module</p>
+                    </div>
+                </div>
+                <div class="row btns mt-2">
+                    <div class="ml-3 labelstyle col-3"></div>
+                    <div class="btns col-7 p-0 ml-3">
+                        <button class="btn btn-confirm" [disabled]="workingDayDetails.length == 0" color="primary" (click)="updateWorkingDays()">Update</button>
+                        <!-- <button class="btn btn-confirm" color="primary">Update</button> [disabled]="workingDaysFormGroup.invalid" -->
+                        <button class="btn btn-cancel" [routerLink]="['/attendance-settings']" routerLinkActive="router-link-active">Cancel</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>

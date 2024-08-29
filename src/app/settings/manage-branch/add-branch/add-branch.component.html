@@ -1,0 +1,30 @@
+<section class="add-branch">
+    <div class="dialog-header">
+      <h3 class="page-title">Add Branch</h3>
+      <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+          role="img" type="button">close</mat-icon>
+      </span>
+    </div>
+    <!-- <div mat-dialog-content>
+           <h5>Are you sure want to delete {{list.length}} tasks?</h5> 
+        </div> -->
+    <div mat-dialog-content class="dialog-content">
+      <form [formGroup]="branchformGroup">
+        <div class="row">
+          <div class="ml-3 labelstyle col-4">Branch Name</div>
+          <div class="col-7">
+            <mat-form-field appearance="standard">
+                <mat-label>Branch</mat-label>
+                <input matInput placeholder="Branch" formControlName="branch">
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div align="end" class="dialog-btns p-3 submit-logs">
+      <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+      <button mat-flat-button class="cnfm-btn" (click)="createBranch()"
+        [disabled]="!branchformGroup.valid">Add</button>
+    </div>
+  </section>

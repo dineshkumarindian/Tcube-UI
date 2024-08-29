@@ -1,0 +1,424 @@
+<section class="jobs_section">
+  <div class="page-header">
+    <div class="row d-flex justify-content-between">
+      <div class="col-md-6">
+        <h6>
+          <h3 class="page-title" *ngIf="!inactivejobs && !completedjobs &&!inactivejobs_bystatus">Active jobs</h3>
+          <h3 class="page-title" *ngIf="completedjobs">Other jobs
+            <p *ngIf="completedjobs" class="subtitle-color" style="text-transform: math-auto;">(Completed and Closed
+              Job)</p>
+          </h3>
+          <h3 class="page-title" *ngIf="inactivejobs">Inactive Jobs By Client's Deactivated
+          </h3>
+          <h3 class="page-title" *ngIf="inactivejobs_bystatus">Inactive Jobs
+          </h3>
+        </h6>
+      </div>
+      <div class="Button-section">
+        <button mat-raised-button class="add_create_btn_mi mr-3"
+          *ngIf="!inactivejobs && !completedjobs &&!inactivejobs_bystatus " color="primary" [routerLink]="['/addjobs']"
+          routerLinkActive="router-link-active">
+          <mat-icon mat-icon-button>add</mat-icon>Add
+          Job
+        </button>
+        <!-- <button mat-icon-button (click)="sidenav.toggle()"><i class='fas fa-filter'></i></button> -->
+        <div class="buttons">
+          <!-- ************************************ mat-menu ************************* -->
+          <button mat-button class="tb_dropdown_btn" [matMenuTriggerFor]="menu1"
+            *ngIf="!inactivejobs && !completedjobs &&!inactivejobs_bystatus ">
+            Jobs By Status<mat-icon>keyboard_arrow_down</mat-icon>
+          </button>
+          <mat-menu #menu1="matMenu">
+            <button mat-menu-item (click)="toggleinactivejobsbystatus()" class="Job_button">Inactive Jobs</button>
+            <button mat-menu-item (click)="togglecompletedjobs()" class="Job_button">Other Jobs</button>
+          </mat-menu>
+
+          <!-- ***************** get inactive jobs by status***************** -->
+          <button *ngIf="inactivejobs_bystatus && !completedjobs" (click)="toggleinactivejobs()"
+            class="inactive_jobs_by_status mr-3 inactive_btn_position" matTooltip="Move to deactivated client jobs"
+            matTooltipPosition="below">
+            <div>
+              <mat-icon mat-icon-button>last_page</mat-icon>
+              <!-- <span class="toclientsection">Manage Clients</span> -->
+            </div>
+          </button>
+          <!-- ************* move to  other jobs section from inactive jobs section********-->
+          <button *ngIf="inactivejobs_bystatus && !completedjobs" class="redirect-btn mr-2" style="margin-bottom: 15px;"
+            matTooltip="Move to other jobs" matTooltipPosition="below" (click)="togglecompletedjobs()">
+            <div>
+              <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+            </div>
+          </button>
+
+          <!-- *************************button for manage-client section ***************************-->
+          <button *ngIf="inactivejobs && !completedjobs && !inactivejobs_bystatus && Accesstoclient_settings"
+            class="redirect-btn inactive_btn_position" (click)="Movetoclients()"
+            matTooltip="Click manage client to reactivate the client to get all projects and jobs active again"
+            matTooltipPosition="below">
+            <div>
+              <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+            </div>
+          </button>
+          <!-- *********************move to projects button***************** -->
+          <button *ngIf="!inactivejobs && !completedjobs && !inactivejobs_bystatus" class="redirect-btn mr-5"
+            matTooltip="Move to projects" matTooltipPosition="below" [routerLink]="['/projects']"
+            routerLinkActive="router-link-active">
+            <div>
+              <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+            </div>
+          </button>
+
+          <!-- ************* move to inactive jobs  section from other jobs section********-->
+          <button *ngIf="completedjobs" class="redirect-btn mr-2" style="margin-bottom: 15px;"
+            matTooltip="Move to inactive jobs" matTooltipPosition="below" (click)="toggleinactivejobsbystatus()">
+            <div>
+              <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+            </div>
+          </button>
+          <!-- ******************************back to active jobs page********************* -->
+          <button class="moveto_active inactive_btn_position"
+            *ngIf="inactivejobs ||completedjobs || inactivejobs_bystatus" matTooltipPosition="left"
+            matTooltip="Back to active jobs" (click)="toggleActivejobs()"><img class="ph_back_arrow_img"
+              src="../../assets/images/back.png"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row secondrow">
+    <!-- <div class="col-6 icondelete">
+      <mat-icon matTooltip="Delete Selected Jobs" matTooltipPosition="right" class="mat-icon delete"
+        *ngIf="listProject.length >=2 || select_all" (click)="bulkdelete()">delete</mat-icon>
+      <mat-icon matTooltip="Add Assignees For Selected Jobs" matTooltipPosition="right" class="mat-icon addUser"
+        *ngIf="listProject.length >=2 || select_all">add_circle</mat-icon>
+    </div> -->
+  </div>
+
+  <div class="container-fluid mb-5 mat-checkbox-check job_content">
+    <div class="mat-elevation-z8">
+      <div class="row">
+        <!-- <div *ngIf="">
+          <button mat-icon-button  class="add_assignees mr-0"
+            (click)="bulkAssignee()">
+            <mat-icon matTooltip="Assign Users" matTooltipPosition="right">add_circle
+            </mat-icon>
+          </button>
+        </div> -->
+        <div class="col-6 table_bulk_dele">
+          <button matTooltip="Delete Selected Jobs" matTooltipPosition="right" class="bulk-delete-icon"
+            *ngIf="(listJob.length >=2 || select_all) && (inactivejobs_bystatus || completedjobs)" (click)="bulkdelete()">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button  class="add_assignees mr-0" *ngIf="(listJob.length >=2 || select_all) && !(inactivejobs_bystatus || completedjobs)"
+            (click)="bulkAssignee()">
+            <mat-icon matTooltip="Assign Users" matTooltipPosition="right">add_circle
+            </mat-icon>
+          </button>
+        </div>
+        <div class="col-6">
+          <div class="row justify-content-end">
+            <div class="col-6 filter-with-mat-select pr-0">
+              <mat-form-field appearance="outline" class="col-8 pt-1">
+                <mat-select [formControl]="projectCtrl" placeholder="Filter By Project" #singleSelect
+                  [(ngModel)]="selectedProjectId" (selectionChange)="selectedProjectEvent($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="projectFilterCtrl" placeholderLabel="Search Project..."
+                      noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let data of filteredproject | async" [value]="data[0]" class="text-capitalize">
+                    {{data[1]}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <!-- inactive jobs filter by deactivated clients -->
+            <!-- <div class="col-6 filter-with-mat-select pr-0"
+              *ngIf="inactivejobs && !inactivejobs_bystatus && !completedjobs">
+              <mat-form-field appearance="outline" class="col-8 pt-1">
+                <mat-select [formControl]="projectCtrl" placeholder="Filter By Project" #singleSelect
+                  [(ngModel)]="selectedProjectId" (selectionChange)="selectedProjectinactiveEvent($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="projectFilterCtrl" placeholderLabel="Search Project..."
+                      noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let data of filteredproject | async" [value]="data.id">
+                    {{data.project_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+
+            <!-- Inactive jobs by status -->
+            <!-- <div class="col-6 filter-with-mat-select pr-0"
+              *ngIf="inactivejobs_bystatus && !completedjobs && !inactivejobs">
+              <mat-form-field appearance="outline" class="col-8 pt-1">
+                <mat-select [formControl]="projectCtrl" placeholder="Filter By Projects" #singleSelect
+                  [(ngModel)]="selectedProjectId" (selectionChange)="selectedProjectinactiveEventByJobStatus($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="projectFilterCtrl" placeholderLabel="Search Project..."
+                      noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let data of filteredproject_bystatusinactivejobs | async"
+                    [value]="data.project_id">
+                    {{data.project_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+            <!-- others jobs by status filter -->
+            <!-- <div class="col-6 filter-with-mat-select pr-0"
+              *ngIf="completedjobs && !inactivejobs && !inactivejobs_bystatus">
+              <mat-form-field appearance="outline" class="col-8 pt-1">
+                <mat-select [formControl]="projectCtrl" placeholder="Filter By Projects" #singleSelect
+                  [(ngModel)]="selectedProjectId" (selectionChange)="selectedProjectEventByOtherJobs($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="projectFilterCtrl" placeholderLabel="Search Project..."
+                      noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let data of filteredproject_otherjobs | async" [value]="data.project_id">
+                    {{data.project_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div> -->
+            <!-- ****** -->
+            <span class="mat-filter-refresh-btn" *ngIf="reset_filter_btn">
+              <button matTooltip="Reset filter" (click)="jobrefresh()" mat-icon-button class="example-icon action-btn">
+                <mat-icon class="pr-menu-icon ">refresh
+                </mat-icon>
+              </button>
+            </span>
+            <!-- refresh button inactive by jobs status -->
+            <!-- <span class="mat-filter-refresh-btn" *ngIf="inactivejobs_bystatus && reset_filter_btn_inactivejobstatus">
+              <button matTooltip="Reset filter" (click)="setjobdetailsinactivebystatus()" mat-icon-button
+                class="example-icon action-btn">
+                <mat-icon class="pr-menu-icon ">refresh
+                </mat-icon>
+              </button>
+            </span> -->
+            <!-- refresh button inactive jobs -->
+            <!-- <span class="mat-filter-refresh-btn" *ngIf="reset_filter_btn1 && !reset_filter_btn && !completedjobs">
+              <button matTooltip="Reset filter" (click)="setjobdetailsinactive()" mat-icon-button
+                class="example-icon action-btn">
+                <mat-icon class="pr-menu-icon ">refresh
+                </mat-icon>
+              </button>
+            </span> -->
+
+            <!-- refresh button completed jobs -->
+            <!-- <span class="mat-filter-refresh-btn" *ngIf="reset_filter_btn_jobcompleted && completedjobs">
+              <button matTooltip="Resetd filter" (click)="setjobdetailscompleted()" mat-icon-button
+                class="example-icon action-btn">
+                <mat-icon class="pr-menu-icon ">refresh
+                </mat-icon>
+              </button>
+            </span> -->
+            <div class="col-4 filter-form-sec">
+              <mat-form-field appearance="standard">
+                <mat-label>Filter</mat-label>
+                <input matInput [(ngModel)]="filterData" #ctrl="ngModel" (keyup)="applyJobFilter($event)" placeholder="Search Jobs ..." #input>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tablescroll">
+        <mat-table #table [dataSource]="dataSource2" multiTemplateDataRows matSort #sort="matSort"
+          [ngClass]="{'active-inactivejobs_table': inactivejobs}" class="table_tc">
+          <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+          <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef class="selector_style">
+              <mat-checkbox (change)="$event ? masterToggle() : null;bulk_delete()"
+                [checked]="selection.hasValue() && isAllSelected()"
+                [indeterminate]="selection.hasValue() && !isAllSelected()">
+              </mat-checkbox>
+            </mat-header-cell>
+            <td mat-cell *matCellDef="let row">
+              <mat-checkbox (click)="$event.stopPropagation()"
+                (change)="$event ? selection.toggle(row) : null;bulk_delete()" [checked]="selection.isSelected(row)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="selector">
+          <mat-header-cell *matHeaderCellDef>
+            <mat-checkbox [(ngModel)]="select_all" (ngModelChange)="onSelectAll($event)"></mat-checkbox>
+          </mat-header-cell>
+          <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+            <mat-checkbox *ngIf="select_all" (change)="jobCheck($event, element.id)" [(ngModel)]="selected">
+            </mat-checkbox>
+            <mat-checkbox *ngIf="!select_all" (change)="jobCheck1($event, element.id)" name="checkSelect">
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container> -->
+          <!-- Position Column -->
+          <ng-container matColumnDef="job_name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Job Name </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="td_text_lowercased">
+              <!-- {{element.job_name}} -->
+              <span class="table-link-dialog-open td_text_firstltr_capitalized"
+                (click)="viewJob(element)">{{element.job_name}} </span>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="project_name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header [ngStyle]="{'margin-left':inactivejobs?'-17px':'0px' }">
+              Project </mat-header-cell>
+            <mat-cell *matCellDef="let element" class="td_text_lowercased"> <span
+                class="td_text_firstltr_capitalized">{{element.project_name}}</span></mat-cell>
+            <!-- <mat-cell *matCellDef="let element"> {{element.projectDetails.project_name}} </mat-cell> -->
+          </ng-container>
+
+          <!-- Weight Column -->
+          <ng-container matColumnDef="start_date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Start Date </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span *ngIf="element.start_date == undefined"> - </span>
+              <span *ngIf="element.start_date != null ">{{element.start_date |date:"dd-MM-yyyy"}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="end_date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> End Date </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span *ngIf="element.end_date == undefined"> - </span>
+              <span *ngIf="element.end_date != null "> {{element.end_date |date:"dd-MM-yyyy"}} </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="hours">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Estimated Hours </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <span *ngIf="element.hours == undefined"> - </span>
+              <span class="notNull" *ngIf="element.hours != null">
+                {{element.hours}}
+              </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="logged_hours">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Logged Hours </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-raised-button class="mat_chip_style_hours"
+                matTooltip="This includes deleted user logged hours"
+                matTooltipPosition="above">{{element.logged_hours}}</button>
+            </mat-cell>
+          </ng-container>
+          <!-- <ng-container matColumnDef="Status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.job_status}} </mat-cell>
+        </ng-container> -->
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+            <mat-cell *matCellDef="let element">
+
+              <button mat-raised-button class="edit-btn"
+                *ngIf="!inactivejobs && !completedjobs &&!inactivejobs_bystatus"
+                (click)=" updateJob(element.id, element.project_id , element.jobAssigneeDetails)">
+                Edit
+              </button>
+              <button mat-raised-button class="status-button" matTooltip="Job status" matTooltipPosition="above"
+                [disabled]="element.is_activated_project == false"
+                [ngStyle]="{'background-color': element.job_status == 'Inprogress' ? '#408948' : element.job_status == 'Completed' ?'#4d96d5': element.job_status == 'Closed' ?'#212529' : '#8D8D8D' }"
+                (click)="changeStatus(element.id)">
+                {{element.job_status}}
+              </button>
+              <button mat-raised-button color="primary" class="delete-btn" (click)="deleteJob(element.id)"
+                *ngIf="inactivejobs_bystatus || completedjobs">
+                Delete
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column -->
+          <ng-container matColumnDef="expandedDetail">
+            <mat-cell class="assigneeDetail" *matCellDef="let element">
+              <div class="btnStyle"><button *ngIf="!inactivejobs" mat-raised-button class="addBtn"
+                  (click)="addAssignees(element.id , element.project_id,element.jobAssigneeDetails, element.job_name)">Add
+                  Assignee(s)</button></div>
+              <div style="width:100%" *ngFor="let data of element.jobAssigneeDetails">
+                <div class="row example-style assignee_row td_text_lowercased">
+                  <tr style="width:100%" class="row ">
+                    <td class="assigneeName col-2 font-weight-bold td_text_firstltr_capitalized"
+                      *ngIf="data.map.status == 'Active'">
+                      {{data.map.name}}</td>
+                    <td class="assigneeName col-2 text-secondary td_text_firstltr_capitalized"
+                      *ngIf="data.map.status == 'Inactive'">
+                      {{data.map.name}}</td>
+                    <td class="assigneeSD col-2 font-weight-bold" *ngIf="data.map.status == 'Active'">
+                      {{element.start_date |date:"dd-MMM-yyyy"}}</td>
+                    <td class="assigneeSD col-2 text-secondary" *ngIf="data.map.status == 'Inactive'">
+                      {{element.start_date |date:"dd-MMM-yyyy"}}</td>
+                    <td class="assigneeED col-2 font-weight-bold" *ngIf="data.map.status == 'Active'">{{element.end_date
+                      |date:"dd-MMM-yyyy"}}</td>
+                    <td class="assigneeED col-2 text-secondary" *ngIf="data.map.status == 'Inactive'">{{element.end_date
+                      |date:"dd-MMM-yyyy"}}</td>
+                    <td class="assigneeRPH col-1 font-weight-bold" *ngIf="data.map.status == 'Active'">
+                      {{data.map.rate_per_hour}} RPH</td>
+                    <td class="assigneeRPH col-1 text-secondary" *ngIf="data.map.status == 'Inactive'">
+                      {{data.map.rate_per_hour}} RPH</td>
+                    <td class="assigneeLH col-2 font-weight-bold"
+                      *ngIf="data.map.logged_hours != 0 && data.map.status == 'Active'">
+                      <span class="loggedHours">{{data.map.logged_hours}}</span>
+                    </td>
+                    <td class="assigneeLH col-2" *ngIf="data.map.logged_hours != 0 && data.map.status == 'Inactive'">
+                      <span class="loggedHours">{{data.map.logged_hours}}</span>
+                    </td>
+                    <td class="col-2 font-weight-bold"
+                      *ngIf="data.map.logged_hours == 0 && data.map.status == 'Active'">0
+                    </td>
+                    <td class="col-2 text-secondary"
+                      *ngIf="data.map.logged_hours == 0 && data.map.status == 'Inactive'">0
+                    </td>
+                  </tr>
+                </div><br>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="assinees">
+            <mat-header-cell *matHeaderCellDef> Assignee(s) </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <div [ngClass]="{'mat_badge_font' : element.count_active>99}">
+                <button mat-icon-button *ngIf="expandedElement != element && (element.count_active>99)"
+                  [class.expanded]="expandedElement == element" (click)="expandedElement = element">
+                  <mat-icon matBadge="99+" class="mat_badge_secondary" matBadgeColor="accent" matBadgeSize="small">
+                    person</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="expandedElement != element && (element.count_active<100)"
+                  [class.expanded]="expandedElement == element" (click)="expandedElement = element">
+                  <mat-icon matBadge={{element.count_active}} class="mat_badge_secondary" matBadgeColor="accent"
+                    matBadgeSize="small">
+                    person</mat-icon>
+                </button>
+              </div>
+              <button mat-icon-button *ngIf="expandedElement == element" [class.expanded]="expandedElement == undefined"
+                (click)="expandedElement = undefined">
+                <!-- <mat-icon>keyboard_arrow_up</mat-icon> -->
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns2 sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns2;" matRipple class="element-row"></mat-row>
+          <mat-row *matRowDef="let row; columns: ['expandedDetail'];"
+            [@detailExpand]="row == expandedElement ? 'expanded' : 'collapsed'" style="overflow: hidden">
+          </mat-row>
+        </mat-table>
+      </div>
+      <div *ngIf="no_data.length == 0" class="text-center text-danger alert-danger no-search-match p-3">
+        {{noDataMsg}}
+      </div>
+      <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+        No Data Matching For "{{this.filterData}}"
+      </div>
+      <!-- <mat-icon matTooltip="Delete Selected Jobs" matTooltipPosition="right" class="mat-icon" *ngIf="listProject.length >=2 || select_all" (click)="bulkdelete()">delete</mat-icon> -->
+      <mat-paginator class="paginator" #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+        [pageSizeOptions]="tablePaginationOption">
+      </mat-paginator>
+
+    </div>
+  </div>
+</section>

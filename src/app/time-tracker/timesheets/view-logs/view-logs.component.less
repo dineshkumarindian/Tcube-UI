@@ -1,0 +1,238 @@
+.viewTimeLogs {
+    .page-header{
+        .btn_sec{
+            position: relative;
+            bottom: 7px;
+        }
+    }
+    .mainContent {
+        max-height: 480px;
+        overflow: auto;
+
+        .approveTable {
+            max-height: 393px;
+            overflow-y: auto;
+            tr.mat-header-row{
+               border-left: 3px solid #e4eaee;
+            }
+            .headerCards {
+                justify-content: space-around;
+
+                // padding:5px;
+                .card {
+                    margin: 10px 0;
+                    padding: 10px;
+                    border: none;
+                    box-shadow: rgba(100, 100, 111, 0.15) 0px 5px 30px 0px;
+                    transition: 1s;
+                    align-items: center;
+                    justify-content: center;
+                    border-left: 4px solid #ff9700;
+                    // border-left: 4px solid #00d9b1;
+
+                    p {
+                        margin-bottom: 5px;
+                        font-size: 12px;
+
+                        .name {
+                            color: #00d9b1;
+                        }
+                    }
+
+                    .statusStyle {
+                        display: flex;
+
+                        .status {
+                            background-color: #00d9b1;
+                            color: white;
+                            padding: 0 8px;
+                            border-radius: 10px;
+                            font-size: 12px;
+                            -webkit-animation: status 1s ease;
+                            animation: status 1s ease;
+                            -webkit-animation-iteration-count: 1;
+                            animation-iteration-count: 1;
+                        }
+                    }
+
+                }
+
+                .hoursCard {
+                    .row {
+                        justify-content: center;
+                        width: 100%;
+                    }
+
+                    .hour {
+                        margin-right: -65px;
+                    }
+
+                    .shour {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    .heading1 {
+                        color: #ff9700;
+                    }
+
+                    .heading2 {
+                        color: #00d9b1;
+                    }
+                }
+            }
+
+            .datatable {
+                .mat-row {
+
+                    .hoursHover {
+                        font-size: 13px;
+                        // background-color: #f0f0f0;
+                        background-color: #3573bb;
+                        color: white;
+                        border-radius: 17px;
+                        padding: 4px 8px;
+                        transition: 0.5s;
+                        text-align: center;
+                        width: 80px;
+                    }
+
+                    .time {
+                        font-size: 13px;
+                    }
+                }
+
+                .mat-row:nth-child(odd):hover {
+                    border-left: 3px solid #ff9700;
+                    // border-left: 3px solid #1686e0;
+                    background-color: #fff9ee;
+
+                    .mat-cell {
+                        .hoursHover {
+                            font-size: 13px;
+                            background-color: #ff9700;
+                            border-radius: 10px;
+                            transition: 0.5s;
+                            color: #fcf9f9;
+                            width: 80px;
+                            text-align: center;
+                            padding: 2px 8px;
+                            box-shadow: rgba(255, 85, 0, 0.8) 0px 5px 15px;
+                        }
+                    }
+                }
+
+                .mat-row:nth-child(even):hover {
+                    border-left: 3px solid #00d9b1;
+                    // border-left: 3px solid #1686e0;
+                    background-color: #f4fffd;
+
+                    .mat-cell {
+                        .hoursHover {
+                            font-size: 13px;
+                            background-color: #00d9b1;
+                            color: #fcf9f9;
+                            transition: 0.5s;
+                            border-radius: 10px;
+                            padding: 2px 8px;
+                            box-shadow: rgba(0, 217, 177, 0.8) 0px 15px 20px -10px, rgba(0, 217, 177, 0.8) 0px 8px 16px -8px;
+                            width: 80px;
+                            text-align: center;
+
+                        }
+                    }
+                }
+                .mat-table {
+                    .mat-column-task {
+                        word-wrap: break-word !important;
+                        white-space: unset !important;
+                        flex: 0 0 50% !important;
+                        width: 50% !important;
+                        overflow-wrap: break-word;
+                        word-wrap: break-word;
+
+                        word-break: break-word;
+
+                        -ms-hyphens: auto;
+                        -moz-hyphens: auto;
+                        -webkit-hyphens: auto;
+                        hyphens: auto;
+                        // height:60px;
+                    }
+                }
+            }
+
+        }
+
+        .approveFooter {
+            background-color: #f4f4f5;
+            position: fixed;
+            width: 100%;
+            bottom: 0px;
+            padding: 10px;
+            align-items: center;
+
+            .showComment {
+                // margin-left: auto;
+                // display: flex;
+                // // justify-content: flex-end;
+                // align-items: baseline;
+                // margin-right: 7%;
+
+                .head {
+                    color: #3573bb;
+                    font-weight: bold;
+                }
+
+                .commentData {
+                    color: slategrey;
+                    font-size: 14px;
+                }
+            }
+
+            .dateHead,
+            .statusHead {
+                color: #3573bb;
+                font-weight: bold;
+            }
+
+            .data {
+                font-size: 13px;
+                background: #00d9b1;
+                color: #FFFFFF;
+                font-weight: 200;
+                padding: 0 5px;
+                border-radius: 5px;
+            }
+        }
+    }
+
+}
+
+@media only screen and (max-width: 1920px) {
+    .viewTimeLogs {
+        .mainContent {
+            max-height: 810px !important;
+            overflow: auto;
+            .approveTable {
+                max-height: 635px !important;
+
+            }
+        }
+    }
+
+}
+
+@media only screen and (max-width: 1366px) {
+    .viewTimeLogs {
+        .mainContent {
+            max-height: 515px !important;
+            overflow: auto;
+            .approveTable {
+                max-height: 393px !important;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,854 @@
+- added bottom space in attendance and monthly addendance report page for better look in mobile view
+- fixed the pie chart size issue  for the responsive in dashboard page
+- responsive fixes for the dasboard page
+- To check and fix the issue in notification counts get method in main nav component is done
+- Project version alignment change in mobile view is done
+- leave trackers verifying all changes and what's app integration selct option in mobile number
+- Attendance check in check out slack integration in dashboard and attendance page is done and dashboard action dialog box responsive is done
+- Developed project wise billing hours details using dummy data
+- In dashboard created the today leave section and my projects and jobs alignment issue fixed
+- Notification get method modified by get details based on days
+- project version to show in mobile view is done
+- UI changes - offer letter(added modified date column and resolved modified date not showing in pdf) and dashboard dot style commented and manage client(space issue in name field and manage role(remove sorting for Access to and in offer preview heading alignment)
+- main nav header version style updated for better look
+- responsive fix for attendance page and monthly attendance report page
+- gov-holiday are not showing holiday list done the changes and done myaccount added remove button and remove fixing and time tracker issue done
+- UI offer letter changes - DOB(hiding future date) and adding created date column
+- manage leave type holiday name filed selected date filed issue,solved the issue
+- Prod build update version 1.0.2
+- attendance page header responsive is done
+- attendance page responsive for cards and header for few resolution
+- In dashboard count showing cards alignment issue fixed
+- custom holiday date field changes for testing
+- main-nav header overlap issue in responsive is solved
+- prod build issue fix
+- main nav responsive fix for side-nav is done and project version updated
+- Mat-sort functionality not working properly in projects and jobs table issue fixed
+- leave trackers apply leave hide the weekend days in start and end date and working fine in mat sort and paginatore in myleaves and request tab and hide future date in update profile details DOB
+- Attendance responsive fix for cards
+- UI changes in dashboard - restrict the total count of proj,jobs,clients,business and offer letter only for org admin
+- Documentation content changed by rio instaructions
+- UI dashboard changes - styling total count(proj,jobs,clients,business and offer letter) on top of dasboard with proper alignment and styleand removed recently added offer and business letters
+- have clear the merge changes
+- Add Custom holiday
+- fix the default design styles for the add and edit org dialog box, added new form field pricing plan with the required integration
+- Design the documentation dialog for slack and whatsapp integration is done
+- In dashboard hiding the my and total clients,projects,jobs and my leaves add leave navigate button changes and my project and jobs fixing  alignment issue
+- leave tracker changes of showing myleaves integration changes
+- main nav page header and side nav responsive fix is done , created new components to show more navigations and notifications for mobile view is done , show more menu based on user access is done in mobile navigation page and notification integration is done in mobile notification page active mobile view menu based on current page is done
+- export symbol change and submit timelog approver list have time tracker access person added changes
+- To design and integrate the whatsapp integration in manage integration and leave tracker page is done
+- prod build update
+- UI offer letter changes - footer alignment in pdf
+- UI dashboard changes - recently added business and offer letter UI and integration and Total count of hr letters and recently added style
+- UI offer letter changes - Content alignment in preview offer letter in update page
+- quick add task and edit task added billable field if given or not have edit billable field added
+- In dashboard page created and integrated  my leaves section and upcoming holidays section and dashboard row alignment changes and Total clients,projects and jobs count for orgadmin
+- production build update version - 1.0.0 leave tracker, business letter, landing page
+- In manage-client and manage-users send mail to the repective mail id while activate and deactivate happens
+- change logged in username color to white, changed org name as link to view the details in super admin submodule tables and fixed the nodata message issue in the table
+- leave tacker cancel,approve and reject comment filed style and desigin changes
+-  landing page changes as per rio instruction
+- business letter view pdf letter
+- leave trackers fixed pending request count and added styles
+- leave tracker api integration and develop and changes the comment filed in cancel button and total days myleaves added circle button and added error alignment fixed in gov holiday
+- created a new component to show the oorg deatails in the pending request table, added logged user name in the main nav bar and fixed the the bugs in the manage org table of duplicate data
+- created a new component to show the oorg deatails in the pending request table, added logged user name in the main nav bar and fixed the the bugs in the manage org table of duplicate data
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- landing page review changes and back to top button added
+- UI changes - No data found in table
+- UI changes - displaying total hr letters count in dashboard
+- Leave tracker cancel and approve dialog responsive fixed
+- landing page dummy content replace with actual content is done and review changes is done
+- fixed the bugs in the manage org and increased the duration for the snackbar for success and failed messages
+- manage leave type card style and design change
+- internship letter to change business letter and added comments and added pdf quality and added name,address field hint
+- To fix responsive for apply leave form in leave tracker
+- production build update
+- resolve build errors
+- fixed the issues in the edittimetrackercomponent and setting while prod build
+- landing page price card remove last card and alignment responsive fix and few UI color changes and added servx logo in footer
+- PROD api endpoint update
+- To add total counts card in approvals page is done
+- Made integration changes in the authenticate org to restrict the pending or reject orgs in login component
+- landing page pricing section changed with new design and fixed responsive for that is done and remove terms and condition from quick link in footer section
+- manage Leave type card style change
+- integrated the approve reject update status api in the pending details api in  manage org page
+- if leave type already created date whenever deleted holiday doesn't show added restriction
+- In leave tracker, requests table request raised by name change button style and design and added total days put button style and design and request count change the design
+- landing page header responsive with active style and hamburger menu functionality is done
+- UI time tracker quick add task - getting data in table behind the dialog if keep me editor after save is enable
+- In gov holidays form already created the leave doesn't create again given the restriction In manage leave type and added request count in leave tracker
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- landing page menu activate based on current screen section is done
+- UI offer letter changes - pdf content spacing issue and spinner while clicking add and update
+- leave tracker button change
+- internship letter subtitle changes and added ckeditor hint
+- features section design with responsive is done in landing page
+- internship letter module name chnage and added subtitle letters and added changing internship letter routing names
+- made some design changes in the pricing details card in the register common dialog box
+- Integrated the notification for apply , approve and reject the leave request in leave tracker is done
+- Manage leave type card active color fixed and gov-holiday date fixed disabled for when i am click holiday type
+- In manage-org and manage clients and users dialog box for activate & deactivate & delete alignment issue fixed
+- super admin dashboard page design ui and internship letter changes of date format chnage in preview and view dialog box and added spinner in add and update form
+- Added hint message to the create integration form
+- added pricing plan form field in the register form, deleted the terms and condition component, created a common dialog component for the register and added pricing details and terms and condition in it
+- Fixed the style issue in slack integration card in manage integration
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- Ui offer letter changes - table border style in ckeditor in pdf and page validtion as same 3000 for annexure and hint message
+- Added pause or resume dialog in manage integration
+- Integrated edit , pause and resume and delete in slack integration in settings
+- preview letter created date change the design
+- internship letter comment the console error
+- Added loginpage link in footer quick link and added servex contact mail link in mail us button
+- To design the slack integration page in settings page is done
+- Ui offer letter changes- Each page validation in pdf and table border style in add offer, view offer(partial)
+- landing page footer design changed and empty path redirect to home is done
+- internship letter added loader in preview dialog letter and fixing the created date field in letter and preview letter
+- In manage-org,manage-clients & users optional comment box design changed,In inactive projects and jobs set mattool tip message and changed button color
+- UI offer letter changes - pdf alignment in preview
+- UI offer letter changes- count annexure button style
+- UI offer letter changes - choose logo issue - solution
+- Update deployment.yml
+- In manage client and users adding optional comment box and in manage-org designing the textarea field ,in inactive projects and jobs to move to inactive clients button,project name alignment issue in projects page
+- UI offer letter changes - Save and update button responsive
+- remove offerletterpdf update API integration
+- UI offer letter changes -> changed - download icon,count annexure button,filter alignment,pdf alignment,preview in both add and update and sample,responsive-save and update button,choose logo and other styles
+- created a new component for the landing page, configure routing and developed the landing page
+- internship letter adding line spacing in preview letter
+- edit preview letter hide the name field and adding address width stytle
+- In projects and jobs changes done & alignment issue in manage clients done
+- Removed cosole messages in settings component
+- Create new form for get holidays from google calendar is done
+- update offer letter pdf integration
+- internship letter date filed hide and added color in download button and super admin client details and heading changes
+- update offer letter API integration done
+- UI offer letter changes- choose logo button alignment and update button alignment
+- internship letter ckeditor validation changes and view dialog box pdf line height added and super admin component and design added
+- In manage-clients view client details,projects & jobs count taking time after spinner is closed issue fixed
+- Ui offer letter changes- Company -> company in candidate acceptance sentence in pdf
+- Change the inactive button color in projects and jobs
+- Change the form title name based on create or update in leave type creation and holiday creation
+- In project page active and inactive section filter by client changes done
+- Project and jobs section inactive and active sections changes done
+- UI offer letter changes- image cancel icon in update,tooltip in add button of accordion,count annexure style,download icon changed
+- In create user form remove the org admin role option in role dropdown is done
+- removed unwated formdata values in offer letter
+- internletter download style changes and ckeditor line spacing issue solved and back button tooltip changes
+- To continue work on integrate the holidays tab table in leave tracker is done
+- internship letter view pdf view changes and ckeditor changes and changes in download icon
+- UI offer letter changes- add button style and count and error message,pdf alignment,preview back button alignment,acceptance message
+- made changes in the integration to set the value for the assignees in the add assignee componenet
+- internship letter image validation change and changing in view offer letter
+- UI changes-offer letter(pdf content & heading alignment, add & remove style,accordion alignment,update enabling)
+- internship letter view pdf content design changes and added size validation and overlapping issue solved
+- name field of hard code inckeditor and fixing the ckeditor spacing issue solved ,pdf overlapping issue fixed
+- TO edit quick task chnage heading name and remove checkbox and internship letter back button added tooltip and added name field in ckeditor
+- Util common delete issue fixed
+- done the bulk delete alignment change and fixing the design in dialogbox of quick add task
+- In manage clients view client details count alignment fixed & project and jobs button font size changed
+- offer letter pdf size reduce is done
+- adding quick add task edit dialog and passing the data and added validation in quick add task and changing ui designing in quick add task of time tracker
+- While apply the leave restrict the leave apply while taken leave days greater than available days is done
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- Add assignees button and add job button removed in inactive jobs & projects section
+- Enabled the leave tracker icon in side nav bar
+- Integrated the taken leave counts based on leave type in leave tracker
+- UI Changes of offer letter that added in jira(pdf alignment,doj,location,desig removal,preview dialog style,annexure style and validation)
+- In projects and jobs creating inactive and active sections that depends on client inactive and active
+- time tracker quick task button design change and dialog box design change
+- fixed the add assignees drop down issue for the inactive user in the jobs details page
+- changes in quick add task in added quick button and added dialog to fixing the functionality of quick add task
+- add close toggle in action component is done
+- no action integration in attendance page is done
+- new component created and designed for when no action card available it will shown to user who has access to setting page and ask to create own action cards or to get default action cards for all section
+- UI changes - Validation for max annxeure,validate 3000 words in ckeditor and othe jira tasks
+- in manage org activate and decativate org details fixed the textarea height issue and removed the my account btn in the main for super admin logged in and added validation for to check the existing mail id while adding the org details
+- UI offer letter changes(signature role added,changes-filter,preview heading,buttons)
+- increased the width of the date column in the timetracter table while applying the filter in the timetracker page
+- manage attendance reset button title change to click here to get default actions and action card menu color changed
+- UI changes for add-offer component annexure-validation(partial)
+- minimize the pdf size to resolve packet too large
+- Add projects and jobs table and show all project, job and client count for orgadmin
+- integrated the jobassignee details to show the inactive assigness in the jobs table and in the view jobs dialog box
+- offer letter header footer alignment and annextures start in new page last annexture page only show declaration and signature is done
+- Modified the get method in leave type details
+- Modified the update method in leave type details based on time zone
+- Modified the create leave type method based on timezone
+- Notification badge color bug fixed
+- Added available days column in manage leave type table
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- To hide dactivate button in manage leave type is done
+- Hide the role of the employee and change table name from employees to teams
+- UI - Service changes for add-on
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- internship letter button style changes and verifying pdf overlapping changes
+- Show the users jobs,projects count and project's client count in dash board page
+- Integrated the leave type card in leave tracker
+- internship letter changes in ui
+- UI changes for create service and for furthur use
+- To change the year interval form design dropdown to year picker is done
+- UI changes - Offer Letter(preview offer, view-offer,offer)
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- UI changes add-offer with acordion and add-on method
+- added default btn  styles for  the save and cancel btn in the active modules and hide btn related style on the particular componenet
+- time tracker filter style issue fixed with common style
+- write common form field style for all component and removed induvidual style in add project add jobs time tracker and setting page is done
+- Integrated the manage leave type in settings page
+- internship letter pdf generation added quality of display on the screen in internship letter
+- Manage-org while  bulk-deactivate & activate send mails to the organizations with comment,for super admin manage-org mat-nav-list to show at the top
+- Added a comment box in manage-org deactivate & activate dialog and send this to db,added the bulk delete in manage-org
+- Added pagination and year wice navigation button
+- Add error navigation on forgot password page and register page, add privious page function button for maintenance page
+- back button alignment change and remove the console error
+- multiple delete attendance action cards integration and writen code for multiple delete action card
+- manage attendance multiselect validation and delete button with coinfirm action is done
+- internship letter changes in pdf generation
+- multiselect option with action card checkbox design in manage attendance action section is done
+- Manage-client inacive & active clients & deactivate & activate client,manage-org form field validations,manage-org deactivate & delete warning message
+- internship letter image field changes and verifying the changes in internship letter
+- Interated thr table in leave tracker details
+- fixed the total time showing wrongly in the after applied filter in the timetracker page
+- intership letter changes in Ui post Api
+- Added restore button in manage action page action section and writen functions for delete old section data from DB and store default attendance action cards and did integration
+- Changed the table dsign in leave tracker page
+- fixed the after updating the project user showing view more btn in the project table
+- internship letter post api changes without save pdf
+- post api integration and pdf functioality changes in internship letter
+- fixed the update btn not enable issue while start and end date not in the project form
+- Add error page for login page while http client error
+- fixed the date showing after reset the filter in the timetracker table
+- Added approve and reject dialopg for leave tracker page
+- Design leave tracker page in done
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- internship letter Ui changes
+- replace loader gif with new loader gif image
+- integrated the jobcost and assignee cost in the view job model and removed some console messages
+- channged integration to calculate the jobcost and job assignee cost in add jobs page
+- attendance action card show back section in first check in when last date action back it should not affect today first in
+- remove last changes because its affect in section
+- attendance action card show back section in first check in when last date action back it should not affect today first in
+- Changed alert dialog in login page role issue in util file
+- projects and jobs date format changed
+- cancel leave save in db integration is done
+- To change the alert message in role error dialog is done
+- internship letter ui changes
+- leave apply for again on same day it should not allow to do and show message you can't apply leave contact admin is done
+- in manage role added warning message and if role has delted the can't login
+- Changed the UI date format to one common format
+- In manage org developed inactive orgs page
+- internship letter api integration changes
+- internship letter api integration changes
+- Change dialog design in manage org is done
+- Resolved other action functionality issue
+- add loader to dashboard page for clients projects and jobs count section
+- ui and integration changes of internship letter
+- action section header title renamed
+- manage attendance action card form png image background color added
+- delete action sucess and failure message added
+- Fixing ng-multiselect error in time tracker
+- action card other action alignment issue after update action card title is done
+- manage attendance action edit delete design changes and resolve allignment issue when came to this page from timetracker is done
+- Change reset button icon, colour and hover colour
+- In projects email template remove project cost is done
+- In my account matmenu padding issue fixed
+- In my accout and project/jobs mat menu outline style and padding issue fixed
+- dashboard organization details title changed and card design changed for clients jobs and projects count
+- resolved the invalid date for to date issue while selecting the custom dates for the filter in the timetracker page
+- After select period in time tracker filter it will close automatically
+- done the header logo image in all pages of internship letter and download name changes and preview design changes
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- action card space issue resolved
+- All date formats are changed to same format in time tracker
+- In projects table project manager column data issue fixed
+- Attendance action section add title with design is done and renamed dashboard clients count lable mistake
+- created new component for delete which act as dynamic delete confirmation for all componenet and delete confirmation for manage attendance action card is done
+- added custom option to select from and to date tofilter the tasks in the time tracker page
+- manage attendance choose file add outline and fix alignment for choosed file preview and name
+- Create user and update user no data issue fixed
+- Fixed manage attendance action form choose image right align issue in laptop
+- action card mat menu lable removed only icons and alignment fixed and added tooltip and success failure message updated in manage attendance
+- Changed the default action image in manage attendance
+- employee list column overlap issue in dashboard is resolved
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- manage attendance action form action type out current section remove in option validation is done
+- Changed the add assignees workflow job update method to bulk assignees
+- Success and failed messages corrected in projects and jobs
+- dashboard page employee status space issue resolved and change date time formate and calander active colour changed based on theme in attendance is done and add cursor for monthly attendance button is done
+- Changed the loader timing in create new project
+- removed the seconds in the edit time inteval form field
+- manage attendance action card form for leave functionality is done and also resolved manage attendance after post method empty card section showed without title and removed console message in dashboard page
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- Notification loader,settings input form field validations,create new user page card alignment
+- fixed the time interval edit issue and changed the mat tooltip message for after submitted the the tasks in the timetracker table
+- Modified employee details integration to show time of action
+- oganization project jobs and client count in dashboard page design functionality to fetch count and integration is done
+- If estimated hours has crossed with logged hours to disable the that job in time tracker and add tooltip is done
+- pdf letter changes and hr-module comment to commit the code
+- done the pdf page blur of content display and ckeditor issue done
+- To change the action image as a not required field and if user not selected the action image update default image is done
+- pdf generation of next page content generation solved in internship letter
+- dashboard my project and jobs show all jobs and project in the organisation is resolved
+- Date format issue fixed in timesheet and approvals page
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- manage attendance action form validation based on action type to current and after action section is done
+- Add validators and displaying the start and end date in projects page
+- off today enable disable only for today funtionality is done
+- changing checkbox style and mat-form-field style fixing all modules and pdf next page content generation is done but next pagg of line is damaging fixing it
+- manage attendance post put integration and form validation and required functionality and section card logo change
+- Adding start and end date for the project
+- In jobs, estimated hours crossed received email after, am updating estimated hours again the email condition should be reset, again the estimated hours has been crossed need to email again for that a jobs is done
+- disabled the checkbox via delete functionality after the submitted the tasks to the approver
+- hide the edit, play and delete functionality and disable the edit time interval functionality for the submitted task in the table
+- Changed the get method flow in timesheet and approvals page based on timesheet id
+- In time tracker, submit time logs dialog box submit and cancel button center aligned
+- 1.In time tracker edit hours add arrow for time change,2.Disable the time log submit button after submitting the task is done,3.During the disable time Hover the time log submit button showing alert message is adding done
+- checkbox style changes and added all pdf structure content color changes and verifing filter on internship letter
+- manage attendance page get method and delete method integration is done and action card menu icon colors added and cardalignment fixed
+- added form in the manage attendance table to add the attendance action cards
+- To change the design add image icon for while hover the profile image in my account is done
+- Update page, click back to move on internship letter table page again showing in loading time no data found message was done
+- added validation ckeditor on internship letter
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- added validation in ckeditor in internship letter
+- To fix the issue in approvals table data getting error is done
+- added date and status in viewlogs page
+- fixed the invalid date issue in the time tracker edit time interval
+- Adding placeholder for select approver form field
+- internship letter-update preview letter changes,validaion added image field,fixing height in ckeditor and aadded validation and form field save to move top of the table
+- In view time logs, when the request has been raised show the date view time logs page is done
+- fixed the timer running issue in the timetracker page
+- attendance page action cards not showing other card only showing for the first time issue resolved
+- created new component for the attendance action cards manager and designed the page with the cards
+- attendance card dynamic value integration and enable disable functionality for other and off today card is done dynamicaly
+- In time tracker, task success and failure message changed to capitalized
+- To design add image icon for while hover the profile image in my account is done
+- create and update user button enabling issue for set password field is fixed,Emptyspace error message changed
+- UI uncommanded the coding in delete
+- UI changes - solved the issue in download pdf
+- click assignee’s column to expand the table user image is not showing so  remove that empty profile icon
+- UI changes - input name changed to signature and name of signature and back button alignment and tooltip
+- added bulk delete design and develop api integration and ckeditor added height
+- To design and integrate the separate profile image update with the cropping option on my account page is done
+- show logged in user profile picture in my account dropdown is added in header
+- fixed the runing showing delay while we came from another component and fixed the timer dealy issue
+- manage attendance programmaticaly update acion card data is done
+- UI changes - no data found issue,spinner,button color changes,download color and tooltip and small changes
+- login page emptyspace issue fixed,register page emptyspace error message,set password field validation,To show last created row  as a first row
+- integrated the getprojectjobsdropdown api service in the timetracker form
+- internship letter changes of preview color,add tooltip and input field style changes and dowload color changes in table and getById to get the data from api in experience letter
+- In notification click the link to open the direct view logs page is done
+- fixed the aligment issue in timetracker page and submit timelog page, and fixed the loading issue for select approver dropdown field
+- In jobs no data message issue fixed and change the notification get method flow based on unread notifications counts is done
+- Added validation for Mobile number input in all filelds
+- changes in ckeditor of internship letter and experience letter apply the changes in offer letter format
+- UI changes for offer letter-added letter title,changed preview format,updated ckeditor5 for table styling,removed salary,changed location and designation and other changes
+- In projects update method change the form values set method like job update method is done
+- Resolve the issue in notification get method with event listener in main nave page is done
+- Integrated the notification automatic get methos when click the tcube tab
+- Experience letter input field changes and table design develop changes and internship letter changes
+- My-Account resoponsive done
+- Responsive fixing for login,register and forgot password pages
+- internship letter changes of preview button style and better loog color change and filter verify
+- experience input field get the data to showing input fields and add disabled,search employeename fileter and internship letter chnages
+- In projects page add client dropdown to filter the projects based on clients is done
+- login clean up for responsive fix
+- Highlight some table values in the project and jobs view details is done
+- Added total members and total jobs in project details view dialog
+- main-nav hr-module comment to committed the code
+- internship letter all changes committted and experience letter delete api and edit  integration
+- In project view details add job details is done
+- experience letter input field get the employee datas and design and develop ui experience letter and table design and integration of post and getall done
+- attendance action card show date report with out action data and design changes
+- changed the submit timelog button color in the time tracker form
+- To design and integrate in jobs, click job name to view all details is done
+- Fixed the issue in favicon chenging
+- In view project details scroll issue fixed
+- Added no data found message , filter and pagination to the timesheets and approvals page table and added emp profile image for the approve page
+- verify update api and pdf footer changes
+- made integration changes in the notification service by adding the sub module name in the timesheets submit and approve page
+- change dashboard today bill status to current month bill status and integrate with month task bill status API
+- Ui internship letter-image input field validation,delete nodata issue changes,signature ordr changes,preview letter link hover style remove and table design chnages
+- Integrated the approve the timelog in approvals page is done
+- fixed the jobs table no data found issue while close the delete dialog
+- integrated the notifications for the timesheets approved or rejected timelogs
+- Integrated the timesheets and approvals table
+- font family changed for header and normal text in all component
+- fixed the nodata found not showing issue in the time tracker table
+- employee ateendance report header export button changes and mat table changes and header font change is done
+- integrated the markasread and markallasread functionality in the notifitication filed with required redirection to field
+- Created timesheet service file and card design chaned in approve timesheet page
+- modified action card show conditions
+- offer letter pdf generation have verify and generate the pdf structure in hr-letters
+- integrated the jobs dropdown based logged in user in timetracker form
+- experience letter - add
+- UI - Add, Delete, Bulk Delete, View and Preview changes for offer letter & reset button in change password
+- design and develop table design in experience letter and add experience letter
+- Hide the timesheets menu button in time tracker
+- Designed my timesheet and my approvals page in time tracker
+- integrated the get method the notification panel with the message and photo with added batchin the notification icon
+- design and develop add internship letter image field in Choose filename changed and update api integration changes
+- dashboard lable mistakes fix
+- design and develop internship letter adding input fields and changes and develop preview button generate preview internship letter
+- attendance date report header alignment and filter and export alignment and fix overflow issue in table email and date select position fix issue
+- attendance monthly reports choose month with year to search is done and validation to disable future month selection done
+- fixed the jobs duplication issue in the timetracker form dropdown and created the new service file for the notification api and integrated the post api
+- resolve in action other field after choose out switch in option also take as out type
+- Resolved off today functionality issue and after off today disable in action cards and give option to cancel leave and enable other field
+- dashboard my project and jobs loogeded hours and started date renamed
+- resolve logout blank screen issue and remove other field in check out action card
+- Fixed the issue in job update method
+- design and develop pdf footer input fileds added and back button chnages pdf preview and loader added and save button disable design chnages and loader added get,delete,post and changes bulk delete content and delete content
+- environment uat API end point update
+- loader implemented for induvidual sections in dashboard is done and resolve bug in action card
+- Update deployment.yml
+- checking deploy file
+- Update deployment.yml
+- Update Dockerfile
+- Update Dockerfile
+- Update Dockerfile
+- Update Dockerfile
+- Update Dockerfile
+- Update Dockerfile
+- Update Dockerfile
+- Update Dockerfile
+- Update Dockerfile
+- dashboard my project and jobs endpoint changed and modified changes
+- removed the unwanted console messages in jobs and time tracke page and add no data available in the edit tasks dropdown for jobs and projects field
+- upgrade to k8s
+- production build update
+- modified the integration for jobs table for get api
+- made integration chnages based on the new api changes the jobs get method
+- design and develop input fields of Experience letter in hr Module
+- removed the unwanted console message the dashboard component ts
+- attendance action bug resolved while first checkin and choose in out option in back other field
+- In job update method integration issue fixed
+- production build update
+- To check and add loader for update jobs form is done
+- UAT enviornment and package.json updated
+- attendance action card bug resplve and other field validation to enable enter button is done
+- environment uat created and updated angular json
+- resolved my timelog jobs not show for some tasks
+- production build update
+- design and develop delete dialog box change and edit to image field move the update content and fixed filter in table
+- changed the code in the project.ts for badge count in the table
+- Modified the integration for jobs matbadge counts in projects table
+- To change the job details get method in jobs
+- added loader in the update time intervals for edit and delete method in the drawer
+- attendance check in and check out option show based on last action is done and disable other cards when other option selected and disable design is done
+- In projects and jobs form fields remove required field to not required for project cost description and hours is done
+- To develop and design from ckeditor to get the content and adding spinners
+- added datepicker for select the custom dates in the timetracker to add the tasks
+- dashboard no data image is changed and no data message added and tooltip removed
+- added project page redirect btn to manage project users in the add assignee dialog box
+- Modified the view dialog box design in projects and manage client
+- production build update
+- changed the functionality of adding the new task in the previous dates in the time tracker page
+- production build update
+- dashboard my jobs renamed to my projects and jobs
+- production build update
+- get the content from  description ckeditor field  to pdf format on internship letter
+- fixed the loader issue in the task resume scenario
+- all employee status to employee's list renamed and remove firstname and lastname replace with name add mailto function to email and changed status color and my attendance active status color change is done
+- Design and integrate the view project details is done
+- changed the add assignee dialog box , fixed the alignment issue and fixed the loder showing errors in dialog box
+- production build update
+- removed the validations in the filter form to enable search button
+- develop and design choose image input field and added ck editor on add internship letter and changes in bulk delete
+- Designed and integrated the client details view dialog box
+- removed console message in dashboard page
+- all employee status card image size issue resolved in dashboard
+- added btn to reset the filtered data and show the project and jobs based on the client details in the filter form
+- all employee today status integration is done and dashboard card reorder is done
+- bulk delete design and api integration on internship letter
+- production build update
+- added the paramenter in the delete offer letter function
+- Design and develop view user details while click the user id in manage users table is done
+- fixed the update details lodaing issue not getting the jobs and projects in timetracker page
+- added loader for the view manager and fix the alignment issue for the rph form field in the project page
+- UI - Offer letter for add,view and delete method
+- report page search to redirect is done , employee date report page loader implement and when current date is today next date button disable is done
+- production build update
+- hide the submit timesheets button
+- employee date attendance report design and integration for active user in out chart is done and  added validation for custom search date
+- To fix the issue in update org details in manage users and password validation in create user form
+- fixed the outline red color for the invalid in the time tracker page and fixed the alignment issues on the timetracker form
+- done the update api integration and added choose file column field of require on internship solve the pdf design internship letter
+- production build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- suber admin id set as org id for that user is done to resolve project and jobs page data not getting issue
+- integrated the submit task details in the timetracker page and now hide submit section
+- production build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- loder issue fixed in project jobs and dashboard is done
+- production build update
+- Integrated reporting manager and date of joining in create user formn manage users
+- fixed the users image not showing in the view members dialog box
+- production build update
+- employee attendance date report date field position style override other styles issue resolved
+- dashboard page error resolved and employee date report table and attendance chart design and integration is done
+- added image column verify and internship letter design and edit to move the field in save form and update api integration
+- hide viewusers components after submitting the addusers for the particular project
+- added add team members button in the view team members dialog box
+- pdf design done and added input field of add internship form
+- In manage users user counts card restricted with length 5 and added view more to view all user counts in dialog box is done
+- if we in the next or previous date while start or stop the task it directly move to the today date in the tietracker page
+- modified the user card counts in employee details
+- production build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- project and dashboard loader issue resolved
+- added loder for the edit task details dialog and aligned error messages in the left side of the form field
+- production build update
+- In manage users add role based users counts is done and in register form password minlength validation is done
+- updated the validation for the timtracker form field, added error messages to previous field is empty, reset the form field if move to previous and next dates
+- employee reports page is completed with report page search navigate and jobs/project and hr menu can active at same time issue resolved and refresh jobs/project internshipletter page active menu is not shown issue is fixed
+- fixed the update task details issue in the edit timetracker dialog box
+- production build update
+- timelog dublicate date entry while do check in and checkout in dashboard issue is resolved
+- production build update
+- today active show along with no data image when time sheet have no data is resolved
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- develop edit api integration and add image field for internship letter
+- UI - changes for change password and dropfown highlighten
+- production build update
+- if form fields are disabled fixed the cursor pointer as not-allowed and ifthe task is running disable the checkbox
+- dashboard mat tab group reversed and active last tab by default is done
+- integrated activate and deactivate in manage users page and in register form terms and conditions checkbox validation is done
+- Active employee design and integration is done in dashboard and rename my timesheet to my attendance and my jobs no data image tool tip added and my attendance active hours column added and integrated
+- created a new component for the submit timesheets and integrated the approver in dropdown
+- created a new component for the submit timesheets and integrated the approver in dropdown
+- created a new component for the submit timesheets and integrated the approver in dropdown
+- production build update
+- resolved attendance off today enable timer active hours in dashboard and attendance
+- employee details component created and added router for this component is done
+- production build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- hide the notification code and timelogs submit btn code in timetracker page
+- develop edit api integration and verify pdf format
+- Designed terms and conditions dialog with dummy data
+- report page design and added search function is done
+- UI change - main navbar fixed
+- In create user form add designation field and integrated
+- added valdation for the filter form and added default color for the jobs other than five important jobs and fixed the set bill value issue after selecting the projects
+- UI changes for spinner in forgot and change password and eye icon position
+- merge chages
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- production build update
+- integrated the total time after filtered the data in the tietracker table
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- comment the main nav internship letter
+- comment the main nav internship letter
+- report page component created and page design
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- develop delete api pdf design for internship letter
+- Ui changes for loader in forgot pasword and active dropdown
+- Add user dialog design changed and in delete dialog are you sure to delete to are you sure want to delete in projects and jobs
+- In settings all for add and cancel button alignments changed and in register form email already registerd validation is done
+- aaded the validation with the error message in the timetracker form and fix the dropdown issue in the jobs
+- production build update
+- fixed the dropdown issue in the job  formfields in the update task details dialog
+- UI - Reset for change pwd & spinner for forgot pwd and change pwd
+- production build update
+- hide the console message in the bulk delete component
+- Fixed the update task details issue while running the task it doesn't reflect in the form fields
+- added app version below the logo and added tooltip for no data image in dash board
+- production build update
+- dashboard my jobs write logic to get user job and  integration is done and fixed mat tab selected default auto change issue and no data image also added
+- changes design in internship letter
+- UI integration for superadmin forgot and changepassword
+- production build update
+- updated the job and project form by adding required formfield as asterisk and set as bill is not required field in the jobs form
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- added loader for add project and update project and checked console error issues
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- changed the profile image to default image in view project users
+- production build update
+- removed consoles in login component and action component
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- dashboard timelog integration and ui design and no data for timesheet and time log based on tabs is done
+- production build update
+- In manage users pagination issue solved
+- create design in internship letter
+- production build update
+- Design and integrate the manage designation in settings moduleis done
+- fixed image conversion issue in the view project users and added name in the exported file in the time tracker page
+- Loader issue solved while creating new user in manage user
+- production build update
+- Reverse the table data in dashboard page timesheets is done
+- pdf format generate the new tab and download the pdf for internship letter
+- production build update
+- Dashboard timesheet report for current month integration is done
+- production build update
+- fixed the badge error in the project table and change the dialog box design for view managers and users
+- In client table currency as a mat chip is done and in settings module all table paginator border issue fixed
+- dashboard page billstatus chart integration is done and login failled message changed
+- In manage users while crate new user password generation modified and if orgadmin logined should not have the option to deactivate himself is done
+- fixed the automatically set the bill form field while select the jobs dropdown, hide the edit time interval functionality while task running row in time tracker table
+- creating pdf structure of data and show the html format
+- creating pdf structure of data and show the html format
+- production build update
+- hide the console messages in the timetrackercomponent.ts
+- In all modules, submit, save, update button without filling the form the button should be disable cursor we need to show is done
+- integrated filter api with the ui in the tietracker page
+- removed console messages in attendance page
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- Changed estimated hour and logged hour color changed
+- production build update
+- animation delay changed in login component
+- jobs page logged hours integration
+- UI - alter change password page design and set timer for redirction and kept reset button
+- To add user image field and integrate in update personal details form in my account is done
+- fixed the dialog the box padding issue and removed the card in the edit task details
+- production build update
+- comment the unwanted code in the view internship html
+- imported the ViewInternshipComponent in the app module.ts
+- installed the jspdf
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- In jobs table add rounded circle for estimated hours and logged hours and log out image issue is done
+- updated the create and update task details integration method due to adding client_details and approval status column in timetracker api
+- created view internship-letter component to  view the internship letter pdf format
+- view-internshipletter committed
+- production build update
+- changed protected to public for the jobs and projects to prod build error
+- integrated the projects, jobs and clients dropdown in the filter form field
+- Design and integration for update personal details form and redirect button design modified in projects and jobs
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- setting page unable to click menu because of loader due to org id issue is resolved
+- added no data available in the projects and jobs dropdown in timetracker form field
+- production build update
+- hide the unwanted code in the time tracker page
+- All UI changes
+- implemented the export functionality in the tietracker table from json to .xlsx or .xls or .csf type files
+- fixed timer running issue while creating new tasks
+- prod build update
+- forgot password page design change
+- removed estimated hours and logged hours column in projects table, modified logout dialog ui , add no data msg in projects row while no jobs available
+- production build update
+- project page logged hours integration is done
+- Integration for bulk users add to the multiple projects in same time is done and in jobs add assignee dropdown list checked for existring assignees is done
+- production build update
+- resolved prodution build error in time tracker component
+- resolved build update error
+- Change Password UI Code Changes
+- hide the emp_id column in the timetracker table
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- hide the edit and delete functionality for the previous dates in the time tracker table
+- change all snackbar massages to camel case and changed the resigter success message to givein message as given in jira is done
+- Integration for bulk assignees to multiple jobs in same time is done
+- Design changes in login page and mentioned time task tracker with animation and change button theme in login and register page and did style for disable button curser not allowed in both page is done
+- Added project head, manager and team members column and integrated to view more option
+- created a new component task-bulk-delete and implemented the bulk delete functionality in the timetracker table
+- created a new component task-bulk-delete and implemented the bulk delete functionality in the timetracker table
+- matchips padding and fontsize changed and implement mantchips to the manage user role column
+- added filer  in projects and jobs module table
+- production build update
+- login page design changed
+- design change inmanage user role access and manage role access to column is done and implemet loader in setting page all sub modules is done
+- add assignees dialog need to remove existing assignees and manage org bulk delete issue fixed
+- production build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- design and integration for add assignees in jobs and added icon for bulk assign users in job
+- Manage user role access module design changed
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- UI - Forgot password changes
+- added loader for login and register page
+- attendance card out for break and out for lunch reorder is done
+- production build update
+- removed undeclared funtion to resolve the build update
+- implement loader to time tracker, project and jobs page and update environment file to change uat to local endpoint
+- changed forget password component is without authguard
+- Added loader to attendatce page, attedance monthly report page and dashboard is done
+- designed loader and implement in dashboard to test
+- Production build update
+- changed the border color for the form field in the time tracker and fixed the project splice issue fixed in dropdown
+- Added authguard for entire application
+- Modified the login integration regarding org as a user and can login
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- prod build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- production build update
+- angular json updated
+- In angular json file updated budjet configuration for resolve the issue in production build update
+- production build update
+- changed the action btn design in the drawer tablea and fixed the timer issue after running the task in the table
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- Integrate UI with API for forgot password
+- Production build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- integrated the jobs and projects if it is assigned to logged user in time tracker page
+- Reordered the settings submenus
+- added bg-color for the success and error message in the snack bar util, differentiated the message edit and delete functions in in drawer table, changed the timetracker form to stanndard form
+- api intergration of internship letter and add internship letter and register and login input text color changes committed
+- manage access page changed to  visible in settings
+- merge error fixed
+- Added filter, paginator and sorting in settings module and in jobs form dropdown issue fixed
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- export monthly report using mat-table-exporter is done and ui design for export menu with xlsx, xls and csv option is done
+- fixed the no data found flickering issue and updated the update task details form to standard form
+- Developed My account UI
+- added no data message to monthly attendance report table
+- production build update
+- monthly attendance report integration is done
+- production build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- added no data found in the time tracker table and fixed the alignment issue in update modal and integrated the project and jobs in update modal popup
+- production build update
+- resolve production build issue
+- modified attendance create and get current details integration for send the data with timezone
+- Developed integration for super admin and added create new org form in manage org module
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- Forgot password UI changes
+- Developed Manage organization module and integrated
+- fixed the snackbar issue and timout duration
+- In sidebar menu added new hr letters menu & added submenus & added internship letter table committed
+- added forget-password for ui
+- production build update
+- converted the unix time to hh:mm:ss with and pm in time tracker page
+- production build update
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- attendance action time issue in uat site fix
+- integrated the project and jobs based on the orgid in time tracker page
+- production build update
+- atendance action time issue  uat fix
+- readme file update , set custom password toggle issue fixed, in new project form client dropdown integrated
+- Update .gitlab-ci.yml file
+- added deploy file
+- production build update
+- style changes for momthly attendance report log
+- integrate the the update method to update the task details in the edittimetracke dialog
+- register & login passwrod field to view the eye option added the style cursor
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- Manage access card design alignments changed and added search field in missing fields
+- login & register password field eye option to view the password and register input field border radius changes
+- production build update
+- modified app componnet html to resolve ngcontant height issue
+- added time of action data to send current time from frontend in attendance action create method
+- implemented edit and delete functionality for the time intervals in drawer table
+- Edit and delete button color changed in manage user , manage client and manage role
+- integration for log and side nav modules visible based on role and empid
+- designed attendance monthly report page header section with swiching dates and change view column to logs and change the view button to logs button and removed view in attendance week card
+- production build update
+- Attendance monthly report component created and design and integrated with dummy data with help of ts is done
+- integrated update method for role details and added search field in role form
+- Integrated update method for user details and client details
+- production build update
+- resolved error while do production build update
+- integrated the get method for the forward and backward dates
+- Integrated client details forma nd table and integrated access form and table
+- integrated the time intervals in drawer table and converted the unix time to hh:mm:ss format also caculated the duration of the particular intervals
+- Resolved active week attendance date report date issue and fix alignment in cared header active hours
+- created a time-tracker service and integrated the  time tracker of create task, get task and update task with the form and table
+- Integration for bulk delete projects and jobs
+- Production build update
+- Resolved production build issue in job page
+- resolved console undefined errors in attendance page
+- Production build update
+- attendance page date report integration is done and updated environment file
+- readme file updated
+- gitignore file add package lock json
+- Integrated project and job update and delete and table integration for projects and jobs
+- Integrated add project form and projects table
+- Modified the integration for add jobs form and jobs table
+- changed integration based on the org details changes in the setting service and component.ts
+- Attendance page and dashboard page in out integration is done and action card out for lunch and break card design is done in action component is done and removed cdtimer package and did by typescript function is done
+- Integrated jobs list table in jobs
+- Integreted add job form in jobs page
+- Midified the design of manage access page and access form
+- Integration for manage role and role list table in settings
+- reduce box shadow while hover the chek in and out cards, added validation for the formfields in the time tracker page
+- added login form validation and inegrated login form with the authenticate api
+- Integrated manage users form and table in settings
+- integrated the registerform with post api
+- Designed manage access page in settings
+- Designed manage access page in settings
+- added validation for the register form page
+- removed router link in client form and replace with toggle function
+- client form design is done in setting module
+- Merge branch 'master' of ssh://git.servx.global:2205/products/tcube/ui
+- Modified the design of manage users and manage role
+- pending job card design and dashboard header design changed and card heading style changed in dashboard page
+- bil chart legend and tooltip value formate change and add one more data in my timesheetlogs for show overflow scroll with in card
+- dashboard page bill highchart my timesheets and timesheetlogs card design and develope with ts data is done
+- settings page updated with required information
+- production build update
+- project to jobs and jobs to project page redirect button design
+- login register page company name field added and tcube logo added is done
+- register page develop and design is done and routing config changes is done
+- production build update
+- added parameter in the delete function in time tracker html
+- changed the delete button color and fixed the issue the pause btn set value in the form field
+- remove out for official work duplicate card and replace with out for tea food break card in attendance action card
+- fixed the delete functionality in the time tracker module and added project new coloumn jobs table
+- time tracker functionality and bug fixing and filter form style and input field style changes
+- update the theme color in the attendance page and dialog box
+- updated the filter in the jobs and projects page and changed some color changes in the expandable table in the projects table
+- add jobs and add project form mat select with search option and out line style is done
+- production build upddate
+- fixed production update issue in add-jobcomponent and time tracker component
+- production build ng-multiselect fuctions issue resolved
+- main nav router change private to public
+- routing issue fix
+- readme file updated
+- create component for login page, add routing, design and develop login page
+- project table added batch icon for jobs count and added router for job form page and job form back button design
+- reduced the border size size for select input field in jobs page
+- add project form design changes and change back button with theame design in select change design for all select field
+- added border radius for all the buttons, added icon in the users cell, alignment fix in the add job page
+- remove search in nav bar and change button design and implement project page and form header design
+- created component for the add job page and developed the form for add jobs
+- added table in the jobs page
+- Add project form design with dummy integration is done and project table header space issue fix
+- change project table with select check box and expandable row with details is done and createad new component for addproject and addproject form is in progress
+- added movable date in the to nav bar two different data source
+- Added validation activate project and job matmenu button is done and changed the filter button colour and removed filter input box and added add project button is done
+- added page header with the filter and imaport, export menu option in time tracker page
+- Merge branch 'master' of ssh://git.itag-labs.com:2040/rozario/t-cube
+- filter form design in project page is done
+- fixed alignment issues in dialog close and submit button
+- project page table with expandable row design and integration is done action card alignment changes and attendence page card shadow added as per review meet
+- added sidenav in the right side to show the timer intervals with the total time in time tracker page
+- page content background color change
+- added edit form for the tasks and delete option in the table
+- added edit form for the tasks and delete option in the table
+- added mat menu for project/jobs and fix alignment right side and project page design is in progress
+- added validation to stop off today action in attendence and added mat menu side alignment with project and job page redirect in main nav is done
+- Merge branch 'master' of ssh://git.itag-labs.com:2040/rozario/t-cube
+- added functionality for the pause and play button in the table
+- attendance, mainnav alignment issue fix
+- theme color change, fix alignment issues
+- attendance page added start stop resume clock and integrated with check in check out actions and modify the action hover color and change other send button text colour and design timer on attendance page
+- removed the count-down timer selector in app.component .html
+- added timer module in the time tracter page with paue, play and stop functionality
+- Merge branch 'master' of ssh://git.itag-labs.com:2040/rozario/t-cube
+- change button alignment in text in attendance page and did validation in action componenet select other to show text field and disable other actions is done
+- image to change icons and add active color
+- projects component create and add routing
+- dashboard under construction, fix dropdown click to redirect dashboard page
+- Attendance page design
+- Merge branch 'master' of ssh://git.itag-labs.com:2040/rozario/t-cube
+- title change
+- designed the time page with the user input form and table with the entered tasks
+- production build update
+- dashboard changes and setting page changes
+- prod build
+- allignment fix in site tab
+- prod build
+- send btn and changes fix
+- prod build
+- admin page create new andmin added
+- prod build
+- hide and show in check box added
+- prod build
+- Merge branch 'master' of ssh://git.it-architecturegroup.com:2040/rozario/t-cube
+- font style change for settings page
+- production build
+- change data name
+- changes commited
+- show hide in settings page done
+- settings page add and dashboard page changes done
+- changes commited
+- changes commited
+- changes commited
+- added new icons and theme color
+- project setup
+- initial commit

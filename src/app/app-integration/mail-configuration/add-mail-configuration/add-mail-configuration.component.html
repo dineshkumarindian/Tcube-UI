@@ -1,0 +1,118 @@
+<div class="add_role">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="page-title" *ngIf="!mailUpdate">Add Mail Integration</h3>
+                <h3 class="page-title" *ngIf="mailUpdate">Update Mail Integration</h3>
+            </div>
+            <div class="col-md-8 designation_back_button">
+                <div class="pfr d-flex align-items-center">
+                    <button class="docBtn preview-read" mat-raised-button (click)="documentationDialog()">
+                        Read Docs
+                    </button>
+                    <button mat-icon-button class="backbtn" matTooltip="Back to email integration" matTooltipPosition="left"
+                    [routerLink]="['/app-mail-configuration']">
+                        <!-- [routerLink]="['/settings']" routerLinkActive="active"> -->
+                        <img src="../../../../assets/images/back.png" class="ph_back_arrow_img"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="container-fluid">
+        <div class="input-content-wrap card card-bg p-3 mb-4">
+            <form [formGroup]="MailFormGroup" class="MailFormGroup">
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">SMTP Host</div>
+                    <div class="col-5">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Host</mat-label>
+                        <input matInput formControlName="Host" 
+                            placeholder="Host" required />
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('Host').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('Host').hasError('pattern')">{{validFormatMessage}}</p>
+                            </mat-error>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">SMTP Port</div>
+                    <div class="col-5">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Port</mat-label>
+                        <input matInput formControlName="Port" 
+                            placeholder="Port" required />
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('Port').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('Port').hasError('pattern')">{{validFormatMessage}}</p>
+                            </mat-error>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">SMTP User Name</div>
+                    <div class="col-5">
+                    <mat-form-field appearance="standard">
+                        <mat-label>User Name</mat-label>
+                        <input matInput formControlName="name" 
+                            placeholder="User Name" required />
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('name').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('name').hasError('pattern')">{{validFormatMessage}}</p>
+                            </mat-error>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">SMTP Password</div>
+                    <div class="col-5">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Password</mat-label>
+                        <input matInput formControlName="Password" 
+                            placeholder="Password" required />
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('Password').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('Password').hasError('pattern')">{{validFormatMessage}}</p>
+                            </mat-error>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Mail Sender</div>
+                    <div class="col-5">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Mail Sender</mat-label>
+                        <input matInput formControlName="sender" 
+                            placeholder="sender" required />
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('sender').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                            <mat-error>
+                                <p  *ngIf="MailFormGroup.get('sender').hasError('pattern')">{{validFormatMessage}}</p>
+                            </mat-error>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row btns">
+                    <div class="ml-3 labelstyle col-2"></div>
+                    <div class="col-5">
+                        <button *ngIf="!mailUpdate" class="btn btn-confirm" color="primary"
+                            (click)="addMail()" [disabled]="MailFormGroup.invalid">Add</button>
+                        <button *ngIf="mailUpdate" class="btn btn-confirm mr-2" color="primary"
+                            (click)="UpdateMail()"
+                            [disabled]="MailFormGroup.invalid">Update</button>
+                        <button class="btn btn-cancel"  [routerLink]="['/app-mail-configuration']">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,202 @@
+<section class="center-form register-sect">
+    <div class="wrapper shadow">
+        <div class="form-left">
+            <div class="content">
+                <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="feather feather-user-plus">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                    <circle cx="8.5" cy="7" r="4" />
+                    <line x1="20" y1="8" x2="20" y2="14" />
+                    <line x1="23" y1="11" x2="17" y2="11" />
+                </svg>
+                <h1 class="my-3">Hello, User!</h1>
+                <h3 class="color-w mb-3">Enter your personal details and start journey with us</h3>
+                <button class="custom-btn btn mt-3" (click)="redirectLogin()"><span>Have an Account ?</span></button>
+                <div class="move_homepage">
+                    <a href="https://tcube.io" target="_blank"><button mat-raised-button matTooltip="Move to home page"
+                            matTooltipPosition="below" class="redirectbtn" [routerLink]="['/home']">
+                            <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+                            <span>Visit home page</span>
+                        </button></a>
+
+                </div>
+            </div>
+        </div>
+        <form class="form-right" [formGroup]="registerForm">
+            <h2 class="text-uppercase"><img src="../../assets/images/App_logo.png">Registration
+                form</h2>
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                    <label>First Name<sup class="red">*</sup></label>
+                    <input type="text" name="first_name" id="first_name" class="input-field"
+                        formControlName="first_name" required>
+                    <small class="text-danger"
+                        *ngIf="registerForm.controls['first_name'].invalid && registerForm.controls['first_name'].errors.required && (registerForm.controls['first_name'].dirty || registerForm.controls['first_name'].touched)">
+                        {{requiredMessage}}
+                    </small>
+                    <small class="text-danger" *ngIf="registerForm.controls['first_name'].hasError('pattern')">
+                        {{invalidFormat}}
+                    </small>
+                    <small class="text-danger" *ngIf="registerForm.controls['first_name'].hasError('minlength') ">
+                        {{minLengthMsg_Name}}
+                    </small>
+
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label>Last Name</label>
+                    <input type="text" name="last_name" id="last_name" class="input-field" formControlName="last_name">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Your Email<sup class="red">*</sup></label>
+                <input type="email" (keyup)="mailchange($event.target.value)" class="input-field" name="email" required
+                    formControlName="email">
+                <small class="mat-error"
+                    *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].errors.required && (registerForm.controls['email'].dirty || registerForm.controls['email'].touched)">
+                    {{requiredMessage}}
+                </small>
+
+                <!-- <small class="mat-error" *ngIf="registerForm.get('email').errors?.email">{{invalidFormat}}</small> -->
+                <small class="mat-error" *ngIf="registerForm.get('email').errors?.pattern">{{invalidFormat}}</small>
+                <small class="mat-error" *ngIf="mailExists">{{existMessage}}</small>
+                <small style="font-size: 12px;" class="mat-error" *ngIf="mailExistsOrg">{{existMessage}} <a
+                        class="font-weight-bold" href="mailto:sales@tcube.io"> contact sales</a></small>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 mb-3">
+                    <label>Country Code<sup class="red">*</sup></label>
+                    <select [formControl]="countrycodeCtrl" (selectionChange)="selectedTelcode($event.value)" class="input-field"
+                        name="countryCode">
+                        <option *ngFor="let opt of filteredcountrycode | async" [value]="opt.id">{{opt.telcode}} -
+                            {{opt.country}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-sm-6 mb-3">
+                    <label>Mobile Number<sup class="red">*</sup></label>
+                    <input type="text" class="input-field " name="mobilenumber" formControlName="mobilenumber">
+                    <small class="mat-error" *ngIf="registerForm.get('mobilenumber').errors?.pattern">{{invalidFormat}}</small>
+                    <small class="mat-error"
+                        *ngIf="registerForm.controls['mobilenumber'].invalid && registerForm.controls['mobilenumber'].errors.required && (registerForm.controls['mobilenumber'].dirty || registerForm.controls['mobilenumber'].touched)">
+                        {{requiredMessage}}
+                    </small>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Company Name<sup class="red">*</sup></label>
+                <input type="text" class="input-field " name="email" required formControlName="company_name">
+                <small class="mat-error"
+                    *ngIf="registerForm.controls['company_name'].invalid && registerForm.controls['company_name'].errors.required && (registerForm.controls['company_name'].dirty || registerForm.controls['company_name'].touched)">
+                    {{requiredMessage}}
+                </small>
+            </div>
+            <div class="mb-3">
+                <label>Pricing Plan<sup class="red">*</sup></label>
+                <select formControlName="pricing" class="input-field" name="pricing plan"
+                    (change)="openpricingdetails()">
+                    <option *ngFor="let data of pricingarr" [value]="data.name">{{data.name}}</option>
+                </select>
+                <small class="mat-error"
+                    *ngIf="registerForm.controls['pricing'].invalid && registerForm.controls['pricing'].errors.required && (registerForm.controls['pricing'].dirty || registerForm.controls['pricing'].touched)">
+                    {{requiredMessage}}
+                </small>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 mb-3"> <label>Password<sup class="red">*</sup></label>
+                    <input type="password" matInput [type]="hide? 'password':'text'" name="pwd" id="pwd"
+                        class="input-field input-password" formControlName="password" />
+                    <span class="password-mat-icon" mat-icon-button matSuffix (click)="hidePassword()"
+                        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon class="mat-eye-icon">{{hide ? visibility : visibility }}</mat-icon>
+                    </span>
+                    <small class="mat-error"
+                        *ngIf="registerForm.controls['password'].invalid && registerForm.controls['password'].errors.required && (registerForm.controls['password'].dirty || registerForm.controls['password'].touched)">
+                        {{requiredMessage}}
+                    </small>
+                    <small class="mat-error"
+                        *ngIf="!registerForm.get('password').hasError('whitespace') && registerForm.controls['password'].hasError('minlength')">
+                        {{minLengthMsg}}
+                    </small>
+                    <small class="mat-error" *ngIf="registerForm.get('password').hasError('whitespace')">
+                        {{validMsg}}
+                    </small>
+                </div>
+                <div class="col-sm-6 mb-3"> <label>Confirm Password<sup class="red">*</sup></label>
+                    <input type="password" matInput [type]="passwordHide ? 'password' :'text'" name="cpwd" id="cpwd"
+                        class="input-field input-password" formControlName="cnfm_password" />
+                    <span class="confirm-mat-icon" mat-icon-button matSuffix (click)="confirmHidePassword()"
+                        [attr.aria-label]="'Hide password'" [attr.aria-pressed]="passwordHide">
+                        <mat-icon class="mat-eye-icon">{{ passwordHide ? confirmVisible : confirmVisible}}</mat-icon>
+                    </span>
+                    <small class="mat-error"
+                        *ngIf="registerForm.controls['cnfm_password'].invalid && registerForm.controls['cnfm_password'].errors.required && (registerForm.controls['cnfm_password'].dirty || registerForm.controls['cnfm_password'].touched)">
+                        {{requiredMessage}}
+                    </small>
+                    <!-- <small class="text-danger" *ngIf="registerForm.value.password != registerForm.value.cnfm_password && (registerForm.controls['cnfm_password'].dirty || registerForm.controls['cnfm_password'].touched)">
+                        Passwords don't match.
+                    </small> -->
+                    <small class="mat-error"
+                        *ngIf="registerForm.hasError('notSame') && (registerForm.controls['cnfm_password'].dirty || registerForm.controls['cnfm_password'].touched)">
+                        {{passwordNotMatch}}
+                    </small>
+                </div>
+            </div>
+            <div class="d-flex mb-0 align-items-center justify-content-between flex-wrap">
+                <mat-checkbox class="option" color="primary" [formControl]="checked" (change)="checkevent($event)">I
+                    agree to the <span class="tandc text-wrap" matTooltip="Services & policy"> <a href="https://tcube.io/#/services-policy" target="_blank">S&P</a> </span> and <span class="tandc"
+                        (click)="privacypolicy()"> Privacy policy</span>
+                </mat-checkbox>
+                <div class="d-flex align-items-center mb-1">
+                    <h5>Trial</h5>
+                    <label class="switch ml-2 m-0">
+                        <input type="checkbox" [checked]="TrialCheckbox" (change)='TrialClick($event)'>
+                        <div class="slider">
+                            <div class="circle-bg">
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="6" height="6" x="0" y="0"
+                                    viewBox="0 0 365.696 365.696" style="enable-background:new 0 0 512 512"
+                                    xml:space="preserve" class="cross">
+                                    <g>
+                                        <path
+                                            d="M243.188 182.86 356.32 69.726c12.5-12.5 12.5-32.766 0-45.247L341.238 9.398c-12.504-12.503-32.77-12.503-45.25 0L182.86 122.528 69.727 9.374c-12.5-12.5-32.766-12.5-45.247 0L9.375 24.457c-12.5 12.504-12.5 32.77 0 45.25l113.152 113.152L9.398 295.99c-12.503 12.503-12.503 32.769 0 45.25L24.48 356.32c12.5 12.5 32.766 12.5 45.247 0l113.132-113.132L295.99 356.32c12.503 12.5 32.769 12.5 45.25 0l15.081-15.082c12.5-12.504 12.5-32.77 0-45.25zm0 0"
+                                            fill="currentColor" data-original="#000000"></path>
+                                    </g>
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="10" height="10" x="0" y="0"
+                                    viewBox="0 0 24 24" style="enable-background:new 0 0 512 512" xml:space="preserve"
+                                    class="checkmark">
+                                    <g>
+                                        <path
+                                            d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
+                                            fill="currentColor" data-original="#000000" class=""></path>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>
+                    </label>
+                </div>
+                <span *ngIf="TrialCheckbox" class="trial-style"> Trial period for Tcube is valid for {{trialDays}} days only.</span>
+            </div>
+         
+            <div class="mb-3 re-captcha">
+                <div class="mt-1"><label class="mb-2"><span>Let us know you're human</span></label></div>
+                <ngx-turnstile [siteKey]="siteKey" theme="light" formControlName="recaptcha"></ngx-turnstile>
+            </div>
+            <!-- (resolved)="sendCaptchaResponse($event)" -->
+            <!-- <div class="re-captcha mb-3">
+                <form [formGroup]="registerForm">
+                    <ngx-turnstile [siteKey]="siteKey" theme="auto" [formControl]="tokenControl"></ngx-turnstile>
+                    <!-- <re-captcha class="g-recaptcha" [siteKey]="siteKey" #captchaElem 
+                        formControlName="recaptcha"></re-captcha> -->
+                <!-- </form> -->
+            <!-- </div>  -->
+            <div class="form-field">
+                <button class="btn w-100" [disabled]="registerForm.invalid || mailExists || checkTerms || mailExistsOrg || countrycodeCtrl.invalid"
+                    (click)="addclient()"> Register
+                </button>
+            </div>
+        </form>
+    </div>
+</section>

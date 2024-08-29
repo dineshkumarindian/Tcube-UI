@@ -1,0 +1,200 @@
+<div class="document">
+    <div class="dialog-header">
+        <h3 class="page-title">{{component}} Integration Documentation</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <div class="slackContent" *ngIf="component == 'Slack' ">
+            <div class="content1">Creating Incoming Webhook</div>
+            <ul>
+                <li>Create a new app for your ORG in slack, if you have already slack in your ORG skip this</li>
+                <li><a href="https://api.slack.com/apps?new_app=1" target="_blank">Click here</a> to create new app for
+                    Incoming Webhooks</li>
+                <li>After create new app you will get page in that page Under <b>features section</b> select <b>Incoming
+                        webhooks</b> and activate the incoming webhooks</li>
+                <li>Then you will get a Webhook URLs for Your Workspace, then click <b>Add New Webhook to Workspace</b>
+                    and then select a channel to post a notification and click allow button to allow the notification
+                </li>
+                <li>Create your webhook, While creating a webhook select the channel you want to post the notifications
+                    and click authorize button. If you select the private channel you must first be in that channel.
+                </li>
+                <li>If you select the private channel you must first be in that channel</li>
+                <li>Then copy the Webhook URL (EX:
+                    https://hooks.slack.com/services/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)</li>
+                <li>Then enter your webhook URL in the slack integration form</li>
+                <li>Slack API Documentation for creating incoming webhook URL- <a
+                        href="https://api.slack.com/messaging/webhooks#posting_with_webhooks" target="_blank">Click here
+                        to read the more details</a></li>
+            </ul>
+        </div>
+        <div class="slackContent" *ngIf="component == 'SlackApprovals' ">
+            <div class="content1">Creating Incoming Webhook</div>
+            <ul>
+                <li>Create a new app for your ORG in slack, if you have already slack in your ORG skip this</li>
+                <li><a href="https://api.slack.com/apps?new_app=1" target="_blank">Click here</a> to create new app for
+                    Incoming Webhooks</li>
+                <li>After create new app you will get page in that page Under <b>features section</b> select <b>Incoming
+                        webhooks</b> and activate the incoming webhooks</li>
+                <li>Then you will get a Webhook URLs for Your Workspace, then click <b>Add New Webhook to Workspace</b>
+                    and then select a channel to post a notification and click allow button to allow the notification
+                </li>
+                <li>Create your webhook, While creating a webhook select the channel you want to post the notifications
+                    and click authorize button. If you select the private channel you must first be in that channel.
+                </li>
+                <li>If you select the private channel you must first be in that channel</li>
+                <li>Then copy the Webhook URL (EX:
+                    https://hooks.slack.com/services/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)</li>
+                <li>Then enter your webhook URL in the slack integration form</li>
+                <li>Slack API Documentation for creating incoming webhook URL- <a
+                        href="https://api.slack.com/messaging/webhooks#posting_with_webhooks" target="_blank">Click here
+                        to read the more details</a></li>
+            </ul>
+            <div class="content1">OAuth and Permissions</div>
+            <ul>
+                <li>You will get page in that page Under <b>features section</b> select <b>OAuth & Permissions
+                </b></li>
+                <li>Under the "Scopes" section, find the <b>Bot Token Scopes</b> section and click on  <b>Add an OAuth Scope</b> button and add <b>user:read, user:read.email, chat:write</b></li>
+                <li>Navigate to OAuth Tokens for Your Workspace section and click install to workspace</li>
+                <li>After installation, you will receive a new Bot User OAuth Token with the required scope. Make sure to copy and securely store the generated token.</li>
+                <li>Then enter your Bot User OAuth Token in the slack integration form</li>
+            </ul>
+            <div class="content1">Enable Interactivity & Shortcuts</div>
+            <ul>
+                <li>You will get page in that page Under <b>features section</b> select <b>Interactivity & Shortcuts
+                </b></li>
+                <li>Enable the Interactivity slider</li>
+                <li>Paste this endpoint <b>{{interactiveUrl}}</b> in Request URL input field</li>
+                </ul>
+        </div>
+        <div class="whatsappContent" *ngIf="component == 'Whatsapp' ">
+            <div class="content1">Creating Your App</div>
+            <ul>
+                <li>You need to create account in <a href="https://developers.facebook.com/" target="_blank">Meta
+                        Developers</a></li>
+                <li>If you have facebook account use this account to login</li>
+                <li>Then click get started to <a href="https://developers.facebook.com/apps/" target="_blank">Create a
+                        App</a></li>
+                <li>Select an app business type</li>
+                <li>Fill the form details with required information</li>
+                <li>Then you will get the Add products to your app page in this page select a WhatsApp integrate and
+                    continue the steps</li>
+                <li>Now you will get the post request URL and Temporary access token URL page</li>
+                <li>Add mobile numbers in "To" field click Manage Phone Number List to add mobile number and you will
+                    get OTP to add the mobile number, You can add upto 5 mobile numbers</li>
+                <li>Now choose the added mobile Number, And click the 'Send Meaasage' button below the url section</li>
+                <li>Now you will get the whatsapp notification (Like 'Hello World etc...')</li>
+                <li><b>Note : </b> You need to send reply for that message (Like 'Hi') , Then only you get the whatsapp
+                    integration notifications from tcube</li>
+                <!-- <img src="..//../assets/images/whatsapp_int_sample_img.png" alt="whatsapp_integration_sample_img" width="890" height="135"> -->
+                <li>If you want to send notifications permanently you need to create <b>Permanent Access Token.</b> In
+                    your app side nav click the "configuration" under the "whatsapp section". (Instructions Below)</li>
+                <!-- <li>Then enter your post request URL, permanent access tokent and mobile numbers in the form</li> -->
+                <!-- <li>Whatsapp Integration Documentation for creating your app - <b><a href="https://medium.com/@rishicentury/how-to-use-whatsapp-cloud-api-6c4b4a22fc34" target="_blank">Read Here</a></b></li> -->
+            </ul>
+            <div class="content1">Creating Permanent Access Token</div>
+            <ul>
+                <li>In top nav bar click <b>App Dashboard -> Business settings</b></li>
+                <li>In <b>users -> System users</b></li>
+                <li>In system users page click Add button to open create system user, give username and role(choose
+                    admin role) create system user</li>
+                <li>Click on the Add Asserts on the current page(System user page). Choose App -> Select App Name ->
+                    Slect Full control option & click save changes button</li>
+                <li>Select the recently created system user from the list and then click the “Generate new token” button
+                    -> select the app name</li>
+                <li>Then select the Available Permissions: <b>whatsapp_business_messaging,
+                        whatsapp_business_management</b> click Generate token to generate the token and copy and save
+                    this token in your local machine(it won't be stored at Facebook.)</li>
+                <li>Now you will get the permanent access token</li>
+            </ul>
+            <div class="content1">Integrate in Tcube</div>
+            <ul>
+                <li>Enter your post request URL (this should be taken from Meta developer getting started page(Ex:
+                    "https://graph.facebook.com/v13.0/1029249425XXXXX/messages")</li>
+                <img src="..//../assets/images/whatsapp_int_sample_img.png" alt="whatsapp_integration_sample_img"
+                    width="890" height="135">
+                <li>Permanent access token, (Taken from Generate token page systems users)</li>
+                <li>Mobile numbers, (which mobile number you want to send notification)</li>
+                <li>WhatsApp Integration Documentation for creating your app - <a
+                        href="https://medium.com/@rishicentury/how-to-use-whatsapp-cloud-api-6c4b4a22fc34"
+                        target="_blank">Click here to read the more details</a></li>
+            </ul>
+        </div>
+        <div class="slackContent" *ngIf="component == 'Jira Software' ">
+            <div class="content1">Create an API token</div>
+            <span>Create an API token from your Atlassian account:</span>
+            <ul>
+                <li>Log in to <a href="https://id.atlassian.com/manage-profile/security/api-tokens"
+                        target="_blank">https://id.atlassian.com/manage-profile/security/api-tokens</a></li>
+                <li>Click <b>Create API token</b></li>
+                <li>From the dialog that appears, enter a memorable and concise <b>Label</b> for your token and <b>click
+                        Create</b></li>
+                <li><b>Click Copy</b> to clipboard, then paste the token on the <b>Basic Auth Token</b> form-field</li>
+            </ul>
+            <div class="content1">Get Jira Software base URL</div>
+            <ul>
+                <li>Fetch the search bar URL in your Jira Software as given by your admin</li>
+                <li>For Example <b>https://tcube.atlassian.net/jira/your-work</b></li>
+                <li>Trim that link before the '/jira' and you will get like this link <b>https://tcube.atlassian.net</b>
+                </li>
+                <span><b>Note : Never put a '/' at end of the base URL</b></span>
+                <li>Copy and paste that link <b>Jira Base URL</b> Form-field</li>
+            </ul>
+            <div class="content1">Choose Projects</div>
+            <ul>
+                <li>Choose single/multiple projects as you created in Jira Software</li>
+                <li>Please make sure that spelling of the project should be same in both Jira Software and Tcube
+                    application</li>
+                <li>Please cross-check these above two conditions, If you won't get the active sprint issues</li>
+            </ul>
+        </div>
+        <!-- ****************GitLab integration document***************** -->
+        <div class="slackContent" *ngIf="component == 'GitLab'">
+            <div class="content1">Create an Access token</div>
+            <span>Create an Access token from your Gitlab account:</span>
+            <ul>
+                <li>Log in to your GitLab account</li>
+                <li>Click <b>Preferences </b>from right side top profile menu</li>
+                <li>Click <b>Access tokens </b>from left side sidenav menu</li>
+                <li>From the appearing page, enter a token name and expiration, in <b>select scopes</b> check <b> api,
+                        read_api, read_user, read_repository</b> click <b>create personal access token</b></li>
+                <li><b>Click copy access token that appears in top of this section</b> to clipboard, then paste the
+                    token on the <b>Access Token</b> form-field</li>
+                <li><b>Note: </b> Access token creating person repositories only considered, so please create token with all repositories accessible person account</li>
+            </ul>
+            <div class="content1">Get GitLab base URL</div>
+            <ul>
+                <li>Copy and paste that link <b>GitLab base URL of your organization</b> Form-field, For Example
+                    <b>https://git.servx.global</b>
+                </li>
+            </ul>
+        </div>
+
+        <!-- *********************************  Mail Configuration  integration document ******************************-->
+        <div class="slackContent" *ngIf="component == 'Mail'">
+            <div class="content1 mb-3">Buy SMTP configuration from SMTP service providers</div>
+            <div class="content1 mb-2">Configuration with Tcube application</div>
+            <ul class="pb-5">
+                <li>Copy and paste that SMTP Host name <b>from your SMTP Configuration</b> to the SMTP Host Form-field
+                </li>
+                <li>Copy and paste that SMTP Port <b>from your SMTP Configuration</b> to the SMTP Port Form-field
+                </li>
+                <li>Copy and paste that SMTP User Name <b>from your SMTP Configuration</b> to the SMTP User Name Form-field
+                </li>
+                <li>Copy and paste that SMTP Password <b>from your SMTP Configuration</b> to the SMTP Password Form-field
+                </li>
+                <li>Provide Mail sender mail id to the Mail sender Form-field
+                </li>
+                <div class="mb-3"></div>
+            </ul>
+           
+        </div>
+
+
+    </div>
+    <div align="end" class="dialog-btns p-1">
+        <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Ok</button>
+    </div>
+</div>

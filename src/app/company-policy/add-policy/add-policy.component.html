@@ -1,0 +1,135 @@
+<!--Here maual policy creation and upload policy as pdf UI-->
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title" *ngIf="isAddPolicy">Add Policy</h3>
+            <h3 class="page-title" *ngIf="isUploadPolicy">Upload Policy</h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <div class="align_preview_sec">
+                    <button mat-icon-button class="backbtn" matTooltip="Back to policy settings"
+                        [routerLink]="['/company-policy-settings']" routerLinkActive="router-link-active">
+                        <img src="../../../../assets/images/back.png" class="ph_back_arrow_img">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div *ngIf="isAddPolicy"> -->
+<section class="container-fluid">
+    <div class="input-content-wrap card card-bg p-3 mb-4">
+        <form [formGroup]="addPolicyFromGroup">
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Policy Name</div>
+                <mat-form-field class="col-6" appearance="standard">
+                    <mat-label>Policy Name</mat-label>
+                    <input matInput name="policyname" formControlName="policy_name" placeholder="Policy Name" 
+                    (ngModelChange)="policyNameCheck($event)" required>
+                    <mat-error>
+                        <div *ngIf="addPolicyFromGroup.get('policy_name').hasError('required')">
+                            <p>{{requiredMessage}}</p>
+                        </div>                        
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 col-2"></div>
+            <div *ngIf="isPolicyNmeAvail" class="text-danger ml-3">
+                <p>{{existMessage}}</p>
+              </div>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Policy issued on</div>
+                <mat-form-field appearance="standard" class="col-6">
+                    <mat-label>Policy issued on</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="issued_date" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error>
+                        <p>{{requiredMessage}}</p>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Policy effective on</div>
+                <mat-form-field appearance="standard" class="col-6">
+                    <mat-label>Policy effective on</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="effective_from"
+                  readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker1">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error>
+                        <p>{{requiredMessage}}</p>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row" *ngIf="isAddPolicy">
+                <div class="ml-3 labelstyle col-2">Description</div>
+                <div class="col-6">
+                    <ckeditor [editor]="Editor" [formControl]="description"
+                        [config]="{ placeholder:'Enter the description here!',
+                    toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ]}"
+                        (ready)="onReady($event)" name="description" required>
+                    </ckeditor>
+                </div>
+            </div>
+            <div class="row" *ngIf="isAddPolicy">
+                <div class="ml-3 lablestyle col-2"></div>
+                <div class="btns col-8 px-3 mt-4">
+                    <button class="btn btn-confirm" type="submit"
+                        [disabled]="addPolicyFromGroup.invalid ||  description.invalid ||  isPolicyNmeAvail"
+                        (click)="savePolicyAsContent()">Save</button>
+                    <button class="btn btn-cancel" [routerLink]="['/company-policy-settings']"
+                        routerLinkActive="router-link-active">Cancel</button>
+                </div>
+            </div>
+            <!--This sectiopn is for uploading the policy in pdf format-->
+            <div class="row " *ngIf="isUploadPolicy">
+                <div class="ml-3 labelstyle col-2">File</div>
+                <div class="col-6">
+                    <div class="row file_upload_sect">
+                        <div class="col-3">
+                            <input type="file" capture
+                                accept="image/jpeg,image/gif,image/png,application/pdf,image/x-eps"
+                                (change)="onFileChanged($event)" [formControl]="policy_file" hidden #FileSelect>
+                            <button type="button" mat-raised-button class="choose_btn mr-2"
+                                (click)="FileSelect.click()">
+                                <mat-icon class="align-middle"> insert_drive_file</mat-icon> Choose for file
+                            </button>
+                        </div>
+                        <div class="col-9">
+                            <div class="preview_right_align">
+                                <small class="text-dark" *ngIf="this.attachmentCopy == null" >
+                                    File preview</small>
+                                <div *ngIf="this.attachmentName != null" class="text-right">
+                                    <span class="text-center">
+                                        {{this.attachmentName}}
+                                    </span>
+                                    <button (click)="cancel()" mat-icon-button matTooltip="Remove" >
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-error class="pdf_error_msg" [innerHtml]="msg" *ngIf="msg" ></mat-error>  
+                </div>
+            </div>
+            <div class="row" *ngIf="isUploadPolicy">
+                <div class="ml-3 lablestyle col-2"></div>
+                <div class="btns col-8 px-3 mt-3">
+                    <button class="btn btn-confirm" type="submit"
+                        [disabled]="addPolicyFromGroup.invalid || policy_file.invalid || this.attachmentCopy == null || isPolicyNmeAvail"
+                        (click)="savePolicyAsPdf($event)">Save</button>
+                    <button class="btn btn-cancel" [routerLink]="['/company-policy-settings']"
+                        routerLinkActive="router-link-active">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- </div> -->

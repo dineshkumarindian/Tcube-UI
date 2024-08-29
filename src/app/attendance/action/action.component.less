@@ -1,0 +1,336 @@
+#main-content {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+    overflow: hidden;
+    border-radius: 20px;
+}
+// ::ng-deep .custom-viewdialogstyle {
+//   mat-dialog-container {
+//       padding: 0 !important;
+//   }
+// }
+// h3{
+//     text-align: center;
+//     background-color: #e4eaee;
+//     padding: 17px;
+//     text-transform: capitalize;
+//     color: #003d71;
+// }
+.cncl-btn{
+  color: red !important;
+}
+.wrapper {
+    padding: 30px 30px 0px 30px;
+}
+.disable{
+    pointer-events:none;
+    background: linear-gradient(to top, #425165, #c7ced7) !important;
+    cursor: not-allowed !important;
+}
+.panel {
+    background-color: transparent;
+    // margin-top: 75px;
+    margin-bottom: 0px;
+}
+
+
+
+.punch-card-box .pmr {
+    margin-left: -55px;;
+    margin-top: -10px;
+}
+
+.box {
+    padding: 60px 0px;
+}
+
+.box-part {
+    border-radius: 0;
+    padding: 10px 10px;
+    margin: 5px 0px;
+    transition: 0.4s;
+    transform: scale(0.9, 0.9);
+    box-shadow: 5px 5px 30px 7px rgba(185, 182, 182, 0.1), -5px -5px 30px
+        7px rgba(107, 105, 105, 0.1);
+    cursor: pointer;
+    border-radius: 8px;
+    width: 150px;
+    // height: 130px;
+    min-height: 130px;
+    background: #6b6b6b;
+    background: linear-gradient(to top, #00214C, #A2CAFF)
+}
+.box-part img {
+    height: 40px;
+    width: 40px;
+    margin-top: 15px;
+}
+
+.box-part h4 {
+    font-size: 15px;
+    font-weight: 700 !important;
+}
+
+.box-part .title {
+    margin-top: 15px;
+    color: #C1DCFF;
+}
+
+.box-part:hover {
+    transform: scale(1, 1);
+    // box-shadow: 5px 5px 30px 15px #123460, 7px -8px 20px 0px #e0edff;
+    // box-shadow: 5px 5px 30px 15px rgb(123, 123, 123), -4px -5px 20px 0px
+    //     rgb(132, 124, 124);
+    box-shadow: rgb(76 113 160) -3px 7px 15px 3px;
+}
+
+//-------- Catds scroll response style
+.scroll-response{
+  overflow-y: scroll;
+  max-height: 400px;
+}
+.switchsec{
+/* Switch starts here */
+.rocker {
+    display: inline-block;
+    position: relative;
+    /*
+    SIZE OF SWITCH
+    ==============
+    All sizes are in em - therefore
+    changing the font-size here
+    will change the size of the switch.
+    See .rocker-small below as example.
+    */
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: #888;
+    width: 7em;
+    height: 4em;
+    overflow: hidden;
+    border-bottom: 0.5em solid #eee;
+  }
+  
+  .rocker-small {
+    font-size: 0.75em;
+   /* Sizes the switch */
+    // margin: 1em;
+  }
+  
+  .rocker::before {
+    content: "";
+    position: absolute;
+    top: 0.5em;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #999;
+    border: 0.5em solid #eee;
+    border-bottom: 0;
+  }
+  
+  .rocker input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .switch-left,
+  .switch-right {
+    cursor: pointer;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5em;
+    width: 3em;
+    transition: 0.2s;
+    user-select: none;
+  }
+  
+  .switch-left {
+    height: 2.4em;
+    width: 2.75em;
+    left: 0.85em;
+    bottom: 0.4em;
+    background-color: #ddd;
+    transform: rotate(15deg) skewX(15deg);
+  }
+  
+  .switch-right {
+    right: 0.5em;
+    bottom: 0;
+    background-color: #06b315;
+    color: #fff;
+  }
+  
+  .switch-left::before,
+  .switch-right::before {
+    content: "";
+    position: absolute;
+    width: 0.4em;
+    height: 2.45em;
+    bottom: -0.45em;
+    background-color: #ccc;
+    transform: skewY(-65deg);
+  }
+  
+  .switch-left::before {
+    left: -0.4em;
+  }
+  
+  .switch-right::before {
+    right: -0.375em;
+    background-color: transparent;
+    transform: skewY(65deg);
+  }
+  
+  input:checked + .switch-left {
+    background-color: #ff0606d2;
+    color: #fff;
+    bottom: 0px;
+    left: 0.5em;
+    height: 2.5em;
+    width: 3em;
+    transform: rotate(0deg) skewX(0deg);
+  }
+  
+  input:checked + .switch-left::before {
+    background-color: transparent;
+    width: 3.0833em;
+  }
+  
+  input:checked + .switch-left + .switch-right {
+    background-color: #ddd;
+    color: #888;
+    bottom: 0.4em;
+    right: 0.8em;
+    height: 2.4em;
+    width: 2.75em;
+    transform: rotate(-15deg) skewX(-15deg);
+  }
+  
+  input:checked + .switch-left + .switch-right::before {
+    background-color: #ccc;
+  }
+  
+  /* Keyboard Users */
+  input:focus + .switch-left {
+    color: #333;
+  }
+  
+  input:checked:focus + .switch-left {
+    color: #fff;
+  }
+  
+  input:focus + .switch-left + .switch-right {
+    color: #fff;
+  }
+  
+  input:checked:focus + .switch-left + .switch-right {
+    color: #333;
+  }
+}
+.cards-list {
+    z-index: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.card_view {
+    margin: 30px auto;
+    width: 200px;
+    height: 200px;
+    border-radius: 40px;
+    box-shadow: 5px 5px 30px 7px rgba(0, 0, 0, 0.10), -5px -5px 30px 7px
+        rgba(0, 0, 0, 0.10);
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.card_view .card_image {
+    width: inherit;
+    height: inherit;
+    border-radius: 30px;
+}
+
+.card_view .card_image img {
+    width: inherit;
+    height: inherit;
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.card_view .card_title {
+    text-align: center;
+    border-radius: 0px 0px 40px 40px;
+    // font-family: sans-serif;
+    font-weight: bold;
+    font-size: 23px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 60%;
+}
+
+.card_view:hover {
+    transform: scale(0.9, 0.9);
+    box-shadow: 5px 5px 30px 15px rgba(0, 0, 0, 0.25), -5px -5px 30px 15px
+        rgba(0, 0, 0, 0.22);
+}
+
+.title-white {
+    color: black;
+}
+
+.title-black {
+    color: black;
+}
+.align{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: center;
+  }
+  .example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  .other-btn{
+    color: #f8f9fa;
+    background-color: #0a437e;
+  }
+  .example-width {
+    width: 86%;
+    margin-right: 3%;
+    // width: 77%;
+    // margin-right: 6%;
+    // margin-left: 3%;
+  }
+//   .otherfield{
+    
+//   }
+.form-control{
+    // width:82%;
+    width:70%;
+    border: red;
+    border-bottom: 1px solid #001634;
+    border-radius: 0;
+}
+.form-control:focus{
+    box-shadow: none !important;
+}
+@media all and (max-width: 500px) {
+    .card-list {
+        /* On small screens, we are no longer using row direction but column */
+        flex-direction: column;
+    }
+}

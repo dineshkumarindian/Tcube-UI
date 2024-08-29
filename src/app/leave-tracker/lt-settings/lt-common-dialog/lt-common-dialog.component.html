@@ -1,0 +1,53 @@
+<div class="todayLeave">
+  <div id="modal-container">
+    <div class="modal-background">
+      <div class="modal">
+        <div *ngIf="isImageData == true" class="todayleavehead">
+          <div>
+            <h1>Staff on PTO Today</h1>
+          </div>
+          <div>
+            <button class="btn-remove" *ngIf="todayLeaveDataLength>0" mat-dialog-close>Clear all</button>
+            <button class="btn-remove" *ngIf="todayLeaveDataLength==0" mat-dialog-close>X</button>
+          </div>
+        </div>
+        <!-- today leave sction data -->
+
+        <div class="modaldata" *ngIf="isImageData == true">
+          <div *ngIf="todayLeaveDataLength>0">
+            <div *ngFor="let data of todayLeavesData" class="data_heignt">
+              <div class="todayData row align-items-center">
+                <div class="col-md-3">
+                  <img [src]="data.emp_img" alt="profile-img" />
+                </div>
+                <div class="col-md-4">
+                  <h6 class="emp_name">{{ data.emp_name }}</h6>
+                </div>
+                <div class="col-md-3">
+                  <h6 class="leave_type">{{ data.half_full_day }}</h6>
+                </div>
+                <div class="col-md-2">
+                  <button (click)="removeThis(data.id)">
+                    <h3>x</h3>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="todayLeaveDataLength==0" class="no-leave">
+            <div class="row align-items-center">
+              <div class="col-md-12 overflow-auto" >
+                <!-- <h1>No one leave today!</h1> -->
+                <!-- <p id="hand">
+                  <img src="https://files.slack.com/files-tmb/T02SZG3L753-F05049SGQAW-6153354e2b/no-leaves_720.jpg"></p>
+                <p id="twitter">by <a href="https://twitter.com/josblu">@josblu 🦥&#128520; </a> </p> -->
+                <img src="../../../../assets/images/all are working today.jpg" width="300px" height="200px"/>
+                <!-- <div class="no-data-available">No one leave today!</div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

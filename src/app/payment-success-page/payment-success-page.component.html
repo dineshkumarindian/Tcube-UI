@@ -1,0 +1,53 @@
+<div class="container payment-success">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+
+            <div class="d-flex justify-content-center align-items-center flex-column process-bar"
+                *ngIf="isPaymentProcess">
+                <!-- <img src="../../assets/images/processing.gif"> -->
+                <h1 class="page-title">payment processing.....</h1>
+            </div>
+            <div class="row card" *ngIf="!isPaymentProcess && isPaymentPass">
+                <div class="d-flex">
+                    <img src="../../assets/images/App_web_logo.jpg" width="40" height="40">
+                    <img src="../../assets/images/correct.png" height="70" width="70" style="margin-left: 200px;">
+                </div>
+                <div class="d-flex justify-content-center align-items-center flex-column">
+                    <p class="done-payment mb-1">Your Payment is Successful!</p>
+                    <p class="thanks-pay mb-0">Thank you for completing your secure online payment.</p>
+                    <p class="thanks-pay mb-1">Redirecting you in 5 seconds...</p>
+                    <p class="great-day">Have a great day!</p>
+                    <!-- <p><span class="red">(wait for a minutes)</span>
+                    </p> -->
+                    <!-- <button mat-flat-button color="primary" class="btn-style" (click)="loginPage()">Go
+                    Login</button> -->
+                </div>
+                <div class="redirect-page d-flex justify-content-end align-items-end" (click) ="redirectPage('Success')">
+                    <span>Redirect the page</span>
+                </div>
+            </div>
+            <!--  -->
+            <div class="row card" *ngIf="!isPaymentProcess && isPaymentFailed">
+                <div class="d-flex">
+                    <img src="../../assets/images/App_web_logo.jpg" width="40" height="40">
+                    <img src="../../assets/images/payment-failed-img.png" height="70" width="70" style="margin-left: 200px;">
+                </div>
+                <div class="d-flex justify-content-center align-items-center flex-column">
+                    <p class="done-payment mb-1">Oops! Payment Failed</p>
+                    <p class="thanks-pay mb-0">Please try again now or after a couple of minutes</p>
+                    <p class="thanks-pay">Redirecting you in 5 seconds...</p>
+                    <!-- <p class="great-day">Have a great day!</p> -->
+                    <!-- <p><span class="red">(wait for a minutes)</span>
+                    </p> -->
+                </div>
+                <div class="redirect-page d-flex justify-content-end align-items-end" (click) ="redirectPage('Failure')">
+                    <span>Redirect the page</span>
+                </div>
+                <!-- <button mat-flat-button color="primary" class="btn-style" (click)="loginPage()">Go
+                    Login</button> -->
+            </div>
+        </div>
+    </div>
+    <div class="col-3"></div>
+</div>

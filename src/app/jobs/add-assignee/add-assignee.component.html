@@ -1,0 +1,64 @@
+<div class="dialog-header">
+    <h3 class="page-title row Btn-add">{{addAssign}}<span class="add-btn">
+        <!-- project assignee add section -->
+            <mat-icon mat-dialog-close matTooltip="Manage project users" class="mat-icon project-users ml-2"
+                (click)="manageprojectusers()">person_add
+            </mat-icon>
+        </span></h3>
+    <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+            type="button">close</mat-icon>
+    </span>
+</div>
+
+<div class="edit">
+    <ng-container>
+        <div class="input-content-wrap card card-bg jobform">
+
+            <form class="ClientFormGroup  px-3 pb-3">
+                <div class="row py-4" *ngIf="isJobIdAvailable">
+                    <!-- <div class="ml-3 lablestyle col-2">Assignees</div> -->
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-12">
+                        <mat-select [formControl]="AssigneeCtrl" placeholder="Select Assignees" multiple
+                            [(ngModel)]="usersselectedItems" (ngModelChange)="updateUsersfunction($event)">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="AssigneeFilterCtrl"
+                                    placeholderLabel="Search Assignee..." noEntriesFoundLabel="'no match found'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let data of filteredAssignee | async" [value]="data.employeeDetails.id">
+                                {{data.employeeDetails.firstname}} {{data.employeeDetails.lastname}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error class="text-danger"
+                            *ngIf="AssigneeCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="showusers" class="userList py-4">
+                    <div *ngFor="let object of userlist; let i = index">
+                        <div class="row p-2">
+                            <!-- <div class="lablestyle col-6"></div> -->
+                            <mat-form-field class="col-6">
+                                <input matInput [value]="object.name" type="text" required>
+                            </mat-form-field>
+                            <div class="text-input lablestyle col-6">
+                                <input type="text" [value]="object.rph" (change)="rphchangeuser(i,$event.target.value)"
+                                    placeholder="Rate Per Hour">
+                                <label for="input1">RPH</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row footerbtn d-flex justify-content-end mt-2">
+                    <div class="btns px-3">
+                        <button mat-dialog-close class="btn btn-cancel">Cancel</button>
+                        <button class="btn btn-confirm" [disabled]=" AssigneeCtrl.invalid"
+                            (click)="updateAssignee()">Update</button>
+                        
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-container>
+</div>

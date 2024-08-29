@@ -1,0 +1,123 @@
+.delete {
+    flex-wrap: nowrap !important;
+    justify-content: center;
+    align-items: center;
+    
+    img {
+        width: 200px;
+        height: 170px;
+        transition: all 0.3s ease;
+        // transform: translateX(-10px);
+        // transition: 0.5s;
+    }
+
+    .mat-dialog-title {
+        display: flex;
+        justify-content: center;
+        margin: 0 0 10px;
+        h1 {
+            font-size: 18px;
+            margin: 0 0 10px !important;
+        }
+    }
+
+    .mat-dialog-content {
+        display: flex;
+        justify-content: center;
+        overflow: hidden;
+
+
+        h4 {
+            font-size: 16px;
+        }
+    }
+
+    .cbtn {
+        background-color: white;
+    }
+
+    .mat-button-focus-overlay {
+        background-color: transparent !important;
+    }
+    button:focus {
+        outline: 0;
+    }
+}
+
+.delete:hover {
+
+    @-webkit-keyframes img {
+        15% {
+            -webkit-transform: translateX(5px);
+            transform: translateX(5px);
+        }
+
+        30% {
+            -webkit-transform: translateX(-5px);
+            transform: translateX(-5px);
+        }
+
+        50% {
+            -webkit-transform: translateX(3px);
+            transform: translateX(3px);
+        }
+
+        65% {
+            -webkit-transform: translateX(-3px);
+            transform: translateX(-3px);
+        }
+
+        80% {
+            -webkit-transform: translateX(2px);
+            transform: translateX(2px);
+        }
+
+        100% {
+            -webkit-transform: translateX(0);
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes img {
+        15% {
+            -webkit-transform: translateX(5px);
+            transform: translateX(5px);
+        }
+
+        30% {
+            -webkit-transform: translateX(-5px);
+            transform: translateX(-5px);
+        }
+
+        50% {
+            -webkit-transform: translateX(3px);
+            transform: translateX(3px);
+        }
+
+        65% {
+            -webkit-transform: translateX(-3px);
+            transform: translateX(-3px);
+        }
+
+        80% {
+            -webkit-transform: translateX(2px);
+            transform: translateX(2px);
+        }
+
+        100% {
+            -webkit-transform: translateX(0);
+            transform: translateX(0);
+        }
+    }
+    img {
+        // -webkit-transform: scale(0.8);
+        // -ms-transform: scale(0.8);
+        // // transform: scale(0.8);
+        // transform: translateX(15px);
+        // transition: 1s;
+        -webkit-animation: img 1s ease;
+        animation: img 1s ease;
+        -webkit-animation-iteration-count: 1;
+        animation-iteration-count: 1;
+    }
+}

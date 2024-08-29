@@ -1,0 +1,74 @@
+<div class="updateImage">
+    <div class="header">
+        <h5>Update Profile Picture</h5>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                role="img" type="button">close</mat-icon>
+        </span>
+    </div>
+    <div class="content">
+        <div *ngIf="!selectNew && dataGetted" class="previesImage">
+            <div>
+                <img *ngIf="!imgAvailable" class="defaultImg" src="assets/images/user_person.png">
+                <img *ngIf="imgAvailable" class="firstContentImg" [src]="oldImage">
+            </div>
+            <div>
+                <button class="mb-3 mt-2" type="button" mat-raised-button (click)="closeClick()"> Update New
+                    Image</button>
+                <button class="mb-3 mt-2" type="button" mat-raised-button (click)="removeProfilePic()"
+                    class="removeBtn">Remove</button>
+            </div>
+            <!-- <img src="../../../assets/images/user_person.png"> -->
+        </div>
+        <!-- <div *ngIf="!selectNew && dataGetted">
+        <button class="mb-3 mt-2" type="button" mat-raised-button >Remove</button>
+        </div> -->
+        <div *ngIf="!selectNew && !dataGetted" class="loadingImage">
+            <div class="card is-loading"></div>
+            <button class="mb-3 mt-2" type="button" mat-raised-button (click)="closeClick()"> Update New Image</button>
+        </div>
+        <!-- <div *ngIf="!selectNew && !dataGetted">
+            <button class="mb-3 mt-2" type="button" mat-raised-button >Remove</button>
+            </div> -->
+        <div *ngIf="selectNew">
+            <div *ngIf="!croppedImage" class="newImage">
+                <input type="file" capture accept="image/png,image/jpeg,image/jpg" (change)="fileChangeEvent($event)"
+                    [(ngModel)]="profile" [ngModelOptions]="{standalone: true}" hidden #FileSelect>
+                <div class="m-5">
+                    <div> <button type="button" mat-raised-button class="chooseBtn" (click)="FileSelect.click()">
+                            <mat-icon class="align-middle">image</mat-icon> Choose from files
+                        </button>
+                    </div>
+                    <!-- <div> <mat-hint>Better look of file size ex:100*100</mat-hint></div> -->
+                    <div><mat-error [innerHtml]="msgSign" *ngIf="msgSign"></mat-error></div>
+                </div>
+                <div *ngIf="this.profileName != null"><span class="imageName align-middle">
+                        {{profileName}}
+                    </span>
+                    <button (click)="cancel()" mat-icon-button matTooltip="Remove" matTooltipPosition="right">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="imageChangedEvent" class="imageCropper d-flex p-4" style="justify-content:space-evenly;">
+                <div style="width: 200px;">
+                    <p *ngIf="croppedImage">Selected Image</p>
+                    <div>
+                        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                            [resizeToWidth]="200" [resizeToHeight]="200" [aspectRatio]="1 / 1" format="png"
+                            (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                            (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+                        </image-cropper>
+                    </div>
+                </div>
+
+                <div *ngIf="croppedImage">
+                    <p>New Profile Image</p>
+                    <span class="newCroppedImage"><img [src]="croppedImage" /></span>
+                </div>
+            </div>
+            <button *ngIf="croppedImage" class="updateBtn mb-3 mt-2" type="button" mat-raised-button
+                (click)="updateProfilePic()"> Update Image</button>
+        </div>
+    </div>
+</div>

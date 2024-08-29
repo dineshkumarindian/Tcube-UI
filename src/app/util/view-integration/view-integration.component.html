@@ -1,0 +1,90 @@
+<div class="dialog-header">
+  <h3 class="page-title">{{viewIntegration}}</h3>
+  <span class="pull-right cls-btn">
+    <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+      type="button">close</mat-icon>
+  </span>
+</div>
+<div class="video" *ngIf="alldata.component === 'whatsapp'">
+  <div mat-dialog-content>
+    <div class="content">
+      <div class="headCard">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-7">
+            <div class="row headDetails m-0 justify-content-center">
+              <div class="imageSec mr-2">
+                <img class="defaultImg" src="assets/images/whatsapp.png">
+              </div>
+              <div class="detailsSec d-flex flex-column justify-content-center">
+                <small>Module</small>
+                <h6 class="m-0">{{data.module_name}}</h6>
+              </div>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="card countsCard">
+              <p *ngIf="data.numbers.length == 1" class="d-flex justify-content-center m-0 px-1">
+                <b>{{data.numbers.length}}</b>&nbsp; Number
+              </p>
+              <p *ngIf="data.numbers.length != 1" class="d-flex justify-content-center m-0 px-1">
+                <b>{{data.numbers.length}}</b>&nbsp; Numbers
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content1 mt-3">
+      <h6>URL</h6>
+      <ul>
+        <li>{{data.url}}</li>
+      </ul>
+      <h6>Access Token</h6>
+      <ul>
+        <li class="text-break token">{{data.whatsapp_access_token}}</li>
+      </ul>
+      <h6>Mobile Number</h6>
+      <ul class="d-flex flex-wrap mt-2">
+        <li *ngFor="let num of data.numbers" class="mr-2">
+          <mat-chip>{{num.code}}&nbsp;{{num.number}}</mat-chip>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Slack integration view details-->
+<div class="video" *ngIf="alldata.component === 'slack'">
+  <!-- <div class="header">
+      <h5 class="page-title">{{viewIntegration}}</h5>
+      <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+          type="button">close</mat-icon>
+      </span>
+    </div> -->
+  <div mat-dialog-content>
+    <div class="content">
+      <div class="headCard">
+        <div class="row align-items-center justify-content-center">
+          <div class="">
+            <div class="row headDetails m-0 justify-content-center">
+              <div class="imageSec mr-4">
+                <img class="defaultImg" src="assets/images/slack.png">
+              </div>
+              <div class="detailsSec d-flex flex-column justify-content-center">
+                <small>Module</small>
+                <h6 class="m-0">{{data.module_name}}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content1 mt-3">
+      <h6 class="mb-2">Incoming WebHooks</h6>
+      <ul>
+        <li class="text-break token">{{data.url}}</li>
+      </ul>
+    </div>
+  </div>
+</div>

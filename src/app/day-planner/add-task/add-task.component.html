@@ -1,0 +1,233 @@
+<div class="addDayPlannerTask">
+
+    <div class="page-header">
+        <div class="row">
+            <div class="col-6 col-md-6 d-flex">
+                <h3 class="page-title">Add Task</h3>
+                <span class="taskDate ml-2">{{dpTaskDate | date:'dd-MM-yyyy'}} </span>
+            </div>
+            <div class="col-6 col-md-6 d-flex justify-content-end">
+                <div>
+                    <button class="backbtn" matTooltipPosition="left" matTooltip="Back to my day planner"
+                        [routerLink]="['/my-day-planner']" routerLinkActive="router-link-active"><img
+                            src="../../assets/images/back.png">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="input-content-wrap scroll-y dayTaskCard">
+            <div cdkDropListGroup class="container-fluid row m-0 p-0 d-flex justify-content-center">
+                <div class="col-md-12 col-lg-7 px-2 tasksCard" [style.maxHeight.px]="getTaskCardHeight()">
+                    <div class="example-container" class="mb-2 card pb-2 px-3">
+                        <h4 class="nameOfHeader pt-2">Tasks
+                            <button mat-raised-button (click)="addTaskForm()"
+                                class="add_create_btn_mi float-right mr-2">
+                                <mat-icon>add</mat-icon>Add
+                            </button>
+                        </h4>
+                        <div cdkDropList [cdkDropListData]="newDayTaskDetails" class="example-list"
+                            [style.minHeight.px]="getTaskCardHeight1()"
+                            [style.border]="(newDayTaskDetails.length == 0) ? '1px dashed #ccc' :'1px solid #ccc'"
+                            (cdkDropListDropped)="drop($event)">
+                            <div class="example-box" *ngFor="let item of newDayTaskDetails; let i=index;" cdkDrag
+                                [cdkDragDisabled]="item.drag" matTooltip="Can't Drag, Custom Task"
+                                [matTooltipDisabled]="!item.drag">
+                                <div class="backlogTask">
+                                    <div class="row mb-3 m-0">
+                                        <div *ngIf="!item.edit_task" class="col-10 p-0">
+                                            <p class="mb-0"><span class="issue_key" *ngIf="item.issue_key"
+                                                    (click)="redirectToJira()">{{item.issue_key}}
+                                                    -</span>{{item.day_task}}</p>
+                                        </div>
+                                        <div *ngIf="item.edit_task" class="col-10 p-0">
+                                            <mat-form-field appearance="fill">
+                                                <textarea matInput rows="2" [formControl]="editTaskName"></textarea>
+                                            </mat-form-field>
+                                            <div class="d-flex justify-content-end tasksUpdateIcons">
+                                                <mat-icon class="done mr-2" (click)="updatTaskName(i)" matTooltip="Done"
+                                                    matTooltipPosition="left">done</mat-icon>
+                                                <mat-icon class="close" (click)="cancelTaskName(i)" matTooltip="Close"
+                                                    matTooltipPosition="right">close</mat-icon>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 p-0 tasksIcons" *ngIf="item.drag && !item.edit_task">
+                                            <mat-icon class="edit mr-2" (click)="editAddedTask(i)" matTooltip="Edit"
+                                                matTooltipPosition="left">edit</mat-icon>
+                                            <mat-icon class="delete" (click)="deleteAddedTask(i)" matTooltip="Delete"
+                                                matTooltipPosition="right">delete</mat-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="descriptonAndProject d-flex flex-row justify-content-between align-items-center">
+                                    <p class="m-0 descriptionStyle">{{item.description}}</p>
+                                    <small class="m-0 projectStyle">{{item.project_name}}</small>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column justify-content-center align-items-center mt-2 text-muted initialContent"
+                                [style.minHeight.px]="getTaskCardHeight2()" *ngIf="newDayTaskDetails.length == 0 ">
+                                <span>Create Your Task</span>
+                                Or
+                                <span class="d-flex flex-column align-items-center">
+                                    <img height="60px" width="60px" src="assets/images/drag-and-drop.png">
+                                    Drag & Drop From Backlogs
+                                </span>
+                            </div>
+                        </div>
+                        <div *ngIf="newDayTaskDetails.length != 0 "
+                            class="row d-flex justify-content-end m-0 mt-2 finalSaveBtnSec">
+                            <button mat-raised-button class="edit-btn" type="submit"
+                                (click)="createDayTask()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-5 px-2 baclogsCard" [style.maxHeight.px]="getTaskCardHeight()">
+                    <div class="example-container" class="mb-2 card pb-2 px-3">
+                        <mat-tab-group mat-align-tabs="start" class="tab-group-style"
+                            (selectedTabChange)="selectJiraTicketGroup($event)">
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <img src="../../../assets/images/run.png" height="18" width="18" class="mr-1">
+                                    Active Sprint Issues
+                                </ng-template>
+                                <div class="d-flex justify-content-end">
+                                    <mat-form-field appearance="outline" class="col-3" *ngIf="filteredprojectData.length > 1">
+                                        <mat-select placeholder="Filter by projects" #singleSelect  [formControl]="ASIProjectFilterCtrl"
+                                            (selectionChange)="getJIRAIssueByProject($event.value,0)">
+                                            <mat-option *ngFor="let data of filteredprojectData" [value]="data.id">
+                                                {{data.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <!-- <div class="mat-filter-refresh-btn" *ngIf="reset_filter_btn">
+                                        <button matTooltip="Reset filter" (click)="resetTableFilterByBoards()" mat-icon-button
+                                          class="example-icon action-btn mb-1">
+                                          <mat-icon class="pr-menu-icon ">refresh
+                                          </mat-icon>
+                                        </button>
+                                      </div> -->
+                                    <!-- <button mat-icon-button class="filtericon" *ngIf="!filter_open && filteredprojectData.length-1 > 0"
+                                        (click)="filter_toggle()" matTooltip="Filter" matTooltipPosition="below"><i
+                                            class='fas fa-filter'>
+                                        </i></button> -->
+                                </div>
+                                <div cdkDropList [cdkDropListData]="tempJiraTaskDetails" class="example-list"
+                                    [style.minHeight.px]="getTaskCardHeight1()" cdkDropListSortingDisabled
+                                    (cdkDropListDropped)="drop($event)">
+                                    <div class="backlogs-example-box" *ngFor="let item of tempJiraTaskDetails" cdkDrag>
+                                        <div class="backlogTask">
+                                            <p class="mb-0"><span class="issue_key"
+                                                    (click)="redirectToJira()">{{item.issue_key}} </span> -
+                                                {{item.day_task}}</p>
+                                        </div>
+                                        <div
+                                            class="descriptonAndProject d-flex flex-row align-items-center justify-content-between">
+                                            <p class="m-0 descriptionStyle">{{item.description}}</p>
+                                            <small class="m-0 projectStyle">{{item.project_name}}</small>
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="tempJiraTaskDetails.length == 0"
+                                        class="d-flex flex-column align-items-center text-muted justify-content-center backlogsNoData"
+                                        [style.minHeight.px]="getTaskCardHeight2()">
+                                        <img class="mb-2" height="60px" width="60px"
+                                            src="assets/images/empty-box-1.png">
+                                        No Active Sprint Issues Available
+                                    </div>
+                                    <mat-paginator *ngIf="totalActiveSprintIssue>0" [length]="totalActiveSprintIssue" #paginator [pageSize]="pageSizeASI" (page)="changePageASI($event)"
+                                        [pageSizeOptions]="[5, 10, 25, 100, 200]" aria-label="Select page"></mat-paginator>
+                                    <!-- <mat-paginator [length]="tempJiraTaskDetails.length" [pageSize]="10"
+                                        [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page"></mat-paginator> -->
+                                </div>
+                            </mat-tab>
+
+                            <mat-tab>
+                                <ng-template mat-tab-label>
+                                    <img src="../../../assets/images/book (2).png" height="18" width="18" class="mr-1">
+                                    Backlog Issues
+                                </ng-template>
+                                <div class="d-flex justify-content-end">
+                                    <mat-form-field appearance="outline" class="col-3" *ngIf="filteredprojectData.length > 1">
+                                        <mat-select placeholder="Filter by projects" #singleSelect [formControl]="BLProjectFilterCtrl"
+                                            (selectionChange)="getBacklogTicketDetails($event.value,0)">
+                                            <mat-option *ngFor="let data of filteredprojectData" [value]="data.id">
+                                                {{data.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <!-- <div class="mat-filter-refresh-btn" *ngIf="reset_filter_backlog">
+                                        <button matTooltip="Reset filter" (click)="resetTableFilterByBoardBacklog()" mat-icon-button
+                                          class="example-icon action-btn mb-1">
+                                          <mat-icon class="pr-menu-icon ">refresh
+                                          </mat-icon>
+                                        </button>
+                                      </div> -->
+                                    <!-- <button mat-icon-button class="filtericon" *ngIf="!filter_backlog && filteredprojectData.length-1 > 0"
+                                        (click)="filterBacklog()" matTooltip="Filter" matTooltipPosition="below"><i
+                                            class='fas fa-filter'>
+                                        </i></button> -->
+                                </div>
+                                <div cdkDropList [cdkDropListData]="tempBacklogDetails" class="example-list"
+                                    [style.minHeight.px]="getTaskCardHeight1()" cdkDropListSortingDisabled
+                                    (cdkDropListDropped)="drop($event)">
+                                    <div class="backlogs-example-box" *ngFor="let item of tempBacklogDetails" cdkDrag>
+                                        <div class="backlogTask">
+                                            <p class="mb-0"><span class="issue_key"
+                                                    (click)="redirectToJira()">{{item.issue_key}} </span> -
+                                                {{item.day_task}}</p>
+                                        </div>
+                                        <div
+                                            class="descriptonAndProject d-flex flex-row align-items-center justify-content-between">
+                                            <p class="m-0 descriptionStyle">{{item.description}}</p>
+                                            <small class="m-0 projectStyle">{{item.project_name}}</small>
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="tempBacklogDetails.length == 0"
+                                        class="d-flex flex-column align-items-center text-muted justify-content-center backlogsNoData"
+                                        [style.minHeight.px]="getTaskCardHeight2()">
+                                        <img class="mb-2" height="60px" width="60px"
+                                            src="assets/images/empty-box-1.png">
+                                        No Backlog Issues Available
+                                    </div>
+                                    <mat-paginator [length]="totalBacklogIssues" #paginator [pageSize]="pageSize" (page)="changePage($event)"
+                                        [pageSizeOptions]="[5, 10, 25, 100, 200]" aria-label="Select page"></mat-paginator>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                </div>
+
+                <!-- <div class="col-12 col-lg-5 px-2 baclogsCard" [style.maxHeight.px]="getTaskCardHeight()">
+                    <div class="example-container" class="mb-2 card pb-2 px-3">
+                        <h4 class="nameOfHeader pt-2">Active Sprint Issues</h4>
+                        <div cdkDropList [cdkDropListData]="jiraTaskDetails" class="example-list" [style.minHeight.px]="getTaskCardHeight1()" cdkDropListSortingDisabled
+                            (cdkDropListDropped)="drop($event)">
+                            <div class="backlogs-example-box" *ngFor="let item of jiraTaskDetails" cdkDrag>
+                                <div class="backlogTask">
+                                    <p class="mb-0"><span class="issue_key" (click)="redirectToJira()">{{item.issue_key}} </span> - {{item.day_task}}</p>
+                                </div>
+                                <div
+                                    class="descriptonAndProject d-flex flex-row align-items-center justify-content-between">
+                                    <p class="m-0 descriptionStyle">{{item.description}}</p>
+                                    <small class="m-0 projectStyle">{{item.project_name}}</small>
+                                    
+                                </div>
+                            </div>
+                            <div *ngIf="jiraTaskDetails.length == 0"
+                                class="d-flex flex-column align-items-center text-muted justify-content-center backlogsNoData" [style.minHeight.px]="getTaskCardHeight2()">
+                                <img class="mb-2" height="60px" width="60px" src="assets/images/empty-box-1.png">
+                                No Active Sprint Issue Available
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- <small class="m-0 projectStyle">{{item.status}}</small> -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="cancelLeave" *ngIf="cancelLeave">
+    <div class="dialog-header">
+        <h3 class="page-title">{{cancelHeadMsg}}</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <div class="mb-1 dialog-question">{{cancelContentMsg}}</div>
+
+        <!-- <div class="comment">Comments :</div> -->
+        <form [formGroup]="approveFormGroup">
+        <mat-form-field appearance="fill" class="text-comment">
+            <mat-label>Comments</mat-label>
+            <textarea rows="1" matInput [formControl]="comments"></textarea>
+            <mat-error class="" *ngIf="comments.hasError('required')">{{requiredMessage}}</mat-error>
+            </mat-form-field>
+            </form>
+            <!-- <div class="comment">Comments :</div>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <textarea matInput placeholder="Enter your comments..." [formControl]="comments"></textarea>
+          </mat-form-field> -->
+    </div>
+    <div align="end" class="dialog-btns pr-3">
+        <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+        <button mat-flat-button (click)="cancelRequestLeave()" [disabled]="comments.invalid" class="cnfm-btn">Confirm</button>
+    </div>
+</div>
+<div class="cancelLeave" *ngIf="approveLeave">
+    <div class="dialog-header">
+        <h3 class="page-title">{{cancelHeadMsg}}</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <div class="dialog-question">{{cancelContentMsg}}</div>
+
+        <!-- <div class="comment">Comments :</div> -->
+        <form [formGroup]="approveFormGroup">
+        <mat-form-field appearance="fill">
+            <mat-label>Comments</mat-label>
+            <textarea rows="1" matInput [formControl]="comments"></textarea>
+            <mat-error class="" *ngIf="comments.hasError('required')">{{requiredMessage}}</mat-error>
+            </mat-form-field>
+        </form>
+            <!-- <div class="comment">Comments :</div>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <textarea matInput placeholder="Enter your comments..." [formControl]="comments"></textarea>
+          </mat-form-field> -->
+    </div>
+    <div align="end" class="dialog-btns pr-3">
+        <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+        <button mat-flat-button (click)="cancelApproveLeave()" [disabled]="comments.invalid" class="cnfm-btn cnfim-btn-approvecancel">Confirm</button>
+    </div>
+</div>

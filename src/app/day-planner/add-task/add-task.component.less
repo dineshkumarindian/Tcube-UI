@@ -1,0 +1,269 @@
+.addDayPlannerTask {
+    margin-bottom: 20px;
+    .page-header {
+        .taskDate{
+            color: grey;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        .backbtn {
+            position: relative;
+            bottom: 5px;
+            width: 47px;
+            background-color: transparent;
+            border-color: transparent;
+            outline: none;
+
+            img {
+                width: 32px;
+            }
+        }
+    }
+
+    .dayTaskCard {
+        align-items: center;
+        overflow-y: auto;
+
+        .tasksCard {
+            overflow-y: auto;
+
+            .nameOfHeader {
+                position: sticky;
+                top: 0;
+                background-color: white;
+                margin: 0;
+                padding-bottom: 10px;
+                z-index: 1;
+            }
+        }
+
+        .baclogsCard {
+            overflow-y: auto;
+
+            .nameOfHeader {
+                position: sticky;
+                top: 0;
+                background-color: white;
+                margin: 0;
+                padding-bottom: 10px;
+                line-height: 30px;
+            }
+        }
+
+        .DPtaskCountDetails {
+            span {
+                color: #023591;
+            }
+
+            .taskHead {
+                margin-left: 16px;
+            }
+        }
+
+        .finalSaveBtnSec {
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+        }
+    }
+
+}
+
+.example-container {
+    width: 400px;
+    max-width: 100%;
+    margin: 0 25px 25px 0;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.example-list {
+    border: solid 1px #ccc;
+    // min-height: 345px;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+    display: block;
+
+    .initialContent {
+        // height: 343px;
+        font-size: 14px;
+    }
+
+    .backlogsNoData {
+        // height: 350px;
+        font-size: 14px;
+    }
+}
+
+// For drag and drop
+.example-box {
+    padding: 15px 10px;
+    border-bottom: solid 1px #ccc !important;
+    // background: linear-gradient(90deg, hsla(190, 100%, 93%, 1) 0%, hsla(258, 100%, 93%, 1) 99%);
+    // background: linear-gradient(90deg, rgb(248, 254, 255) 0%, rgb(245, 240, 255) 99%) !important;
+    background-color: #eef6ff;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    cursor: move;
+    background: white;
+    // font-size: 14px;
+
+    .backlogTask {
+        // font-weight: bold;
+
+        textarea {
+            resize: none;
+        }
+
+        .tasksUpdateIcons {
+            .done {
+                color: #7f7f7f;
+            }
+
+            .done:hover,
+            .close:hover {
+                color: #0f61b0;
+                cursor: pointer;
+            }
+
+            .mat-icon {
+                font-size: 17px;
+                height: 17px;
+                width: 17px;
+            }
+        }
+
+        .tasksIcons {
+            visibility: hidden;
+            display: flex;
+            justify-content: flex-end;
+
+            .edit:hover,
+            .delete:hover {
+                color: #0f61b0;
+                cursor: pointer;
+            }
+
+            .mat-icon {
+                font-size: 17px;
+                height: 17px;
+                width: 17px;
+            }
+        }
+    }
+
+    .descriptonAndProject {
+        .projectStyle {
+            font-size: 9px;
+            padding: 0px 8px;
+            background-color: #093a79;
+            border-radius: 10px;
+            color: #fff;
+        }
+        .descriptionStyle{
+            color: #6c757d !important;
+        }
+    }
+}
+
+.example-box:hover {
+    background: linear-gradient(90deg, #dbf9ff 0%, #e6dbff 99%) !important;
+    background-color: #f0f8ff;
+
+    .backlogTask {
+        .tasksIcons {
+            visibility: visible;
+        }
+    }
+
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+        background-color: #fff !important;
+    }
+
+    .descriptonAndProject {
+        .projectStyle {
+            background-color: #8730ff;
+        }
+    }
+}
+
+.backlogs-example-box {
+    padding: 15px 10px;
+    border-bottom: solid 1px #ccc;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    cursor: move;
+    background: white;
+    // font-size: 14px;
+
+    .backlogTask {
+        // font-weight: bold;
+        .issue_key{
+            color: #a40867;
+            font-weight: 650;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+
+    .descriptonAndProject {
+        .projectStyle {
+            background-color: #093a79;
+            border-radius: 10px;
+            color: #fff;
+            // font-size: 9px;
+            padding: 0px 8px;
+        }
+        .descriptionStyle{
+            color: #6c757d !important;
+        }
+    }
+}
+
+.backlogs-example-box:hover {
+    background-color: #f0f8ff;
+
+    .descriptonAndProject {
+        .projectStyle {
+            background-color: #8730ff;
+        }
+    }
+}
+
+.example-box.cdk-drag-disabled {
+    background: #fdfdfd;
+    cursor: default;
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #d5ebff;
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+    border: none;
+}
+
+.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

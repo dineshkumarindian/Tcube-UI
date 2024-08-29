@@ -1,0 +1,132 @@
+.leave-section {
+    .card-style {
+        height: 460px;
+        cursor: default;
+
+        .icon_add {
+            font-size: 20px;
+        }
+
+        .table-card {
+            height: 375px;
+            overflow: auto;
+
+            .mat-column-image {
+                width: 70px;
+            }
+
+            .mat-column-Status {
+                vertical-align: middle;
+            }
+
+            .holidays {
+                color: #0c55a9 !important;
+                background-color: unset;
+            }
+
+            .button_holiday {
+                border: 1px solid #996a06;
+                border-radius: 15px;
+                background-color: #a12c64;
+                color: #fbfbfb;
+            }
+
+            .carding {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                min-width: 0;
+                word-wrap: break-word;
+                background-color: #fff;
+                background-clip: border-box;
+                border: 0px solid rgba(0, 0, 0, 0);
+                border-radius: .25rem;
+                margin-bottom: 1.5rem;
+                // box-shadow      : 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+
+                .carding-body {
+                    width: 215px;
+
+                    .leave_card {
+                        // width: 225px;
+                        // border: 1px solid blanchedalmond;
+                        border-left: 1px solid #acacac;
+                        border-top: 1px solid #acacac;
+                        border-bottom: 1px solid #acacac;
+                        border-radius: 14px;
+                        margin-top: 18px;
+                        padding-left: 10px;
+
+                        .border-warning1 {
+                            border-right: 5px solid #60aaf6;
+                            border-radius: 10px;
+                            padding: 8px;
+                        }
+
+                        .rounded-circle {
+                            border-radius: 50% !important;
+                        }
+
+                        .bg-gradient-ohhappiness {
+                            background: #5d837e;
+                            background: linear-gradient(45deg, #1c7a6f40, #fffffebd) !important;
+                        }
+
+                        .ms-auto {
+                            margin-right: auto !important;
+                        }
+
+                        .widgets-icons-2 {
+                            width: 56px;
+                            height: 56px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            background-color: #ededed;
+                            font-size: 27px;
+                            border-radius: 10px;
+
+                            img {
+                                width: 30px;
+                            }
+                        }
+
+                        .takenleaveStyle {
+                            width: 120px;
+                        }
+                    }
+                }
+            }
+
+            .radius-10 {
+                border-radius: 10px !important;
+            }
+
+            .progressiveCircle {
+                border: none;
+                width: 50px;
+                height: 50px;
+                // justify-content: space-evenly;
+                // margin-left: -13px;
+                background: #eee;
+                background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+                // background: linear-gradient(110deg, #deebff 8%, #d4e5ff 18%, #cce0ff 33%);
+                border-radius: 30px;
+                background-size: 200% 100%;
+                animation: 1.5s shine linear infinite;
+            }
+
+        }
+
+        .td_text_firstltr_capitalized::first-letter {
+            text-transform: capitalize !important;
+        }
+
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}

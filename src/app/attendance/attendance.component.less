@@ -1,0 +1,295 @@
+//   scoll bar style
+::-webkit-scrollbar:horizontal {
+    height: 6px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.08);
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.25);
+    //   background: #000;
+    border-radius: 10px;
+
+}
+
+::-webkit-scrollbar-thumb:horizontal:hover {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    //   background: #000;
+    border-radius: 10px;
+
+}
+
+.attendance {
+    // background:#C0BFBF;
+    padding: 30px 0;
+
+    .card {
+        flex-direction: unset !important;
+        padding: 20px !important;
+        overflow-x: auto;
+
+        .margin_right {
+            margin-right: 25px;
+        }
+
+        .margin_left {
+            margin-left: 25px;
+        }
+    }
+}
+
+@media only screen and (max-width: 1600px) {
+    .attendanceReportCards {
+        overflow-x: auto;
+        white-space: nowrap;
+        .day-card {
+            margin-right: 2rem;
+        }
+
+        .attendanceTable {
+            text-align: center;
+            display: inline-block;
+            width: 220px;
+            margin: 0px 1rem 0rem 16px;
+        }
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .attendanceReportCards {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-evenly;
+        // .content {
+            // display: inline-block;
+        // }
+        .day-card {
+            margin-right: 2rem;
+        }
+
+        // 
+        .attendanceTable {
+            // text-align: center;
+            // width: 220px;
+            // margin: 0px 2rem 2rem 0px;
+            text-align: center;
+            display: inline-block;
+            // margin: 5px;
+            width: 220px;
+            margin: 0px 1rem 0rem 16px;
+        }
+    }
+
+}
+
+.sat_sun_section {
+    display: flex;
+}
+
+
+.attendance-header {
+    border: 1px solid gainsboro;
+    padding: 10px;
+    margin: 1px;
+    border-radius: 4px;
+}
+
+.attendanceTable .attendanceTable-header {
+    padding: 30px 0;
+    // background:#4d4d4d;
+    background: #003d71;
+    position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    transition: all .3s ease 0s;
+
+}
+
+.attendanceTable:hover .attendanceTable-header {
+    background: #0d5ab1
+}
+
+.attendanceTable .attendanceTable-header:after,
+.attendanceTable .attendanceTable-header:before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #d9d9d8;
+    position: absolute;
+    bottom: 12px
+}
+
+.attendanceTable .attendanceTable-header:before {
+    left: 40px
+}
+
+.attendanceTable .attendanceTable-header:after {
+    right: 40px
+}
+
+.attendanceTable .heading {
+    // font-size     : 20px;
+    // font-size     : 15px;
+    color: #A2CAFF;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0
+}
+
+.attendanceTable .hrs-value {
+    display: inline-block;
+    position: relative;
+    // font-size:55px;
+    font-size: 34px !important;
+    font-weight: 700;
+    // color: #7ce598;
+    color: #c0c0c0;
+    transition: all .3s ease 0s;
+}
+
+.attendanceTable:hover .hrs-value {
+    color: #fff
+}
+
+.attendanceTable .hrs-time {
+    // font-size  : 30px;
+    font-weight: 700;
+    position: absolute;
+    top: 6px;
+    // left:-28px
+    left: -41px
+}
+
+.attendanceTable .hrs {
+    // font-size     : 16px;
+    color: #fff;
+    position: absolute;
+    // bottom:15px;
+    // right:-40px;
+    bottom: 10px;
+    right: -36px;
+    text-transform: uppercase
+}
+
+.attendanceTable .hrs-content {
+    padding-top: 34px;
+    background: #fff;
+    position: relative
+}
+
+.attendanceTable .hrs-content:after,
+.attendanceTable .hrs-content:before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #7c7c7c;
+    position: absolute;
+    top: 12px
+}
+
+.attendanceTable .hrs-content:before {
+    left: 40px
+}
+
+.attendanceTable .hrs-content:after {
+    right: 40px
+}
+
+.attendanceTable .hrs-content ul {
+    padding: 0 20px;
+    margin: 0;
+    list-style: none;
+    height: 15em;
+    overflow: auto;
+}
+
+.attendanceTable .hrs-content ul:after,
+.attendanceTable .hrs-content ul:before {
+    content: "";
+    width: 8px;
+    height: 46px;
+    border-radius: 3px;
+    background: linear-gradient(to bottom, #818282 50%, #727373 50%);
+    position: absolute;
+    top: -22px;
+    z-index: 1;
+    box-shadow: 0 0 5px #707070;
+    transition: all .3s ease 0s
+}
+
+.attendanceTable:hover .hrs-content ul:after,
+.attendanceTable:hover .hrs-content ul:before {
+    background: linear-gradient(to bottom, #00214c 50%, #00214c 50%)
+}
+
+.attendanceTable .hrs-content ul:before {
+    left: 44px
+}
+
+.attendanceTable .hrs-content ul:after {
+    right: 44px
+}
+
+.attendanceTable .hrs-content ul li {
+    // font-size    : 15px;
+    font-weight: 700;
+    color: #777473;
+    padding: 10px 0;
+    border-bottom: 1px solid #d9d9d8;
+
+}
+
+.duration {
+    color: #a40867;
+}
+
+.attendanceTable .hrs-content ul li:last-child {
+    border-bottom: none
+}
+
+.attendanceTable .read {
+    display: inline-block;
+    // font-size     : 16px;
+    color: #fff;
+    text-transform: uppercase;
+    background: #d9d9d8;
+    padding: 8px 25px;
+    margin: 30px 0;
+    transition: all .3s ease 0s
+}
+
+.attendanceTable .read:hover {
+    text-decoration: none
+}
+
+.attendanceTable:hover .read {
+    background: #00214c
+}
+
+.calendarbtn {
+    width: 44px;
+    cursor: pointer;
+}
+
+.timeat {
+    // font-size: 15px;
+    font-weight: 650;
+    padding: 22px;
+    // font-family: 'Orbitron', sans-serif;
+    color: #003d71;
+    background: #e4eaee;
+    display: flex;
+    justify-content: center;
+    border-radius: 4px;
+    flex-direction: column;
+}
+
+
+
+@media screen and (max-width:990px) {
+    .attendanceTable {
+        margin-bottom: 25px;
+    }
+}

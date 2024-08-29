@@ -1,0 +1,16 @@
+<div class="delete">
+    <div class="dialog-header">
+      <h3 class="page-title">{{header}}</h3>
+      <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+          type="button">close</mat-icon>
+      </span>
+    </div>
+    <div mat-dialog-content>
+      <div><mat-badge></mat-badge>{{content}}</div>
+    </div>
+    <div align="end" class="dialog-btns p-3">
+      <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+      <button mat-flat-button (click)="redirect()" class="cnfm-btn">Redirect</button>
+    </div>
+  </div>

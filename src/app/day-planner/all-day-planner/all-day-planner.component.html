@@ -1,0 +1,322 @@
+<section class="allDayPlanner">
+    <mat-sidenav-container class="example-container" [hasBackdrop]="true">
+        <mat-sidenav #drawer mode="over" position="end">
+            Can be used when needed
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="DPDetails">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-3 col-md-4">
+                            <h3 class="page-title">Day Planner</h3>
+                        </div>
+                        <div class="col-7 col-md-4 d-flex justify-content-center">
+                            <span class="datepicker_select d-flex align-items-center">
+                                <mat-form-field appearance="fill" class="example-full-width invisible p-0"
+                                    style="width:0px; height: 0px;">
+                                    <input matInput [matDatepicker]="picker" (dateChange)="onDateChange($event)"
+                                        [formControl]="datepicker">
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                                <button mat-icon-button (click)="previousdate()">
+                                    <mat-icon>chevron_left</mat-icon>
+                                </button>
+                                <p class="mx-2 mb-0 datestyle" (click)="picker.open()">{{selectedDate |
+                                    date:'dd-MM-yyyy'}}</p>
+                                <button mat-icon-button (click)="nextdate()">
+                                    <mat-icon>chevron_right</mat-icon>
+                                </button>
+                            </span>
+                        </div>
+                        <div class="col-2 col-md-4 d-flex justify-content-end align-items-center rightSection">
+                            <span matTooltip="No tasks available" [matTooltipDisabled]="isnoTasksAvailable">
+                                <button mat-button class="exprt-btn" [disabled]="!isnoTasksAvailable"
+                                    [matMenuTriggerFor]="menu">
+                                    <span><img src="../../assets/images/import123.png"></span>
+                                    Export
+                                </button>
+                            </span>
+                        </div>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="exportAsXLSX()">XLSX</button>
+                            <button mat-menu-item (click)="exportAsXLS()">XLS</button>
+                            <button mat-menu-item (click)="exportAsCSV()">CSV</button>
+                        </mat-menu>
+                    </div>
+                </div>
+                <div class="row mainContent m-0 pb-2" [style.maxHeight.px]="getTaskCardHeight()">
+                    <div class="row m-0 justify-content-between filterSec">
+                        <div class="col-12 col-sm-10 col-md-4 col-lg-4 d-flex align-items-center">
+                            <div class="row m-0 mb-3 w-100 align-items-center">
+                                <div class="col-3">
+                                    <p class="m-0"><b>View By :</b></p>
+                                </div>
+                                <div class="col-8 p-0">
+                                    <mat-form-field appearance="outline">
+                                        <mat-select [formControl]="viewBy" (selectionChange)="viewByOption($event)">
+                                            <mat-option *ngFor="let data of viewByData" [value]="data">
+                                                {{data}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5 d-flex align-items-center justify-content-end">
+                            <button *ngIf="showFilter && finalOutputData.length > 0" mat-icon-button class="filtericon" (click)="showFilterFields()"
+                                matTooltip="Filter" matTooltipPosition="below"><i class='fas fa-filter'></i></button>
+                            <!-- <mat-icon (click)="drawer.toggle()">filter_list</mat-icon> -->
+                            <mat-form-field appearance="outline" class="mx-1"
+                                *ngIf="(byProjects || byUsers) && !showFilter">
+                                <mat-select [formControl]="status" placeholder="Filter By Status"
+                                    > <!--(selectionChange)="filterByStatus($event)"-->
+                                    <mat-option *ngFor="let data of statusData" [value]="data">
+                                        {{data}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="mx-1"
+                                *ngIf="(byUsers || byStatus) && !showFilter">
+                                <mat-select [formControl]="project" placeholder="Filter By Project"
+                                    > <!--(selectionChange)="filterByProject($event)"-->
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="projectFilterCtrl"
+                                            placeholderLabel="Search ..." noEntriesFoundLabel="'no match found'">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngIf="noProjects" [disabled]="true">No data available!
+                                    </mat-option>
+                                    <mat-option *ngFor="let data of filteredproject | async" [value]="data">
+                                        {{data.project_name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="mx-1" [hidden]="byUsers || showFilter">
+                                <mat-select multiple [formControl]="user" placeholder="Filter By Users" #select multiple
+                                    > <!--(selectionChange)="filterByUsers($event)"-->
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="userFilterCtrl"
+                                            placeholderLabel="Search ..." noEntriesFoundLabel="'no match found'">
+                                        </ngx-mat-select-search>
+                                    </mat-option>
+                                    <mat-option *ngIf="noUsers" [disabled]="true">No data available!
+                                    </mat-option>
+                                    <div class="select-all pl-3">
+                                        <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                                            (change)="toggleAllSelection()">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option *ngFor="let data of filtereduser | async" [value]="data">
+                                        {{data.firstname}} {{data.lastname}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <span class="done-button mr-1" *ngIf="!showFilter && (user.value != null) || (status.value != null) || (project.value != null)" >
+                                <button matTooltip="Search" (click)="generalFilter()" mat-icon-button
+                                    class="example-icon action-btn">
+                                    <mat-icon class="pr-menu-icon ">done</mat-icon>
+                                </button>
+                            </span>
+                            <span class="mat-filter-refresh-btn"
+                                *ngIf="(user.value != null) || (status.value != null) || (project.value != null)">
+                                <button matTooltip="Reset filter" (click)="refresh()" mat-icon-button
+                                    class="example-icon action-btn">
+                                    <mat-icon class="pr-menu-icon ">refresh</mat-icon>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div *ngIf="showLoader">
+
+                    </div>
+                    <div *ngIf="!showLoader" class="w-100">
+                        <div *ngIf="byStatus" class="statusSec px-3 w-100">
+                            <div *ngIf="isnoTasksAvailable">
+                                <div *ngFor="let final of finalOutputData ; let i = index ;">
+                                    <mat-accordion class="example-headers-align">
+                                        <mat-expansion-panel class="mb-3" [expanded]=" i == 0 ? 'true' : 'false'">
+                                            <mat-expansion-panel-header mat-expansion-panel-header class="mb-2">
+                                                <mat-panel-title>
+                                                    <span>
+                                                        <b>{{final.key}}</b>
+                                                        <!--[matBadge]="final.data.length" matBadgeOverlap="false" [matBadgeHidden]="final.data.length == 0" matBadgeSize="small"-->
+                                                    </span>
+                                                </mat-panel-title>
+                                                <mat-panel-description class="justify-content-end">
+                                                    <button class="totalTasks">
+                                                        {{final.data.length}}
+                                                    </button>
+                                                </mat-panel-description>
+                                            </mat-expansion-panel-header>
+                                            <div *ngIf="final.data.length > 0">
+                                                <div *ngFor="let innerData of final.data ; let j = index ;">
+                                                    <div class="row card py-2 d-flex flex-row align-items-center"
+                                                        [ngStyle]="{'borderBottom': j != final.data.length-1 ? 'none':''}">
+                                                        <div class="col-9">
+                                                            {{innerData.day_task}}
+                                                        </div>
+                                                        <div class="col-2 d-flex align-items-center">
+                                                            <small class="projectStyle mr-2 mb-0"
+                                                                matTooltip="Project">{{innerData.project_name}}</small>
+                                                        </div>
+                                                        <div class="col-1 d-flex align-items-center">
+                                                            <span [matTooltip]="innerData.emp_name">
+                                                                <img class="imageStyle" [src]="innerData.emp_image"
+                                                                    alt="user_image" height="35" width="35">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="final.data.length == 0" class="text-center mat-error">
+                                                <b>No data found !</b>
+                                            </div>
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                                </div>
+                            </div>
+                            <div *ngIf="!isnoTasksAvailable"
+                                class="d-flex flex-column align-items-center text-muted justify-content-center tasksDetalsNoData">
+                                <img class="mb-2" height="100px" width="100px" src="assets/images/empty-box-1.png">
+                                No data found !
+                            </div>
+                        </div>
+                        <div *ngIf="byProjects" class="projectSec px-3 w-100">
+                            <div *ngIf="isnoTasksAvailable">
+                                <div *ngFor="let final of finalOutputData ; let i = index ;">
+                                    <mat-accordion class="example-headers-align">
+                                        <mat-expansion-panel class="mb-3" [expanded]=" i == 0 ? 'true' : 'false'">
+                                            <mat-expansion-panel-header class="mb-2" mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    <span>
+                                                        <b>{{final.key}}</b>
+                                                    </span>
+                                                </mat-panel-title>
+                                                <mat-panel-description class="justify-content-end">
+                                                    <button class="totalTasks">
+                                                        {{final.data.length}}
+                                                    </button>
+                                                </mat-panel-description>
+                                            </mat-expansion-panel-header>
+                                            <div *ngIf="final.data.length > 0">
+                                                <div *ngFor="let innerData of final.data ; let j = index ;">
+                                                    <div class="row card py-2 d-flex flex-row align-items-center"
+                                                        [ngStyle]="{'borderBottom': j != final.data.length-1 ? 'none':''}">
+                                                        <div class="col-9">
+                                                            {{innerData.day_task}}
+                                                        </div>
+                                                        <div class="col-2 d-flex align-items-center">
+                                                            <small class="mr-2 mb-0 statusStyle" matTooltip="Status"
+                                                                [ngStyle]="{'background-color': innerData.status == 'Inprogress' ? '#29C7BE' : innerData.status == 'Done' ?'#2AAB49' : innerData.status == 'Todo' ?'#DC3545' : '#6c757dc9'}">{{innerData.status}}</small>
+                                                        </div>
+                                                        <div class="col-1 d-flex align-items-center">
+                                                            <span [matTooltip]="innerData.emp_name">
+                                                                <img class="imageStyle" [src]="innerData.emp_image"
+                                                                    alt="user_image" height="35" width="35">
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="final.data.length == 0" class="text-center mat-error">
+                                                <b>No data found !</b>
+                                            </div>
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                                </div>
+                                <div *ngIf="finalEmptyData.length != 0" class="px-3">
+                                    <h3 class="pb-2">No task has been created under these projects</h3>
+                                    <mat-chip-list>
+                                        <mat-chip *ngFor="let empty of finalEmptyData">
+                                            {{empty.key}}
+                                        </mat-chip>
+                                    </mat-chip-list>
+                                </div>
+                            </div>
+                            <div *ngIf="!isnoTasksAvailable"
+                                class="d-flex flex-column align-items-center text-muted justify-content-center tasksDetalsNoData">
+                                <img class="mb-2" height="100px" width="100px" src="assets/images/empty-box-1.png">
+                                No data found !
+                            </div>
+
+                        </div>
+                        <div *ngIf="byUsers" class="userSec px-3 w-100">
+                            <div *ngIf="isnoTasksAvailable">
+                                <div *ngFor="let final of finalOutputData ; let i = index ;">
+                                    <!--|async |slice:((paginator.pageIndex)*paginator.pageSize):((paginator.pageIndex+1)*paginator.pageSize)-->
+                                    <mat-accordion class="example-headers-align">
+                                        <mat-expansion-panel class="mb-3" [expanded]=" i == 0 ? 'true' : 'false'">
+                                            <mat-expansion-panel-header class="mb-2" mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                    <span class="d-flex align-items-center">
+                                                        <div *ngIf="isGettingEMpImage" class="progressiveCircle mr-2">
+                                                        </div>
+                                                        <img *ngIf="!isGettingEMpImage" class="imageStyle mr-2" [src]="final.key_img"
+                                                            alt="user_image" height="30" width="30">
+                                                        <b>{{final.key}}</b>
+                                                    </span>
+                                                </mat-panel-title>
+                                                <!-- <mat-panel-description class="justify-content-end">
+                                                    <img class="imageStyle" [src]="final.profile_image" alt="user_image" height="35" width="35">
+                                                </mat-panel-description> -->
+                                                <mat-panel-description class="justify-content-end">
+                                                    <button class="totalTasks">
+                                                        {{final.data.length}}
+                                                    </button>
+                                                </mat-panel-description>
+                                            </mat-expansion-panel-header>
+                                            <div *ngIf="final.data.length > 0">
+                                                <div *ngFor="let innerData of final.data ; let j = index ;">
+                                                    <div class="row card py-2 d-flex flex-row align-items-center"
+                                                        [ngStyle]="{'borderBottom': j != final.data.length-1 ? 'none':''}">
+                                                        <div class="col-9">
+                                                            {{innerData.day_task}}
+                                                        </div>
+                                                        <div class="col-2 d-flex align-items-center">
+                                                            <small class="mr-2 mb-0 projectStyle"
+                                                                matTooltip="Project">{{innerData.project_name}}</small>
+                                                        </div>
+                                                        <div class="col-1 d-flex align-items-center">
+                                                            <small class="mr-2 mb-0 statusStyle" matTooltip="Status"
+                                                                [ngStyle]="{'background-color': innerData.status == 'Inprogress' ? '#29C7BE' : innerData.status == 'Done' ?'#2AAB49' : innerData.status == 'Todo' ?'#DC3545' : '#6c757dc9'}">{{innerData.status}}</small>
+                                                        </div>
+                                                        <!-- <div class="col-1 d-flex align-items-center">
+                                                            <span [matTooltip]="innerData.emp_name">
+                                                                <img class="imageStyle" [src]="innerData.emp_image"
+                                                                    alt="user_image" height="35" width="35">
+                                                            </span>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="final.data.length == 0" class="text-center mat-error">
+                                                <b>No data found !</b>
+                                            </div>
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                                </div>
+                                <div *ngIf="finalEmptyData.length != 0  && showMatChips" class="px-3">
+                                    <h3 class="pb-2">Tasks not created staff list</h3>
+                                    <mat-chip-list>
+                                        <mat-chip *ngFor="let empty of finalEmptyData">
+                                            {{empty.key}}
+                                        </mat-chip>
+                                    </mat-chip-list>
+                                </div>
+                                <!-- <mat-paginator  #paginator [pageSize]="5" [length]="finalOutputData.length" [pageSizeOptions]="[10, 20, 50, 100]" (page)="pageEvent = $event"></mat-paginator> -->
+                                <!-- <mat-paginator #paginator [length]="finalOutputData.length" [pageSize]="pageSize"
+                                    [pageSizeOptions]="[5, 10, 25, 100]" (page)="pageEvent = $event">
+                                </mat-paginator> -->
+                            </div>
+                            <div *ngIf="!isnoTasksAvailable"
+                                class="d-flex flex-column align-items-center text-muted justify-content-center tasksDetalsNoData">
+                                <img class="mb-2" height="100px" width="100px" src="assets/images/empty-box-1.png">
+                                No data found !
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</section>

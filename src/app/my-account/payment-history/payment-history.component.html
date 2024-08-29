@@ -1,0 +1,118 @@
+<div class="page-header payment-history-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">Payment History</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <div class="align_preview_sec">
+                    <button mat-icon-button matTooltipPosition="left" matTooltip="Back to subscription"
+                        [routerLink]="['/subscription']" routerLinkActive="router-link-active"><img
+                            src="../../../../assets/images/back.png" class="ph_back_arrow_img ">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 pt-2">
+        <div>
+            <div class="col-4 filter-form-sec pr-0">
+                <mat-form-field appearance="standard">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search Transactions ..." #input>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="transactions">
+    <div class="table-section">
+        <div class="container-fluid">
+            <div class="row secondrow">
+            </div>
+            <div class="orgTable mb-5">
+                <div class="example-container mat-elevation-z8">
+                    <div class="tablescroll">
+                        <mat-table [dataSource]="DataSource" matSort>
+
+                            <ng-container matColumnDef="payment_Id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Id
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span *ngIf="element.paymentId != null">{{element.transaction_id}}</span>
+                                    <span *ngIf="element.paymentId == null">-</span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="amount">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Amount($)
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span class="amount">{{element.amount}}</span> </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="created_time">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Payment Date
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span class="pr-1">{{element.created_time | date:"dd-MM-yyyy hh:mm aa"}}</span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="payment_gateway">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Payment Gateway
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span>{{element.key_note}}</span> </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="pay-status-btn">
+                                    <button mat-flat-button class="success-btn" *ngIf="element.status == 'success'">Success</button>
+                                    <button mat-flat-button class="fail-btn" *ngIf="element.status == 'failed'">Failed</button>
+                                    <!-- <button mat-flat-button class="others"></button> -->
+                                    <!-- <span *ngIf="element.status == 'paid' ; else other" class="paid pr-1">Paid</span>
+                                    <ng-template #other><span class="initiated pr-1"
+                                            *ngIf="element.status != null">{{element.status}}</span><span
+                                            class="initiated pr-1" *ngIf="element.status == null">Not
+                                            Process</span></ng-template> -->
+                                </mat-cell>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="action">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Action
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="pay-history-action-btn">
+                                    <button mat-flat-button class="download-btn" disabled *ngIf="element.invoicepPdfContent == null" matTooltipPosition="right" matTooltip="Not available">Receipt</button>
+                                    <button mat-flat-button class="download-btn" *ngIf="element.invoicepPdfContent != null"(click)="downloadInvoicePdf(element.invoicepPdfContent)" matTooltipPosition="right" matTooltip="Download">Receipt</button>
+                                <!-- <button mat-flat-button class="view-btn" *ngIf="element.receipt_url != null" (click)="viewReceipt(element.receipt_url)">
+                                    View
+                                </button>
+                                <button mat-flat-button class="view-btn" *ngIf="element.receipt_url == null"
+                                    matTooltip="Not available">
+                                    View
+                                </button> -->
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns sticky:true"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row">
+                            </mat-row>
+                        </mat-table>
+                    </div>
+
+                    <div *ngIf="paymentTransaction.length == 0 && noDataMsgPlan == true"
+                        class="text-center text-danger alert-danger no-search-match p-3">
+                        {{noDataMsg}}
+                    </div>
+                    <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+                        No Data Matching For "{{this.filterData}}"
+                    </div>
+                    <mat-paginator class="paginator" #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+                        [pageSizeOptions]="tablePaginationOption">
+                    </mat-paginator>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

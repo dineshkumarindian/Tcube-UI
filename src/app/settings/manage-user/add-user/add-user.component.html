@@ -1,0 +1,538 @@
+<div class="add_user">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="page-title" *ngIf="!empIdUpdate && !isUserAvail">Add User</h3>
+                <h3 class="page-title" *ngIf="empIdUpdate && isUserAvail">Update User</h3>
+            </div>
+            <div class="col-md-8 user_back_button">
+                <div class="pfr">
+                    <button mat-icon-button class="backbtn" matTooltip="Back to active user" matTooltipPosition="left"
+                        (click)="backToEmp()"><img src="../../../../assets/images/back.png"
+                            class="ph_back_arrow_img"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="container-fluid">
+        <div class="input-content-wrap card card-bg p-3 mb-4">
+            <form [formGroup]="UserFormGroup" class="UserFormGroup">
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">First Name</div>
+                    <mat-form-field appearance="standard" class="col-5">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="f_name" placeholder="First Name"
+                            (ngModelChange)="userLastNameCheck()" required />
+                        <mat-error>
+                            <div *ngIf="UserFormGroup.get('f_name').hasError('required')">
+                                <p>{{requiredMessage}}</p>
+                            </div>
+                            <div class="text-danger" *ngIf="UserFormGroup.get('f_name').hasError('pattern')">
+                                {{validFormatMessage}}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Last Name</div>
+                    <mat-form-field appearance="standard" class="col-5">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="l_name" placeholder="Last Name"
+                            (ngModelChange)="userLastNameCheck()" required />
+                        <mat-error>
+                            <div *ngIf="UserFormGroup.get('l_name').hasError('required')">
+                                <p>{{requiredMessage}}</p>
+                            </div>
+                            <div *ngIf="UserFormGroup.get('l_name').hasError('pattern')">
+                                {{validFormatMessage}}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <!-- <div class="row userNameErr"> -->
+                    <div class="ml-3 col-2"></div>
+                    <div *ngIf="isUserNameAvail" class="text-danger ml-3">
+                        <p>{{duplicateName}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Mobile number</div>
+                    <mat-form-field appearance="outline" class=" col-1">
+                        <mat-select  [formControl]="countrycodeCtrl" (selectionChange)="selectedTelcode($event.value)">
+                            <mat-select-trigger>
+                                {{ codes }}
+                            </mat-select-trigger>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="countrycodeFilterCtrl"
+                                    placeholderLabel="Search ..." noEntriesFoundLabel="'no match found'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let opt of filteredcountrycode | async" [value]="opt.id">{{opt.telcode}} -
+                                {{opt.country}}</mat-option>
+                        </mat-select>
+                        <mat-error class="errorfix" *ngIf="countrycodeCtrl.hasError('required')">Field
+                            Required!
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" class="col-2">
+                        <input matInput formControlName="mobilenumber" placeholder="Mobile number"
+                        (ngModelChange)="checkMobileNumber($event)" required />
+                        <mat-error>
+                            <div class="mat-error mt-3" *ngIf="UserFormGroup.controls['mobilenumber'].hasError('required')">
+                                {{requiredMessage}}
+                            </div>    
+                            <div class="mat-error mt-3" *ngIf="UserFormGroup.controls['mobilenumber'].hasError('pattern')">
+                                {{validFormatMessage}}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <!-- <div class="row userNameErr"> -->
+                    <div class="ml-3 col-2"></div>
+                    <div *ngIf="editMobileNumber" class="text-danger ml-3">
+                        <p>{{duplicateMobileNumber}}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Email</div>
+                    <mat-form-field appearance="standard" class="col-5">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" placeholder="Email"
+                            (keyup)="mailchange($event.target.value)" required />
+                        <mat-error>
+                            <div *ngIf="UserFormGroup.get('email').hasError('required')">
+                                <p>{{requiredMessage}}</p>
+                            </div>
+                            <div *ngIf="UserFormGroup.get('email').hasError('pattern')">
+                                {{validFormatMessage}}
+                            </div>
+                        </mat-error>
+                        <mat-hint style="color:#f44336" *ngIf="mailExists">Email
+                            already registred</mat-hint>
+                        <!-- <mat-hint class="mat-error" *ngIf="mailExists">{{existMessage}}</mat-hint> -->
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Set Password</div>
+                    <div class="col-5">
+                        <mat-radio-group formControlName="resetFormControl1">
+                            <div *ngIf="!empIdUpdate" class="passhint">
+                                <mat-radio-button color="primary" (change)="changeFn(defaultPassword)"
+                                    (click)="setPassword()" value="defaultPassword">
+                                    Set Default
+                                    Password
+                                </mat-radio-button>
+                                <span>
+                                    {{  showValues? '' : defaultPassword }}</span>
+                                    <span class="eye-icon" (click)="toggleValuesVisibility()"> 
+                                        <mat-icon *ngIf="isDefaultPassword && showUserFormPass" class="mat-eye-icon" style="font-size:20px;color: black;">{{showValues ? visibility : visibility }}</mat-icon>        
+                                        </span>
+                            </div>
+                            <div *ngIf="empIdUpdate" class="passhint">
+                                <mat-radio-button color="primary" value="defaultPassword" (click)="setPassword()"
+                                    [checked]="defaultPassword">Set Default
+                                    Password</mat-radio-button>
+                                <span> {{  showValues? '' : defaultPassword }}</span>
+                                <span class="eye-icon" (click)="toggleValuesVisibility()"> 
+                                    <mat-icon *ngIf="isDefaultPassword && showUserFormPass" class="mat-eye-icon" style="font-size:20px;color: black;">{{showValues ? visibility : visibility }}</mat-icon>        
+                                    </span>
+                            </div>
+                            <div *ngIf="!empIdUpdate">
+                                <mat-radio-button color="primary" (change)="changeFn(password)" id="bt"
+                                    (click)="toggleUser()" value="password">Set
+                                    Custom
+                                    Password
+                                </mat-radio-button>
+                            </div>
+                            <div *ngIf="empIdUpdate">
+                                <mat-radio-button color="primary" value="password" (click)="toggleUser()"
+                                    [checked]="password" id="bt">
+                                    Set Custom
+                                    Password
+                                </mat-radio-button>
+                            </div>
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row" *ngIf="!showUserFormPass">
+                    <div class="ml-3 labelstyle col-2">Password</div>
+                    <div class="col-5">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Password</mat-label>
+
+                            <input matInput [type]="hide? 'password':'text'" [formControl]="userPassword" (ngModelChange)="checkPass()"
+                            placeholder="Enter the password" required /> 
+                            <span class="password-mat-icon" mat-icon-button matSuffix (click)="hidePassword()"
+                            [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon class="mat-eye-icon" style="font-size:20px;">{{hide ? visibility : visibility }}</mat-icon>
+                        </span>
+                            <mat-error>
+                                <div *ngIf="userPassword.errors?.required">
+                                    <p>{{requiredMessage}}</p>
+                                </div>
+                                <div class="text-danger"
+                                    *ngIf="!userPassword.hasError('whitespace') && userPassword.hasError('minlength')">
+                                    Password should be greater than five digits
+                                </div>
+                                <div *ngIf="userPassword.hasError('whitespace')">
+                                    {{validFormatMessage}}
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Date Of Joining</div>
+                    <mat-form-field appearance="standard" class="col-5">
+                        <mat-label>Date Of Joining</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="doj" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error>
+                            <p>{{requiredMessage}}</p>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- <div class="row mb-3">
+                    <div class="ml-3 labelstyle col-2">Designation</div>
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                        <mat-select [formControl]="designationCtrl" placeholder="Designation *" #singleSelect>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="designationFilterCtrl"
+                                    placeholderLabel="Search ..." noEntriesFoundLabel="'no match found'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let data of filtereddesignation | async" [value]="data.id">
+                                {{data.designation}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error class="errorfix" *ngIf="designationCtrl.hasError('required')">
+                            <p>{{requiredMessage}}</p>
+                        </mat-error>
+                    </mat-form-field>
+                </div> -->
+                <div class="row mb-3">
+                    <div class="ml-3 labelstyle col-2">Designation</div>
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                        <mat-select [formControl]="designationCtrl" placeholder="Designation *" #singleSelect>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="designationFilterCtrl"
+                                    placeholderLabel="Search ..." noEntriesFoundLabel="'no match found'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let data of filtereddesignation | async" [value]="data.id">
+                                {{data.designation}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error class="errorfix" *ngIf="designationCtrl.hasError('required')">Field
+                            Required!
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- branch formfield -->
+                <div class="row mb-3">
+                    <div class="ml-3 labelstyle col-2">Branch</div>
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                        <mat-select #branchSelect [formControl]="branchCtrl" placeholder="Branch *" #singleSelect
+                            (openedChange)="onSelectOpen($event)">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="branchFilterCtrl"
+                                    placeholderLabel="Search..."
+                                    (ngModelChange)="Branchnameset()">
+                                    <span ngxMatSelectNoEntriesFound style="color: #000c;">
+                                        <button mat-button (click)="branchAdd()" class="add_branch">
+                                            Click here to add ( <b>{{branchName}}</b> ) as new branch
+                                            <mat-icon>add</mat-icon>
+                                        </button>
+                                    </span>
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let data of filteredbranch | async" [value]="data.id">
+                                <span class="branch_row">
+                                    <span>{{data.branch}} </span>
+                                    <mat-icon *ngIf="isSelectOpen" (click)="DeleteBranch(data.branch)">delete</mat-icon>
+                                </span>
+                            </mat-option>
+                            <mat-option *ngIf="branchDetails.length ==0 && branchName.length ==0" disabled="true">
+                                No data available! Type and enter the branch to create a new branch
+                                <button *ngIf="branchDetails.length !=0" style="color: #000c;" mat-button
+                                    (click)="branchAdd()" class="add_branch">
+                                    Click here to add ( <b>{{branchName}}</b> ) as new branch
+                                    <mat-icon>add</mat-icon>
+                                </button></mat-option>
+
+                        </mat-select>
+                        <mat-error class="errorfix" *ngIf="branchCtrl.hasError('required')">Field
+                            Required!
+                        </mat-error>
+                    </mat-form-field>
+                    <!-- <div class="col-3 d-flex align-items-center mb-1">
+                        <span class="add-branch-button cursor-pointer">
+                            <span matTooltip="Add branch" (click)="AddBranch()" class="example-icon action-btn d-block">
+                                <mat-icon
+                                    class="material-icons-round d-flex justify-content-center align-items-center">add</mat-icon>
+                            </span>
+                        </span>
+                    </div> -->
+                </div>
+                <div *ngIf="!isOrgAdmin">
+                    <div class="row mb-3">
+                        <div class="ml-3 labelstyle col-2">Reporting Manager</div>
+                        <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                            <mat-select [formControl]="empCtrl" placeholder="Select User *&nbsp;" #singleSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="empFilterCtrl" placeholderLabel="Search ..."
+                                        noEntriesFoundLabel="'no match found'">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                
+                                <mat-option *ngFor="let data of filteredEmps | async" [value]="data.id">
+                                    {{data.firstname}} {{data.lastname}} &nbsp;
+                                    <small>-&nbsp;&nbsp;{{data.designation}}</small>
+                                </mat-option>
+                            </mat-select>
+                            <mat-error class="errorfix" *ngIf="empCtrl.hasError('required')">
+                                {{requiredMessage}}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div *ngIf="isOrgAdmin">
+                    <div class="row mb-5">
+                        <div class="ml-3 labelstyle col-2">Reporting Manager</div>
+                        <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                            <mat-select [formControl]="empCtrl" placeholder="Select User *&nbsp;" #singleSelect>
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="empFilterCtrl" placeholderLabel="Search ..."
+                                        noEntriesFoundLabel="'no match found'">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                
+                                <mat-option *ngFor="let data of filteredEmps | async" [value]="data.id">
+                                    {{data.firstname}} {{data.lastname}} &nbsp;
+                                    <small>-&nbsp;&nbsp;{{data.designation}}</small>
+                                </mat-option>
+                            </mat-select>
+                            <mat-error class="errorfix" *ngIf="empCtrl.hasError('required')">
+                                {{requiredMessage}}
+                            </mat-error>
+                            <div style="font-size: small; margin-top: 15px; margin-left: -11px; cursor: default;" class="mat-hint"
+                                [ngStyle]="{'margin-top':empCtrl.hasError('required')?'30px':'15px' }">
+                                As an org admin, you can choose to be a reporting manager yourself or assign someone else for the role
+                            </div>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="ml-3 labelstyle col-2">Staff Type</div>
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                        <mat-select #staffTypeSelect [formControl]="staffTypeCtrl" placeholder="Staff type *" #singleSelect
+                            (openedChange)="onSelectOpen1($event)">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="stafftypeFilterCtrl"
+                                    placeholderLabel="Search..."
+                                    (ngModelChange)="StaffTypenameset()">
+                                    <span ngxMatSelectNoEntriesFound style="color: #000c;">
+                                        <button mat-button (click)="addStaffType()" class="add_stafftype">
+                                            Click here to add ( <b>{{staffTypes}}</b> ) as new staff type
+                                            <mat-icon>add</mat-icon>
+                                        </button>
+                                    </span>
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let data of filteredstaffType | async" [value]="data.id">
+                                <span class="staffType_row">
+                                    <span>{{data.stafftype}} </span>
+                                    <mat-icon *ngIf="isSelectOpen1" (click)="DeleteStaffType(data.stafftype)">delete</mat-icon>
+                                </span>
+                            </mat-option>
+                            <mat-option *ngIf="staffTypeDetails.length ==0 && staffTypes.length ==0" disabled="true">
+                                No data available! Type and enter the staff type to create a new staff type
+                                <button *ngIf="staffTypeDetails.length !=0" style="color: #000c;" mat-button (click)="addStaffType()"
+                                    class="add_stafftype">
+                                    Click here to add ( <b>{{staffTypes}}</b> ) as new staff type
+                                    <mat-icon>add</mat-icon>
+                                </button></mat-option>
+                
+                        </mat-select>
+                        <mat-error class="errorfix" *ngIf="staffTypeCtrl.hasError('required')">Field
+                            Required!
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- shift form-field -->
+                <div class="row mb-3">
+                    <div class="ml-3 labelstyle col-2">Shift</div>
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                        <mat-select [formControl]="shiftCtrl" placeholder="Select shift *" #singleSelect>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="shiftFilterCtrl" placeholderLabel="Search ..."
+                                    noEntriesFoundLabel="'no match found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngFor="let data of filteredshift | async" [value]="data.id">
+                                {{data.name}} >> {{data.startTime | date:'shortTime'}} - {{data.endTime |
+                                date:'shortTime'}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="row mb-4" *ngIf="!empIdUpdate">
+                    <div class="ml-3 labelstyle col-2">Role</div>
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                        <mat-select [formControl]="roleCtrl" placeholder="Role*" #singleSelect
+                            (selectionChange)="someMethod($event.value)">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="roleFilterCtrl" placeholderLabel="Search ..."
+                                    noEntriesFoundLabel="'no match found'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let data of filteredRole | async" [value]="data"
+                                [disabled]="data.role == 'OrgAdmin'">
+                                {{data.role}}
+                            </mat-option>
+                            <mat-option *ngIf="roleDetails.length == 1" disabled>No more
+                                data available!</mat-option>
+                        </mat-select>
+                        <mat-error class="errorfix" *ngIf="roleCtrl.hasError('required')">
+                            <p>{{requiredMessage}}</p>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="row mb-4" *ngIf="empIdUpdate">
+                    <div class="ml-3 labelstyle col-2">Role</div>
+                    <mat-form-field style="width: 100%;" appearance="outline" class="col-5">
+                        <mat-select [formControl]="roleCtrl" placeholder="Role *" #singleSelect
+                            (selectionChange)="updateEmpEvent($event.value)" [disabled]="isOrgAdmin"
+                            matTooltip="OrgAdmin role cannot be changed" matTooltipPosition="above"
+                            [matTooltipDisabled]="!isOrgAdmin">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="roleFilterCtrl" placeholderLabel="Search ..."
+                                    noEntriesFoundLabel="'no match found'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+
+                            <mat-option *ngFor="let data of filteredRole | async" [value]="data.id"
+                                [disabled]="data.role == 'OrgAdmin'">
+                                {{data.role}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error class="errorfix" *ngIf="roleCtrl.hasError('required')">
+                            <p>{{requiredMessage}}</p>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="row pb-4 pr-3 m-2" *ngIf="!roleIsAvail && roleCtrl.valid">
+                    <div class="ml-3 labelstyle col-2"></div>
+                    <div class="col-5 py-2 hintStyle"
+                        style=" box-shadow: rgb(0 0 0 / 17%) 0px -23px 25px 0px inset, rgb(0 0 0 / 15%) 0px -36px 30px 0px inset, rgb(0 0 0 / 10%) 0px -79px 40px 0px inset, rgb(0 0 0 / 6%) 0px 2px 1px, rgb(0 0 0 / 9%) 0px 14px 12px, rgb(0 0 0 / 9%) 0px 8px 4px, rgb(0 0 0 / 9%) 0px 16px 8px, rgb(0 0 0 / 9%) 0px 32px 16px; background: rgb(234 234 234 / 42%);">
+                        <p class="role-access">This role has access</p>
+                        <hr>
+                        <mat-chip-list>
+                            <mat-chip *ngFor="let data of accessHint">
+                                {{data}}
+                            </mat-chip>
+                        </mat-chip-list>
+                    </div>
+                </div>
+                <!-- Keep form active section after create -->
+                <div *ngIf="isUserAvail == false">
+                    <div class="row mt-2">
+                        <div class="ml-3 lablestyle col-2"></div>
+                        <div class="col-9">
+                            <mat-checkbox class="example-margin" [disabled]="isUserAvail"
+                                (change)="keepEditor($event)">Create another user</mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="row user_btn">
+                    <div class="ml-3 labelstyle col-2"></div>
+                    <!-- <div class="btns col-5 p-0">
+                        <button *ngIf="!empIdUpdate && showUserFormPass" class="btn btn-confirm" color="primary"
+                            [disabled]="UserFormGroup.invalid && userPassword.invalid || userPassword.invalid && mailExists || userPassword.invalid && roleCtrl.invalid || userPassword.invalid && designationCtrl.invalid || userPassword.invalid && empCtrl.invalid || userPassword.invalid && !validatePass"
+                            (click)="addEmployee() ">Create</button>
+                        <button *ngIf="!empIdUpdate && !showUserFormPass" class="btn btn-confirm" color="primary"
+                            id="create_btn"
+                            [disabled]="UserFormGroup.invalid || userPassword.invalid || mailExists || roleCtrl.invalid || designationCtrl.invalid || empCtrl.invalid"
+                            (click)="addEmployee() ">Create</button>
+                        <button *ngIf="empIdUpdate" class="btn btn-confirm" color="primary"
+                            [disabled]="UserFormGroup.invalid || !showUserFormPass && userPassword.invalid"
+                            (click)="updateDetails() ">Update</button>
+                        <button class="btn btn-cancel" (click)="canceltoggleEmp(); ">Cancel</button>
+                    </div> -->
+                    <div class="btns col-5 p-0">
+                        <!-- <button *ngIf="!empIdUpdate && showUserFormPass"
+                            class="btn btn-confirm" color="primary"
+                            [disabled]="UserFormGroup.invalid && userPassword.invalid || userPassword.invalid && mailExists || userPassword.invalid && roleCtrl.invalid || userPassword.invalid && designationCtrl.invalid || userPassword.invalid && empCtrl.invalid || userPassword.invalid && !validatePass || isUserNameAvail"
+                            (click)="addEmployee() ">Create</button> -->
+                        <span *ngIf="Trial; else others1"
+                            matTooltip="Your Organization Account User limit reached , Please upgrade your plan to onboard more users "
+                            [matTooltipDisabled]="TrailData[1] > orgEmpCount">
+                            <button *ngIf="!empIdUpdate" class="btn btn-confirm" color="primary"
+                                [disabled]="UserFormGroup.invalid || !showUserFormPass && userPassword.invalid && !validatePass 
+                                || roleCtrl.invalid || designationCtrl.invalid || empCtrl.invalid || branchCtrl.invalid 
+                                || staffTypeCtrl.invalid || countrycodeCtrl.invalid ||  mailExists || editMobileNumber
+                                || TrailData[1] <= orgEmpCount || shiftCtrl.invalid " (click)="addEmployee() ">Create</button>
+                        </span>
+                        <!-- <span
+                        matTooltip="Your Organization Account User limit reached , Please upgrade your plan to onboard more users "
+                        [matTooltipDisabled]="org_count > orgEmpCount">
+                        <button *ngIf="!empIdUpdate && showUserFormPass && (editorSave == false && isUserAvail == false)" class="btn btn-confirm" color="primary"
+                            [disabled]="UserFormGroup.invalid && userPassword.invalid || userPassword.invalid && mailExists || userPassword.invalid && roleCtrl.invalid || userPassword.invalid && designationCtrl.invalid || userPassword.invalid && empCtrl.invalid || userPassword.invalid && !validatePass || isUserNameAvail || org_count <=orgEmpCount || branchCtrl.invalid || resetFormControl.invalid" 
+                            (click)="addEmployee() ">Create</button>
+                    </span> -->
+                        <ng-template #others1>
+                            <button *ngIf="!empIdUpdate" class="btn btn-confirm" color="primary"
+                                [disabled]="UserFormGroup.invalid || !showUserFormPass && userPassword.invalid && !validatePass 
+                                || roleCtrl.invalid || designationCtrl.invalid || empCtrl.invalid || branchCtrl.invalid || staffTypeCtrl.invalid || countrycodeCtrl.invalid ||  mailExists || shiftCtrl.invalid  || editMobileNumber"
+                                (click)="addEmployee() ">Create</button>
+                        </ng-template>
+                        <!-- <span 
+                            matTooltip="Your Organization Account User limit reached , Please upgrade your plan to onboard more users "
+                            [matTooltipDisabled]=" TrailData[1] > orgEmpCount && Trial">
+                            <button *ngIf="!empIdUpdate && !showUserFormPass " class="btn btn-confirm" color="primary"
+                                id="create_btn"
+                                [disabled]="UserFormGroup.invalid || userPassword.invalid && mailExists 
+                                || roleCtrl.invalid || designationCtrl.invalid || empCtrl.invalid || isUserNameAvail 
+                                || TrailData[1] <=orgEmpCount && Trail || branchCtrl.invalid || resetFormControl.invalid 
+                                || !UserFormGroup.get('resetFormControl1').value  || (!showUserFormPass && userPassword.invalid) || staffTypeCtrl.invalid || countrycodeCtrl.invalid"
+                                (click)="addEmployee() ">Create</button>
+                        </span> -->
+                        <!-- <span
+                            matTooltip="Your Organization Account User limit reached , Please upgrade your plan to onboard more users "
+                            [matTooltipDisabled]="org_count> orgEmpCount">
+                            <button *ngIf="!empIdUpdate && !showUserFormPass && (editorSave == false && isUserAvail == false)" class="btn btn-confirm" color="primary"
+                                id="create_btn"
+                                [disabled]="UserFormGroup.invalid || userPassword.invalid && mailExists || roleCtrl.invalid || designationCtrl.invalid || empCtrl.invalid || isUserNameAvail || org_count<= orgEmpCount || branchCtrl.invalid || resetFormControl.invalid"
+                                (click)="addEmployee() ">Create</button>
+                        </span> -->
+                        <!-- <ng-template #others2>
+                            <button *ngIf="!empIdUpdate && !showUserFormPass" class="btn btn-confirm" color="primary"
+                                id="create_btn"
+                                [disabled]="UserFormGroup.invalid || userPassword.invalid && mailExists || roleCtrl.invalid || designationCtrl.invalid || empCtrl.invalid || isUserNameAvail || branchCtrl.invalid"
+                                (click)="addEmployee() ">Create</button>
+                        </ng-template> -->
+                        <!-- <button *ngIf="!empIdUpdate && !showUserFormPass"
+                            class="btn btn-confirm" color="primary" id="create_btn"
+                            [disabled]="UserFormGroup.invalid || userPassword.invalid && mailExists || roleCtrl.invalid || designationCtrl.invalid || empCtrl.invalid || isUserNameAvail"
+                            (click)="addEmployee() ">Create</button> -->
+                        <button *ngIf="empIdUpdate " class="btn btn-confirm" color="primary"
+                            [disabled]="UserFormGroup.invalid || !showUserFormPass && userPassword.invalid || userPassword.invalid && mailExists || roleIsAvail || designationCtrl.invalid || isUserNameAvail || branchCtrl.invalid || !UserFormGroup.get('resetFormControl1').value || empCtrl.invalid || staffTypeCtrl.invalid || countrycodeCtrl.invalid || shiftCtrl.invalid || editMobileNumber"
+                            (click)="updateDetails() ">Update</button>
+                        <button class="btn btn-cancel" (click)="canceltoggleEmp()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

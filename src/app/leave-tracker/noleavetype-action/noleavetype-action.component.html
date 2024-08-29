@@ -1,0 +1,19 @@
+<h3 class="">No leave types Available !<span class="pull-right cncl-btn">
+    <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+      type="button">close</mat-icon>
+  </span></h3>
+<div class="px-4">To get default leave types to click the <strong>"Default Leave Types"</strong> button
+</div>
+<div class="px-4">Or</div>
+<div class="px-4">To create your own leave type click the <strong>"Add Leave Type"</strong> button</div>
+<div class="btns px-3 pt-3">
+  <button mat-flat-button class="manage-btn mx-2" (click)="manageLeaveType()">Add Leave Type</button>
+  <button mat-flat-button class=" default-btn" (click)="defaultleaveType()">Default Leave Types</button>
+  <span class="ml-2"><button mat-flat-button class="skip-btn" (click)="skipLeaveType()">Skip</button></span><br>
+  <mat-hint class="ml-2 mat-hint">The leave types taken current year only!</mat-hint>
+</div>
+<!-- <mat-dialog-actions align="start" class="ml-4">
+  <button mat-button class="skip-btn" (click)="skipLeaveType()">Skip</button>
+  
+</mat-dialog-actions> -->
+<!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->

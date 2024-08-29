@@ -1,0 +1,67 @@
+<div class="notification-sidenav">
+    <div class="header">
+        <h5>Notifications</h5>
+        <span *ngIf="unread_msg > 0" class="allread pull-right"><a (click)="markAllasread()">Mark all as read</a></span>
+        <!-- <span class="pull-right cls-btn">
+            <mat-icon matTooltip="Close" (click)="notification.toggle()"
+                class="mat-icon notranslate material-icons mat-icon-no-color" role="img" type="button">close
+            </mat-icon>
+        </span> -->
+    </div>
+    <div *ngIf=" activeemploader" class="text-center cover">
+        <div class="wrapperstyle">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="shadowcl"></div>
+            <div class="shadowcl"></div>
+            <div class="shadowcl"></div>
+        </div>
+    </div>
+    <div *ngIf="!activeemploader" class="panel-bg">
+        <div *ngIf="!isErrorNotification">
+            <div id="topNot" class="sub-heading-days bg-white" *ngIf="!twoOrTwenty">
+                Last Three Days 
+            </div>
+            <div id="topNot" class="sub-heading-days bg-white d-flex justify-content-between align-items-center" *ngIf="twoOrTwenty">
+                Last One Month <div *ngIf="refreshClicked" class="loader"></div>
+            </div>
+            <div *ngFor="let data of notification_data">
+                <div class="card" [ngStyle]="{'background-color':data.is_read? 'white' : '#ebf5ff'}"
+                    (click)="data.is_read == false &&  markasread(data.id)">
+                    <div class="card-horizontal">
+                        <div class="img-square-wrapper">
+                            <img class="profile_image" [src]=data.to_notifier_prfl_img alt="Card image cap">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title mb-1">{{data.message}}</h6>
+                            <div class="card-text d-flex justify-content-between">
+                                <a (click)="redirecttomodule(data);">{{data.module_name}} <span
+                                        class="arrow">>> <span
+                                            class="sub_mdl_nm">{{data.sub_module_name}}</span></span></a>
+                                <span class="date">{{data.created_time | date:'dd-MM-yyyy, h:mm a'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="notification_data.length == 0" class="text-center">
+                <img style="width:150px; height:150px;" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                <div>No Data Found !</div>
+            </div>
+            <!-- <div class="d-flex justify-content-center mb-2"><div *ngIf="refreshClicked" class="loader"></div></div> -->
+            <div *ngIf="!twoOrTwenty && !activeemploader" class="d-flex justify-content-center mt-2 bg-white">
+                <span class="loadMoreNotification" (click)="loadMore()">LOAD MORE</span>
+                <!-- <a href="#topNot" class="loadMoreNotification" (click)="loadMore()">LOAD MORE</a> -->
+            </div>
+        </div>
+        <!-- <div *ngIf="topBtn" class="d-flex justify-content-center mt-2 bg-white topBtnSty">
+            <a href="#topNot" class="goToTopNotification" matTooltip="TOP" matTooltipPosition="above"><mat-icon>arrow_upward</mat-icon></a>
+        </div> -->
+        <div *ngIf="isErrorNotification" class="d-flex justify-content-center align-items-center flex-column isErrorNotification">
+            <p>Something went wrong . . .Try again later</p>
+            <p (click)="getNotificationByEmpidAndDate()" class="refreshSec">refresh</p>
+            <div *ngIf="refreshClicked" class="loader"></div>
+        </div>
+    </div>
+</div>

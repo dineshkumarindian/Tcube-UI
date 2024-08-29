@@ -1,0 +1,293 @@
+<section class="mcs-cd">
+    <!-- delete client details -->
+    <div class="dialog_common_style" *ngIf="delete">
+        <div class="dialog-header">
+            <h3 class="page-title">Client Delete</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <div>Are you sure want to delete ?</div>
+            <small class="red">If delete the client ,all projects under this client will be removed .
+            </small>
+        </div>
+        <div align="end" class="dialog-btns p-3">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="deleteDetails()" class="cnfm-btn">Confirm</button>
+        </div>
+    </div>
+
+    <!-- deactivate client details -->
+    <div class="dialog_common_style" *ngIf="deactivate">
+        <div class="dialog-header">
+            <h3 class="page-title">Deactivate Client</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <div>Are you sure want to Deactivate client?</div>
+            <small class="red">
+                <b>Note :</b> Under this client available all projects/jobs will be deactivated.
+            </small>
+            <div>
+                <form [formGroup]="cdFormgroup">
+                    <div class="row justify-content-center">
+                        <mat-form-field appearance="fill" class="px-3">
+                            <mat-label>Comments</mat-label>
+                            <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div align="end" class="dialog-btns px-3">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="deactivateClient()" class="cnfm-btn">Confirm</button>
+        </div>
+    </div>
+
+    <!-- activate client details -->
+    <div class="dialog_common_style" *ngIf="activate">
+        <div class="dialog-header">
+            <h3 class="page-title">Activate Client</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <div>Are you sure want to activate client?</div>
+            <div>
+                <form [formGroup]="cdFormgroup">
+                    <div class="row justify-content-center">
+                        <mat-form-field appearance="fill" class="px-3">
+                            <mat-label>Comments</mat-label>
+                            <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div align="end" class="dialog-btns px-3">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="activateClient()" class="cnfm-btn">Confirm</button>
+        </div>
+    </div>
+
+    <!-- bulk delete clients -->
+    <!-- <div class="dialog_common_style" *ngIf="activebulkdelete || inactivebulkdelete"> -->
+        <div class="dialog_common_style" *ngIf="inactivebulkdelete">
+        <div class="dialog-header">
+            <h3 class="page-title">Client Bulk Delete</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <div>Are you sure want to delete?</div>
+            <small class="red">If delete the clients, all projects under this client will be removed.
+            </small>
+        </div>
+        <div align="end" class="dialog-btns p-3">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="bulkDeleteClientDetails()" class="cnfm-btn">Confirm</button>
+        </div>
+    </div>
+
+    <!-- client bulk deactivate -->
+    <div class="dialog_common_style" *ngIf="bulkdeactivate">
+        <div class="dialog-header">
+            <h3 class="page-title">Client Bulk Deactivate</h3>
+
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <div>Are you sure want to deactive clients?</div>
+            <small class="text-danger">
+                If deactivate the clients, all projects under these clients will be deactivated.
+            </small>
+            <div>
+                <form [formGroup]="cdFormgroup">
+                    <div class="row justify-content-center">
+                        <mat-form-field appearance="fill" class="px-3">
+                            <mat-label>Comments</mat-label>
+                            <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div align="end" class="dialog-btns px-3">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="bulkDeactiveClientDetails()" class="cnfm-btn">Confirm</button>
+        </div>
+    </div>
+
+    <!-- client bulk activate -->
+    <div class="dialog_common_style" *ngIf="bulkactivate">
+        <div class="dialog-header">
+            <h3 class="page-title">Client Bulk Activate</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <div>Are you sure want to active clients?</div>
+            <div>
+                <form [formGroup]="cdFormgroup">
+                    <div class="row justify-content-center">
+                        <mat-form-field appearance="fill" class="px-3">
+                            <mat-label>Comments</mat-label>
+                            <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+                        </mat-form-field>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div align="end" class="dialog-btns px-3">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="bulkactiveClientDetails()" class="cnfm-btn">Confirm</button>
+        </div>
+    </div>
+
+    <!-- view client details -->
+    <div class="dialog_common_style" *ngIf="viewClient">
+        <div class="dialog-header">
+            <h3 class="page-title">View Client Details</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <div class="clientDetails">
+                <div class="row clientHeader mt-3">
+                    <div class="card col-5">
+                        <h5><span>
+                                <mat-icon>person</mat-icon>
+                            </span>{{data.mainData.client_name}}</h5>
+                        <p><span>
+                                <mat-icon> email</mat-icon>
+                            </span><a style="outline:none;" [href]="'mailto:' + data.mainData.email">{{data.mainData.email}}</a></p>
+                    </div>
+                    <div class="card cardStyle col-5">
+                        <div class="job-content">
+                            <div class="row">
+                                <div class="col-8">
+                                    <p class="mb-1 paragraphStyle">Total Projects <span class="spanStyle2">:</span></p>
+                                    <p class="mb-1 paragraphStyle">Total Jobs <span class="spanStyle">:</span></p>
+                                </div>
+                                <div class="col-2">
+                                    <p class="mb-1 count"><b>{{projectCount}}</b></p>
+                                    <p class="mb-1 count"><b>{{jobCount}}</b></p>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </div>
+                </div>
+                <div class="second mb-3">
+                    <mat-accordion class="example-headers-align">
+                        <mat-expansion-panel [expanded]="true" class="mb-2">
+                            <mat-expansion-panel-header mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Basic Details
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="basicDetails">
+                                <ul>
+                                    <li>
+                                        <div class="row ">
+                                            <p class="col-4 mb-0">Client Name</p><span>:</span>
+                                            <p class="col-7 mb-0">{{data.mainData.client_name}}</p>
+                                        </div>
+                                        <hr>
+                                    </li>
+                                    <li>
+                                        <div class="row ">
+                                            <p class="col-4 mb-0">First Name</p><span>:</span>
+                                            <p class="col-7 mb-0">{{data.mainData.firstname}}</p>
+                                        </div>
+                                        <hr>
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <p class="col-4 mb-0">Last Name</p><span>:</span>
+                                            <p class="col-7 mb-0">{{data.mainData.lastname}}</p>
+                                        </div>
+                                        <hr>
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <p class="col-4 mb-0">Email</p><span>:</span>
+                                            <a class="ml-3" [href]="'mailto:' + data.mainData.email">{{data.mainData.email}}</a>
+                                            <!-- <p class="col-7 mb-0">{{data.mainData.email}}</p> -->
+                                        </div>
+                                        <hr>
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <p class="col-4 mb-0">Currency</p><span>:</span>
+                                            <p class="col-7 mb-0">{{data.mainData.currency}}</p>
+                                        </div>
+                                        <hr>
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <p class="col-4 mb-0">Billing Method</p><span>:</span>
+                                            <!-- <p class="col-7 mb-0">{{data.mainData.billing_method}}</p> -->
+                                            <mat-chip class="ml-3 mb-0">{{data.mainData.billing_method}}</mat-chip>
+                                        </div>
+                                        <hr>
+                                    </li>
+                                    <li>
+                                        <div class="row">
+                                            <p class="col-4 mb-0">Mobile No</p><span>:</span>
+                                            <p class="col-7 mb-0">{{data.mainData.mobile_number}}</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel class="mb-2">
+                            <mat-expansion-panel-header mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Projects and Jobs
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <div class="projectDetails mt-3">
+                                <ul *ngFor="let project of projectDetailsWithJobs">
+                                    <li>
+                                        <div class="row">
+                                            <p class="col-4 mb-0">{{project.project_name}}</p><span>:</span>
+                                            <mat-chip-list>
+                                                <mat-chip *ngFor="let job of project.jobs">
+                                                    {{job}}
+                                                </mat-chip>
+                                                <p class="noJobs" *ngIf=" project.jobs.length == 0"> No Jobs Available</p>
+                                            </mat-chip-list>
+                                        </div>
+                                        <hr>
+                                    </li>
+                                </ul>
+                                <div *ngIf="projectDetailsWithJobs.length == 0" class="noProjects">
+                                    No Projects And Jobs Available
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

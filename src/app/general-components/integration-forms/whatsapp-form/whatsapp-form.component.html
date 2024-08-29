@@ -1,0 +1,129 @@
+<div class="page-header page-whatsapp-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title">{{header}} Whatsapp Integration <span class="forheaderstyle">for</span> {{headerModule}}
+                <!-- <p class="subtitle-color">(Integration details)</p> -->
+            </h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <!-- <span class="pr-3 d-flex align-items-center"> -->
+                <button class="videoBtn" mat-raised-button (click)="viewWhatsappVideo()">Watch Video</button>
+                <button class="docBtn" mat-raised-button (click)="documentationDialog()">Read Docs</button>
+                <button class="backbtn" matTooltipPosition="left" matTooltip="Back to whatsapp integration"
+                    (click)="backToSetting()">
+                    <img class="ph_back_arrow_img" src="../../assets/images/back.png">
+                </button>
+                <!-- </span> -->
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<section class="navcontainter">
+    <div id="wrap" class="input style ">
+        <section class="container-fluid ">
+            <div class="card card-bg p-3 mb-4">
+                <form [formGroup]="whatsappIntegrationFormGroup" class="IntegrationFormGroup">
+                    <div class="row py-2 pb-3">
+                        <div class="ml-3 labelstyle col-2">Module</div>
+                        <div class="ml-3 labelstyle d-flex flex-column">
+                            <h6>{{moduleDetails.name}}</h6>
+                            <small class="mat-hint">{{moduleDetails.description}}</small>
+                        </div>
+                        <!-- <div class="ml-3 labelstyle">{{moduleName}}</div> -->
+                    </div>
+                    <div class="row py-2">
+                        <div class="ml-3 labelstyle col-2">URL
+                        </div>
+                        <mat-form-field appearance="fill" class="col-8">
+                            <textarea matInput formControlName="url" rows="2" placeholder="URL *"></textarea>
+                            <mat-error>
+                                <div *ngIf="whatsappIntegrationFormGroup.get('url').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div *ngIf="whatsappIntegrationFormGroup.get('url').hasError('pattern')">
+                                    {{validMessage}}
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="row">
+                        <div class="ml-3 labelstyle col-2">Authentication Token
+                        </div>
+                        <mat-form-field appearance="fill" class="col-8">
+                            <textarea matInput formControlName="auth_token" rows="2" placeholder="Authentication token *"></textarea>
+                            <mat-error>{{requiredMessage}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div>
+                        <div formArrayName="numbers">
+                            <div *ngFor="let number of getControls(); let i=index">
+                                <div [formGroupName]="i">
+                                    <div class="row py-2 align-items-baseline">
+                                        <div class="ml-3 labelstyle col-2">Mobile Number {{i+1}}</div>
+                                        <mat-form-field class="col-2 number-code" appearance="outline">
+                                            <mat-select formControlName="code" class="selectCountrycode"
+                                                placeholder="Select country code *" required>
+                                                <mat-option>
+                                                    <ngx-mat-select-search [formControl]="countryFilterCtrl"
+                                                        placeholderLabel="Search Country..."
+                                                        noEntriesFoundLabel="'no match found'">
+                                                    </ngx-mat-select-search>
+                                                </mat-option>
+                                                <mat-option *ngFor="let data of filteredCountry | async"
+                                                    [value]="data.code">
+                                                    +{{data.countrycode}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error class="errorfix">{{requiredMessage}}</mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="standard" class="col-4 mobileNum mr-3">
+                                            <mat-label>Mobile</mat-label>
+                                            <input matInput type="number" min="0" oninput="validity.valid || (value = '')"  placeholder="Enter mobile number"
+                                                formControlName="number"  (keypress)="numberOnly($event)" required />
+                                            <mat-error>{{requiredMessage}}</mat-error>
+                                        </mat-form-field>
+                                        <span class="addNumBtn mr-2"
+                                            *ngIf="(numbers().controls.length-1) == i && numbers().controls.length <= 4">
+                                            <!-- && whatsappIntegrationFormGroup.get('numbers').at(i).valid-->
+
+                                            <button class="disabledBtn" disabled *ngIf="numbers().at(i).invalid">
+                                                <mat-icon matTooltip="Enter The Number First"
+                                                    matTooltipPosition="below">add_circle</mat-icon>
+                                            </button>
+
+                                            <button class="example-icon" *ngIf="numbers().at(i).valid">
+                                                <mat-icon (click)="addNewNumber()" matTooltip="Add Another Number"
+                                                    matTooltipPosition="below">add_circle</mat-icon>
+                                            </button>
+                                        </span>
+                                        <span class="delete-button" *ngIf="numbers().controls.length >1">
+                                            <button class="example-icon">
+                                                <mat-icon (click)="removeNumber(i)" matTooltip="Remove Number"
+                                                    matTooltipPosition="below">remove_circle</mat-icon>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row btns ml-1">
+                        <div class="ml-3 labelstyle col-2"></div>
+                        <div class="btns col-5 p-0">
+                            <button *ngIf="addbtn" class="btn btn-confirm"
+                                [disabled]="whatsappIntegrationFormGroup.invalid"
+                                (click)="addWhatsappIntegration()">Add</button>
+                            <button *ngIf="!addbtn" class="btn btn-confirm mr-2"
+                                [disabled]="whatsappIntegrationFormGroup.invalid"
+                                (click)="updateWhatsappIntegration()">Update</button>
+                            <button class="btn btn-cancel" (click)="backToSetting()">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </div>
+</section>

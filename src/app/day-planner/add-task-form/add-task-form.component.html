@@ -1,0 +1,121 @@
+<div class="delete">
+    <div class="dialog-header">
+        <h3 class="page-title">{{createTask}} - {{dpTaskDate | date:'dd-MM-yyyy'}}</h3>
+        <!-- <span class="d-flex">
+            <h5>Create Task - </h5>
+            <h5 class="dateStyle">{{todayDate}}</h5>
+        </span> -->
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <form [formGroup]="dayTaskFormGroup" id="moveToBottom">
+            <div formArrayName="projectSec">
+                <div *ngFor="let employee of getControls(); let index=index" class="DPtaskMainDetails mb-2">
+                    <mat-accordion class="example-headers-align">
+                        <mat-expansion-panel [expanded]="true" class="mb-3">
+                            <mat-expansion-panel-header mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <span class="taskHead"
+                                        *ngIf="projectSec().at(index).get('project').value == '' "><b>Project
+                                            {{index+1}}</b></span>
+                                    <span class="taskHead"
+                                        *ngIf="projectSec().at(index).get('project').value != null"><b>{{projectSec().at(index).get('project').value.name}}</b></span>
+                                </mat-panel-title>
+                                <mat-panel-description class="justify-content-end">
+                                    <span class="taskIconsAddRemove">
+                                        <button class="addBtn mr-2" (click)="addProjectSec()"
+                                            [disabled]="projectSec().at(index).invalid"
+                                            *ngIf="(projectSec().controls.length-1) == index" matTooltip="Add">
+                                            <mat-icon>add</mat-icon>
+                                        </button>
+                                        <button class="removeBtn" (click)="removeProjectSec(index)"
+                                            *ngIf="projectSec().controls.length >1" matTooltip="Remove">
+                                            <mat-icon>remove</mat-icon>
+                                        </button>
+                                    </span>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <div class="basicDetails">
+                                <div [formGroupName]="index" style="padding: 10px; width: 600px; margin: 5px;">
+                                    <div class="row mt-3 mb-4">
+                                        <div class="col-11 col-md-10">
+                                            <mat-form-field appearance="outline">
+                                                <mat-select formControlName="project" required placeholder="Project *"
+                                                    (selectionChange)="projectCheck($event,index)">
+                                                    <mat-option>
+                                                        <ngx-mat-select-search [formControl]="projectFilterCtrl"
+                                                            placeholderLabel="Search ..."
+                                                            noEntriesFoundLabel="'no match found'">
+                                                        </ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <mat-option *ngIf="noProjects" [disabled]="true">No data available!
+                                                    </mat-option>
+                                                    <mat-option *ngFor="let data of filteredproject | async"
+                                                        [value]="data">
+                                                        {{data.name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error style="margin-top: 20px; margin-left: 2px;">Field required!
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div formArrayName="day_tasks" class="tasksSec">
+                                        <div *ngFor="let skill of taskGroup(index).controls; let taskIndex=index">
+                                            <div [formGroupName]="taskIndex">
+                                                <div class="row mb-1 mt-3">
+                                                    <div class="col-11 col-md-10">
+                                                        <mat-form-field appearance="fill">
+                                                            <mat-label>Task</mat-label>
+                                                            <textarea rows="2" matInput formControlName="task" required
+                                                                cdkTextareaAutosize></textarea>
+                                                            <mat-error>
+                                                                <div
+                                                                    *ngIf="taskGroup(index).at(taskIndex).get('task').hasError('required')">
+                                                                    {{requiredMessage}}
+                                                                </div>
+                                                                <div
+                                                                    *ngIf="taskGroup(index).at(taskIndex).get('task').hasError('pattern')">
+                                                                    {{validMessage}}
+                                                                </div>
+                                                            </mat-error>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div
+                                                        class="d-flex align-items-center col-1 col-md-1 taskIconsAddRemove">
+                                                        <button class="addBtn mr-2"
+                                                            (click)="addNewTask(index);moveToBottom()"
+                                                            matTooltip="Add Task"
+                                                            [disabled]="taskGroup(index).at(taskIndex).invalid"
+                                                            *ngIf="(taskGroup(index).controls.length-1) == taskIndex">
+                                                            <mat-icon>add</mat-icon>
+                                                        </button>
+                                                        <button class="removeBtn" (click)="removeTask(index,taskIndex)"
+                                                            *ngIf="taskGroup(index).controls.length >1"
+                                                            matTooltip="Remove Task">
+                                                            <mat-icon>remove</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </div>
+            <div class="row ml-2 mb-2 bottomSec d-flex justify-content-end">
+                <div class="btns px-2">
+                    <button class="btn btn-cancel" mat-dialog-close>Cancel</button>
+                    <button class="btn btn-confirm" type="submit" [disabled]="dayTaskFormGroup.invalid"
+                        (click)="sendDayTask()">Add</button>    
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

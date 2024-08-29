@@ -1,0 +1,13 @@
+# Do Not Modify Or Edit The Script Without Prior Permission
+# Author: Thairam
+
+stages:
+  - uat-build-image
+  - uat-deploy
+  - prod-app-build
+  - prod-deploy
+
+# Parent - child pipelines
+include:
+  - local: '.gitlab/ci-cd/files/uat.yml'
+  - local: '.gitlab/ci-cd/files/prod.yml'

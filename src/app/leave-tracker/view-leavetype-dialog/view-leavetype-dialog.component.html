@@ -1,0 +1,43 @@
+<div class="view-leavetype-dialog">
+    <div class="dialog-header">
+        <h3 class="page-title">Leave Types</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <div class="row">
+            <div class="col-12 container">
+                <div class="col-6 col-md-4 col-sm-6 mb-3" *ngFor="let data of allLeaveTypes ; let i = index ;">
+                    <div class="card">
+                        <div class="content">
+                            <div class="imgBx">
+                                <img [src]="data.image">
+                            </div>
+                            <div class="contentBx">
+                                <h3>{{data.leave_type}}</h3>
+                            </div>
+                        </div>
+                        <ul class="sci">
+                            <li>
+                                <p *ngIf="data.available_days != 0">Available :
+                                    {{data.available_days}}</p>
+                                <p *ngIf="data.available_days == 0 ">Available : - </p>
+                                <p>Taken : {{data.counts}}</p>
+                            </li>
+                        </ul>
+                        <div class="go-corner" href="#">
+                            <div class="go-arrow">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>

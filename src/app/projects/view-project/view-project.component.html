@@ -1,0 +1,281 @@
+<div class="viewDetails">
+    <div class="dialog-header">
+        <h5 class="page-title">View Project Details</h5>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                role="img" type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <div class="projectDetails">
+            <!-- <div class="card mainHeader mt-5">s
+                <div class="row rowStyle">
+                    <img src="assets/images/projects-header.png">
+                    <h5>{{data.project_name}}</h5>
+                </div>
+            </div> -->
+            <div class="row">
+                <div class="col-5 card titleCard">
+                    <!-- <img src="assets/images/settings-imgs/projects1.png"> -->
+                    <div class="card-content">
+                        <h5>{{data.projectData.project_name}}</h5>
+                        <p>( {{data.projectData.clientName}} )</p>
+                    </div>
+                </div>
+                <div class="col-5 card titleCard">
+                    <div class="job-content">
+                        <!-- <p>Total Jobs : {{data.projectData.clientDetails.client_name}}</p>
+                        <p>Total Members : {{data.projectData.clientDetails.client_name}}</p> -->
+                        <div class="row">
+                            <div class="col-6 pr-0 pl-0">
+                                <p class="mb-1 paragraphStyle">Total Members <span class="spanStyle2">:</span></p>
+                                <p class="mb-1 paragraphStyle">Total Jobs <span class="spanStyle">:</span></p>
+                                <!-- <p class="mb-1">Total Logged Hours <span class="ml-1">:</span></p> -->
+                            </div>
+                            <div class="col-5 p-0">
+                                <p class="mb-1 count"><b>{{totalUsers}}</b></p>
+                                <p class="mb-1 count"><b>{{totalJobs}}</b></p>
+                                <!-- <p class="mb-1 count"><b>{{project_logged}}</b></p> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="second mb-3">
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel [expanded]="true" class="mb-2">
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Basic Details
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="basicDetails">
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Name</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.projectData.project_name}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Client Name</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.projectData.clientName}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+
+                                <li *ngIf="data.projectData.start_date != undefined ">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Start Date</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.projectData.start_date |date:"dd-MMM-yyyy"}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.projectData.start_date == undefined ">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Start Date</p><span>:</span>
+                                        <p class="col-7 mb-0"> &nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.projectData.end_date != undefined ">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">End Date</p><span>:</span>
+                                        <p class="col-7 mb-0">{{data.projectData.end_date |date:"dd-MMM-yyyy"}}</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="data.projectData.end_date == undefined ">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">End Date</p><span>:</span>
+                                        <p class="col-7 mb-0"> &nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="isCost">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Project Cost</p><span>:</span>
+                                        <!-- <p class="col-7 mb-0"><span>{{data.projectData.project_cost}}</span></p> -->
+                                        <mat-chip class="ml-3 mb-0">{{data.projectData.project_cost}}</mat-chip>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="!isCost">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Project Cost</p><span>:</span>
+                                        <p class="col-7 mb-0">&nbsp; - </p>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <!-- <li *ngIf="isDescription">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Description</p><span>:</span>
+                                         <p class="col-7 mb-0" [innerHTML]="description"></p> -->
+                                        <!-- </div>
+                                    <hr>
+                                </li>
+                                <li *ngIf="!isDescription ">
+                                    <div class="row ">
+                                        <p class="col-4 mb-0">Description</p><span>:</span>
+                                        <p class="col-7 mb-0">&nbsp; -</p>
+                                    </div>
+                                    <hr>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel class="mb-2">
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                               Project Description
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div *ngIf="isDescription" class="Description_style">
+                            <div style="margin-bottom: 0px;" [innerHTML]="description" class="description">
+                            </div>
+                        <hr>
+                        </div>
+                        <div  *ngIf="!isDescription " class="Description_style">
+                            <!-- <div class="row "> -->
+                                <!-- <p class="col-4 mb-0">Description</p><span>:</span> -->
+                                <p class="description1">&nbsp;No data found</p>
+                            <!-- </div> -->
+                            <hr>
+                            </div>
+                        </mat-expansion-panel>
+                    <mat-expansion-panel class="mb-2">
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Project Team Members
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="members mt-3">
+                            <ul>
+                                <li>
+                                    <div class="row">
+                                        <p class="col-4 mb-0">Project Head</p><span>:</span>
+                                        <p class="col-7 mb-0" *ngIf="data.projectData.resourceDetails[0].map.status == 'Active'">
+                                            {{data.projectData.resourceDetails[0].map.name}}</p>
+                                            <p class="col-7 mb-0" *ngIf="data.projectData.resourceDetails[0].map.status == 'Inactive'">
+                                                <span class="inactivemanager">  {{data.projectData.resourceDetails[0].map.name}} </span></p>
+                                            <!-- {{data.projectData.resourceDetails[0].employeeDetails.lastname}}</p> -->
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row ">
+                                        <p class="col-4 mb-0" *ngIf="projectManager.length == 1">Project Manager</p>
+                                        <p class="col-4 mb-0" *ngIf="projectManager.length > 1">Project Managers</p>
+                                        <span>:</span>
+                                        <span class="manager" *ngIf="projectManager.length == 1">
+                                            <p class="mb-0" *ngFor="let team of projectManager; let i = index;">
+                                                <!-- {{team.employeeDetails.firstname}} {{team.employeeDetails.lastname}}</p> -->
+                                                {{team.map.name}} </p>
+                                                <p class="mb-0" *ngFor="let team of inactiveProjectManager; let i = index;">
+                                                  <span class="inactivemanager">  {{team.map.name}} </span></p>
+                                        </span>
+                                        <span class="manager" *ngIf="projectManager.length > 1">
+                                            <p class="mb-0" *ngFor="let team of projectManager; let i = index;">{{i+1}}.
+                                                <!-- {{team.employeeDetails.firstname}} {{team.employeeDetails.lastname}}</p> -->
+                                                {{team.map.name}} </p>
+                                                <p class="mb-0" *ngFor="let team of inactiveProjectManager; let i = index;">
+                                                    <span class="inactivemanager">  {{team.map.name}} </span></p>
+                                        </span>
+                                    </div>
+                                    <hr>
+                                </li>
+                                <li>
+                                    <div class="row ">
+                                        <p class="col-4 mb-0" *ngIf="teamMembers.length == 1">Team Member</p>
+                                        <p class="col-4 mb-0" *ngIf="teamMembers.length > 1">Team Members</p>
+                                        <span>:</span>
+                                        <span class="teamMember" *ngIf="teamMembers.length == 1">
+                                            <!-- <p class="mb-0" *ngFor="let team of teamMembers; let i = index;">
+                                                                                    {{team.employeeDetails.firstname}} {{team.employeeDetails.lastname}}</p> -->
+                                    
+                                            <!-- <mat-chip-list aria-label="Fish selection"
+                                                                                    *ngFor="let team of teamMembers; let i = index;">
+                                                                                    <mat-chip>{{team.employeeDetails.firstname}}
+                                                                                        {{team.employeeDetails.lastname}}</mat-chip>
+                                                                                </mat-chip-list> -->
+                                                <p class="mb-0 mr-4" *ngFor="let team of teamMembers">
+                                                    <button mat-stroked-button class="mb-1 storkeBtn">{{team.map.name}}</button>
+                                                    <!-- {{team.employeeDetails.firstname}}{{team.employeeDetails.lastname}}</button> -->
+                                                </p>
+                                                <p class="mb-0 mr-4" *ngFor="let team of inactiveTeamMembers">
+                                                    <button mat-stroked-button class="mb-1 storkeBtn" style="background: #a8acb12b;">
+                                                       {{team.map.name}}</button>
+                                                </p>
+                                        </span>
+                                        <span class="teamMember" *ngIf="teamMembers.length > 1">
+                                            <!-- <p class="mr-4 mb-0" *ngFor="let team of teamMembers; let i = index;">
+                                                                                    {{i+1}}.
+                                                                                    {{team.employeeDetails.firstname}} {{team.employeeDetails.lastname}}</p> -->
+                                                <p class="mb-0 mr-4" *ngFor="let team of teamMembers">
+                                                    <button mat-stroked-button class="mb-1 storkeBtn" >{{team.map.name}}</button>
+                                                    <!-- {{team.employeeDetails.lastname}}</button> -->
+                                                </p>
+                                                <p class="mb-0 mr-4" *ngFor="let team of inactiveTeamMembers">
+                                                    <button mat-stroked-button class="mb-1 storkeBtn" style="background: #a8acb12b;">
+                                                        {{team.map.name}}</button>
+                                                </p>
+                                            <!-- </div> -->
+                                            <!-- <mat-chip-list aria-label="Fish selection" *ngFor="let team of teamMembers">
+                                                <mat-chip>{{team.employeeDetails.firstname}}
+                                                    {{team.employeeDetails.lastname}}</mat-chip>
+                                            </mat-chip-list> -->
+                                        </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel class="mb-2">
+                        <mat-expansion-panel-header mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Jobs
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="jobsStyle mt-3">
+                            <ul *ngIf="jobs.length != 0 ">
+                                <li *ngFor="let job of jobs; let i = index;">
+                                    <div class="row">
+                                        <!-- <p class="col-4 mb-0">{{job.job_name}}</p><span>:</span> -->
+                                        <!-- <button mat-stroked-button class="mb-1 storkeBtn">{{job.job_name}}</button> -->
+                                        <mat-chip>{{job.job_name}}</mat-chip>
+
+                                        <!-- <span class="teamMember"> -->
+
+                                        <!-- <mat-chip-list aria-label="Fish selection"
+                                                *ngFor="let assignee of assignees[i]">
+                                                <mat-chip>{{assignee}}</mat-chip>
+                                            </mat-chip-list> -->
+
+                                        <!-- <p class="mb-0 mr-4" *ngFor="let assignee of assignees[i] ; let j = index ;">{{j+1}}.
+                                                {{assignee}}</p> -->
+
+                                        <!-- <p class="mb-0 mr-4" *ngFor="let assignee of assignees[i]">
+                                                <button mat-stroked-button class="mb-1 storkeBtn">{{assignee}}</button>
+                                            </p> -->
+                                        <!-- </span> -->
+                                    </div>
+                                    <!-- <hr> -->
+                                </li>
+                            </ul>
+                            <ul class="justify-content-center" *ngIf="jobs.length == 0 ">
+                                <li>
+                                    <div class="row justify-content-center">
+                                        <p style="color: #f33232 ; font-weight: 600"> No Jobs</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
+    </div>
+</div>

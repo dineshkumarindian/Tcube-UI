@@ -1,0 +1,33 @@
+---
+stages:
+  - uat-build-image
+  - uat-deploy
+
+uat-build:
+  stage: uat-build-image
+  image: docker:27
+  services:
+  - docker:27-dind
+  script:
+    - docker login -u $CI_DEPLOY_USER -p $CI_DEPLOY_PASSWORD $CI_REGISTRY
+    - docker build -t app .
+    - docker tag app $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA-uat
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA-uat
+  only:
+   - master
+  when: manual
+  allow_failure: false
+
+uat-deploy:
+   stage: uat-deploy
+   image: alpine/k8s:1.30.3
+   services:
+   - docker:27-dind
+   script:
+     - mkdir -p $HOME/.kube
+     - echo $KUBE_CONFIG | base64 -d > $HOME/.kube/config
+     - sed -i "s/IMAGE_TAG/$CI_COMMIT_SHORT_SHA-uat/g" deployment.yml
+     - kubectl apply -f deployment.yml
+   only:
+    - master
+   when: on_success

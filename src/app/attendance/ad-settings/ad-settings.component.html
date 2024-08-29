@@ -1,0 +1,593 @@
+<section class="ad-settings">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="page-title">Attendance settings</h3>
+            </div>
+            <div class="col-md-6">
+                <div class="pfr">
+                    <span
+                        matTooltip="Please edit the existing integration or delete the existing integration to create a new integration"
+                        [matTooltipDisabled]="integrationtype_arr.length > 0">
+                        <button mat-raised-button class="add_create_btn_mi" [disabled]="integrationtype_arr.length == 0"
+                            *ngIf="integrationDetails" [matMenuTriggerFor]="integrationmenu">
+                            <mat-icon mat-icon-button>add</mat-icon>Add Integration</button>
+                    </span>
+
+                    <mat-menu #integrationmenu="matMenu">
+                        <button mat-menu-item *ngFor="let data of integrationtype_arr"
+                            (click)="addIntegrationForm(data)">
+                            <h6>{{data}}</h6>
+                        </button>
+                    </mat-menu>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lt-card-section">
+        <div class="col-md-12 mb-3">
+            <div class="cardHead">
+                <section>
+                    <div class="card-setting-container mx-0 px-0 my-4">
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="toggleCards('manage-action-cards')">
+                            <div class="card"
+                                [ngStyle]="{'background-color':isActiveManageActionCards?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isActiveManageActionCards">
+                                        <img src="..//../assets/images/calendarwhite.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="!isActiveManageActionCards">
+                                        <img src="..//../assets/images/calendar1.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="showActioncard" style="color: white !important;">Action
+                                            Cards
+                                        </h3>
+                                        <h3 *ngIf="!showActioncard" style="color:#7f8291 !important;">Action
+                                            Cards
+                                        </h3>
+                                    </div>
+                                </div>
+                                <ul class="sci">
+                                    <li *ngIf="showActioncard">
+                                        <p style="color: white !important;">
+                                            {{actioncards.length}} action cards</p>
+                                    </li>
+                                    <li *ngIf="!showActioncard">
+                                        <p style="color:#7f8291 !important;">
+                                            {{actioncards.length}} action cards</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="toggleCards('integration')">
+                            <div class="card" [ngStyle]="{'background-color':isActiveIntegration?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isActiveIntegration">
+                                        <img src="..//../assets/images/integration-img-white.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="!isActiveIntegration">
+                                        <img src="..//../assets/images/integration-img.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="integrationDetails" style="color: white !important;">
+                                            Integrations</h3>
+                                        <h3 *ngIf="!integrationDetails" style="color:#7f8291 !important;">Integrations
+                                        </h3>
+                                    </div>
+                                </div>
+                                <ul class="sci">
+                                    <li *ngIf="integrationDetails">
+                                        <p style="color: white !important;">
+                                            {{activeIntegrations.length}} Integration</p>
+                                    </li>
+                                    <li *ngIf="!integrationDetails">
+                                        <p style="color:#7f8291 !important;">
+                                            {{activeIntegrations.length}} Integration</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="toggleCards('manage-notification')">
+                            <div class="card"
+                                [ngStyle]="{'background-color':isActiveNotification?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isActiveNotification">
+                                        <img src="..//../assets/images/today_leaves__white.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="!isActiveNotification">
+                                        <img src="..//../assets/images/today_leave_black.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="isActiveNotification" style="color: white !important;">
+                                            Manage Notification
+                                        </h3>
+                                        <h3 *ngIf="!isActiveNotification" style="color:#7f8291 !important;">Manage
+                                            Notification
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="toggleCards('manage-working-days')">
+                            <div class="card" [ngStyle]="{'background-color':isManageWorkingDays?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isManageWorkingDays">
+                                        <img src="..//../assets/images/working_days_white.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="!isManageWorkingDays">
+                                        <img src="..//../assets/images/working_day_black.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="isManageWorkingDays" style="color: white !important;">
+                                            Manage Working Days
+                                        </h3>
+                                        <h3 *ngIf="!isManageWorkingDays" style="color:#7f8291 !important;">
+                                            Manage Working Days
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="mb-4">
+        <div class="outputSec mx-3">
+            <!-- <div *ngIf="integrationDetails" class="card-sec">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="col-7">Integrations</h5>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="activeIntegrations.length == 0" class="cardNoData">
+                            <img src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                            <div>No Integrations Available ...!</div>
+                        </div>
+                        <div *ngIf="activeIntegrations.length > 0">
+                            <div class="card-body1 d-flex flex-wrap">
+                                <div class="d-flex flex-wrap col-2 col-md-2" *ngFor="let card of activeIntegrations">
+                                    <div class="card innerCard" [ngClass]="getStyleClass(card.is_paused)"
+                                        [matTooltip]="card.is_paused ? 'Integration Paused' : null"
+                                        matTooltipPosition="above">
+                                        <div class="card-details">{{card.app_name}}</div>
+                                        <div class="card-button d-flex justify-content-around">
+
+                                            <mat-icon class="m-0 mr-3 edit" matTooltip="Edit" matTooltipPosition="left"
+                                                (click)="editIntegration(card.id,card.app_name)">edit
+                                            </mat-icon>
+
+                                            <mat-icon *ngIf="card.is_paused == false " class="m-0 mr-3 pause"
+                                                matTooltip="Pause" matTooltipPosition="below"
+                                                (click)="pauseOrResumeDialog(card.id,'paused') ">
+                                                pause_circle_filled</mat-icon>
+
+                                            <mat-icon *ngIf="card.is_paused == true " class="m-0 mr-3 pause"
+                                                matTooltip="Resume" matTooltipPosition="below"
+                                                (click)="pauseOrResumeDialog(card.id,'resumed') ">
+                                                play_circle_filled
+                                            </mat-icon>
+
+                                            <mat-icon class="m-0 mr-3 edit" matTooltip="View" matTooltipPosition="below"
+                                                (click)="viewIntegration(card)">remove_red_eye
+                                            </mat-icon>
+
+                                            <mat-icon class="m-0 delete" matTooltip="Delete" matTooltipPosition="right"
+                                                (click)="deleteIntegration(card.id)">delete
+                                            </mat-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div *ngIf="!integrationDetails && !isActiveNotification && !isManageWorkingDays" class="card-sec">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="col-7 header-style">Action Cards</h5>
+                        <span *ngIf="noActionCard">
+                            <button mat-stroked-button (click)="addactioncard()">
+                                <span class="d-flex align-items-center">
+                                    <mat-icon mat-icon-button>add</mat-icon>
+                                    <span class="btn_txt">
+                                        Add Actions
+                                    </span>
+                                </span>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="actioncards.length == 0" class="cardNoData">
+                            <img src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                            <div>No Action cards Available ...!</div>
+                        </div>
+                        <div *ngIf="actioncards.length > 0">
+                            <div class="card-body1 d-flex flex-wrap">
+                                <div class="d-flex flex-wrap col-2 col-md-2" *ngFor="let card of cardLenArray">
+                                    <!--cards here-->
+                                    <div class="card innerCard" [ngClass]="getClassForAction(card.card_name)"
+                                        matTooltipPosition="above">
+                                        <h3 class="card-details">{{card.card_name}}</h3>
+                                        <div>
+                                            <h4>{{card.length}} cards</h4>
+                                        </div>
+
+                                        <button class="card-button action-card-rdrt-btn">
+                                            <mat-icon class="m-0 mx-1 edit" matTooltip="View" matTooltipPosition="below"
+                                                (click)="viewActionCards(card.card_name)">remove_red_eye
+                                            </mat-icon>
+                                            <mat-icon class="m-0 mx-1 edit" matTooltip="Add" matTooltipPosition="below"
+                                                (click)="addActionCards(card.card_name)">add
+                                            </mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!integrationDetails && !showActioncard && !isActiveManageActionCards && !isManageWorkingDays"
+                class="card-sec">
+                <!-- <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="col-7"> Manage Slack Attendance Notification</h5>
+                    </div>
+                    <div class="card-body2">
+                        <div class="row  mx-3 pt-3">
+                            <div class="col-4">
+                                <b>Manage Slack Attendance Notification :</b>
+                            </div>
+                            <div class="col-8">
+                                <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                                    [(ngModel)]="isRemainderSlackIntegration">
+                                    <mat-radio-button class="example-radio-button mr-3"
+                                        *ngFor="let option of yesOrNoOption" [value]="option"
+                                        (change)="radioButtonClickedManageNotification($event)">
+                                        {{option}}
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="row mx-3 pb-3">
+                            <div class="col-4"></div>
+                            <div class="col-8">
+                                <small>If you choose <b>Yes</b>, send the notification to slack application.</small>
+                            </div>
+                        </div>
+                        <div class="row mx-3 pb-3">
+                            <div class="col-10">
+                                <div class="btns">
+                                    <button class="btn btn-confirm" [disabled]="!yesOrNoManageNotification"
+                                        (click)="SlackIntegrationPauseOrResume(isRemainderSlackIntegration)">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel class="mb-3" expanded="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h5 class="header-style">Application Notification</h5>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="card mt-3">
+                            <div class="card-body2">
+
+                                <!-- <div class="col-md-5">
+                                        <b>Manage Slack Approvals Notification :</b>
+                                    </div> -->
+                                <div class="row  mx-3 pt-4">
+                                    <div class="col-md-3 ">
+                                        <b>Attendance Summary</b>
+
+                                    </div>
+                                    <div class="col-md-9">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group" [(ngModel)]="isReminderForCheckin">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedTcubeApp($event)">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" [innerHTML]="ApplicationNoteMessage">
+                                        <!-- <small>If you choose <b>"Yes"</b>it will show today
+                                                leave
+                                                users list once a day.</small> -->
+                                    </div>
+                                </div>
+                                <div class="row mx-3" *ngIf="isReminderForCheckin == 'Yes'">
+                                    <div class="col-md-3"><b>Access Users </b></div>
+                                    <mat-form-field style="width: 100%;" appearance="outline" class="col-md-6">
+                                        <mat-select [formControl]="AssigneeCtrl" placeholder="Select Users"
+                                            [(ngModel)]="managerselectedItems" (ngModelChange)="managerfunction($event)"
+                                            #leaveselect multiple>
+                                            <mat-option>
+                                                <ngx-mat-select-search [formControl]="AssigneeFilterCtrl"
+                                                    placeholderLabel="Search Users..."
+                                                    noEntriesFoundLabel="'no match found'">
+                                                </ngx-mat-select-search>
+                                            </mat-option>
+                                            <div class="select-all pl-3">
+                                                <mat-checkbox [(ngModel)]="allSelected"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    (change)="toggleAllSelection()">Select All</mat-checkbox>
+                                            </div>
+                                            <mat-option *ngFor="let data of filteredAssignee | async" [value]="data.id">
+                                                {{data.firstname}} {{data.lastname}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- <mat-error class="errorfix" *ngIf="AssigneeCtrl.hasError('required')">{{requiredMessage}}</mat-error> -->
+                                    </mat-form-field>
+                                    <!-- <span class="col-md-3 mat-filter-refresh-btn users_btn">
+                                        <button matTooltip="Users" (click)="UsersDialog()" mat-icon-button
+                                            class="example-icon action-btn">
+                                            <mat-icon class="pr-menu-icon">supervisor_account
+                                                    </mat-icon>
+                                            </button>
+                                    </span> -->
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-12">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" *ngIf="isReminderForCheckin == 'Yes'" [disabled]="managerselectedItems.length == 0 || (!yesOrNoAppNotification || !usersCheckBox)"
+                                            (click)="ApplicationCreateOrUpdate()">Save changes</button>
+                                            <button class="btn btn-confirm" *ngIf="isReminderForCheckin == 'No'" [disabled] ="!yesOrNoAppNotification || !usersCheckBox"
+                                            (click)="ApplicationCreateOrUpdate()">Save changes</button>
+                                            <!-- <button class="btn btn-confirm"
+                                                [disabled]="!yesOrNoAppNotification || !usersCheckBox"
+                                                (click)="ApplicationCreateOrUpdate()">Save changes</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel class="mb-3">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h5 class="header-style">Slack Notification</h5>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="card mt-3">
+                            <div class="card-body2">
+                                <div class="row  mx-3 pt-3">
+                                    <div class="col-md-3">
+                                        <b>Punch In/Out</b>
+                                    </div>
+                                    <div class="col-md-9 manage-slack-attendance">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group" [disabled]="!isslackConfig"
+                                            [matTooltip]="!isslackConfig ? 'Please verify the slack integration':''"
+                                            [(ngModel)]="isRemainderSlackIntegration">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedManageNotification($event)">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" [innerHTML]="slackNoteMessage">
+                                        <!-- <small>If you choose <b>"Yes"</b>,send the notification for In/Out actions to the slack
+                                            application.</small> -->
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-10">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" [disabled]="!yesOrNoManageNotification"
+                                                (click)="SlackIntegrationPauseOrResume(isRemainderSlackIntegration, 'slack')">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3">
+                            <div class="card-body2">
+                                <div class="row  mx-3 pt-3">
+                                    <div class="col-md-3">
+                                        <b>Attendance Summary</b>
+                                    </div>
+                                    <div class="col-md-9 manage-slack-attendance">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group" [disabled]="!isslackConfig"
+                                            [matTooltip]="!isslackConfig ? 'Please verify the slack integration':''"
+                                            [(ngModel)]="isRemainderActiveEmployeeSlackApp">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedManageNotificationTodaySlackAPP($event)">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" [innerHTML]="slackTodayNoteMessage">
+                                        <!-- <small>If you select "<b>Yes</b>," send the notification to the Slack application displaying the user list for both Work From Home (WFH) and Work From Office (WFO) employees</small> -->
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-10">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" [disabled]="!yesOrNoTodayAteendanceList"
+                                                (click)="activeEmployeeUserListSlackAppCreateOrUpdate()">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <!-- <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel class="mb-3">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h5 class="header-style">Slack Notification Attendance Summary</h5>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="card mt-3">
+                            <div class="card-body2">
+                                <div class="row  mx-3 pt-3">
+                                    <div class="col-md-12 manage-slack-attendance">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group" [disabled]="!isslackConfig"
+                                            [matTooltip]="!isslackConfig ? 'Please verify the slack configurations':''"
+                                            [(ngModel)]="isRemainderActiveEmployeeSlackApp">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedManageNotificationTodaySlackAPP($event)">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                   
+                                    <div class="col-md-12" [innerHTML]="attedanceNoteMessage">
+                                        </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-10">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" [disabled]="!yesOrNoTodayAteendanceList"
+                                                (click)="activeEmployeeUserListSlackAppCreateOrUpdate()">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion> -->
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel class="mb-3">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h5 class="header-style">Whatsapp Notification </h5>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="card mt-3">
+                            <div class="card-body2">
+                                <div class="row  mx-3 pt-3">
+                                    <div class="col-md-3">
+                                        <b>Punch In/Out</b>
+                                    </div>
+                                    <div class="col-md-9 manage-whatsapp-attendance">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group" [disabled]="!isWAConfig || !isWAConfigForAD"
+                                            [matTooltip]="(!isWAConfig || !isWAConfigForAD)? 'Please verify the whatsapp integration':''"
+                                            [(ngModel)]="isRemainderWhatsappIntegration">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedWhatsappIntegration($event)">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" [innerHTML]="whatsAppNoteMessage">
+                                        <!-- <small>If you choose <b>"Yes"</b>,send the notification to whatsapp
+                                            application.</small> -->
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-10">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" [disabled]="!yesOrNoWhatsappIntegration"
+                                                (click)="SlackIntegrationPauseOrResume(isRemainderWhatsappIntegration , 'whatsapp')">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+            <div class="working-days-table"
+                *ngIf="!integrationDetails && !showActioncard && !isActiveManageActionCards && isManageWorkingDays">
+                <div class="container-fluid">
+                    <div class="mat-elevation-z8">
+                        <div class="tablescroll">
+                            <table mat-table [dataSource]="tableDataSource" matSort class="table_tc">
+                                <!-- columns for the leave types *ngIf="isActiveLeaveTracker" -->
+                                <!-- <ng-container matColumnDef="selector">
+
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <mat-checkbox (change)="$event ? toggleAllRows() : null; bulk_delete()"
+                                            [checked]="selection.hasValue() && isAllSelected()"
+                                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                        </mat-checkbox>
+                                    </th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <mat-checkbox (click)="$event.stopPropagation()"
+                                            (change)="$event ? selection.toggle(row) : null; bulk_delete()"
+                                            [checked]="selection.isSelected(row)">
+                                        </mat-checkbox>
+                                    </td>
+                                </ng-container> -->
+                              
+                                <ng-container matColumnDef="working_days">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Working Days Count</th>
+                                    <td mat-cell *matCellDef="let element" class="pt-4 pb-4">
+                                        <button mat-mini-fab class="working-days-btn"> {{element.working_days}}</button>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="days">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Days</th>
+                                    <td mat-cell *matCellDef="let element" class="pt-4 pb-4 chip_style">
+                                        <mat-chip-list>
+                                            <mat-chip *ngFor="let weekdays of element.days">
+                                                {{weekdays.day}}
+                                            </mat-chip>
+                                        </mat-chip-list>
+                                    </td>
+                                    <!-- <span *ngIf="element.available_days == 0"> - </span> *ngIf="element.available_days != 0"-->
+                                </ng-container>
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                    <td mat-cell *matCellDef="let element" class="pt-4 pb-4">
+                                        <div class="action-btn">
+                                            <button mat-raised-button class="edit-btn" (click) ="addworkingDay()">
+                                                Edit
+                                            </button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                            </table>
+                        </div>
+                        <div *ngIf="table_data.length == 0" class="text-center text-danger alert-danger no-search-match p-3">
+                            {{noDataMsg}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

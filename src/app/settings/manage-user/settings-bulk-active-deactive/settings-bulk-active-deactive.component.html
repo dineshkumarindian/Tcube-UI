@@ -1,0 +1,64 @@
+<div class="delete">
+    <div *ngIf="bulkActiveUser">
+        <div class="dialog-header">
+            <h3 class="page-title">Bulk Activate Users</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <p class="dialog-question">Are you sure want to activate ?</p>
+            <small style="color: #ff5e5e" *ngIf="data== 'deactivate' ">
+                The user will be removed from assigned projects and jobs also .
+            </small>
+            <!-- <small style="color: #ff5e5e" *ngIf="data== 'deactivate user' ">
+                If deactivate the client , all projects under this client will be deactivated .
+                </small> -->
+
+            <form [formGroup]="deactivateClientformgroup">
+                <div class="deactivate1">
+                    <mat-form-field appearance="fill" style="width: 100% ; margin-top: 5px; ">
+                        <mat-label>Comments</mat-label>
+                        <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+        <div align="end" class="dialog-btns p-3">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="activateUser()" class="cnfm-btn">Confirm</button>
+        </div>
+    </div>
+    <!-- *** -->
+    <div *ngIf="bulkDeactivateUser">
+        <div class="dialog-header">
+            <h3 class="page-title">Bulk Deactivate Users</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content>
+            <p class="dialog-question">Are you sure want to deactivate?</p>
+            <small style="color: #ff5e5e">
+                If deactivate the these users , all projects under these users will be deactivated.
+            </small>
+            <form [formGroup]="deactivateClientformgroup">
+                <div class="deactivate1">
+                    <mat-form-field appearance="fill" style="width: 100% ; margin-top: 5px; ">
+                        <mat-label>Comments</mat-label>
+                        <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+        <!-- </div> -->
+        <!-- *** -->
+        <!-- </div> -->
+        <div align="end" class="dialog-btns p-3">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="deactivateUser()" class="cnfm-btn">Confirm</button>
+        </div>
+    </div>
+</div>

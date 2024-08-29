@@ -1,0 +1,109 @@
+<section class="view_content_sect">
+    <div mat-dialog-content>
+        <div class="container-fluid pt-4" id="contentToConvert">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="float-right date-field">
+                        <h5>Date: {{data.modified_time | date}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="to_section mt-4">
+                        <h5>To :</h5>
+                        <p class="underline"><span>{{data.name}},</span><br>DOB : {{data.dob | date}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3 class="text-uppercase">{{data.letterTitle}}</h3>
+                    <!-- <small><b>(Program Title)</b></small> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <p [innerHTML]="description" class="description"></p>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="top-form">
+            <div class="date-right">
+                <p>Date : {{data.modified_time | date}}</p>
+            </div>
+            <div class="to-list">
+                <p>To:</p>
+                <p>{{data.name}}</p>
+                <p>DOB : {{data.dob | date}}</p>
+            </div>
+            <div class="heading-letter">
+                <h3>{{data.letterTitle}}</h3>
+            </div>
+            
+            <div [innerHTML]="description" class="description table-bordered">
+            </div>
+        </div>
+    </div> -->
+        <!-- <div class="name-field">
+                <h5>Dear <span>{{data.name}}</span>,</h5>
+            </div> -->
+        <div *ngFor="let field of data.annexure_details; let i = index" [id]="'annexureId'+i">
+            <div class="row mb-4 mt-2 text-center">
+                <div class="col-md-12">
+                    <h3>{{field.letterTitle1}}</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div [innerHTML]="field.description1" class="annexure_description">
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="i==data.annexure_details.length-1" class="footer_description mt-4">
+                <p>I accept the offer and terms and conditions of the company mentioned above.</p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div *ngIf="i==data.annexure_details.length-1" class="confirm_sign">
+                            <p><b>Signature</b> : ______________________________</p>
+                            <p><b>Name</b> : ______________________________</p>
+                            <p><b>Date</b> : ______________________________ </p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div *ngIf="i==data.annexure_details.length-1" class="signature-content float-right ">
+                            <p><b>Sincerely,</b></p>
+                            <img src="{{data.signature}}" style="height: 88px;width: 75px;" alt="sign">
+                            <p class="director"><b>{{data.signatureName}}</b></p>
+                            <p class="dir"><b>{{data.signatureRole}}</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<mat-dialog-actions class="d-flex justify-content-end button-style">
+    <div class="row">
+        <!-- <div class="ml-3 lablestyled-none d-md-block d-lg-block col-4 col-md-4"></div> -->
+        <div class="btns">
+            <button class="btn btn-confirm" *ngIf="!isInternActiveId" (click)="saveDetails()">Ok</button>
+            <button class="btn btn-confirm" *ngIf="isInternActiveId" (click)="updateList()">Ok</button>
+            <button class="btn btn-cancel" (click)="onNoClick()">Back</button>
+        </div>
+    </div>
+</mat-dialog-actions>
+<!-- <mat-dialog-actions>
+    <div class="container button-style">
+        <div>
+            <button class="btns btn-cancels" (click)="onNoClick()">Back</button>
+        </div>
+        <div *ngIf="!isOfferLetterActiveId">
+            <button class="btns btn-confirms" (click)="saveDetails()">Ok</button>
+        </div>
+        <div *ngIf="isOfferLetterActiveId">
+            <button class="btns btn-confirms" (click)="updateList()">Ok</button>
+        </div>
+    </div>
+</mat-dialog-actions> -->

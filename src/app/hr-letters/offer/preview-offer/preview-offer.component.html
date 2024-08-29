@@ -1,0 +1,248 @@
+<!-- <div class="page-header">
+    <div class="previewheader">
+        <h5>Preview Letter</h5>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                role="img" type="button">close</mat-icon>
+        </span>
+    </div> -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">Preview Letter</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <mat-icon mat-dialog-close matTooltip="Close" class="red" role="img" type="button">close</mat-icon>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="preview_content_sect">
+    <div mat-dialog-content *ngIf="!isOfferLetterActiveId">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="">
+                        <img src="../../../../assets/images/servx_logo.png" alt="logo" width="150"  height="65" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="float-right">
+                        <h4>Date : DD/MM/YYYY</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="to_section">
+                        <h4>To :</h4>
+                        <div class="line-list"></div>
+                        <div class="line-list"></div>
+                        <div class="line-list"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h3 class="text-uppercase">Offer Letter</h3>
+                    <small><b>(Letter Title)</b></small>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="name-field">
+            <h5>Dear <span>[CANDIDATE NAME]</span>,</h5>
+        </div> -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="description">
+                    <p class="mb-3"> [COMPANY NAME] is delighted to offer you a CONSULTANT position with
+                        capacity as [DESIGHNATION]. You shall sign a Non Disclosure
+                        Agreement with us as part of the onboarding process.Your work location will be [WORK LOCATION].
+                        Joining date and compensation details are available below in the tabular column: </p>
+                    <table>
+                        <tr>
+                            <th>Employment Type</th>
+                            <td>Full-Time/Part-Time</td>
+                        </tr>
+                        <tr>
+                            <th>HR Allowance</th>
+                            <td>Amount</td>
+                        </tr>
+                        <tr>
+                            <th>TDS Deductions</th>
+                            <td>Amount</td>
+                        </tr>
+                        <tr>
+                            <th>Projected Monthly Take Home</th>
+                            <td>Salary</td>
+                        </tr>
+                        <tr>
+                            <th>Projected Annual CTC</th>
+                            <td>Salary</td>
+                        </tr>
+                        <tr>
+                            <th>Joining Date</th>
+                            <td>Date</td>
+                        </tr>
+                        <tr>
+                            <th>Payment Duration</th>
+                            <td>Monthly/Weekly</td>
+                        </tr>
+                    </table>
+                    <p class="mt-3"> We expect you to work in consultant mode for a minimum of 160 hours a month,for the
+                        agreed
+                        monthly fixed
+                        consulting fee.
+                        You are requested to email by attaching this offer letter back to us, from your personal email
+                        to our HR
+                        email address tendering your consent.
+                        We welcome you look forward to a long association and successful carrer with us. </p>
+                </div><br>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h3> Annexure - A </h3>
+                <small><b>(Letter Title)</b></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="description">
+                    <p class="mt-2">You shall be governed by the following terms and conditions of service during your
+                        consultancy
+                        with
+                        [COMPANY NAME], and those that may be amended from time to time.
+                        Statement of facts
+                        1. This consultancy contract can be terminated by either party anytime. But giving one month
+                        notice is
+                        considered as best practice for both parties. The primary goal of one month notice period is to
+                        mitigate project
+                        dependencies with CONSULTANT and also we hope that one month period supports transitioning for
+                        the
+                        CONSULTANT to next employer/contract.
+                        2. Any violation to the NDA or code of conduct identified by our HR team shall lead to immediate
+                        termination of
+                        the contract by ServXGlobal. Upon termination by either party, CONSULTANT shall immediately hand
+                        over all
+                        property belonging to the Company and / or relating to its business.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="mt-2">
+                    I accept the offer and terms and conditions of the company mentioned above.<br>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <b>Signature</b> : _______________________,<br>
+                <b>Name</b> : ___________________________,<br>
+                <b>Date</b> : ____________________________
+            </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <p><b>Sincerely,</b></p>
+                    <img src="../../../../assets/images/letters-signaturely.svg" width="150"  height="65" alt="sign" class="img-fluid">
+                    <p><b>(Name)</b></p>
+                    <p><b>(Role of the signature)</b></p>
+                </div>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-12">
+                <p><b>xxxx xxxx private Limited</b></p>
+                <div class="line-list"></div>
+                <p><b>Door No:yy/y,yy floor, place yyyy, state yyyy, pincode-yyyyyy.</b></p>
+                <a><b>www.zzzz.com</b></a>
+            </div>
+        </div>
+
+
+        <!-- </mat-dialog-content> -->
+    </div>
+    <div mat-dialog-content *ngIf="isOfferLetterActiveId">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="">
+                        <img src="{{data.companyLogo}}" width="150" height="65" alt="Logo" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="float-right">
+                        <h5>Date: <span>{{data.modified_time | date:'dd/MM/yyyy' }}</span></h5>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row pull-right">
+                <div class="col-md-12">
+                    <div class="date-field">
+                    <h5>Date: <span>{{data.modified_time | date}}</span></h5>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <h5>To:</h5>
+                    <p class="mb-0">{{data.name}}</p>
+                    <p>DOB : {{data.dob | date}}</p>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col-md-12">
+                    <h3>{{data.letterTitle}}</h3>
+                </div>
+            </div>
+            <!-- <div class="name-field">
+                    <h5>Dear <span>{{data.name}}</span>,</h5>
+                </div> -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div [innerHTML]="description" class="description">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div *ngFor="let field of annexure_details">
+                        <div class="text-center mb-2">
+                            <h3>{{field.letterTitle1}}</h3>
+                        </div>
+                        <div [innerHTML]="field.description1" class="annexure_description">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-6 col-md-6">
+                    <div class="    mt-3 float-right">
+                        <h5>Sincerely,</h5>
+                        <img src="{{data.signature}}" width="150" height="65" alt="Signature" class="img-fluid">
+                        <p><b>{{data.directorName}}</b></p>
+                        <p><b>{{data.signatureRole}}</b></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center footer-preview-letter">
+                    <p><b>{{data.companyName}}</b></p>
+                    <div class="line-list"></div>
+                    <div class="address_line">
+                    <p class="company-address"><b>{{data.companyAddress}}</b></p>
+                    </div>
+                    <p><b>{{data.companyLink}}</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- <mat-dialog-actions align="end" style="padding:20px 0px;">
+    <div class="btns">
+        <button class="btn btn-cancel" mat-dialog-close>Cancel</button>
+    </div>
+</mat-dialog-actions> -->

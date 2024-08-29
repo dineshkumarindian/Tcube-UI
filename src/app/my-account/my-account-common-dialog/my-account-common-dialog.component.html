@@ -1,0 +1,34 @@
+<div class="common_dialog">
+    <div class="approve_reject" *ngIf="upgrade">
+        <div class="dialog-header">
+            <h3 class="page-title">Upgrade</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content class="dialog-content-plan">
+            <div>Are you sure you want to upgrade pricing plan details to<mat-chip>{{plan.plan}}</mat-chip>?</div>
+        </div>
+        <div align="end" class="dialog-btns px-3 py-2">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="upgradeplanstatus()" class="cnfm-btn">Upgrade</button>
+        </div>
+    </div>
+    <div class="approve_reject" *ngIf="renew">
+        <div class="dialog-header">
+            <h3 class="page-title">Renew</h3>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+            </span>
+        </div>
+        <div mat-dialog-content class="dialog-content-plan">
+            <div>Are you sure you want to renew the current pricing plan of <mat-chip>{{plan}}</mat-chip>?</div>
+        </div>
+        <div align="end" class="dialog-btns px-3 py-2">
+            <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+            <button mat-flat-button (click)="renewplan()" class="cnfm-btn">Renewal</button>
+        </div>
+    </div>
+</div>

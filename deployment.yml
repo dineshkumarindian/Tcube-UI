@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tcube-uat-web-service
+  namespace: tcube-uat
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: uat-web
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uat-web
+  namespace: tcube-uat
+  annotations:
+    app.gitlab.com/app: PROJECT_SLUG
+    app.gitlab.com/env: ENVIRONMENT_SLUG
+spec:
+  selector:
+    matchLabels:
+      app: uat-web
+  replicas: 2
+  strategy:
+   type: RollingUpdate
+   rollingUpdate:
+     maxSurge: 1
+     maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: uat-web
+    spec:
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+      annotations:
+        app.gitlab.com/app: PROJECT_SLUG
+        app.gitlab.com/env: ENVIRONMENT_SLUG
+    spec:
+      containers:
+      - name: uat-web
+        image: registry.servx.global/products/tcube/ui:IMAGE_TAG
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: deploykeys
+---
+# Ingress - Nginx
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tcube-uat-ingress
+  namespace: tcube-uat
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: servx-letsencrypt-production
+    nginx.ingress.kubernetes.io/proxy-body-size: 20m
+spec:
+  tls:
+  - hosts:
+    - uat.tcube.io
+    - tc240522uat1e.tcube.io
+    secretName: tcube-uat-tls-certificate
+  rules:
+  - host: tc240522uat1e.tcube.io
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: tcube-uat-api-service
+            port:
+              number: 80
+  - host: uat.tcube.io
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: tcube-uat-web-service
+            port:
+              number: 80

@@ -1,0 +1,15 @@
+<div class="reminder">
+    <div class="header">
+        <h5>Reminder</h5>
+    </div>
+    <div mat-dialog-content>
+        <div class="my-2">
+            <h6 *ngIf="data.for == 'planForTheDay' ">Please submit the tasks!</h6>
+            <h6 *ngIf="data.for == 'updatesForTheDay' ">Please update the tasks!</h6>
+        </div>
+    </div>
+    <div align="end" class="footerSec p-1">
+        <button mat-raised-button mat-dialog-close class="cnfm-btn mr-2">Ok</button>
+        <button mat-raised-button class="redirectBtn" (click)="redirecctTo()">Day Planner</button>
+    </div>
+</div>

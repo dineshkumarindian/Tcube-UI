@@ -1,0 +1,301 @@
+.performance-metrics {
+  .fixed-btn {
+    height: 33px;
+
+    button {
+      width: 68px;
+      box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+        rgba(60, 64, 67, 0.15) 0px 1px 3px 1px !important;
+      line-height: 25px;
+    }
+
+    .sbmt-btn {
+      background-color: #09407d;
+      color: #fff;
+    }
+
+    .mat-raised-button[disabled][disabled] {
+      background-color: rgba(0, 0, 0, 0.26);
+    }
+  }
+
+  .inactivebtn {
+    width: 4em;
+    border-radius: 5px;
+    border: none;
+    background: #c31a31;
+    color: #fff;
+    text-align: center;
+    height: 30px;
+
+    .mat-icon {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .h-60 {
+    width: 250px;
+    padding: 0 10px 0 10px;
+  }
+
+  .bil-section {
+    .card-style {
+      height: 460px;
+      cursor: default;
+    }
+  }
+
+  .card_section {
+    display: flex;
+    justify-content: space-evenly;
+
+    .profile_card {
+      background-color: #b2c7d93d;
+      border-radius: 10px;
+      height: 90px;
+      box-shadow: rgb(0 0 0 / 24%) 0px 3px 8px !important;
+
+      .Emp_Details {
+        h3 {
+          color: #065429f2;
+        }
+      }
+
+      img {
+        border-radius: 45px;
+      }
+    }
+
+    .average_card {
+      background-color: #b2c7d93d;
+      border-radius: 10px;
+      height: 90px;
+
+      h4 {
+        color: #109fe3f2;
+        font-size: 17px !important;
+      }
+
+      span {
+        color: #22917c;
+        font-size: 13px !important;
+      }
+    }
+  }
+}
+
+//******************************************* Total hours card design *****************************************************
+.totalHours {
+  .cardH {
+    width: 350px;
+    height: 180px;
+    position: relative;
+    padding: 25px;
+    background: radial-gradient(
+          178.94% 106.41% at 26.42% 106.41%,
+          #b1ceff 0%,
+          rgba(255, 255, 255, 0) 71.88%
+        )
+        /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */,
+      #ffffff;
+    box-shadow: 0px 155px 62px rgba(0, 0, 0, 0.01),
+      0px 87px 52px rgba(0, 0, 0, 0.05), 0px 39px 39px rgba(0, 0, 0, 0.09),
+      0px 10px 21px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 23px;
+    transition: all 0.8s cubic-bezier(0.15, 0.83, 0.66, 1);
+    cursor: default;
+  }
+
+  .cardH:hover {
+    transform: scale(1.05);
+  }
+
+  .container {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    right: -35px;
+    top: -50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0.7);
+  }
+
+  .cardH-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .user-job-count {
+      font-weight: 700;
+      font-size: 15px !important;
+      line-height: 135%;
+      color: #4866b3;
+    }
+  }
+
+  .cardH-header span:first-child {
+    word-break: break-all;
+    font-weight: 800;
+    font-size: 15px;
+    line-height: 135%;
+    color: rgba(87, 77, 51, 0.66);
+  }
+
+  .tot-hours {
+    position: absolute;
+    right: 40px;
+    bottom: -12px;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 77px;
+    color: rgba(87, 77, 51, 1);
+  }
+
+  .temp-scale {
+    width: 80px;
+    height: 36px;
+    position: absolute;
+    right: 25px;
+    bottom: 29px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: 9px;
+  }
+
+  .temp-scale span {
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 134.49%;
+    color: rgba(87, 77, 51, 0.66);
+  }
+}
+
+// ******************************** Card Animation ********************************
+.loader {
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 6.25em;
+  height: 6.25em;
+  animation: rotate5123 2.4s linear infinite;
+}
+
+.white {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  animation: flash 2.4s linear infinite;
+  opacity: 0;
+}
+
+.dot {
+  position: absolute;
+  margin: auto;
+  width: 2.4em;
+  height: 2.4em;
+  border-radius: 100%;
+  transition: all 1s ease;
+}
+
+.dot:nth-child(2) {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: #ff4444;
+  animation: dotsY 2.4s linear infinite;
+}
+
+.dot:nth-child(3) {
+  left: 0;
+  right: 0;
+  top: 0;
+  background: #0055cc;
+  animation: dotsX 2.4s linear infinite;
+}
+
+.dot:nth-child(4) {
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: #c8dae5;
+  animation: dotsY 2.4s linear infinite;
+}
+
+.dot:nth-child(5) {
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #33b5e5;
+  animation: dotsX 2.4s linear infinite;
+}
+
+@keyframes rotate5123 {
+  0% {
+    transform: rotate(0);
+  }
+
+  10% {
+    width: 6.25em;
+    height: 6.25em;
+  }
+
+  66% {
+    width: 2.4em;
+    height: 2.4em;
+  }
+
+  100% {
+    transform: rotate(360deg);
+    width: 6.25em;
+    height: 6.25em;
+  }
+}
+
+@keyframes dotsY {
+  66% {
+    opacity: 0.1;
+    width: 2.4em;
+  }
+
+  77% {
+    opacity: 1;
+    width: 0;
+  }
+}
+
+@keyframes dotsX {
+  66% {
+    opacity: 0.1;
+    height: 2.4em;
+  }
+
+  77% {
+    opacity: 1;
+    height: 0;
+  }
+}
+
+@keyframes flash {
+  33% {
+    opacity: 0;
+    border-radius: 0%;
+  }
+
+  55% {
+    opacity: 0.6;
+    border-radius: 100%;
+  }
+
+  66% {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,321 @@
+<div class="orgCountDetails">
+  <h3 class="mx-3 mt-3">Organization Details</h3>
+  <div class="row px-2">
+    <div class="col my-3">
+      <div class="card-counter success">
+        <i class="fa fa-code-fork"></i>
+        <!-- <div class="text-center cover" *ngIf="activecountloader">
+            <div class="totalcountloader">
+              <div class="bar bar1"></div>
+              <div class="bar bar2"></div>
+              <div class="bar bar3"></div>
+              <div class="bar bar4"></div>
+              <div class="bar bar5"></div>
+              <div class="bar bar6"></div>
+              <div class="bar bar7"></div>
+              <div class="bar bar8"></div>
+            </div>
+          </div>
+          <div *ngIf="!activecountloader"> -->
+        <span class="count-numbers">{{activeCount}}</span>
+        <!-- </div> -->
+        <span class="count-name">Active</span>
+      </div>
+    </div>
+
+    <div class="col my-3">
+      <div class="card-counter inactive">
+        <i class="fa fa-ticket"></i>
+        <span class="count-numbers">{{inactiveCount}}</span>
+        <span class="count-name">In-active</span>
+      </div>
+    </div>
+
+    <div class="col my-3">
+      <div class="card-counter bg-warning" style="color:white">
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        <span class="count-numbers">{{pendingCount}}</span>
+        <span class="count-name">Pending</span>
+      </div>
+    </div>
+
+    <div class="col my-3">
+      <div class="card-counter danger">
+        <i class="fa fa-users"></i>
+        <span class="count-numbers">{{rejectedCount}}</span>
+        <span class="count-name">Rejected</span>
+      </div>
+    </div>
+
+    <div class="col my-3">
+      <div class="card-counter" style="background-color: #1066c4;color:white">
+        <i class="fa fa-database"></i>
+        <span class="count-numbers">{{totalCount}}</span>
+        <span class="count-name">Total</span>
+      </div>
+    </div>
+  </div>
+  <h3 class="mx-3 mt-3">Pricing Plan Details</h3>
+  <div class="row px-2">
+    <div class="col-3 my-3">
+      <div class="card-counter success">
+        <i class="fa fa-usd"></i>
+        <span class="count-numbers">{{planCount}}</span>
+        <span class="count-name">Active</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="superadmin_dashboard-page">
+  <div class="container-fluid">
+    <div class="dashboard-wrapper-style">
+      <div class="align">
+        <div class="col-md-6 col-sm-12 p-0">
+          <div class="ng-star-inserted card my-2 card-style mr-2">
+            <h3>Organization details</h3> -->
+<!-- <script src="https://code.highcharts.com/highcharts.js"></script>
+                        <script src="https://code.highcharts.com/modules/data.js"></script>
+                        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                        <script src="https://code.highcharts.com/modules/accessibility.js"></script> -->
+
+<!-- <figure class="highcharts-figure">
+              <div id="container"></div>
+
+            </figure>
+
+          </div>
+        </div> -->
+<!-- <div class="col-md-6 col-sm-12 p-0">
+          <div class="ng-star-inserted card card-style my-2">
+            <h3>Recent renewal client details</h3>
+            <div class="table-card">
+              <table mat-table [dataSource]="dataSource" class="renewal-table table table-borderless table-hover"> -->
+<!--- Note that these columns can be defined in any order.
+                      The actual rendered columns are set as a property on the row definition" -->
+
+<!-- Position Column -->
+<!-- <div class="table-card">
+                  <ng-container matColumnDef="S_No">
+                    <th mat-header-cell *matHeaderCellDef> S_No </th>
+                    <td mat-cell *matCellDef="let element" style="width: 100px;"> {{element.S_No}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Id">
+                    <th mat-header-cell *matHeaderCellDef> Id </th>
+                    <td mat-cell *matCellDef="let element" style="width: 100px;"> {{element.Id}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Organization">
+                    <th mat-header-cell *matHeaderCellDef> Organization </th>
+                    <td mat-cell *matCellDef="let element" class="client-org" style="width: 100px;">
+                      {{element.Organization}} </td>
+                  </ng-container> -->
+
+<!-- Name Column -->
+<!-- <ng-container matColumnDef="Client">
+                    <th mat-header-cell *matHeaderCellDef> Client </th>
+                    <td mat-cell *matCellDef="let element" class="client-renewal" style="width: 100px;">
+                      {{element.Client}} </td>
+                  </ng-container> -->
+
+<!-- Weight Column -->
+<!-- <ng-container matColumnDef="Renewal_Date">
+                    <th mat-header-cell *matHeaderCellDef> Renewal
+                      Date </th>
+                    <td mat-cell *matCellDef="let element" style="width: 100px;"> {{element.Renewal_Date}} </td>
+                  </ng-container> -->
+
+<!-- Symbol Column -->
+<!-- <ng-container matColumnDef="Renewal_plan">
+                    <th mat-header-cell *matHeaderCellDef> Renewal
+                      plan </th>
+                    <td mat-cell *matCellDef="let element" style="width: 100px;"><span
+                        class="badge rounded-pill renewal-plan">{{element.Renewal_plan}}</span></td>
+                  </ng-container>
+                  <ng-container matColumnDef="Renewal_amount">
+                    <th mat-header-cell *matHeaderCellDef> Renewal
+                      amount </th>
+                    <td mat-cell *matCellDef="let element" class="renewal-amount" style="width: 100px;">
+                      Rs.{{element.Renewal_amount}} </td>
+                  </ng-container>
+                  <ng-container matColumnDef="Bill_no">
+                    <th mat-header-cell *matHeaderCellDef> Bill_no </th>
+                    <td mat-cell *matCellDef="let element" style="width: 100px;"> {{element.Bill_no}} </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </div>
+              </table>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 p-0 my-2">
+          <div class="ng-star-inserted card card-style mrg_bottom">
+            <h3>Recent Transaction summary</h3>
+            <div>
+              <div class="account-balance">
+                <button mat-flat-button color="primary">
+                  <mat-icon><span class="material-icons">account_balance</span></mat-icon>
+                </button>
+                <div class="ms-3 balance-amount">
+                  <p class="mb-0" style="font-weight: bold;">$5,730.00</p>
+                  <p class="mb-0" style="font-size: 10px;">Total balance amount</p>
+                </div>
+
+              </div>
+              <div style="margin-top: 10px;">
+                <div class="transaction">
+                  <p>Transactions</p>
+                </div>
+                <div class="weeklydays">
+                  <p>
+                    <span>Today</span>
+                    <span>This week</span>
+                    <span>This month</span>
+                  </p> -->
+<!-- <p>This week</p>
+                          <p>This month</p> -->
+<!-- </div>
+
+    </div> -->
+<!-- <table mat-table [dataSource]="dataSource1" class="table .table-borderless .table-hover renewal-table"> -->
+
+<!--- Note that these columns can be defined in any order.
+                                  The actual rendered columns are set as a property on the row definition" -->
+
+<!-- Position Column -->
+<!-- <ng-container matColumnDef="S_No">
+                                <th mat-header-cell *matHeaderCellDef> S no </th>
+                                <td mat-cell *matCellDef="let element"> {{element.S_No}} </td>
+                              </ng-container>
+                            <ng-container matColumnDef="Id">
+                              <th mat-header-cell *matHeaderCellDef> Id </th>
+                              <td mat-cell *matCellDef="let element" style="color: darkblue;"> {{element.Id}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Organization">
+                                <th mat-header-cell *matHeaderCellDef> Organization </th>
+                                <td mat-cell *matCellDef="let element" class="client-org"> {{element.Organization}} </td>
+                              </ng-container>
+                           -->
+<!-- Name Column -->
+<!-- <ng-container matColumnDef="Client">
+                              <th mat-header-cell *matHeaderCellDef> Client </th>
+                              <td mat-cell *matCellDef="let element" class="client-renewal">{{element.Client}} </td>
+                            </ng-container> -->
+
+<!-- Weight Column -->
+<!-- <ng-container matColumnDef="Client_Name">
+                              <th mat-header-cell *matHeaderCellDef>Client
+                                Name</th>
+                              <td mat-cell *matCellDef="let element"> -->
+<!-- <div class="d-flex align-items-center">
+                                    <img style="width: 40px; height: 40px; border-radius: 50%; margin-right: 20px;"
+                                     src="../../assets/images/profile.png"> -->
+<!-- <div class="ms-3">
+                                        <p class="mb-0" style="font-weight: bold;">{{element.Client_Name}}</p>
+                                        <!-- <p class="mb-0">{{element.client_email}}</p> -->
+<!-- </div> -->
+<!-- </div>
+                            </td> 
+                              
+                            </ng-container>
+                            <!-- <ng-container matColumnDef="client_email">
+                                <th mat-header-cell *matHeaderCellDef> Client_email </th>
+                                <td mat-cell *matCellDef="let element"> {{element.client_email}} </td>
+                              </ng-container> -->
+<!-- Symbol Column -->
+<!-- <ng-container matColumnDef="particular">
+                              <th mat-header-cell *matHeaderCellDef> status </th>
+                              <td mat-cell *matCellDef="let element"><span class="badge rounded-pill bg-primary" style="color:aliceblue">{{element.particular}}</span></td>
+                             </ng-container>
+                            <ng-container matColumnDef="Transaction_Date">
+                                <th mat-header-cell *matHeaderCellDef> Transaction
+                                  Date </th>
+                                <td mat-cell *matCellDef="let element" class="">{{element.Transaction_Date}} </td>
+                              </ng-container>
+                              <ng-container matColumnDef="charge_amount">
+                                <th mat-header-cell *matHeaderCellDef> Amount</th>
+                                <td mat-cell *matCellDef="let element" style="font-weight:bold;">Rs.{{element.charge_amount}} </td>
+                              </ng-container>
+                          
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                          </table> -->
+<!-- <div class="table-card">
+              <table class="table table-borderless table-hover transaction-table">
+                <thead>
+                  <tr>
+                    <th>S no</th>
+                    <th scope="col">org</th>
+                    <th scope="col">Client</th>
+                    <th scope="col">ClientName</th>
+                    <th scope="col">status</th>
+                    <th scope="col">Date and Time
+                    </th>
+                    <th>Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>Ysets</td>
+                    <td>Flipkart</td>
+                    <td>Hari</td>
+                    <td>Pending</td>
+                    <td>08/08/2022 10:30AM</td>
+                    <td class="amount-rate">$100.00</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td>Ysets</td>
+                    <td>flipkart</td>
+                    <td>Dinesh</td>
+                    <td>Done</td>
+                    <td>08/08/2022 10:40AM</td>
+                    <td class="amount-rate">$200.00</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Ysets</td>
+                    <td>flipkart</td>
+                    <td>bala</td>
+                    <td>Done</td>
+                    <td>08/08/2022 10:40AM</td>
+                    <td class="amount-rate">$300.00</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Ysets</td>
+                    <td>flipkart</td>
+                    <td>guhan</td>
+                    <td>Pending</td>
+                    <td>08/08/2022 10:40AM</td>
+                    <td class="amount-rate">$400.00</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td>Ysets</td>
+                    <td>flipkart</td>
+                    <td>guhan</td>
+                    <td>Done</td>
+                    <td>08/08/2022 10:40AM</td>
+                    <td class="amount-rate">$500.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div> -->
+<!-- <div class="col-6 p-0">
+                    <div class="ng-star-inserted card mr-2 my-2 card-style">
+                        <h3></h3>
+
+                    </div>
+                </div> -->
+<!-- </div>
+
+    </div>
+  </div>
+</div> -->

@@ -1,0 +1,180 @@
+<!-- <div class="navcontainter">
+    <div id="wrap" class="input style ">
+        <div class="pt-3 mb-3" style="background: #F4F4F5;">
+            <div class="container-fluid head alt-head d-flex justify-content-between">
+                <h1 class="heading_style">Update Personal Details
+                    <span>Update Your Details</span>
+                </h1>
+                <span class="float-right" style="margin-bottom: 4px;"><button class="backbtn" matTooltipPosition="left"
+                        matTooltip="Back To my-profile" [routerLink]="['/my-profile']"
+                        routerLinkActive="router-link-active"><img style=" width: 32px;"
+                            src="../../assets/images/back.png"></button></span>
+            </div>
+        </div> -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title">Update Personal Details</h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <div class="align_preview_sec">
+                    <button mat-icon-button matTooltipPosition="left" matTooltip="Back to my profile"
+                        [routerLink]="['/my-profile']" routerLinkActive="router-link-active"><img
+                            src="../../../../assets/images/back.png" class="ph_back_arrow_img ">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="container-fluid">
+    <div class="input-content-wrap card card-bg p-3 mb-4">
+        <form class="checkk" [formGroup]="FormGroup">
+            <!-- <div class="ml-3 lablestyle col-2 matSelectError">Your Details</div> -->
+            <!-- <div class="row">
+                            <div class="ml-3 lablestyle col-2">First Name</div>
+                            <mat-form-field appearance="standard" class="col-8" aria-disabled="true">
+                                <mat-label>First Name</mat-label>
+                                <input matInput placeholder="First Name" formControlName="fName" required>
+                                <mat-error>Field Required!</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="ml-3 lablestyle col-2">Last Name</div>
+                            <mat-form-field appearance="standard" class="col-8">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput placeholder="Last Name" formControlName="lName" required>
+                                <mat-error>Field Required!</mat-error>
+                            </mat-form-field>
+                        </div> -->
+            <div class="row">
+                <div class="ml-3  labelstyle col-3">Date Of Birth</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>Date Of Birth</mat-label>
+                    <input matInput [matDatepicker]="picker" [max]="today" formControlName="dob" required readonly>
+                    <mat-error>{{requiredMessage}}</mat-error>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker startView="multi-year"></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="row edit_account">
+                <div class="ml-3 labelstyle col-3">Blood Group</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>Blood Group</mat-label>
+                    <input matInput placeholder="Blood Group" formControlName="blood_group" required>
+                    <mat-error>
+                        <div class=" text-danger"
+                            *ngIf="FormGroup.get('blood_group').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                    <div  class=" text-danger" *ngIf="FormGroup.get('blood_group').hasError('pattern')">
+                        {{validFormat}}
+                    </div>
+                </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row edit_account">
+                <div class="ml-3 labelstyle col-3">Marital Status</div>
+                <mat-form-field style="width: 100%;" appearance="outline" class="col-8">
+                    <mat-select [formControl]="statusCtrl" placeholder="Marital Status" #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="statusFilterCtrl" placeholderLabel="Search ..."
+                                noEntriesFoundLabel="'no match found'">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filteredstatus | async" [value]="data.name">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="statusCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row edit_account">
+                <div class="ml-3 labelstyle col-3">Gender</div>
+                <mat-form-field style="width: 100%;" appearance="outline" class="col-8">
+                    <mat-select [formControl]="genderCtrl" placeholder="Gender" #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="genderFilterCtrl" placeholderLabel="Search ..."
+                                noEntriesFoundLabel="'no match found'">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filteredgender | async" [value]="data.name">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="genderCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row edit_account">
+                <div class="ml-3 labelstyle col-3">Personal Mobile Number</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>Personal Mobile Number</mat-label>
+                    <input type="number" min="0" oninput="validity.valid || (value = '')" matInput placeholder="" formControlName="personal_mobile_number" required>
+                    <!-- <mat-error>Field Required!</mat-error> -->
+                    <mat-error>
+                        <div class=" text-danger"
+                            *ngIf="FormGroup.controls['personal_mobile_number'].hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+
+                        <div class=" text-danger"
+                            *ngIf="FormGroup.controls['personal_mobile_number'].hasError('pattern')">
+                            {{validFormat}}
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row edit_account">
+                <div class="ml-3 labelstyle col-3">Personal Email</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>Personal Email</mat-label>
+                    <input matInput placeholder="" formControlName="personal_email" required>
+                    <mat-error>
+                        <div class=" text-danger"
+                            *ngIf="FormGroup.get('personal_email').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                    <div  class=" text-danger" *ngIf="FormGroup.get('personal_email').hasError('pattern')">
+                        {{validFormat}}
+                    </div>
+                </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row edit_account py-4">
+                <div class="ml-3 labelstyle col-3">Present Address</div>
+                <mat-form-field appearance="fill" class="col-8">
+                    <!-- <mat-label>Textarea</mat-label> -->
+                    <textarea matInput formControlName="present_address" placeholder="Present Address *"
+                        required></textarea>
+                    <mat-error>{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row edit_account py-4">
+                <div class="ml-3 labelstyle col-3">Permanent Address</div>
+                <mat-form-field appearance="fill" class="col-8">
+                    <!-- <mat-label>Textarea</mat-label> -->
+                    <textarea matInput formControlName="permanent_address" placeholder="Permanent Address *"
+                        required></textarea>
+                    <mat-error>{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row edit_account mt-4">
+                <div class="ml-3 lablestyle col-3"></div>
+                <div class="btns col-8 px-3">
+
+                    <button class="btn btn-confirm mb-3" [disabled]="FormGroup.invalid"
+                        (click)="updateDetails()">Update</button>
+                    <!-- <button class="btn btn-confirm"
+                                    [disabled]="FormGroup.invalid || statusCtrl.invalid || genderCtrl.invalid"
+                                    (click)="updateDetails()">Update</button> -->
+
+                    <button class="btn btn-cancel mb-3" [routerLink]="['/my-profile']"
+                        routerLinkActive="router-link-active">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

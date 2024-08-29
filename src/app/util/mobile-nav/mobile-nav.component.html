@@ -1,0 +1,14 @@
+<div class="more_container pb-5 mb-5">
+    <ul>
+        <li *ngIf="projectsJobs" class="col-5" (click)="navigate('/projects')"><i class="fas fa-project-diagram mb-2"></i>Project</li>
+        <li *ngIf="projectsJobs"  class="col-5" (click)="navigate('/jobs')"><i class="fas fa-toolbox mb-2"></i>Jobs</li>
+        <li *ngIf="timeTracker"  class="col-5" (click)="navigate('/time-tracker')"><i class="fas fa-clock mb-2"></i>Time tracker</li>
+        <li *ngIf="attendence" class="col-5" (click)="navigate('/attendance')"><i class="fas fa-calendar-alt mb-2"></i>Attendance</li>
+        <li *ngIf="leaveTracker" class="col-5" (click)="navigate('/leave-tracker')"><i class="fas fa-calendar-minus mb-2"></i>Leave tracker</li>
+        <!-- <li *ngIf="HR_Letters" class="col-5" (click)="navigate('/business_letter')"><i class="fas fa-file-signature mb-2"></i>Business Letter</li>
+        <li *ngIf="HR_Letters" class="col-5" (click)="navigate('/offer')"><i class="fas fa-file-alt mb-2"></i>Offer Letter</li> -->
+        <!-- <li *ngIf="HR_Letters" class="col-5" (mouseover)="changeText=true" (mouseout)="changeText=false"> <div *ngIf="!changeText"><i class="fas fa-file-signature mb-2"></i>HR Letter</div><div *ngIf="changeText" class="d-flex flex-column justify-content-center h-100"><p class="m-0" (click)="navigate('/business_letter')">Business Letter </p><p class="m-0" (click)="navigate('/offer')">Offer Letter </p></div></li> -->
+        <li *ngIf="reports" class="col-5" (click)="navigate('/reports')"><i class="fas fa-chart-bar mb-2"></i>Reports</li>
+        <li *ngIf="settings" class="col-5" (click)="navigate('/settings')"><i class="fas fa-cog mb-2"></i>Settings</li>
+    </ul>
+</div>

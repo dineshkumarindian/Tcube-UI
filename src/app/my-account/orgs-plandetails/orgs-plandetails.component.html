@@ -1,0 +1,438 @@
+<!-- <div class="profile-sect">
+    <div class="heading-sec">
+        <h6 class="pull-left header mt-4">
+            My Account</h6>
+        <button (click)= "mailTo()" class="btn btn-outline-primary mt-3 mr-3" matTooltip="For Enquire">Contact Us</button>
+    </div>
+</div> -->
+<div id="scrollToPricingPlan" class="scrollToPricingPlan mb-5">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="d-flex">
+                <h3 class="page-title">subscription</h3>
+                </div>
+            </div>
+            <!-- <div class="col-md-4 d-flex justify-content-center">
+                
+            </div> -->
+            <div class="col-md-6">
+                <div class="pfr">
+                    <button mat-raised-button (click)="mailTo()" class="contact-btn mail-contact-btn"
+                        matTooltip="For Enquire">Contact Us</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="org_id_details">
+        <button mat-button class="org-id-btn">Organization Id : {{orgId}}</button>
+    </div>
+    <section class="subscription-details">
+        <div class="container-fluid">
+            <div class="row first-part">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-4">
+                            <h3 class="page-title heading">Plan Details</h3>
+                        </div>
+                        <div class="col-8">
+                            <div class="d-flex justify-content-end upgrade-renewal mb-2">
+                                <button mat-flat-button class="upgrade" [routerLink]="['/upgrade-plan']"
+                                    routerLinkActive="router-link-active" disabled>Upgrade</button>
+                                <button mat-button color="primary" (click)="viewplan(pricing_modules)"
+                                    class="view-plan">View Plan</button>
+                            </div>
+                            <!-- <div class="d-flex justify-content-end modules mb-2"></div> -->
+                        </div>
+                    </div>
+                    <div class="row subscripe-table">
+                        <div class="col-12">
+                            <table mat-table [dataSource]="DataSource" class="mat-elevation-z8">
+                                <!-- Item Column -->
+                                <ng-container matColumnDef="item">
+                                    <th mat-header-cell *matHeaderCellDef> Plan </th>
+                                    <td mat-cell *matCellDef="let transaction"> {{transaction.item}} </td>
+                                    <td mat-footer-cell *matFooterCellDef></td>
+                                </ng-container>
+                                <ng-container matColumnDef="user">
+                                    <th mat-header-cell *matHeaderCellDef>No.of Users </th>
+                                    <td mat-cell *matCellDef="let transaction">{{transaction.user}}
+                                        <!-- <span *ngIf ="additional_user != 0">{{transaction.user}} users(Added {{additional_user}} users)</span> -->
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="total-name"></td>
+                                </ng-container>
+                                <ng-container matColumnDef="additional_user">
+                                    <th mat-header-cell *matHeaderCellDef>Addon  Users </th>
+                                    <td mat-cell *matCellDef="let transaction">
+                                        <span *ngIf ="transaction.additional_user != 0">{{transaction.additional_user}} <span class="font-italic font-weight-bold">(*{{per_user_amount}} per_user)</span></span> 
+                                        <span *ngIf ="transaction.additional_user == 0">{{transaction.additional_user}}</span>
+                                        <!-- <span *ngIf ="additional_user != 0">{{transaction.user}} users(Added {{additional_user}} users)</span> -->
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="total-name">Total($)</td>
+                                </ng-container>
+                                <!-- Cost Column -->
+                                <ng-container matColumnDef="cost">
+                                    <th mat-header-cell *matHeaderCellDef> Amount($)</th>
+                                    <td mat-cell *matCellDef="let transaction"> 
+                                        <span *ngIf="transaction.additional_user != 0">{{transaction.cost}} + {{additional_user_amount}}</span>
+                                        <span *ngIf="transaction.additional_user == 0">{{transaction.cost}}</span>
+                                    </td>
+                                    <td mat-footer-cell *matFooterCellDef class="footer-total"> {{total_amount}}</td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 expire-date">
+                    <div class="row class">
+                        <div class="col-12 d-flex justify-content-between mt-1">
+                            <h3 class="page-title">Plan Renewal</h3>
+                            <button mat-button class="pay-history-title" [routerLink]="['/payment-history']"
+                                routerLinkActive="router-link-active">Payment History</button>
+                        </div>
+                    </div>
+                    <div class="row card-style">
+                        <div class="col-12 card d-flex flex-row justify-content-around align-items-center">
+                            <div class="expire-date">
+                                <p class="plan-date">{{orgdetails.expiry_date | date: 'dd-MM-yyyy'}}</p>
+                                <p class="category"><span>(</span>{{pricingPlandetails.category}}<span>)</span></p>
+                                <div class="renew">
+                                    <button mat-flat-button *ngIf="is_expire_renewal_Date"
+                                        (click)="renewalPlandDetails()">Renew</button>
+                                </div>
+                            </div>
+                            <div class="plan-amount">
+                                <h2>{{total_amount | currency:pricingPlandetails.currency}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="container-fluid">
+            <div class="row second-part">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-4">
+                            <h3 class="page-title heading">Last transaction</h3>
+                        </div>
+                        <div class="col-8">
+                        </div>
+                    </div>
+                    <div class="orgTable">
+                        <div class="example-container mat-elevation-z8">
+                            <div class="tablescroll">
+                                <mat-table [dataSource]="transactionDataSource" matSort>
+
+                                    <ng-container matColumnDef="transaction_id">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Id
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let element">
+                                            <span>{{element.transaction_id}}</span> </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="amount">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Amount($)
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let element">
+                                            <span class="amount">{{element.amount}}</span> </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="created_time">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header> Payment Date
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let element">
+                                            <span class="pr-1">{{element.created_time | date:"dd-MM-yyyy hh:mm
+                                                aa"}}</span>
+                                        </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="status">
+                                        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                                        <mat-cell *matCellDef="let element" class="pay-status-btn">
+                                            <button mat-flat-button class="success-btn"
+                                                *ngIf="element.status == 'success'">Success</button>
+                                            <button mat-flat-button class="fail-btn"
+                                                *ngIf="element.status == 'failed'">Failed</button>
+                                            <button mat-flat-button class="others"
+                                                *ngIf="element.status != 'success' && element.status != 'failed'">{{element.status}}</button>
+                                        </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="action">
+                                        <mat-header-cell *matHeaderCellDef mat-sort-header>Action
+                                        </mat-header-cell>
+                                        <mat-cell *matCellDef="let element" class="pay-action-btn">
+                                            <button mat-flat-button class="download-btn" disabled *ngIf="element.invoicepPdfContent == null" matTooltipPosition="right" matTooltip="Not available" >Receipt</button>
+                                            <button mat-flat-button class="download-btn" *ngIf="element.invoicepPdfContent != null"(click)="downloadInvoicePdf(element.invoicepPdfContent)" matTooltipPosition="right" matTooltip="Download">Receipt</button>
+                                            <!-- <button mat-flat-button class="view-btn" *ngIf="element.receipt_url != null" (click)="viewReceipt(element.receipt_url)">
+                                                View
+                                            </button>
+                                            <button mat-flat-button class="view-btn" *ngIf="element.receipt_url == null"
+                                                matTooltip="Not available">
+                                                View
+                                            </button> -->
+                                        </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row
+                                        *matHeaderRowDef="transactionDisplayedColumns sticky:true"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: transactionDisplayedColumns;" matRipple
+                                        class="element-row">
+                                    </mat-row>
+                                </mat-table>
+                            </div>
+
+                            <div *ngIf="paymentTransactionLength == 0 || noDataMsgPlan == true"
+                                class="text-center text-danger alert-danger no-search-match p-3">
+                                {{noDataMsg}}
+                            </div>
+                            <!-- <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+                                No Data Matching For "{{this.filterData}}"
+                            </div> -->
+                            <!-- <mat-paginator class="paginator" #MatPaginator [pageSize]="pageSize"
+                                (page)="changePage($event)" [pageSizeOptions]="tablePaginationOption">
+                            </mat-paginator> -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-4 payment-gateway">
+                    <div class="row">
+                        <div class="col-12">
+                            <h3 class="page-title heading">Recent Choose Payment </h3>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <ul>
+                            <li [ngStyle]="{
+                                'background-color': isActivatedStripe ? '#E8F5E9' : '#f4f4f5',
+                                'color': isActivatedStripe ? '#28a745' : '#dc3545',
+                                'border': isActivatedStripe ? '2px solid #28a745' : '2px solid #dc3545'
+                              }">
+                                <img src="../../../assets/images/stripe-payment.png">
+                                <div>Stripe</div>
+                              </li>
+                              <li [ngStyle]="{
+                                'background-color': isActivatedRazorPay ? '#E8F5E9' : '#f4f4f5',
+                                'color': isActivatedRazorPay ? '#28a745' : '#7e8191',
+                                'border': isActivatedRazorPay ? '2px solid #28a745' : '2px solid #7e8191'
+                              }">
+                                <img src="../../../assets/images/razorpay.jpg">
+                                <div>Razor pay</div>
+                              </li>
+                              <li [ngStyle]="{
+                                'background-color': isActivatedCashFree ? '#E8F5E9' : '#f4f4f5',
+                                'color': isActivatedCashFree ? '#28a745' : '#7e8191',
+                                'border': isActivatedCashFree ? '2px solid #28a745' : '2px solid #7e8191'
+                              }">
+                                <img src="../../../assets/images/cashfree.png">
+                                <div>Cashfree</div>
+                              </li>
+                        </ul>
+                    </div>
+
+                </div> -->
+            </div>
+        </div>
+        <!-- <div class="container container-fluid section1">
+    <div class="mt-5">
+        <div
+            class="d-style btn btn-brc-tp border-2 bgc-white btn-outline-blue btn-h-outline-blue btn-a-outline-blue w-100 my-2 py-3 shadow-sm">
+          
+            <div class="row align-items-center" >
+                <div class="col-12 col-md-4 div1">
+                    <div id="firstcard">
+                        <ul>
+                            <li>
+                                <div class="cardheading  letter-spacing pb-2">
+                                    Selected Plan
+                                </div>
+                                
+                                <div class="text-170 text-primary-d1 letter-spacing">
+                                    <p>{{pricingPlandetails.plan}}</p>
+                                </div>
+                               
+                            </li>
+                            <li *ngIf="pricingPlandetails.plan!='Trial plan'">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <p><b>Approved Date</b></p>
+                                    </div>
+                                    <div class="col-2">
+                                        <span><b>:</b></span>
+                                    </div>
+                                    <div class="col-5">
+                                        <p>{{orgdetails.apprejtime | date: 'dd-MM-yyyy'}}</p>
+                                    </div>
+
+                                </div>
+                            </li>
+                            <li class="mt-2">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <p><b>Renewal Date</b></p>
+                                    </div>
+                                    <div class="col-2">
+                                        <span><b>:</b></span>
+                                    </div>
+                                    <div class="col-5">
+                                        <p>{{orgdetails.expiry_date | date: 'dd-MM-yyyy'}}</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mt-2">
+                                <div class="row">
+                                    <div class="col-5">
+                                        <p><b>User Limit</b></p>
+                                    </div>
+                                    <div class="col-2">
+                                        <span><b>:</b></span>
+                                    </div>
+                                    <div class="col-5">
+                                        <p>{{orgdetails.userslimit }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <ul class="list-unstyled mb-0 col-12 col-md-4 text-dark-l1 features text-left my-4 my-md-0 div2" >
+
+                    <li class=" ml-5 m-3 " *ngFor = "let data of pricingPlandetails.modules" >
+
+                        <span class="text-110" *ngIf="data == 'dashboard'">
+                            <mat-icon>dashboard</mat-icon>
+                            <span class="ml-2 li_name">Dashboard</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'project/jobs'">
+                            <mat-icon>category</mat-icon>
+                            <span class="ml-2">Project/Jobs</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'time-tracker'">
+                            <mat-icon>timer</mat-icon>
+                            <span class="ml-2">Time-Tracker</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'attendance'">
+                            <mat-icon>event_available</mat-icon>
+                            <span class="ml-2">Attendance</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'leave-tracker'">
+                            <mat-icon>event</mat-icon>
+                            <span class="ml-2">Leave-Tracker</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'day-planner'">
+                            <mat-icon>date_range</mat-icon>
+                            <span class="ml-2">Day-Planner</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'settings'">
+                            <mat-icon>settings</mat-icon>
+                            <span class="ml-2">Settings</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'reports'">
+                            <mat-icon>library_books</mat-icon>
+                            <span class="ml-2">Reports</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'apps-integration'">
+                            <mat-icon>apps</mat-icon>
+                            <span class="ml-2">App-Integration</span>
+                        </span>
+                        <span class="text-110 d-flex" *ngIf="data == 'company-policy'">
+                            <mat-icon>policy</mat-icon>
+                            <span class="ml-2">Policy</span>
+                        </span>
+                    </li>
+                </ul>
+                
+                <div class="col-12 col-md-3 text-center action_btns">
+                    <div *ngIf="pricingPlandetails.plan!='Trial plan'" class="renewalbtn mb-3">
+                       
+                        <button mat-stroked-button matTooltipPosition="right" matTooltip="Renew pricing plan details" color="primary" (click)="openRenewplan(pricingPlandetails.plan)">Renewal</button>
+                    </div>
+                    <div class="upgradebtn">
+                        <button  mat-stroked-button color="accent" matTooltipPosition="right" matTooltip="Upgrade pricing plan details" (click)="showPriceCard()">Upgrade</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+        <!-- <button *ngIf="!orgdetails.plan_upgrade && orgdetails.plan_renewal" mat-stroked-button matTooltipPosition="right" matTooltip="Renew pricing plan details" color="primary" (click)="openRenewplan(pricingPlandetails.plan)" [disabled]="orgdetails.plan_renewal && !orgdetails.plan_upgrade">Renewal</button> -->
+        <!----Price cards(Only show, when click the upgarde button)---->
+        <!-- <button  *ngIf="orgdetails.plan_upgrade && !orgdetails.plan_renewal" matTooltipDisabled="false" mat-stroked-button color="accent" matTooltipPosition="right" matTooltip="Upgrade pricing plan details" (click)="showPriceCard()" [disabled]="orgdetails.plan_upgrade && !orgdetails.plan_renewal">Upgrade</button> -->
+        <!-- <a class="f-n-hover btn btn-outline-info btn-raised px-4 py-25 w-75 mt-2 text-600">Renewal</a>
+                    <a class="f-n-hover btn btn-outline-success btn-raised px-4 py-25 w-75 mt-2 text-600" (click)="showPriceCard()" >Upgrade</a> -->
+        <!-- <section class="pricing py-5" *ngIf="isShowDivIf">
+    <div class="">
+        <div class="d-flex flex-wrap justify-content-center">
+            <div class=" my-4 d-flex" *ngFor = "let data of allplandetails" >
+                <div *ngIf="data.plan!='Trial plan'" class="card price-card m-3 w-100 mb-5 mb-lg-0">
+                    <div class="ribbon">Best Offer</div>
+                    <div class="header-sec">
+                        <h5 class="card-title text-uppercase text-center">{{data.plan}}</h5>
+                        <div class="d-flex justify-content-center align-items-center">
+                            <h6 class="card-price text-center"><b class="mr-1 currrency_font">{{data.currency}}</b>{{data.amount}}<span class="period">/{{data.category}}</span></h6>
+
+                              <h2 class="mx-2"></h2>
+
+                            <h6 class="card-price text-center"><b class="mr-1 currrency_font">Days</b>{{data.days}}</h6>
+                        </div>
+                        <h6 class="card-price text-center"><b class="mr-1 currrency_font">Max Users</b>{{data.userslimit}}</h6>
+                    </div>
+                    <hr>
+                    <div class="card-body">
+
+                        <ul class="pl-5">
+                            <li class="" *ngFor = "let plan of data.modules" >
+                                <span class="text-110 d-flex" *ngIf="plan == 'dashboard'">
+                                    <mat-icon>dashboard</mat-icon>
+                                    <span class="ml-2">Dashboard</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'project/jobs'">
+                                    <mat-icon>category</mat-icon>
+                                    <span class="ml-2">Project/Jobs</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'time-tracker'">
+                                    <mat-icon>timer</mat-icon>
+                                    <span class="ml-2">Time-Tracker</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'attendance'">
+                                    <mat-icon>event_available</mat-icon>
+                                    <span class="ml-2">Attendance</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'leave-tracker'">
+                                    <mat-icon>event</mat-icon>
+                                    <span class="ml-2">Leave-Tracker</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'settings'">
+                                    <mat-icon>settings</mat-icon>
+                                    <span class="ml-2">Settings</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'day-planner'">
+                                    <mat-icon>date_range</mat-icon>
+                                    <span class="ml-2">Day-Planner</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'reports'">
+                                    <mat-icon>library_books</mat-icon>
+                                    <span class="ml-2">Reports</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'apps-integration'">
+                                    <mat-icon>apps</mat-icon>
+                                    <span class="ml-2">App-Integration</span>
+                                </span>
+                                <span class="text-110 d-flex" *ngIf="plan == 'company-policy'">
+                                    <mat-icon>policy</mat-icon>
+                                    <span class="ml-2">Policy</span>
+                                </span>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="d-flex justify-content-center p-3 upgradebtn">
+                        <a class="f-n-hover btn btn-outline-primary btn-raised px-4 py-25 w-50 mt-2 text-600" [ngClass]="{'upgradebtn_hide': data.plan == active_plan }" (click)="openUpgradeplan(data)">Upgrade</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->

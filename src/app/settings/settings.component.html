@@ -1,0 +1,45 @@
+<div class="top-mar">
+    <h4 class="set-heading">Management</h4>
+    <div id="main-content">
+        <mat-tab-group [selectedIndex]="selected.value" (selectedTabChange)="selectedTabValue($event)">
+            <div class="tab-hover">
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-tab label="Manage Role">
+                            <div class="col-md-12 mb-3">
+                                <app-manage-role></app-manage-role>
+                            </div>
+                        </mat-tab>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-tab label="Manage Designation">
+                            <div class="col-md-12 mb-3">
+                                <app-manage-designation></app-manage-designation>
+                            </div>
+                        </mat-tab>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-tab label="Manage Shift">
+                            <div class="col-md-12 mb-3">
+                                <app-manage-shift></app-manage-shift>
+                            </div>
+                        </mat-tab>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <mat-tab label="Manage Users">
+                            <div class="col-md-12 mb-3">
+                                <app-manage-user></app-manage-user>
+                            </div>
+                        </mat-tab>
+                    </div>
+                </div>
+            </div>
+        </mat-tab-group>
+    </div>
+</div>   

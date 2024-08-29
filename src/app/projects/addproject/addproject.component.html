@@ -1,0 +1,340 @@
+<div class="page-header">
+  <div class="row">
+    <div class="col-md-4">
+      <h3 class="page-title" *ngIf="!isProjectIdAvailable">Add Project</h3>
+      <h3 class="page-title" *ngIf="isProjectIdAvailable">Update Project</h3>
+    </div>
+    <div class="col-md-8">
+      <div class="pfr">
+        <button mat-icon-button matTooltipPosition="left" matTooltip="Back to active projects" [routerLink]="['/projects']"
+          routerLinkActive="router-link-active"><img class="ph_back_arrow_img mb-4"
+            src="../../assets/images/back.png"></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<section>
+  <div id="wrap" class="project_form">
+    <section class="container-fluid ">
+      <div class="input-content-wrap card card-bg p-3">
+        <form [formGroup]="projectFormGroup">
+          <div class="row">
+            <div class="ml-3 lablestyle col-2">Project Name</div>
+            <mat-form-field appearance="standard" class="col-8">
+              <mat-label>Name</mat-label>
+              <input matInput placeholder="Project Name" formControlName="project_name" required
+                (ngModelChange)="pjtNameCheck($event)" />
+              <mat-error>
+                <div *ngIf="projectFormGroup.get('project_name').hasError('required')">
+                  {{requiredMessage}}
+                </div>
+                <div *ngIf="projectFormGroup.get('project_name').hasError('pattern') && !isPjtNmeAvail">
+                  {{whiteSpaceMessage}}
+                </div>
+              </mat-error>
+            </mat-form-field><br>
+            <!-- <small *ngIf="isPjtNmeAvail" class="text-danger">Project name already exist!</small> -->
+          </div>
+          <div class="row pjtNameErr">
+            <div class="ml-3 col-2"></div>
+            <p *ngIf="isPjtNmeAvail"
+              class="text-danger ml-3">{{existMessage}}</p>
+          </div>
+
+          <div class="row" id="start">
+            <div class="ml-3 lablestyle col-2">Start Date</div>
+            <mat-form-field appearance="standard" class="col-8">
+              <mat-label>Start Date</mat-label>
+              <input matInput type="text" [matDatepicker]="pick" formControlName="s_date" />
+              <!-- <mat-error>Field Required!</mat-error> -->
+              <mat-datepicker-toggle matSuffix [for]="pick"></mat-datepicker-toggle>
+              <mat-datepicker #pick></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="row" id="end">
+            <div class="ml-3 lablestyle col-2">End Date</div>
+            <mat-form-field appearance="standard" class="col-8">
+              <mat-label>End Date</mat-label>
+              <input matInput type="text" [min]="projectFormGroup.controls['s_date'].value" [matDatepicker]="pick2"
+                formControlName="e_date" />
+              <!-- <mat-error>Field Required!</mat-error> -->
+              <mat-datepicker-toggle matSuffix [for]="pick2"></mat-datepicker-toggle>
+              <mat-datepicker #pick2></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="row pt-4">
+            <div class="ml-3 lablestyle col-2">Client</div>
+            <div class="col-8">
+              <!-- <ng-multiselect-dropdown  [placeholder]="'Select Client'" [settings]="dropdownsettings"
+                          [data]="clientdropdownList" [(ngModel)]="clientselectedItems" (onSelect)="onItemSelect($event)"
+                          (onSelectAll)="onSelectAll($event)" (ngModelChange)="managerfunction($event)">
+                        </ng-multiselect-dropdown> -->
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-select [formControl]="clientCtrl" placeholder="Client&nbsp; *" #singleSelect
+                  (selectionChange)="selectChangeHandler($event.value)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="clientFilterCtrl" placeholderLabel="Search Client..."
+                      noEntriesFoundLabel="'no matching client found'" required></ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngIf="isClientCountZoro" class="text-secondary" disabled>No data available!</mat-option>
+                  <mat-option *ngFor="let data of filteredclient | async" [value]="data.id">
+                    {{data.client_name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="clientCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row costrow">
+            <div class="ml-3 my-3 lablestyle col-2">Project Cost</div>
+            <div class="number-input lablestyle rphstyle  col-8">
+              <input type="number" id="input1" placeholder="Project Cost" formControlName="cost">
+              <label for="input1">{{CUR}}</label>
+            </div>
+          </div>
+          <div class="row pt-4">
+            <div class="ml-3 lablestyle col-2">Project Head</div>
+            <div class="col-5">
+              <!-- <ng-multiselect-dropdown  [placeholder]="'Select Head'" [settings]="dropdownsettings"
+                            [data]="headdropdownList" [(ngModel)]="headselectedItems" (onSelect)="onItemSelect($event)"
+                            (onSelectAll)="onSelectAll($event)" (ngModelChange)="managerfunction($event)">
+                          </ng-multiselect-dropdown> -->
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-select [formControl]="headCtrl" (click)="setHeadRph()" placeholder="Project Head&nbsp; *"
+                  #singleSelect>
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="headFilterCtrl" placeholderLabel="Search Head..."
+                      noEntriesFoundLabel="'no match found'"></ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let data of filteredhead | async" [value]="data.id">
+                    {{data.firstname}} {{data.lastname}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="headCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="text-input lablestyle rphstyle  col-3">
+              <input type="text" id="input1" placeholder="Rate Per Hour" formControlName="head_rph">
+              <label for="input1">RPH</label>
+              <!-- <small class="text-danger"
+                *ngIf="projectFormGroup.controls['head_rph'].invalid && projectFormGroup.controls['head_rph'].errors.required && (projectFormGroup.controls['head_rph'].dirty || projectFormGroup.controls['head_rph'].touched)">
+                Field Required!
+              </small> -->
+            </div>
+          </div>
+          <!--------------------- Create projct manager start   ------------------>
+          <div class="row pt-4" [hidden]="isProjectIdAvailable">
+            <div class="ml-3 lablestyle col-2">Project Manager</div>
+            <div class="col-8">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-select [formControl]="managerCtrl" placeholder="Project Manager&nbsp; *" #select multiple
+                  [(ngModel)]="managerselectedItems" (ngModelChange)="managerfunction($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="managerFilterCtrl" placeholderLabel="Search Manager..."
+                      noEntriesFoundLabel="'no match found'"></ngx-mat-select-search>
+                  </mat-option>
+                  <div class="select-all pl-3">
+                    <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                     *ngIf="(filteredmanager | async)?.length > 0" (change)="toggleAllSelection()">Select All</mat-checkbox>
+                  </div>
+                  <mat-option *ngFor="let data of filteredmanager | async" [value]="data">
+                    {{data.firstname}} {{data.lastname}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="managerCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div *ngIf="showmanager && !isProjectIdAvailable" class="py-4">
+            <div *ngFor="let object of managerlist; let i = index">
+              <div class="row py-2">
+                <div class="ml-3 lablestyle col-2"></div>
+                <mat-form-field class="col-5">
+                  <input matInput [value]="object.name" type="text" required>
+                </mat-form-field>
+                <div class="text-input lablestyle col-3">
+                  <input type="text" [value]="object.rph" (change)="rphchangemanager(i,$event.target.value)"
+                    placeholder="Rate Per Hour">
+                  <label for="input1">RPH</label>
+                  <!-- <small class="text-danger"  *ngIf="projectFormGroup.controls['manager_rph'].invalid && projectFormGroup.controls['manager_rph'].errors.required && (projectFormGroup.controls['manager_rph'].dirty || projectFormGroup.controls['manager_rph'].touched)" >
+                    Field Required!
+                </small> -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--------------------- Create projct manager end   ------------------>
+
+
+          <!--------------------- update  projct manager start   ------------------>
+
+
+          <div class="row pt-4" [hidden]="!isProjectIdAvailable">
+            <div class="ml-3 lablestyle col-2">Project Manager</div>
+            <div class="col-8">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-select [formControl]="managerCtrl" placeholder="Project Manager&nbsp;" #updateproject multiple
+                  [(ngModel)]="updatemanagerselectedItems" (ngModelChange)="updateManagerfunction($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="managerFilterCtrl" placeholderLabel="Search Manager..."
+                      noEntriesFoundLabel="'no match found'"></ngx-mat-select-search>
+                  </mat-option>
+
+                  <div class="select-all pl-3">
+                    <mat-checkbox [(ngModel)]="allSelectedManager" [ngModelOptions]="{standalone: true}"
+                    *ngIf="(filteredmanager | async)?.length > 0" (change)="SelectionManagerUpdate()">Select All</mat-checkbox>
+                  </div>
+
+                  <mat-option *ngFor="let data of filteredmanager | async" [value]="data.id">
+                    {{data.firstname}} {{data.lastname}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="managerCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div *ngIf="showmanager && isProjectIdAvailable" class="py-4">
+            <div *ngFor="let object of managerlist; let i = index">
+              <div class="row py-2">
+                <div class="ml-3 lablestyle col-2"></div>
+                <mat-form-field class="col-5">
+                  <input matInput [value]="object.name" type="text" required>
+                </mat-form-field>
+                <div class="text-input lablestyle col-3">
+                  <input type="text" [value]="object.rph" (change)="rphchangemanager(i,$event.target.value)"
+                    placeholder="Rate Per Hour">
+                  <label for="input1">RPH</label>
+                  <!-- <small class="text-danger"  *ngIf="projectFormGroup.controls['manager_rph'].invalid && projectFormGroup.controls['manager_rph'].errors.required && (projectFormGroup.controls['manager_rph'].dirty || projectFormGroup.controls['manager_rph'].touched)" >
+                    Field Required!
+                </small> -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!--------------------- update  projct manager end   ------------------>
+
+
+          <!---------------------- Create project user start  ------------------->
+          <div class="row pt-5" [hidden]="isProjectIdAvailable">
+            <div class="ml-3 lablestyle col-2">Project Users</div>
+            <div class="col-8">
+              <!-- <ng-multiselect-dropdown [placeholder]="'Select Users'" [settings]="dropdownsettings"
+              [data]="usersdropdownList" [(ngModel)]="usersselectedItems" (onSelect)="onItemSelect($event)"
+              (onSelectAll)="onSelectAll($event)" (ngModelChange)="usersfunction($event)">
+            </ng-multiselect-dropdown> -->
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-select [formControl]="userCtrl" placeholder="Select Users&nbsp; *" #userselect multiple
+                  [(ngModel)]="usersselectedItems" (ngModelChange)="usersfunction($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Search Users..."
+                      noEntriesFoundLabel="'no match found'" required></ngx-mat-select-search>
+                  </mat-option>
+                  <div class="select-all pl-3">
+                    <mat-checkbox [(ngModel)]="allSelecteduser" [ngModelOptions]="{standalone: true}"
+                    *ngIf="(filtereduser | async)?.length > 0"  (change)="toggleAllSelectionuser()">Select All</mat-checkbox>
+                  </div>
+                  <mat-option *ngFor="let data of filtereduser | async" [value]="data">
+                    {{data.firstname}} {{data.lastname}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div *ngIf="showusers && !isProjectIdAvailable" class="py-4">
+            <div *ngFor="let object of userlist; let i = index">
+              <div class="row py-2">
+                <div class="ml-3 lablestyle col-2"></div>
+                <mat-form-field class="col-5">
+                  <input matInput [value]="object.name" type="text" required>
+                </mat-form-field>
+                <div class="text-input lablestyle col-3">
+                  <input type="text" [value]="object.rph" (change)="rphchangeuser(i,$event.target.value)"
+                    placeholder="Rate Per Hour">
+                  <label for="input1">RPH</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---------------------- Create project user end  ------------------->
+
+
+          <!---------------------- Update project user start  ------------------->
+          <div class="row pt-5" [hidden]="!isProjectIdAvailable">
+            <div class="ml-3 lablestyle col-2">Project Users</div>
+            <div class="col-8">
+              <mat-form-field style="width: 100%;" appearance="outline">
+                <mat-select [formControl]="userCtrl" placeholder="Select Users" #updateuser multiple required
+                  [(ngModel)]="updateUsersselectedItems" (ngModelChange)="UpdateUsersfunction($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Search Head..."
+                      noEntriesFoundLabel="'no match found'" required></ngx-mat-select-search>
+                  </mat-option>
+                  <div class="select-all pl-3">
+                    <mat-checkbox [(ngModel)]="allSelectedupdate" [ngModelOptions]="{standalone: true}"
+                      (change)="toggleAllSelectionupdateuser()">Select All</mat-checkbox>
+                  </div>
+                  <mat-option *ngFor="let data of employeeDetails" [value]="data.id">
+                    {{data.firstname}} {{data.lastname}}
+                  </mat-option>
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div *ngIf="showusers && isProjectIdAvailable" class="py-4">
+            <div *ngFor="let object of userlist; let i = index">
+              <div class="row py-2">
+                <div class="ml-3 lablestyle col-2"></div>
+                <mat-form-field class="col-5">
+                  <input matInput [value]="object.name" type="text" required>
+                </mat-form-field>
+                <div class="text-input lablestyle col-3">
+                  <input type="text" [value]="object.rph" (change)="rphchangeuser(i,$event.target.value)"
+                    placeholder="Rate Per Hour">
+                  <label for="input1">RPH</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---------------------- Update project user end  ------------------->
+
+
+          <div class="row py-4">
+            <div class="ml-3 lablestyle col-2">Description</div>
+            <div class="col-8 ckeditorArea">
+              <!-- [config]="{ placeholder:'Enter the project description here!', toolbar: [ 'bold', 'italic', 'bulletedList' ] }" -->
+              <ckeditor [formControl]="description" [editor]="Editor" (ready)="onReady($event)" name="description"
+                [config]="{ placeholder:'Enter the project description here!',
+                toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ] }">
+              </ckeditor>
+              <div style="font-size: small;" class="mat-error" *ngIf="description.errors?.maxlength">
+                {{characterLength}}
+              </div>
+              <div style="font-size: small;" class="mat-hint" *ngIf="description.errors?.required">
+                Maximum 5000 characters allowed
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="ml-3 lablestyle col-2"></div>
+            <div class="btns col-8 px-3">
+              <button class="btn btn-confirm" (click)="addProject()" *ngIf="!isProjectIdAvailable"
+                [disabled]="projectFormGroup.invalid || clientCtrl.invalid || headCtrl.invalid || managerCtrl.invalid || userCtrl.invalid || isPjtNmeAvail ">Save</button>
+
+              <button class="btn btn-confirm" *ngIf="isProjectIdAvailable" (click)="updateProject()"
+                [disabled]="projectFormGroup.invalid || clientCtrl.invalid || headCtrl.invalid || managerCtrl.invalid || userCtrl.invalid">Update</button>
+
+              <button class="btn btn-cancel" [routerLink]="['/projects']"
+                routerLinkActive="router-link-active">Cancel</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+</section>

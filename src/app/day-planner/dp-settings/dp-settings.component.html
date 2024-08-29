@@ -1,0 +1,633 @@
+<section class="dayPlannerSettings">
+    <mat-sidenav-container class="example-container" [hasBackdrop]="true">
+        <!-- <mat-sidenav #drawer mode="over">Can be used when needed</mat-sidenav> -->
+        <mat-sidenav-content>
+            <div class="DPsettingsDetails">
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3 class="pull-left page-title">Day Planner Settings</h3>
+                            <!--<small>> {{page_header}}</small>-->
+                        </div>
+                        <!-- <div class="col-md-8">
+                            <span class="pull-right rs_btns">
+                                <div class="setting_add_btns">
+                                    <span matTooltip="Please edit the existing integration or delete the existing integration to create a new integration
+                                        " [matTooltipDisabled]="!isSlackIntAvail">
+                                        <button class="mr-2" [disabled]="isSlackIntAvail" mat-raised-button
+                                            class="add_create_btn_mi" [matMenuTriggerFor]="integrationmenu"
+                                            *ngIf="isActiveIntegration">
+                                            <mat-icon mat-icon-button>add</mat-icon>Add Integration
+                                        </button>
+                                    </span>
+
+                                    <mat-menu #integrationmenu="matMenu">
+                                        <button mat-menu-item (click)="addSlackIntegration()">Slack</button>
+                                        [disabled]="isSlackIntAvail"-->
+                        <!-- <button mat-menu-item (click)="addWhatsappIntegration()">Whatsapp</button> -->
+                        <!-- </mat-menu>
+                                </div>
+                            </span>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="mainContent">
+                    <div class="lt-card-section">
+                        <div class="col-md-12 mb-3">
+                            <div class="cardHead">
+                                <section>
+                                    <div class="card-setting-container mx-0 px-0 my-4">
+                                        <div class="col-3 col-md-3 col-lg-3 divStyle"
+                                            (click)="togglecards('integration')">
+                                            <div class="card"
+                                                [ngStyle]="{'background-color':isActiveIntegration?'#00214c':'#ffffff' }">
+                                                <div class="content">
+                                                    <div class="imgBx" *ngIf="isActiveIntegration == true">
+                                                        <img src="..//../assets/images/today_leaves__white.png">
+                                                    </div>
+                                                    <div class="imgBx" *ngIf="isActiveIntegration == false">
+                                                        <img src="..//../assets/images/today_leave_black.png">
+                                                    </div>
+                                                    <div class="contentBx">
+                                                        <h3 *ngIf="integrationDetails" style="color: white !important;">
+                                                            Manage Notification</h3>
+                                                        <h3 *ngIf="!integrationDetails"
+                                                            style="color:#7f8291 !important;">Manage Notification</h3>
+                                                    </div>
+                                                </div>
+                                                <!-- <ul class="sci">
+                                                    <li *ngIf="integrationDetails">
+                                                        <p style="color: white !important;">
+                                                            {{activeIntegrations.length}} Integration</p>
+                                                    </li>
+                                                    <li *ngIf="!integrationDetails">
+                                                        <p style="color:#7f8291 !important;">
+                                                            {{activeIntegrations.length}} Integration</p>
+                                                    </li>
+                                                </ul> -->
+                                            </div>
+                                        </div>
+                                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="togglecards('reminder')">
+                                            <div class="card"
+                                                [ngStyle]="{'background-color':isActiveReminder?'#00214c':'#ffffff' }">
+                                                <div class="content">
+                                                    <div class="imgBx" *ngIf="isActiveReminder == true">
+                                                        <img src="..//../assets/images/reminder-img-white.png">
+                                                    </div>
+                                                    <div class="imgBx" *ngIf="isActiveReminder == false">
+                                                        <img src="..//../assets/images/reminder-img.png">
+                                                    </div>
+                                                    <div class="contentBx">
+                                                        <h3 *ngIf="reminderDetails" style="color: white !important;">
+                                                            Reminders</h3>
+                                                        <h3 *ngIf="!reminderDetails" style="color:#7f8291 !important;">
+                                                            Reminders</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-3 col-md-3 col-lg-3 divStyle"
+                                            (click)="togglecards('attendance')">
+                                            <div class="card"
+                                                [ngStyle]="{'background-color':isActiveAttendance?'#00214c':'#ffffff' }">
+                                                <div class="content">
+                                                    <div class="imgBx" *ngIf="isActiveAttendance == true">
+                                                        <img src="..//../assets/images/calendar-img-white.png">
+                                                    </div>
+                                                    <div class="imgBx" *ngIf="isActiveAttendance == false">
+                                                        <img src="..//../assets/images/calendar-img.png">
+                                                    </div>
+                                                    <div class="contentBx">
+                                                        <h3 *ngIf="attendanceDetails" style="color: white !important;">
+                                                            Manage Day Planner</h3>
+                                                        <h3 *ngIf="!attendanceDetails"
+                                                            style="color:#7f8291 !important;">
+                                                            Manage Day Planner</h3>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </section>
+                            </div>
+                            <div *ngIf="integrationDetails || reminderDetails || attendanceDetails" class="outputSec">
+                                <div *ngIf="integrationDetails" class="card-sec">
+                                    <mat-accordion class="example-headers-align">
+                                        <mat-expansion-panel class="mb-3" expanded="true">
+                                            <mat-expansion-panel-header>
+                                                <mat-panel-title>
+                                                   <h5>Application Notification</h5>
+                                                </mat-panel-title>
+                                            </mat-expansion-panel-header>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="card mt-3">
+                                                        <div class="card-body2 manage-leave-notify">
+                                                           
+                                                            <div class="row  mx-3 pt-4">
+                                                                <div class="col-md-3">
+                                                                    <b>Day Planner Summary :</b>
+                    
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                                        class="example-radio-group" [(ngModel)]="isReminderForDayplanner">
+                                                                        <mat-radio-button class="example-radio-button mr-3"
+                                                                            *ngFor="let option of yesOrNoOption" [value]="option"
+                                                                            (change)="radioButtonClickedAppPopup($event)">
+                                                                            {{option}}
+                                                                        </mat-radio-button>
+                                                                    </mat-radio-group>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mx-3 pb-3">
+                                                                <div class="col-md-3"></div>
+                                                                <div class="col-md-9" [innerHTML]="tcubeDayplannerStatusNoteMessage">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mx-3" *ngIf="isReminderForDayplanner == 'Yes'">
+                                                                <div class="col-md-3"><b>Access Users :</b></div>
+                                                                <mat-form-field style="width: 100%;" appearance="outline" class="col-md-6">
+                                                                    <mat-select [formControl]="AssigneeCtrl" placeholder="Select Users" [(ngModel)]="managerselectedItems" 
+                                                                    (ngModelChange)="managerfunction($event)" #leaveselect multiple >
+                                                                        <mat-option>
+                                                                            <ngx-mat-select-search [formControl]="AssigneeFilterCtrl"
+                                                                                placeholderLabel="Search Users..." noEntriesFoundLabel="'no match found'">
+                                                                            </ngx-mat-select-search>
+                                                                        </mat-option>
+                                                                        <div class="select-all pl-3">
+                                                                            <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                                                                              (change)="toggleAllSelection()">Select All</mat-checkbox>
+                                                                          </div>
+                                                                        <mat-option *ngFor="let data of filteredAssignee | async" [value]="data.id">
+                                                                            {{data.firstname}} {{data.lastname}}
+                                                                        </mat-option>
+                                                                    </mat-select>
+                                                                    <mat-error class="errorfix" *ngIf="AssigneeCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                                                                </mat-form-field>
+                                                            </div>
+                                                            <div class="row mx-3 pb-3">
+                                                                <div class="col-md-12">
+                                                                    <div class="btns">
+                                                                        <button class="btn btn-confirm" *ngIf="isReminderForDayplanner == 'Yes'" [disabled]="managerselectedItems.length == 0 || (!yesOrNoDayPlannerStatusOnApp || !usersCheckBox)"
+                                                                        (click)="todayDayplannerstatusCreateOrUpdate()">Save changes</button>
+                                                                        <button class="btn btn-confirm" *ngIf="isReminderForDayplanner == 'No'" [disabled] ="!yesOrNoDayPlannerStatusOnApp || !usersCheckBox"
+                                                                        (click)="todayDayplannerstatusCreateOrUpdate()">Save changes</button>
+                                                                        <!-- <button class="btn btn-confirm" [disabled]="!yesOrNoDayPlannerStatusOnApp || !usersCheckBox"
+                                                                            (click)="todayDayplannerstatusCreateOrUpdate()">Save changes</button> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                                    <div class="card">
+                                        <div class="card-header d-flex align-items-center justify-content-between">
+                                            <h5 class="col-7 header-style">Slack Notification</h5>
+                                        </div>
+                                        <div class="slack_section" style="
+                                            padding: 0 24px 16px;">
+                                            <div class="card mt-3">
+                                                <div class="card-body2 manage-leave-notify">
+                                                    <div class="row  mx-3 pt-3">
+                                                        <div class="col-md-3" style="font-size: 14px;">
+                                                            <b>Day Planner Post & Update :</b>
+                                                        </div>
+                                                        <div class="col-9 manage-slack-dayplanner">
+                                                            <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                                class="example-radio-group" [disabled]="!isslackConfig"
+                                                                [matTooltip]="!isslackConfig ? 'Please verify the slack integration':''"
+                                                                [(ngModel)]="isRemainderSlackIntegration">
+                                                                <mat-radio-button class="example-radio-button mr-3"
+                                                                    *ngFor="let option of yesOrNoOption"
+                                                                    [value]="option"
+                                                                    (change)="radioButtonClickedManageNotification($event)">
+                                                                    {{option}}
+                                                                </mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mx-3 pb-3">
+                                                        <div class="col-3"></div>
+                                                        <div class="col-9" [innerHTML]="manageSlackNoteMessage">
+                                                            <!-- <small>If you choose <b>Yes</b>, send the notification to slack application</small> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mx-3 pb-3">
+                                                        <div class="col-10">
+                                                            <div class="btns">
+                                                                <button class="btn btn-confirm"
+                                                                    [disabled]="!yesOrNoDayPlannerNotification"
+                                                                    (click)="SaveOrUpdatedayplannerNotification(isRemainderSlackIntegration)">Save
+                                                                    changes</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card mt-3">
+                                                <div class="card-body2 manage-leave-notify">
+                                                    <div class="row  mx-3 pt-3">
+                                                        <div class="col-md-3" style="font-size: 14px;">
+                                                            <b>Day Planner Summary :</b>
+                                                        </div>
+                                                        <div class="col-9 manage-slack-dayplanner">
+                                                            <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                                class="example-radio-group" [disabled]="!isslackConfig"
+                                                                [matTooltip]="!isslackConfig ? 'Please verify the slack integration':''"
+                                                                [(ngModel)]="isRemainderSlackIntegration1">
+                                                                <mat-radio-button class="example-radio-button mr-3"
+                                                                    *ngFor="let option of yesOrNoOption"
+                                                                    [value]="option"
+                                                                    (change)="radioButtonClickedManageNotificationDayplannerStatus($event)">
+                                                                    {{option}}
+                                                                </mat-radio-button>
+                                                            </mat-radio-group>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mx-3 pb-3">
+                                                        <div class="col-3"></div>
+                                                        <div class="col-9" [innerHTML]="manageSlackNoteMessage1">
+                                                            <!-- <small>If you choose <b>Yes</b>, send the notification to slack application</small> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mx-3 pb-3">
+                                                        <div class="col-10">
+                                                            <div class="btns">
+                                                                <button class="btn btn-confirm"
+                                                                    [disabled]="!yesOrNoDayPlannerNotification1"
+                                                                    (click)="dayPlannerStatusSlackAppCreateOrUpdate()">Save
+                                                                    changes</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="reminderDetails">
+                                    <div class="mt-3 reminders-card-sec">
+                                        <mat-accordion class="example-headers-align" multi>
+                                            <mat-expansion-panel class="my-2" expanded="true">
+                                                <mat-expansion-panel-header mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        <h5 class="header-style">{{page_header}}</h5>
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <form [formGroup]="taskSubmitReminderFormGroup">
+                                                    <div class="card mt-2">
+                                                        <div class="card-body2">
+                                                            <div>
+                                                                <div class="row mx-3 pt-3">
+                                                                    <h6 class="col-3 subTitle">Plan For The Day</h6>
+                                                                </div>
+                                                                <div class="row mx-3 py-3">
+                                                                    <div class="col-3"><b>Submit Tasks :</b></div>
+                                                                    <div class="col-9">
+                                                                        <mat-radio-group
+                                                                            aria-labelledby="example-radio-group-label"
+                                                                            class="example-radio-group"
+                                                                            [(ngModel)]="isReminderForTasks"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (change)="radioButtonClicked($event)">
+                                                                            <mat-radio-button
+                                                                                class="example-radio-button mr-3"
+                                                                                *ngFor="let option of yesOrNoOption"
+                                                                                [value]="option">
+                                                                                {{option}}
+                                                                            </mat-radio-button>
+                                                                        </mat-radio-group>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mx-3 pb-3">
+                                                                    <div class="col-3"><b>Reminder Type :</b></div>
+                                                                    <div class="col-9">
+                                                                        <div *ngIf="!openReminderTypeEditor">
+                                                                            <div class="d-flex">
+                                                                                <p class="mr-2 mb-0">
+                                                                                    {{taskSubmitReminderFormGroup.get('reminderType').value}}
+                                                                                </p>
+                                                                                <!-- <p class="mr-2">{{submitTaskReminder.reminder_type}}</p> -->
+                                                                                <p class="mb-0 changeAll"
+                                                                                    (click)="editReminderType()">change
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-5 p-0"
+                                                                            *ngIf="openReminderTypeEditor">
+                                                                            <mat-form-field appearance="outline">
+                                                                                <mat-select
+                                                                                    formControlName="reminderType"
+                                                                                    required placeholder="Select Type *"
+                                                                                    (selectionChange)="changeReminderType($event.value)">
+                                                                                    <mat-option
+                                                                                        *ngFor="let data of reminderTypeList"
+                                                                                        [value]="data">
+                                                                                        {{data}}
+                                                                                    </mat-option>
+                                                                                </mat-select>
+                                                                                <mat-error
+                                                                                    style="margin-top: 20px; margin-left: 2px;">
+                                                                                    Field
+                                                                                    required!</mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mx-3 pb-3">
+                                                                    <div class="col-3"><b>Submit Tasks Reminder Time
+                                                                            :</b>
+                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        <div class="d-flex"
+                                                                            *ngIf="(taskSubmitReminderFormGroup.get('reminderType').value == 'Daily')  && (!openReminderTimeEditor)">
+                                                                            <p class="mr-2 mb-0">
+                                                                                {{taskSubmitReminderFormGroup.get('reminderTime').value}}
+                                                                            </p>
+                                                                            <!-- <p class="mr-2">{{submitTaskReminder.reminder_time_str}}</p> -->
+                                                                            <p class="mb-0 changeAll"
+                                                                                (click)="editReminderTime()">change</p>
+                                                                        </div>
+                                                                        <div class="d-flex"
+                                                                            *ngIf="(taskSubmitReminderFormGroup.get('reminderType').value == 'Once') && (!openReminderDateEditor)">
+                                                                            <p class="mr-2 mb-0">
+                                                                                {{taskSubmitReminderFormGroup.get('reminderDate').value
+                                                                                | date:"dd-MM-yyyy HH:mm:ss"}}</p>
+                                                                            <!-- <p  class="mr-2">{{submitTaskReminder.reminder_date | date:"dd-MM-yyyy HH:mm:ss"}}</p> -->
+                                                                            <p class="mb-0 changeAll"
+                                                                                (click)="editReminderTime()">change</p>
+                                                                        </div>
+                                                                        <div class="col-5 p-0"
+                                                                            *ngIf="openReminderTimeEditor">
+                                                                            <mat-form-field appearance="outline">
+                                                                                <input matInput type="time"
+                                                                                    formControlName="reminderTime"
+                                                                                    placeholder="Placeholder">
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-10 p-0"
+                                                                            *ngIf="openReminderDateEditor">
+                                                                            <mat-form-field appearance="outline"
+                                                                                class="col-5 pl-0">
+                                                                                <input matInput
+                                                                                    [matDatepicker]="sPicker" readonly
+                                                                                    formControlName="reminderDate">
+                                                                                <mat-datepicker-toggle matSuffix
+                                                                                    [for]="sPicker">
+                                                                                </mat-datepicker-toggle>
+                                                                                <mat-datepicker
+                                                                                    #sPicker></mat-datepicker>
+                                                                            </mat-form-field>
+                                                                            <mat-form-field appearance="outline"
+                                                                                class="col-5">
+                                                                                <input matInput type="time"
+                                                                                    formControlName="reminderDateWithTime"
+                                                                                    placeholder="Placeholder">
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <div class="row mx-3 pt-3">
+                                                                    <h6 class="col-3 subTitle">Updates For The Day</h6>
+                                                                </div>
+                                                                <div class="row mx-3 py-3">
+                                                                    <div class="col-3"><b>Update Tasks :</b></div>
+                                                                    <div class="col-9">
+                                                                        <mat-radio-group
+                                                                            aria-labelledby="example-radio-group-label"
+                                                                            class="example-radio-group"
+                                                                            [(ngModel)]="isReminderForUpdateTasks"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            (change)="radioButtonUpdateClicked($event)">
+                                                                            <mat-radio-button
+                                                                                class="example-radio-button mr-3"
+                                                                                *ngFor="let option of yesOrNoOption"
+                                                                                [value]="option">
+                                                                                {{option}}
+                                                                            </mat-radio-button>
+                                                                        </mat-radio-group>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mx-3 pb-3">
+                                                                    <div class="col-3"><b>Reminder Type :</b></div>
+                                                                    <div class="col-9">
+                                                                        <div *ngIf="!openReminderTypeEditorUpdate">
+                                                                            <div class="d-flex">
+                                                                                <p class="mr-2 mb-0">
+                                                                                    {{taskSubmitReminderFormGroup.get('reminderTypeUpdate').value}}
+                                                                                </p>
+                                                                                <!-- <p class="mr-2">{{submitTaskReminder.reminder_type}}</p> -->
+                                                                                <p class="mb-0 changeAll"
+                                                                                    (click)="editReminderTypeUpdate()">
+                                                                                    change</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-5 p-0"
+                                                                            *ngIf="openReminderTypeEditorUpdate">
+                                                                            <mat-form-field appearance="outline">
+                                                                                <mat-select
+                                                                                    formControlName="reminderTypeUpdate"
+                                                                                    required placeholder="Select Type *"
+                                                                                    (selectionChange)="changeReminderTypeUpdate($event.value)">
+                                                                                    <mat-option
+                                                                                        *ngFor="let data of reminderTypeList"
+                                                                                        [value]="data">
+                                                                                        {{data}}
+                                                                                    </mat-option>
+                                                                                </mat-select>
+                                                                                <mat-error
+                                                                                    style="margin-top: 20px; margin-left: 2px;">
+                                                                                    Field
+                                                                                    required!</mat-error>
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row mx-3 pb-3">
+                                                                    <div class="col-3"><b>Update Tasks Reminder Time
+                                                                            :</b>
+                                                                    </div>
+                                                                    <div class="col-9">
+                                                                        <div class="d-flex"
+                                                                            *ngIf="(taskSubmitReminderFormGroup.get('reminderTypeUpdate').value == 'Daily')  && (!openReminderTimeEditorUpdate)">
+                                                                            <p class="mr-2 mb-0">
+                                                                                {{taskSubmitReminderFormGroup.get('reminderTimeUpdate').value}}
+                                                                            </p>
+                                                                            <!-- <p class="mr-2">{{submitTaskReminder.reminder_time_str}}</p> -->
+                                                                            <p class="mb-0 changeAll"
+                                                                                (click)="editReminderTimeUpdate()">
+                                                                                change
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="d-flex"
+                                                                            *ngIf="(taskSubmitReminderFormGroup.get('reminderTypeUpdate').value == 'Once') && (!openReminderDateEditorUpdate)">
+                                                                            <p class="mr-2">
+                                                                                {{taskSubmitReminderFormGroup.get('reminderDateUpdate').value
+                                                                                | date:"dd-MM-yyyy HH:mm:ss"}}</p>
+                                                                            <!-- <p  class="mr-2">{{submitTaskReminder.reminder_date | date:"dd-MM-yyyy HH:mm:ss"}}</p> -->
+                                                                            <p class="mb-0 changeAll"
+                                                                                (click)="editReminderTimeUpdate()">
+                                                                                change
+                                                                            </p>
+                                                                        </div>
+
+                                                                        <div class="col-5 p-0"
+                                                                            *ngIf="openReminderTimeEditorUpdate">
+                                                                            <mat-form-field appearance="outline">
+                                                                                <input matInput type="time"
+                                                                                    formControlName="reminderTimeUpdate"
+                                                                                    placeholder="Placeholder">
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                        <div class="col-10 p-0"
+                                                                            *ngIf="openReminderDateEditorUpdate">
+                                                                            <mat-form-field appearance="outline"
+                                                                                class="col-5 pl-0">
+                                                                                <input matInput
+                                                                                    [matDatepicker]="sPicker" readonly
+                                                                                    formControlName="reminderDateUpdate">
+                                                                                <mat-datepicker-toggle matSuffix
+                                                                                    [for]="sPicker">
+                                                                                </mat-datepicker-toggle>
+                                                                                <mat-datepicker
+                                                                                    #sPicker></mat-datepicker>
+                                                                            </mat-form-field>
+                                                                            <mat-form-field appearance="outline"
+                                                                                class="col-5">
+                                                                                <input matInput type="time"
+                                                                                    formControlName="reminderDateWithTimeUpdate"
+                                                                                    placeholder="Placeholder">
+                                                                            </mat-form-field>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mx-3 pb-3">
+                                                                <!-- <div class="col-3"></div> -->
+                                                                <div class="col-9">
+                                                                    <div class="btns">
+                                                                        <button class="btn btn-confirm"
+                                                                            (click)="createOrUpdate()"
+                                                                            [disabled]="!taskSubmitReminderFormGroup.touched && !yesOrNo && !yesOrNoUpdate ">Save
+                                                                            changes</button>
+                                                                        <!-- <button class="btn btn-cancel" [routerLink]="['/dp-settings']"
+                                                                        routerLinkActive="router-link-active">Cancel</button> -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+
+                                    <div class="mt-3 reminders-card-sec">
+                                        <mat-accordion class="example-headers-align" multi>
+                                            <mat-expansion-panel class="my-2">
+                                                <mat-expansion-panel-header mat-expansion-panel-header>
+                                                    <mat-panel-title>
+                                                        <h5 class="header-style">Attendance Notification</h5>
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+
+                                                <div class="card mt-2">
+                                                    <!-- <div class="card-header d-flex align-items-center justify-content-between">
+                                                    <h5 class="col-7 header-style"> Attendance Notification </h5>
+                                                    </div> -->
+                                                    <div class="card-body2">
+                                                        <div class="row  mx-3 pt-3">
+                                                            <div class="col-3"><b>Punch In/Punch Out :</b></div>
+                                                            <div class="col-9">
+                                                                <mat-radio-group
+                                                                    aria-labelledby="example-radio-group-label"
+                                                                    class="example-radio-group"
+                                                                    [(ngModel)]="isReminderForCheckin">
+                                                                    <mat-radio-button class="example-radio-button mr-3"
+                                                                        *ngFor="let option of yesOrNoOption"
+                                                                        [value]="option"
+                                                                        (change)="radioButtonClickedAttendance($event)">
+                                                                        {{option}}
+                                                                    </mat-radio-button>
+                                                                </mat-radio-group>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mx-3 pb-3">
+                                                            <div class="col-3"></div>
+                                                            <div class="col-9"
+                                                                [innerHTML]="manageDayPlannerNoteMessage">
+                                                                <!-- <small>If Yes, whenever the user clicks check-in/out, will show
+                                                            the
+                                                            option to put tasks for the day and update for the day
+                                                            submit
+                                                            dialog</small> -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mx-3 pb-3">
+                                                            <div class="col-9">
+                                                                <div class="btns">
+                                                                    <button class="btn btn-confirm"
+                                                                        [disabled]="!yesOrNoAttendance"
+                                                                        (click)="attendanceReminderCreateOrUpdate()">Save
+                                                                        changes</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+
+                                </div>
+                                <!-- <div *ngIf="attendanceDetails" class="reminders-card-sec">
+                                    <div class="card">
+                                        <div class="card-header d-flex align-items-center justify-content-between">
+                                            <h5 class="col-7 header-style">Attedance Notification</h5>
+                                        </div>
+                                        <div class="card-body2">
+                                            <div class="row  mx-3 pt-3">
+                                                <div class="col-3"><b>Punch in/Punch out :</b></div>
+                                                <div class="col-9">
+                                                    <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                        class="example-radio-group" [(ngModel)]="isReminderForCheckin">
+                                                        <mat-radio-button class="example-radio-button mr-3"
+                                                            *ngFor="let option of yesOrNoOption" [value]="option"
+                                                            (change)="radioButtonClickedAttendance($event)">
+                                                            {{option}}
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+                                            <div class="row mx-3 pb-3">
+                                                <div class="col-3"></div>
+                                                <div class="col-9" [innerHTML]="manageDayPlannerNoteMessage">
+                                                </div>
+                                            </div>
+                                            <div class="row mx-3 pb-3">
+                                                <div class="col-9">
+                                                    <div class="btns">
+                                                        <button class="btn btn-confirm" [disabled]="!yesOrNoAttendance"
+                                                            (click)="attendanceReminderCreateOrUpdate()">Save
+                                                            changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</section>

@@ -1,0 +1,102 @@
+<section class="w-100 d-contents attendance-section">
+    <!-- *** my attendance** -->
+    <div>
+        <div class="ng-star-inserted card mr-2 my-2 card-style">
+
+            <h3>My Attendance</h3>
+            <div class="table-card noheader">
+                <div *ngIf="timesheet && timesheetloder == false " class="text-center">
+                    <img style="width:300px; height:300px;" src="../../assets/images/No data.png" alt="no data"
+                        class="pr-menu-icon">
+
+                    <div>{{nodataMsg}}</div>
+                </div>
+                <div *ngIf="timesheetloder" class="text-center cover">
+                    <div class="loderwrapperstyle">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                    </div>
+                </div>
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z0 w-100">
+                    <!-- Implicit Column -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> date </th>
+                        <td mat-cell *matCellDef="let data td_width">
+                            <div class="d-flex align-items-center">
+                                <a [ngStyle]="{'color': data.date!= todaystatuscheck ? '#0499CE' : '#019267' }">Timesheet(
+                                    {{data.date}} )</a>
+                            </div>
+                        </td>
+                    </ng-container>
+
+
+                    <!-- FirstIn Column -->
+                    <ng-container matColumnDef="firstIn">
+                        <th mat-header-cell *matHeaderCellDef> firstIn </th>
+                        <td mat-cell *matCellDef="let data" class="my_attendance_td_width">
+                            <div class="d-flex flex-column align-items-start small">
+
+                                <span>FirstIn</span>
+                                <span>{{data.firstIn}}</span>
+                                <!-- <span>Hours</span> -->
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- lastout Column -->
+                    <ng-container matColumnDef="lastout">
+                        <th mat-header-cell *matHeaderCellDef> lastout </th>
+                        <td mat-cell *matCellDef="let data" class="my_attendance_td_width">
+                            <div class="d-flex flex-column align-items-start small">
+
+                                <span>Lastout</span>
+                                <span>{{data.lastout}}</span>
+                                <!-- <span>Hours</span> -->
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- lastout Column -->
+                    <ng-container matColumnDef="activehrs">
+                        <th mat-header-cell *matHeaderCellDef> active hours </th>
+                        <td mat-cell *matCellDef="let data" class="my_attendance_td_width">
+                            <div class="d-flex flex-column align-items-start small">
+
+                                <span>Active Hours</span>
+                                <span>{{data.activeHours}}</span>
+                                <!-- <span>Hours</span> -->
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- timediff Column -->
+                    <ng-container matColumnDef="timediff">
+                        <th mat-header-cell *matHeaderCellDef> timediff </th>
+                        <td mat-cell *matCellDef="let data">
+
+                        </td>
+                    </ng-container>
+
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="Status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let data">
+                            <div *ngIf="data.date!= todaystatuscheck; else pending">
+                                <img style="width: 18px" src="../../assets/images/checked.png">
+                            </div>
+                            <ng-template #pending>
+                                <img style="width: 21px" src="../../assets/images/pending.png">
+                            </ng-template>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

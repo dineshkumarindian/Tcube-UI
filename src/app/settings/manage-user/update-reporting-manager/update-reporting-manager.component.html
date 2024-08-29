@@ -1,0 +1,35 @@
+<section class="update-reporting-manager">
+    <div class="dialog-header">
+        <h3 class="page-title">{{header}} Reporting Manager</h3>
+        <span class="pull-right cls-btn">
+          <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+            type="button">close</mat-icon>
+        </span>
+      </div>
+      <div class="Dialog_form mt-1" mat-dialog-content>
+        <form [formGroup]="reportingManagerForm">
+            <mat-form-field style="width: 100%;" appearance="outline" >
+                <mat-select [formControl]="empCtrl" placeholder="Select User *&nbsp;" #singleSelect>
+                    <mat-option>
+                        <ngx-mat-select-search [formControl]="empFilterCtrl" placeholderLabel="Search ..."
+                            noEntriesFoundLabel="'no match found'">
+                        </ngx-mat-select-search>
+                    </mat-option>
+
+                    <mat-option *ngFor="let data of filteredEmps | async" [value]="data.id">
+                        {{data.firstname}} {{data.lastname}} &nbsp;
+                        <small>-&nbsp;&nbsp;{{data.designation}}</small>
+                    </mat-option>
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="empCtrl.hasError('required')">
+                    <p>{{requiredMessage}}</p>
+                </mat-error>
+            </mat-form-field>
+        </form>
+      </div>
+      <div mat-dialog-actions align="end" class="dialog-btns pr-3">
+        <button mat-raised-button color="warn" (click)="closeDialog()">Cancel</button>
+        <button mat-raised-button class="cnfm-btn" (click)="UpadateReporting()"
+            [disabled]="empCtrl.invalid || empCtrl.value == current_manager">Update</button>
+    </div>
+</section>

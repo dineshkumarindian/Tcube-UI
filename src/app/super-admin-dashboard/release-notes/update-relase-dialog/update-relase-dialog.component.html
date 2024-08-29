@@ -1,0 +1,32 @@
+<div class="dialog-header">
+    <h3 class="page-title">update version</h3>
+    <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+            type="button">close</mat-icon>
+    </span>
+</div>
+<section>
+    <div class="container-fluid">
+        <form [formGroup]="releaseVersionFrom">
+            <div mat-dialog-content>
+
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Version</div>
+                    <mat-form-field appearance="standard" class="col-8">
+                        <mat-label>Version</mat-label>
+                        <input matInput placeholder="Enter The Version" name="version" [formControl]="ReleaseVersion"
+                            required ngModel>
+                        <mat-error *ngIf="releaseVersionFrom.controls['ReleaseVersion'].errors?.required &&
+                        releaseVersionFrom.controls['ReleaseVersion'].touched">{{requiredMessage}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div align="end" class="dialog-btns p-3">
+        <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+        <button mat-flat-button (click)="updateReleaseVersion()" class="cnfm-btn" [disabled]="releaseVersionFrom.invalid">Confirm</button>
+    </div>
+
+</section>

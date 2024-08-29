@@ -1,0 +1,99 @@
+<div class="pt-3 mb-3" class="header py-1">
+  <div class="container-fluid head alt-head d-flex justify-content-between align-items-center">
+    <h6 class="pull-left" style="padding-top: 16px; font-weight: bold; color: #0e5eb8;">Employee Details</h6>
+    <span class="float-right" style="margin-bottom: 4px;"><button class="backbtn" matTooltipPosition="left"
+        matTooltip="Back To Reports" [routerLink]="['/reports']" routerLinkActive="router-link-active"><img
+          style=" width: 32px;" src="../../assets/images/back.png"></button></span>
+  </div>
+</div>
+<div class="container-fluid overwritestyle mt-3">
+  <div class="row">
+    <div class="col-6"></div>
+    <div class="col-6 mb-1">
+      <button class="pull-right btn export-btn" type="button">
+        <!-- <img style=" width: 32px;" src="../../assets/images/export-file.png"> -->
+        <button class="button" matTooltipPosition="right" matTooltip="Export Report">
+          <div class="icon">
+            <img class="shere btn-size" src="../../assets/images/export-file.png">
+            <button class="icon-shere ml-1"
+              (click)="exporter.exportTable('xlsx', {fileName:'Employee Report'})">
+              XLSX
+            </button>
+            <button class="icon-shere mx-1"
+              (click)="exporter.exportTable('xls', {fileName:'Employee Report'})">
+              XLS
+            </button>
+            <button class="icon-shere mr-1"
+              (click)="exporter.exportTable('csv', {fileName: 'Employee Report'})">
+              CSV
+            </button>
+          </div>
+          <p class="m-0">Employee Report</p>
+        </button>
+      </button>
+    </div>
+  </div>
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matTableExporter #exporter="matTableExporter" 
+      matSort>
+      <div>
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Employee Id</mat-header-cell>
+          <mat-cell *matCellDef="let element" >
+            {{element.id}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="firstname">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" >
+            {{element.firstname}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="lastname">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
+          <mat-cell *matCellDef="let element" >{{element.lastname}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+          <mat-cell *matCellDef="let element" >{{element.email}}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="designation">
+          <mat-header-cell *matHeaderCellDef >Designation</mat-header-cell>
+          <mat-cell *matCellDef="let element" >{{element.designationDetails.designation}}</mat-cell>
+
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <mat-header-cell *matHeaderCellDef >Role</mat-header-cell>
+          <mat-cell *matCellDef="let element" >
+            <div >{{element.roleDetails.role}}</div>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="is_activated">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+          <mat-cell *matCellDef="let element; let i=index"  class="">
+            <span class="active" *ngIf="element.is_activated==true">
+              Active
+            </span>
+            <span class="inactive" *ngIf="element.is_activated==false">
+              Inactive
+            </span>
+            
+          </mat-cell>
+        </ng-container>
+
+      </div>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"  class="element-row" >
+      </mat-row>
+
+    </mat-table>
+    <div *ngIf="alldetails?.length == 0" class="text-center text-danger alert-danger no-search-match p-3">
+      {{noDataMsg}}
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+  </div>

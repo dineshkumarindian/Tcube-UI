@@ -1,0 +1,347 @@
+<div class="user_dayplanner_report" id="box">
+    <div class="page-header d-flex align-items-center justify-content-between">
+        <h3 class="page-title  mt-3">Day planner reports
+            <!-- <span class="atDR-submen">Employee leave report</span> -->
+            <p class="subtitle-color" *ngIf="activeUser">(Active staff reports)</p>
+            <p class="subtitle-color" *ngIf="inactiveUser">(Inactive staff reports)</p>
+        </h3>
+        <div class="d-flex  align-items-center">
+            <button class="redirect-btn timesheet-btn mr-3" matTooltip="Move to active staff report"
+                (click)="dayPlannerActiveUser()" *ngIf="inactiveUser">
+                <span>
+                    <mat-icon mat-icon-button class="pl-2">arrow_right_alt</mat-icon>
+                </span>
+            </button>
+            <button class="inactivebtn timesheet-btn mr-3 d-flex justify-content-center align-items-center"
+                matTooltip="Move to inactive staff report" (click)="dayPlannerInActiveUser()" matTooltipPosition="below"
+                *ngIf="activeUser">
+                <div>
+                    <mat-icon mat-icon-button>last_page</mat-icon>
+                </div>
+            </button>
+            <div class="pfr bak_btn_style" matTooltipPosition="left" matTooltip="Back to reports"
+                [routerLink]="['/reports']" routerLinkActive="router-link-active"><img class="ph_back_arrow_img"
+                    src="../../assets/images/back.png">
+            </div>
+        </div>
+    </div>
+    <div
+        class="drop_down_data mt-4 d-flex search flex-wrap align-items-center justify-content-center container-fluid row">
+        <div class="get-user-data align-items-center h-60">
+            <mat-form-field appearance="outline">
+                <mat-select [formControl]="userCtrl" placeholder="Staff&nbsp;" #singleSelect
+                    (selectionChange)="selectEmploy($event.value)">
+                    <mat-option>
+                        <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Search Staff..."
+                            noEntriesFoundLabel="'no matching staff found'"></ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngIf="employeeData.length==0" disabled="true">No data available!</mat-option>
+                    <!-- <mat-option [value]="data">
+                  All employee
+                </mat-option> -->
+
+                    <!-- <div class="select-all" *ngIf="employeeData.length > 1">
+                        <mat-checkbox style="margin-left: 17px;" [(ngModel)]="allSelected"
+                            [ngModelOptions]="{standalone: true}" (change)="toggleAllSelection()">All
+                            Staff</mat-checkbox>
+                    </div> -->
+
+                    <mat-option *ngFor="let data of filtereduser | async" [value]="data.id" class="text-capitalize">
+                        {{data.name}}
+                    </mat-option>
+
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="date-field-data align-items-center h-60">
+            <mat-form-field appearance="outline">
+                <mat-select [formControl]="dateCtrl" placeholder="Date range&nbsp;" #singleSelect
+                    (selectionChange)="selectChangeHandler($event.value)">
+                    <mat-option>
+                        <ngx-mat-select-search [formControl]="dateFilterCtrl" placeholderLabel="Search date range..."
+                            noEntriesFoundLabel="'no matching date range found'"></ngx-mat-select-search>
+                    </mat-option>
+                    <mat-option *ngFor="let data of filtereddate | async" [value]="data.data" class="text-capitalize">
+                        {{data.data}}
+                    </mat-option>
+                </mat-select>
+                <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+            </mat-form-field>
+        </div>
+        <!-- Date picker for custom date picker -->
+        <div *ngIf="customdate==true" class="custom_field align-items-center h-60">
+            <mat-form-field appearance="outline" class="mb-2">
+                <input matInput type="text" [matDatepicker]="picker1" placeholder="From Date" [max]="maxDate"
+                    [formControl]="start" />
+                <mat-error class="errorfix" *ngIf="start.hasError('required')">{{requiredMessage}}</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div *ngIf="customdate==true" class="custom_field align-items-center h-60">
+            <mat-form-field appearance="outline" class="mb-2">
+                <input matInput type="text" [matDatepicker]="picker2" placeholder="To Date" [disabled]="!start.value"
+                    [formControl]="end" [min]="start.value" [max]="maxDate" (dateChange)="todatechange()">
+                <mat-error class="errorfix" *ngIf="end.hasError('required')">{{requiredMessage}}</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="fixed-btn align-items-center h-60">
+            <button mat-raised-button class="mr-2 sbmt-btn"
+                [disabled]="(customdate && !customdatevalidation) || (userCtrl.hasError('required') || dateCtrl.hasError('required'))"
+                (click)="findreport()">Find</button>
+            <button mat-raised-button color="warn" (click)="cancelform()" style="line-height: 25px;"> Cancel</button>
+        </div>
+        <div class="export_section" *ngIf="day_planner_reports && !No_Data_Found">
+            <button mat-button class="exprt-btn float-right d-flex justify-content-center" [matMenuTriggerFor]="menu">
+                <span class="mr-2"><img src="../../assets/images/import.png">Export</span>
+                <span class="loaderStyle" *ngIf="loading">
+                    <div class="loader"></div>
+                </span>
+            </button>
+            <!-- <button mat-raised-button *ngFor="let data of reportsDetails;let i = index" (click)="togglePanel(i)">Toggle All Panels</button> -->
+            <mat-menu #menu="matMenu">
+                <!-- <button mat-menu-item (click)="capture('png')" class="d-flex align-items-center justify-content-around">
+                    <img width="23" src="../../assets/images/img_png.png" alt="png image"> PNG</button> -->
+                <button mat-menu-item (click)="exportAsXLSX()" class="d-flex align-items-center justify-content-around">
+                    <img width="23" src="../../assets/images/XLSX file.png" alt="png image">XLSX</button>
+                <button mat-menu-item (click)="exportAsXLS()" class="d-flex align-items-center justify-content-around">
+                    <img width="23" src="../../assets/images/XLS file.png" alt="png image">XLS</button>
+                <!-- <button mat-menu-item (click)="exportAsCSV()" class="d-flex align-items-center justify-content-around">
+                    <img width="23" src="../../assets/images/XCSV file.png" alt="png image">CSV</button> -->
+            </mat-menu>
+        </div>
+    </div>
+    <div [hidden]="show">
+        <div class="d-flex flex-column align-items-center">
+            <img src="../../../../assets/images/search_report.png" alt="Report search image" class="w-25">
+            <h3>Enter the fields to search reports...!</h3>
+        </div>
+    </div>
+    <div #screen>
+        <div class="day_planner_details" *ngIf="day_planner_reports && !No_Data_Found">
+            <div>
+                <h1 class="text-center mt-4 mb-4">{{single_user_details[0].name}} ({{startdates |date:"dd-MM-yyyy"}} to
+                    {{enddates | date:"dd-MM-yyyy"}})
+                </h1>
+            </div>
+            <!-- <div class="mt-4 row col-md-12 card_section mb-4">
+                <div class="col-md-2 average_card p-2 row">
+                    <div class="col-md-4 p-0 d-flex align-items-center justify-content-center">
+                        <img src="../../../../assets/images/hourglass.png" alt="total hours " width="50px">
+                    </div>
+                    <div class="col-md-8 p-2" style="padding-right: 0px !important;">
+                        <div>
+                            <p class="mb-0">
+                                Total Present Days - <span>{{checkInCounts}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row col-12 p-0 m-0 d-flex">
+                <section class="single_user_section w-100 d-contents col-md-12">
+                    <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="ng-star-inserted card my-2 card-style card-scroll">
+                            <h3>Day-Planner Overview</h3>
+                            <div *ngIf="!no_data_found_day_planner_status" id="piechart"></div>
+                            <div *ngIf="no_data_found_day_planner_status" class="text-center mb-1">
+                                <img width="300" src="../../../../assets/images/No data.png" alt="no data"
+                                    class="pr-menu-icon">
+                                <div>{{nodataMsg}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-lg-6">
+                        <div class="ng-star-inserted card my-2 card-style card-scroll">
+                            <h3>Total Day-Planner</h3>
+                            <div class="row m-0 overflow-auto" *ngIf="!is_day_planner_counts">
+                                <div class="col-12">
+                                    <div class="mt-5 mb-4 row col-md-12 day-planner_counts">
+                                        <div class="col-md-5 col-sm-10 col-lg-5 average_card row">
+                                            <div class="col-md-4 p-0 d-flex align-items-center justify-content-center">
+                                                <img src="../../../../assets/images/plan_for_the_day.png"
+                                                    alt="working staff image" width="50px">
+                                            </div>
+                                            <div class="col-md-8 pr-0">
+                                                <div>
+                                                    <p class="text-capitalize mb-0 pt-1">
+                                                        Plan For The Day
+                                                    </p>
+                                                    <p class="pt-2 total_value"><span
+                                                            class="counts">{{plan_for_the_day_count}}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5 mb-4 row col-md-12 day-planner_counts">
+                                        <div class="col-md-5 col-sm-10 col-lg-5 average_card row">
+                                            <div class="col-md-4 p-0 d-flex align-items-center justify-content-center">
+                                                <img src="../../../../assets/images/update_for_the_day.png"
+                                                    alt="working staff image" width="50px">
+                                            </div>
+                                            <div class="col-md-8" style="padding-right: 0px !important;">
+                                                <div>
+                                                    <p class="text-capitalize mb-0 pt-1">
+                                                        Update For The Day
+                                                    </p>
+                                                    <p class="pt-2 total_value"><span
+                                                            class="counts">{{update_for_the_day_count}}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5 mb-4 row col-md-12 day-planner_counts">
+                                        <div class="col-md-5 col-sm-10 col-lg-5 average_card row">
+                                            <div class="col-md-4 p-0 d-flex align-items-center justify-content-center">
+                                                <img src="../../../../assets/images/missing_plan.png"
+                                                    alt="working staff image" width="50px">
+                                            </div>
+                                            <div class="col-md-8" style="padding-right: 0px !important;">
+                                                <div>
+                                                    <p class="text-capitalize mb-0 pt-1">
+                                                        No Plan For The Day
+                                                    </p>
+                                                    <p class="pt-2 total_value"><span
+                                                            class="counts">{{missing_day_planner_counts}}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="is_day_planner_counts" class="text-center mb-1">
+                                <img width="300" src="../../../../assets/images/No data.png" alt="no data"
+                                    class="pr-menu-icon">
+                                <div>{{nodataMsg}}</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- **** My billable/nonbillable-->
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <div class="ng-star-inserted card my-2 card-style">
+                            <h3 class="name">Day-to-Day Tasks</h3>
+                            <!-- style='overflow-y:auto; height:508px;overflow-x: hidden;' -->
+                            <div class="container-fluid" id="bill_status" *ngIf="!No_Data_single_user">
+                                <mat-accordion class="example-headers-align">
+                                    <mat-expansion-panel class="mb-3" *ngFor="let data of reportsDetails;let i = index"
+                                        [expanded]=" i == 0 ? 'true' : 'false'">
+                                        <mat-expansion-panel-header>
+                                            <mat-panel-title>
+                                                <h5 class="header-style">{{data.date | date:"dd-MM-yyyy"}}</h5>
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <div class="row card-heading">
+                                            <div class="col-6 text-center">
+                                                <h4>Plan For The Day</h4>
+                                            </div>
+                                            <div class="col-6">
+                                                <h4>Update For The Day</h4>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="plan_for_the_day col-6">
+                                                <div class="card mt-1">
+                                                    <div class="card-body2">
+                                                        <div *ngIf="data.post_to_channel == true">
+                                                            <div *ngFor="let report of data.reports;let i=index">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="row">
+                                                                            <div class="col-10">
+                                                                                <p class="list_of_task">
+                                                                                    {{report.day_task}}
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="col-2">
+                                                                                <div
+                                                                                    class="d-flex justify-content-end align-items-center">
+                                                                                    <p class="task_status">
+                                                                                        {{report.status}}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between mb-1">
+                                                                    <p class="project_name">{{report.project_name}}
+                                                                    </p>
+                                                                </div>
+                                                                <hr *ngIf="data.reports.length > i">
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="data.post_to_channel == null">
+                                                            <div class="text-center">
+                                                                <img width="300" src="../../assets/images/No data.png"
+                                                                    alt="no data" class="pr-menu-icon">
+                                                                <div>{{nodataMsg}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="plan_for_the_day col-6">
+                                                <div class="card mt-1">
+                                                    <div class="card-body2">
+                                                        <div *ngFor="let report of data.reports;let i=index">
+                                                            <div *ngIf="data.update_to_channel == true">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="row">
+                                                                            <div class="col-10">
+                                                                                <p class="list_of_task">
+                                                                                    {{report.day_task}}</p>
+                                                                            </div>
+                                                                            <div class="col-2">
+                                                                                <div
+                                                                                    class="d-flex justify-content-end align-items-center">
+                                                                                    <p class="task_status">
+                                                                                        {{report.status}}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="d-flex justify-content-between mb-1">
+                                                                    <p class="project_name">{{report.project_name}}</p>
+                                                                </div>
+                                                                <hr *ngIf="data.reports.length > i">
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="data.update_to_channel == null">
+                                                            <div class="text-center">
+                                                                <img width="300" src="../../assets/images/No data.png"
+                                                                    alt="no data" class="pr-menu-icon">
+                                                                <div>{{nodataMsg}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                            </div>
+                            <div class="text-center" *ngIf="No_Data_single_user">
+                                <img width="300" src="../../../../assets/images/No data.png" alt="no data"
+                                    class="pr-menu-icon">
+                                <div>{{nodataMsg}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="No_Data_Found" class="text-center mb-1">
+        <img width="300" src="../../../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+        <div>{{nodataMsg}}</div>
+    </div>

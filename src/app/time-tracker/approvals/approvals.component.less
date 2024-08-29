@@ -1,0 +1,242 @@
+.timesheet-btn {
+    width: 43px !important;
+}
+
+.approvals {
+    // .page-header {
+    //     .btn_sec {
+    //         position: relative;
+    //         bottom: 8px;
+    //     }
+
+    //     .redirectbtn {
+    //         display: inline-block;
+    //         border-radius: 5px;
+    //         border: none;
+    //         background: #0054b7;
+    //         color: white;
+    //         font-family: inherit;
+    //         text-align: center;
+    //         font-size: 14px;
+    //         box-shadow: 0px 14px 56px -11px #0054b7;
+    //         width: 4em;
+    //         transition: all 0.8s;
+    //         cursor: pointer;
+    //         line-height: 0;
+    //         margin-right: 10px;
+    //     }
+
+    //     .redirectbtn span {
+    //         cursor: pointer;
+    //         display: inline-block;
+    //         position: relative;
+    //         transition: 0.8s;
+    //     }
+
+    //     .redirectbtn:hover {
+    //         width: 9em;
+    //     }
+
+    //     .redirectbtn span:after {
+    //         content: 'Timesheets';
+    //         position: absolute;
+    //         opacity: 0;
+    //         top: 0;
+    //         right: -20px;
+    //         transition: 0.8s;
+    //     }
+
+    //     .redirectbtn:hover span {
+    //         padding-right: 5em;
+    //     }
+
+    //     .redirectbtn:hover span:after {
+    //         opacity: 4;
+    //         top: 12px;
+    //         right: 0;
+    //     }
+    // }
+
+    .timesheetTable {
+        .countsCard {
+            display: flex;
+            align-items: center;
+            margin-right: auto;
+            // margin-left: 35px;
+            width: 75%;
+            justify-content: space-around;
+
+            .totalCountsCard {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                color: #7e8190;
+                padding: 5px 15px;
+                font-size: 14px;
+                line-height: 21px;
+                border: none;
+                font-weight: bold;
+
+                .imageApproved {
+                    margin-right: 5px;
+
+                    img {
+                        width: 25px;
+                    }
+                }
+
+            }
+
+            .totalCountsCard:hover {
+                cursor: pointer;
+                transition: 0.4s;
+                background-color: #68c7f30a !important;
+                box-shadow: #aed2fd 0px 7px 29px 0px;
+                transform: scale(1.1);
+            }
+
+            .approveCard {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                color: #7e8190;
+                padding: 5px 15px;
+                font-size: 14px;
+                line-height: 21px;
+                border: none;
+                font-weight: bold;
+
+                .imageApproved {
+                    margin-right: 5px;
+
+                    img {
+                        width: 25px;
+                    }
+                }
+
+            }
+
+            .approveCard:hover {
+                cursor: pointer;
+                transition: 0.4s;
+                background-color: #effff0 !important;
+                box-shadow: rgb(193 255 197) 0px 7px 29px 0px;
+                transform: scale(1.1);
+            }
+
+            .rejectCard {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                color: #7e8190;
+                padding: 5px 15px;
+                font-size: 14px;
+                line-height: 21px;
+                border: none;
+                font-weight: bold;
+
+                .imageRejected {
+                    margin-right: 5px;
+
+                    img {
+                        width: 25px;
+                    }
+                }
+            }
+
+            .rejectCard:hover {
+                cursor: pointer;
+                transition: 0.4s;
+                background-color: #fcf4dc !important;
+                box-shadow: rgb(252, 227, 158) 0px 7px 29px 0px;
+                transform: scale(1.1);
+            }
+
+            .pendingCard {
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                color: #7e8190;
+                padding: 5px 15px;
+                font-size: 14px;
+                line-height: 21px;
+                border: none;
+                font-weight: bold;
+
+                .imagesPending {
+                    margin-right: 5px;
+
+                    img {
+                        width: 25px;
+                    }
+                }
+            }
+
+            .pendingCard:hover {
+                cursor: pointer;
+                transition: 0.4s;
+                background-color: #ffecec !important;
+                box-shadow: rgb(252, 213, 213) 0px 7px 29px 0px;
+                transform: scale(1.1);
+            }
+        }
+
+        mat-table {
+            .byDate {
+                color: rgb(49, 46, 245);
+            }
+
+            .byDate:hover {
+                color: #0e5eb8;
+                cursor: pointer;
+                font-weight: 600;
+            }
+
+            .approver {
+                background-color: #00214c;
+                color: white;
+                padding: 1px 7px;
+                border-radius: 16px;
+                font-size: 12px;
+            }
+
+            .totalTime {
+                color: #003172;
+                font-size: 13px;
+                font-weight: bold;
+            }
+
+            .active-btns {
+                cursor: not-allowed;
+            }
+
+            .rj-btn{
+                cursor: not-allowed;
+            }
+
+            .inactive-btns{
+                color: #ffc107;
+                /* font-weight: 500; */
+                text-align: center;
+                line-height: 21px;
+                padding: 1px 8px;
+                outline: none;
+                transition: all 100ms ease-out;
+                border-radius: 4px;
+                border: 1px solid burlywood;
+            }
+
+            .status-btns {
+                color: green;
+                /* font-weight: 500; */
+                text-align: center;
+                line-height: 21px;
+                padding: 1px 8px;
+                outline: none;
+                transition: all 100ms ease-out;
+                border-radius: 4px;
+                border: 1px solid lightgreen;
+            }
+        }
+    }
+}

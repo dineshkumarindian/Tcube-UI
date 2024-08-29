@@ -1,0 +1,162 @@
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">{{heading}}
+                <p class="subtitle-color">({{subheading}})</p>
+            </h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <button mat-icon-button matTooltipPosition="left" matTooltip="Back to manage action cards"
+                    (click)="redirectbtn()">
+                    <img src="../../../../assets/images/back.png" class="ph_back_arrow_img mb-4">
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<section class="container-fluid">
+    <div class="input-content-wrap card card-bg p-3 mb-4">
+        <!-- Add ACtion form -->
+        <form [formGroup]="attendanceceActionGroup" class="attendanceFormGroup">
+            <div class="row mb-4">
+                <div class="ml-3 labelstyle col-2">Action name</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>Action name</mat-label>
+                    <input matInput formControlName="action_name" placeholder="Action name" required
+                        (ngModelChange)="onCheckAttendanceName($event)" />
+                    <!-- <mat-error>{{requiredMessage}}</mat-error> -->
+                    <mat-error>
+                        <div *ngIf="attendanceceActionGroup.get('action_name').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                        <!-- <div class="col-5 existError" *ngIf="onAttendanceAction">
+                            {{existMessage}}
+                        </div> -->
+                        <div *ngIf="attendanceceActionGroup.get('action_name').hasError('pattern')">
+                            {{whiteSpaceMessage}}
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+                <div class="d-contents">
+                    <div class="ml-3 labelstyle col-2"></div>
+
+                </div>
+            </div>
+            <div class="row actionCardDuplicate">
+                <div class="ml-3 col-2"></div>
+                <p *ngIf="isActionNmeAvail"
+                  class="text-danger ml-3">{{existMessage}}</p>
+              </div>
+            <div class="row mb-4">
+                <div class="ml-3 labelstyle col-2">Action type</div>
+                <mat-form-field appearance="outline" class="RoleFormGroup col-8">
+                    <mat-select [formControl]="acttypeCtrl" placeholder="Select Action type *" #singleSelect
+                        (selectionChange)="onactiontypechange()">
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="actiontypeFilterCtrl"
+                                placeholderLabel="Search action type..." noEntriesFoundLabel="'no match found'">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filteredactiontype | async" [value]="data.value">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row mb-4">
+                <div class="ml-3 labelstyle col-2">Current action section</div>
+                <mat-form-field class="col-8" appearance="outline">
+                    <mat-select [formControl]="currentActionCtrl" placeholder="Select Current Action Section *"
+                        #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="currentacttypeFilterCtrl"
+                                placeholderLabel="Search Current action..." noEntriesFoundLabel="'no match found'">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filteredcurrentact | async" [value]="data.value">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row mb-5">
+                <div class="ml-3 labelstyle col-2">After action section</div>
+                <mat-form-field class="col-8" appearance="outline">
+                    <mat-select [formControl]="afterActionCtrl" placeholder="Select After Action Section *" #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="afteracttypeFilterCtrl"
+                                placeholderLabel="Search After action..." noEntriesFoundLabel="'no match found'">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filteredafteract | async" [value]="data.value">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row align-items-center">
+                <div class="ml-3 labelstyle col-2">Action image</div>
+                <div class="col-8">
+                    <div class="row file_upload_sect align-items-center">
+                        <div class="col-3">
+                            <input type="file" capture accept="image/png,image/jpeg,image/jpg" formControlname="actimg"
+                                name="actionImage" hidden #FileSelect (change)="onFileChanged($event)">
+
+                            <button type="button" mat-raised-button class="chooseBtn mr-2" (click)="FileSelect.click()">
+                                <mat-icon class="align-middle">image</mat-icon> Choose
+                                action image
+                            </button>
+                        </div>
+
+                        <div class="col-9">
+                            <div class="preview_right_align">
+                                <div *ngIf="this.attachmentCopy != null">
+                                    <img [src]="url || ''" width="80" class="ml-md-3"
+                                        style="background-color: #84858c96;">
+                                </div>
+                                <div class="text-dark" *ngIf="this.attachmentCopy == null" style="font-size: small;">
+                                    file preview</div>
+                                <div *ngIf="this.attachmentName != null">
+                                    <span class="text-center">
+                                        {{this.attachmentName}}
+                                    </span>
+                                    <button (click)="cancel_actionimage()" mat-icon-button matTooltip="Remove">
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-hint *ngIf="atdbtn_imgrest">Accepts only png, jpeg and jpg image format with upto
+                        500kb</mat-hint>
+                    <mat-error [innerHtml]="msg" *ngIf="!atdbtn_imgrest">Accepts only png, jpeg and jpg
+                        image format with upto 500kb</mat-error>
+                    <mat-error [innerHtml]="msg" *ngIf="msg"></mat-error>
+                </div>
+
+            </div>
+            <div class="row btns mt-4">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="btns col-5 p-0 ml-3">
+                    <button *ngIf="!updateaction" class="btn btn-confirm" color="primary"
+                        [disabled]="attendanceceActionGroup.invalid ||afterActionCtrl.hasError('required') ||currentActionCtrl.hasError('required') || acttypeCtrl.hasError('required') || onAttendanceAction || isActionNmeAvail"
+                        (click)="postattendanceaction()">Add</button>
+                    <button *ngIf="updateaction" class="btn btn-confirm" color="primary"
+                        [disabled]="attendanceceActionGroup.invalid ||afterActionCtrl.hasError('required') ||currentActionCtrl.hasError('required') || acttypeCtrl.hasError('required') || onAttendanceAction || isActionNmeAvail"
+                        (click)="updateattendanceaction()">Update</button>
+                    <button class="btn btn-cancel" (click)="cancelattendance();">Cancel</button>
+                    <!-- cancelattendance() -->
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

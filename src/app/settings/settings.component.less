@@ -1,0 +1,208 @@
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #0c0413;
+}
+
+
+#main-content::before,
+#main-content::after {
+  content: "";
+  display: table;
+}
+
+// ::ng-deep .mat-calendar-header{
+//   .mat-calendar-controls{
+//     button{
+//       pointer-events: none !important;
+//     }
+//   }
+// }
+
+#main-content::after {
+  clear: both;
+}
+
+:host>.container {
+  max-width: 1264px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  background: none;
+}
+
+:host ::ng-deep .mat-tab-group {
+  flex-direction: row;
+  margin-bottom: 18px;
+
+}
+
+// :host ::ng-deep .mat-calendar-period-button{
+//   min-width: 0;
+//   display: none !important; 
+//   pointer-events: none;
+//   }
+
+//   :host ::ng-deep  button.mat-calendar-period-button.mat-button.mat-button-base {
+//   display: none !important;
+//   pointer-events: none;
+//   }
+
+// button:not(:disabled), [type="button"]:not(:disabled), [type="reset"]:not(:disabled),  
+// [type="submit"]:not(:disabled) {
+// cursor: pointer;
+// display: none !important;
+// }
+
+
+:host ::ng-deep .mat-tab-header {
+  border-bottom: none;
+  background: #00214c;
+  // min-height: 240px;
+  // max-height: 200px;
+  border-radius: 4px;
+}
+
+:host ::ng-deep .mat-tab-label-active {
+  color: white;
+  background: #0077ff;
+  position: relative;
+  // &::after{
+  //     position: absolute;
+  //     top: 0;
+  //     right: -15px;
+  //     width: 0;
+  //     height: 0;
+  //     display: block;
+  //     content: " ";
+  //     border-style: solid;
+  //     border-width: 15px 15px 0 0;
+  //     border-color: transparent;
+  //     border-top-color: #e9f0f4;
+  // }
+}
+
+:host ::ng-deep .mat-fab.mat-primary,
+.mat-flat-button.mat-primary,
+.mat-mini-fab.mat-primary,
+.mat-raised-button.mat-primary {
+  background-color: #0077ff;
+}
+
+:host ::ng-deep .mat-tab-header-pagination {
+  display: none !important;
+}
+
+:host ::ng-deep .mat-tab-labels {
+  flex-direction: column;
+}
+
+:host ::ng-deep .mat-ink-bar {
+  height: 100%;
+  left: 98% !important;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+  flex: 1 1 auto;
+}
+
+:host ::ng-deep .mat-tab-label {
+  height: 40px;
+  padding: 0 24px;
+  cursor: pointer;
+  box-sizing: border-box;
+  opacity: .6;
+  min-width: 200px;
+  text-align: center;
+  display: inline-flex;
+  justify-content: left;
+  align-items: center;
+  white-space: nowrap;
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+:host ::ng-deep .mat-tab-body-wrapper {
+  /* position: relative; */
+  overflow: hidden;
+  display: flex;
+  transition: height .5s cubic-bezier(.35, 0, .25, 1);
+  margin-top: -40px;
+  // margin-bottom: 77px;
+
+}
+
+.mat-tab-label .mat-tab-label-content:hover {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  background: red;
+}
+
+:host ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: transparent;
+}
+
+:host ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content,
+.mat-list-base .mat-list-option .mat-list-item-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 0px;
+  position: relative;
+  height: inherit;
+  /* font-size  : 12px; */
+}
+
+:host ::ng-deep .mat-checkbox-layout .mat-checkbox-label {
+  line-height: 40px;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: .4375em 0;
+  /* border       : 1px solid; */
+  border: 1px solid #ced4da;
+  background-color: white;
+}
+
+// :host ::ng-deep .mat-form-field-underline {
+//     display: none ;
+//   }
+//   check box radio btn
+:host ::ng-deep .mat-checkbox-checked.mat-primary .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-primary .mat-checkbox-background {
+  background-color: #0077ff;
+}
+
+:host ::ng-deep .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #0077ff;
+
+}
+
+:host ::ng-deep .mat-radio-button.mat-primary .mat-radio-inner-circle {
+  background-color: #0077ff;
+}
+
+// check box radio btn
+.top-mar {
+
+  margin: 20px;
+  // margin-bottom: 133px;
+
+  .set-heading {
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    border-bottom: 1px solid;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    width: 185px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+}

@@ -1,0 +1,94 @@
+<section class="gitlab-integration-form">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="page-title" *ngIf="integrationId == null">
+                    Add Gitlab Integration
+                    <!-- <p class="m-0 subtitle-color">(Integration details)</p> -->
+                </h3>
+                <h3 class="page-title" *ngIf="integrationId != null">Edit Gitlab Integration
+                    <!-- <p class="m-0 subtitle-color">(Integration details)</p> -->
+                </h3>
+               
+            </div>
+            <div class="col-md-8">
+                <div class="pfr">
+                    <button class="docBtn preview-read" mat-raised-button (click)="documentationDialog()">
+                        Read Docs
+                    </button>
+                    <button mat-icon-button matTooltipPosition="left" matTooltip="Back to gitlab integration"
+                        (click)="backToAppsIntegrationPage()">
+                        <img class="ph_back_arrow_img mb-4" src="../../assets/images/back.png">
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="navcontainter">
+        <section class="container-fluid ">
+            <div class="card card-bg p-3 mb-4">
+                <!-- slack integration form -->
+                <form [formGroup]="gitlabIntegrationFormGroup" class="IntegrationFormGroup">
+                    <div class="row py-2">
+                        <div class="ml-3 labelstyle col-2">Email
+                        </div>
+                        <mat-form-field appearance="fill" class="col-8">
+                            <mat-label>Email</mat-label>
+                            <input matInput placeholder="email" formControlName="email" required/>
+                            <mat-error>
+                                <div *ngIf="gitlabIntegrationFormGroup.get('email').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div *ngIf="gitlabIntegrationFormGroup.get('email').hasError('pattern')">
+                                    {{validFormatMessage}}
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="row py-2">
+                        <div class="ml-3 labelstyle col-2">Access Token
+                        </div>
+                        <mat-form-field appearance="fill" class="col-8">
+                            <textarea matInput formControlName="token" rows="2" placeholder="Access token *"></textarea>
+                            <mat-error>
+                                <div *ngIf="gitlabIntegrationFormGroup.get('token').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div *ngIf="gitlabIntegrationFormGroup.get('token').hasError('pattern')">
+                                    {{whiteSpaceMessage}}
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="row py-2">
+                        <div class="ml-3 labelstyle col-2">GitLab base URL
+                        </div>
+                        <mat-form-field appearance="fill" class="col-8">
+                            <textarea matInput formControlName="url" rows="2" placeholder="URL *"></textarea>
+                            <mat-error>
+                                <div *ngIf="gitlabIntegrationFormGroup.get('url').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div *ngIf="gitlabIntegrationFormGroup.get('url').hasError('pattern')">
+                                    {{whiteSpaceMessage}}
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="row btns ml-1">
+                        <div class="ml-3 labelstyle col-2"></div>
+                        <div class="btns col-5 p-0">
+                            <button *ngIf="!integrationId" class="btn btn-confirm" (click)="createGitLabcredentials()"
+                                [disabled]="gitlabIntegrationFormGroup.invalid">Add</button>
+                            <button *ngIf="integrationId" class="btn btn-confirm mr-2" (click)="updateGitLabDetails()"
+                                [disabled]="gitlabIntegrationFormGroup.invalid">Update</button>
+                            <button class="btn btn-cancel" (click)="backToAppsIntegrationPage()">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+    </section>
+</section>

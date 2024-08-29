@@ -1,0 +1,286 @@
+<!------- internship module to change business letter --------->
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title" *ngIf="!isInternActiveId">Create Letter</h3>
+            <h3 class="page-title" *ngIf="isInternActiveId">Update Letter</h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <div class="align_preview_sec">
+                    <button *ngIf="!isInternActiveId" mat-raised-button class="preview_btn"
+                        matTooltip="Sample letter format" (click)="previewDialogData()">
+                        Sample Preview Letter
+                    </button>
+                    <button *ngIf="isInternActiveId" mat-raised-button class="preview_btn" matTooltip="Update letter"
+                        (click)="previewDialogPdfData()">
+                        Preview Letter
+                    </button>
+                    <button mat-icon-button matTooltip="Back to letter's" [routerLink]="['/business_letter']"
+                        routerLinkActive="router-link-active"><img src="../../../../assets/images/back.png"
+                            class="ph_back_arrow_img">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- <div class="pt-3 mb-3" style="background: #F4F4F5;">
+        <div class="container-fluid head alt-head d-flex justify-content-between">
+            <h3 style="margin: 0px !important;" *ngIf="!isInternActiveId">Create Letter
+                <span>Create Letter Configuration Details</span>
+            </h3>
+            <h3 style="margin: 0px !important;" *ngIf="isInternActiveId">Update Letter
+                <span>update Letter Configuration Details</span>
+            </h3>
+            <span class="preview float-right" *ngIf="!isInternActiveId"
+                style="margin-bottom: 4px;text-align: center; margin-left:auto;">
+                <button mat-raised-button class="backbtn previewbtn" matTooltip="Sample letter format"
+                    (click)="previewDialogData()">
+                    Preview
+                </button>
+            </span>
+            <span class="preview float-right" *ngIf="isInternActiveId"
+                style="margin-bottom: 4px;text-align: center; margin-left:auto;">
+                <button mat-raised-button class="backbtn previewbtn" matTooltip="Update letter"
+                    (click)="previewDialogPdfData()">
+                    Preview Letter
+                </button>
+            </span>
+            <div class="float-right" style="margin-bottom: 4px;"><button mat-icon-button class="backbtn"
+                    style="margin-left: 20px;" matTooltip="Back to letter's" [routerLink]="['/business_letter']"
+                    routerLinkActive="router-link-active"><img style=" width: 32px;margin-bottom: 10px;"
+                        src="../../../../assets/images/back.png"></button></div>
+        </div>
+    </div> -->
+<section class="container-fluid">
+    <div class="input-content-wrap card card-bg p-3 mb-4">
+        <form [formGroup]="internshipForm">
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Name</div>
+                <mat-form-field appearance="standard" class="col-8">
+                    <mat-label>Name</mat-label>
+                    <input type="text" OnlyCharacter matInput placeholder="Enter The Name" name="name" (keydown)="Space($event)"
+                        [formControl]="name" required ngModel formControlName="name">
+                    <mat-hint>(Receiver's name)</mat-hint>
+                    <mat-error>
+                    <div  *ngIf="internshipForm.get('name').hasError('required')">
+                        <p>{{requiredMessage}}</p>
+                    </div>
+                        <div  *ngIf="internshipForm.get('name').hasError('pattern')">
+                            {{invalidFormatMsg}}
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <!-- <div class="row">
+                    <div class="ml-3 labelstyle col-2">Date Of Joining</div>
+                    <mat-form-field appearance="standard" class="example-form-field col-8">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="datepicker" name="date" [formControl]="date" required>
+                        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datepicker>
+                        </mat-datepicker>
+                        <mat-error class="errorfix" *ngIf="date.hasError('required')">Field is Required!</mat-error>
+                    </mat-form-field>
+
+                </div> -->
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Address</div>
+                <mat-form-field class="col-8" appearance="fill">
+                    <mat-label>Address</mat-label>
+                    <textarea matInput placeholder="Enter the Address" name="address" (keydown)="Space($event)"
+                        [formControl]="address" required></textarea>
+                    <mat-hint>(Receiver's address)</mat-hint>
+                    <mat-error class="" *ngIf="address.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Program Title</div>
+                <mat-form-field class="col-8" appearance="standard">
+                    <mat-label>Program title</mat-label>
+                    <!-- <mat-select [formControl]="programtitle" name="programtitle" required>
+                            <mat-option>
+                                <ngx-mat-select-search placeholderLabel="Search Head..."
+                                    noEntriesFoundLabel="'no match found'"></ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option value="one" *ngFor="let program of program_title" [value]="program">{{program}}
+                            </mat-option>
+                        </mat-select> -->
+                    <input matInput placeholder="Ex:2 Month of Internship Letter or consultant offer etc.."
+                        name="programtitle" (keydown)="Space($event)" [formControl]="programtitle" required ngModel>
+                    <mat-error class="" *ngIf="programtitle.hasError('required')">{{requiredMessage}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Description</div>
+                <div class="col-8">
+                    <ckeditor [formControl]="description" [editor]="Editor" [(ngModel)]="model.editorData"
+                        [config]="{ placeholder:'Enter the description here!',
+                    toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ]}"
+                        (ready)="onReady($event)" name="description" required>
+                    </ckeditor>
+                    <div>
+                        <mat-hint>Maximum 2000 characters allowed</mat-hint>
+                    </div>
+                    <!-- (ready)="onReady($event)" -->
+                    <!-- <ckeditor [formControl]="description" [data]="editorData" [editor]="Editor"   name="description" required>
+                        </ckeditor> -->
+                    <div class="mat-error" *ngIf="description.errors?.maxlength">
+                        {{characterLength}}
+                    </div>
+                    <mat-hint class="mat-error" *ngIf="description.errors?.required">
+                        {{requiredMessage}}
+                    </mat-hint>
+
+                </div>
+
+            </div>
+            <div class="row">
+                <!-- <div class="companyLogo"> -->
+                <div class="ml-3 labelstyle col-2">Company Logo</div>
+                <div class="col-8">
+                    <div class="row file_upload_sect">
+                        <div class="col-3">
+                            <input type="file" capture accept="image/png,image/jpeg,image/jpg"
+                                (change)="onFileChanged($event)" [formControl]="companyLogo" name="companyLogo" hidden
+                                #FileSelect>
+
+                            <button type="button" mat-raised-button class="choose_btn mr-2"
+                                (click)="FileSelect.click()">
+                                <mat-icon class="align-middle">image</mat-icon> Choose for logo
+                            </button>
+                        </div>
+
+                        <div class="col-9">
+                            <div class="preview_right_align">
+                                <div *ngIf="this.attachmentCopy != null">
+                                    <img [src]="url" class="ml-md-3 img-fluid">
+                                </div>
+                                <div class="text-dark" *ngIf="this.attachmentCopy == null">
+                                    File preview</div>
+                                <div *ngIf="this.attachmentName != null">
+                                    <span class="text-center">
+                                        {{this.attachmentName}}
+                                    </span>
+                                    <button (click)="cancel()" mat-icon-button matTooltip="Remove">
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-hint>Better look of file size ex:150*100</mat-hint>
+                    <mat-error [innerHtml]="msg" *ngIf="msg"></mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Company Name</div>
+                <mat-form-field class="col-8" appearance="standard">
+                    <mat-label>Company name</mat-label>
+                    <input matInput name="companyName" (keydown)="Space($event)" [formControl]="companyName" required>
+                    <mat-error class="" *ngIf="companyName.hasError('required')">{{requiredMessage}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Company Address</div>
+                <mat-form-field class="col-8" appearance="fill">
+                    <mat-label>Company address</mat-label>
+                    <textarea matInput placeholder="Enter the Company Address" name="companyAddress"
+                        (keydown)="Space($event)" [formControl]="companyAddress" required></textarea>
+                    <mat-error class="" *ngIf="companyAddress.hasError('required')">{{requiredMessage}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Company Website Url</div>
+                <mat-form-field class="col-8" appearance="standard">
+                    <mat-label>Website url</mat-label>
+                    <input matInput type="url" placeholder="Enter the Company website url" name="companyLink"
+                        (keydown)="Space($event)" [formControl]="companyLink" required>
+                    <mat-error class="" *ngIf="companyLink.hasError('required')">{{requiredMessage}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Signature</div>
+                <div class="col-8">
+                    <div class="row file_upload_sect">
+
+                        <div class="col-3">
+                            <input type="file" capture accept="image/png,image/jpeg,image/jpg"
+                                (change)="onFileChangedSign($event)" [formControl]="directorSign" name="directorSign"
+                                hidden #FileSelectSign>
+
+                            <button type="button" mat-raised-button class="choose_btn mr-2"
+                                (click)="FileSelectSign.click()">
+                                <mat-icon class="align-middle">image</mat-icon> Choose for sign
+                            </button>
+
+                        </div>
+
+                        <div class="col-9">
+                            <div class="preview_right_align">
+                                <div *ngIf="this.attachmentCopySign != null">
+                                    <img [src]="urlSign" class="ml-md-3 img-fluid">
+                                </div>
+                                <div class="text-dark" *ngIf="this.attachmentCopySign == null">File preview</div>
+                                <div *ngIf="this.attachmentNameSign != null"><span class="align-middle">
+                                        {{this.attachmentNameSign}}
+                                    </span>
+                                    <button (click)="onCancelSign()" mat-icon-button matTooltip="Remove">
+                                        <mat-icon>cancel</mat-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <mat-hint>Better look of file size ex:100*100</mat-hint>
+                    <mat-error [innerHtml]="msgSign" *ngIf="msgSign"></mat-error>
+                </div>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Name Of Signature</div>
+                <mat-form-field class="col-8" appearance="standard">
+                    <mat-label>Name of signature</mat-label>
+                    <input matInput name="directorName" (keydown)="Space($event)" [formControl]="directorName" required>
+                    <mat-error class="" *ngIf="directorName.hasError('required')">{{requiredMessage}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Signature Role</div>
+                <mat-form-field class="col-8" appearance="standard">
+                    <mat-label>Signature role</mat-label>
+                    <input matInput name="signatureRole" (keydown)="Space($event)" [formControl]="signatureRole"
+                        placeholder="Ex:Manager or Founder or CEO or Director etc.." required>
+                    <mat-error class="" *ngIf="signatureRole.hasError('required')">{{requiredMessage}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 col-2"></div>
+                <div class="btns col-8 px-3">
+                    <button class="btn btn-confirm" *ngIf="!isInternActiveId" type="submit" [disabled]="name.invalid ||address.invalid || programtitle.invalid 
+                            || directorName.invalid || companyName.invalid || companyAddress.invalid || companyLink.invalid || description.invalid
+                            || signatureRole.invalid || this.attachmentCopy == null || this.attachmentCopySign == null"
+                        (click)="openDialog()">Save</button>
+
+                    <button class="btn btn-confirm" *ngIf="isInternActiveId" type="submit"
+                        [disabled]=" name.invalid || address.invalid || programtitle.invalid 
+                        || description.invalid || directorName.invalid || companyName.invalid || companyAddress.invalid || companyLink.invalid || signatureRole.invalid || this.attachmentCopy == null || this.attachmentCopySign == null "
+                        (click)="openDialogData()">Update</button>
+                    <button class="btn btn-cancel" (click)="cancelButton()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</section>

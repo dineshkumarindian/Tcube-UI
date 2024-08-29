@@ -1,0 +1,280 @@
+<div class="userAttendanceReport">
+    <div class="page-header d-flex align-items-center justify-content-between">
+        <div>
+            <h3 class="page-title mt-3">
+                User Timesheet Reports
+                <p class="subtitle-color">
+                </p>
+            </h3>
+        </div>
+        <div class="d-flex  align-items-center">
+            <button class="backbtn" matTooltipPosition="left" matTooltip="Back to reports" [routerLink]="['/reports']">
+                <img class="ph_back_arrow_img" src="../../assets/images/back.png">
+            </button>
+        </div>
+    </div>
+    <div>
+        <div class="mt-4 d-flex search flex-wrap align-items-center justify-content-center container-fluid"
+            style="margin-bottom: -30px;">
+            <div class="mb-2 align-items-center h-60 mr-3">
+                <mat-form-field style="width: 100%;" appearance="outline">
+                    <mat-select [formControl]="userCtrl" placeholder="Staff&nbsp;" #singleSelect
+                        (selectionChange)="selectEmploy($event.value)">
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Search Staff..."
+                                noEntriesFoundLabel="'no matching Staff found'"></ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngIf="employeeData.length==0" disabled="true">No data available!</mat-option>
+                        <mat-option *ngFor="let data of filtereduser | async" [value]="data">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="mb-2 align-items-center h-60">
+                <mat-form-field style="width: 100%;" appearance="outline">
+                    <mat-select [formControl]="dateCtrl" placeholder="Date range&nbsp;" #singleSelect
+                        (selectionChange)="selectChangeHandler($event.value)">
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="dateFilterCtrl"
+                                placeholderLabel="Search date range..."
+                                noEntriesFoundLabel="'no matching date range found'"></ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filtereddate | async" [value]="data.data">
+                            {{data.data}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix" *ngIf="dateCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <mat-form-field *ngIf="customdate==true" appearance="outline" class=" mb-2 align-items-center h-60">
+                <input matInput type="text" placeholder="From Date" [matDatepicker]="picker1" [max]="maxDate"
+                    [formControl]="start" />
+                <mat-error class="errorfix" *ngIf="start.hasError('required')">{{requiredMessage}}</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field *ngIf="customdate==true" appearance="outline" class=" mb-2 align-items-center h-60">
+                <input matInput type="text" placeholder="To Date" [matDatepicker]="picker2" [disabled]="!start.value"
+                    [formControl]="end" [min]="start.value" [max]="maxDate" (dateChange)="todatechange()">
+                <mat-error class="errorfix" *ngIf="end.hasError('required')">{{requiredMessage}}</mat-error>
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+
+            <div class="fixed-btn align-items-center h-60 mt-2">
+                <button mat-flat-button color="info" class="sbmt-btn mr-4"
+                    [disabled]="(customdate && !customdatevalidation) || (userCtrl.hasError('required') || dateCtrl.hasError('required'))"
+                    (click)="findData()">Find</button>
+                <button mat-flat-button color="warn" (click)="cancelform()"> Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div [hidden]="show">
+            <div class="d-flex flex-column align-items-center">
+                <img src="../../../../assets/images/search_report.png" alt="Report search image" class="w-25">
+                <h3>Enter the fields to search reports...!</h3>
+            </div>
+        </div>
+        <!-- <div class="text-center" *ngIf="no_data_found && show && No_Data_Found_timesheet  && no_data_found_project">
+            <img width="350" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+            <div>{{nodataMsg}}</div>
+        </div> -->
+        <div [hidden]="!show" id="table-content">
+            <div #screen>
+                <div  *ngIf="showTimesheetTable">
+                <br>
+                <h1 class="text-center mb-4">{{employee}} - From {{startdates | date:'dd/MM/yyyy'}} To {{enddates |
+                    date:'dd/MM/yyyy'}}</h1>
+                <div class="mt-4 row col-12 card_section1 mb-4">
+                    <div class="average_card mb-4 row">
+                        <div class=" p-0 d-flex align-items-center">
+                            <img src="../../../../assets/images/Emp_work.png" alt="working staff image" width="50px">
+                        </div>
+                        <div class="p-0 ml-4" style="padding-right: 0px !important;margin-top: 35px;">
+                            <div>
+                                <p class="mb-0">
+                                    Total Timesheet - <span class="user-job-count">{{ responselength }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="row col-12 p-0 m-0 d-flex justify-content-center totalHours mb-5">
+                        <div class="cardH">
+                            <div class="container">
+                                <figure class="loader">
+                                    <div class="dot white"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </figure>
+                            </div>
+                            <div class="cardH-header">
+                                <span class="user-job-count">Total timesheet - {{ responselength }}</span>
+                                <span class="user-job-count">Total Approved timesheet - {{ approvedCount }}</span>
+                                <span class="user-job-count">Total Submitted timesheet - {{ submittedCount }}</span>
+                                <span class="user-job-count">Total Rejected timesheet - {{ rejectedCount }}</span>
+                                <span class="user-job-count">Total Not Submitted timesheet - {{
+                                    notSubmittedCount}}</span>
+                                <span class="user-job-count">Total Pending timesheet - {{ pendingCount }}</span>
+                            </div>
+                        </div>
+                    </div> -->
+                <!-- <section class="w-100 d-contents bil-section col-md-6">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="ng-star-inserted card my-2 card-style ">
+                                <h3>Billable/Non Billable</h3>
+                                <div id="bill_status" *ngIf="!No_Data_Found_mybillable"></div>
+                                <div class="text-center" *ngIf="No_Data_Found_mybillable">
+                                    <img width="300" src="../../assets/images/No data.png" alt="no data"
+                                        class="pr-menu-icon">
+                                    <div>{{nodataMsg}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section> -->
+
+                <div class="row col-12 p-0 m-0 d-flex">
+                    <section class="w-100 d-contents bil-section col-md-6">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="ng-star-inserted card my-2 card-style ">
+                                <h3>Total Timesheet Count</h3>
+                                <div id="timesheet_count" *ngIf="!No_Data_Found_timesheet"></div>
+                                <div class="text-center" *ngIf="No_Data_Found_timesheet">
+                                    <img width="300" src="../../assets/images/No data.png" alt="no data"
+                                        class="pr-menu-icon">
+                                    <div>{{nodataMsg}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="w-100 d-contents bil-section col-md-6">
+                        <div class="col-md-6 col-sm-12 col-lg-6">
+                            <div class="ng-star-inserted card my-2 card-style ">
+                                <h3>Projects/Jobs</h3>
+                                <div *ngIf="!no_data_found_project" id="project_job"></div>
+                                <div class="text-center" *ngIf="no_data_found_project">
+                                    <img width="300" src="../../assets/images/No data.png" alt="no data"
+                                        class="pr-menu-icon">
+                                    <div>{{nodataMsg}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="col-12 p-0 d-flex justify-content-end" *ngIf="entiretimesheetDetails.length !=0">
+                <button class="btn table-excel-export-btn" type="button">
+                    <button class="button" matTooltipPosition="right" matTooltip="Export Report">
+                        <div class="icon">
+                            <img class="shere btn-size" src="../../assets/images/export-file.png">
+                            <button class="icon-shere mx-1" (click)="generateXLSX()">
+                                XLSX
+                            </button>
+                            <button class="icon-shere mx-1" (click)="generateXLS()">
+                                XLS
+                            </button>
+                            <!-- <button class="icon-shere mx-1" (click)="generateCSV()">
+                                CSV
+                            </button> -->
+                        </div>
+                        <p class="m-0">Timesheet Report</p>
+                    </button>
+                </button>
+            </div>
+            <div class="row col-12 p-0 m-0 d-flex" *ngIf="entiretimesheetDetails.length !=0">
+                <section class="w-100 d-contents bil-section col-md-6">
+                    <div class="col-md-6 col-sm-12 col-lg-12">
+                        <div class="ng-star-inserted card my-2 card-style ">
+                            <h3>{{employee}} - Timesheet Details From {{startdates | date:'dd/MM/yyyy'}} To {{enddates |
+                                date:'dd/MM/yyyy'}}</h3> 
+                            <section class="timesheet_section">
+                                <div class="entiretablescroll" style="width: 100%;padding:13px;" id="contentToConvert"
+                                   >
+                                    <mat-accordion class="example-headers-align">
+                                        <mat-expansion-panel class="mb-3" *ngFor="let element of entiretimesheetDetails | keyvalue;let i = index"
+                                         [expanded]=" i == 0 ? 'true' : 'false'">
+                                            <mat-expansion-panel-header mat-expansion-panel-header class="mb-2">
+                                                <mat-panel-title>
+                                                    <span class="status-btn date_btn">{{ element.key |
+                                                        date:'dd-MM-yyyy'}}</span>
+                                                </mat-panel-title>
+                                            </mat-expansion-panel-header>
+                                            <section class="container-fluid accordion-table">
+                                                <table mat-table [dataSource]="element.value"
+                                                    class="mat-elevation-z8 timesheet_table">
+                                                    <ng-container *ngFor="let column of displayedColumns1"
+                                                        [matColumnDef]="column">
+                                                        <th mat-header-cell *matHeaderCellDef>{{ column ===
+                                                            'task_duration'
+                                                            ? 'Task
+                                                            Duration' :
+                                                            column | titlecase }}</th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{ row[column] }}</td>
+                                                        <hr>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="footer">
+                                                        <td mat-footer-cell *matFooterCellDef class="approveFooter"
+                                                            colspan="5">
+                                                            <div>
+                                                                <span class="status_style">Status:</span>
+                                                                <button class="status-btn ml-2"
+                                                                    [ngClass]="{'active_button1': getStatus(element.value) === 'Submitted','approve_button': getStatus(element.value) === 'Approved',
+                                        'inactive_button_style': getStatus(element.value) === 'Rejected','pending_button': getStatus(element.value) === 'Pending',
+                                        'active_button': getStatus(element.value) === 'Updated','not_submitted_button': getStatus(element.value) === 'Not submitted'}">
+                                                                    {{ getStatus(element.value) }}
+                                                                </button>
+                                                                <span class="status_style ml-3">Approver:
+                                                                    <span class="approver_style ml-2">
+                                                                        {{ getApprover(element.value) }}
+                                                                    </span>
+                                                                </span>
+                                                                <span class="status_style ml-3">
+                                                                    Total Hours:
+                                                                    <span
+                                                                        class="hours_style">{{getTotalHours(element.value)}}</span>
+                                                                </span>
+                                                                <span class="status_style ml-3">
+                                                                    Total Billable Hours:
+                                                                    <span
+                                                                        class="hours_style">{{getBillableHours(element.value)}}</span>
+                                                                </span>
+                                                                <span class="status_style ml-3">
+                                                                    Total Non-Billable Hours:
+                                                                    <span
+                                                                        class="hours_style">{{getNonBillableHours(element.value)}}</span>
+                                                                </span>
+                                                                <span class="status_style ml-3">Comments:
+                                                                    <button mat-flat-button color="info"
+                                                                        class="sbmt-btn mr-4"
+                                                                        (click)="getComments(element.value)"> View
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                    </ng-container>
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1">
+                                                    </tr>
+                                                    <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
+                                                </table>
+                                            </section>
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                                </div>
+                                <!-- <div *ngIf="isLoading">Loading...</div> -->
+                            </section>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>

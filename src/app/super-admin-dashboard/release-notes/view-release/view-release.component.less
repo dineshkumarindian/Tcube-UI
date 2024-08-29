@@ -1,0 +1,129 @@
+.view-release-form {
+    .top-form {
+        // p {
+        //     font-size: 17px;
+        // }
+
+        // padding-left: inherit;
+        // border: 1px solid black;
+        // font-family: -apple-system,
+        // BlinkMacSystemFont,
+        // 'Segoe UI',
+        // Roboto,
+        // Oxygen,
+        // Ubuntu,
+        // Cantarell,
+        // 'Open Sans',
+        // 'Helvetica Neue',
+        // sans-serif;
+        // overflow: hidden;
+        // // padding: 15px;
+        // margin: 8px;
+
+        .versiondata {
+            font-size: 20px;
+            font-weight: 700;
+            color: blue;
+            margin-top: 10px
+        }
+
+        .release-title {
+            font-size: 40px;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .release-date {
+            font-size: 20px;
+            font-weight: 600;
+
+            span {
+                font-size: 20px !important;
+            }
+        }
+
+        .release-notes-heading {
+            margin-top: 500px;
+            margin-bottom: 400px;
+        }
+
+        ::ng-deep .content-head {
+            h2 {
+                margin-bottom: 6px !important;
+                color: #497ce6 !important;
+                font-size: 25px !important;
+                font-weight: 700 !important;
+                margin-bottom: 10 !important;
+                text-transform: capitalize;
+            }
+
+            .new-content {
+                p {
+                    margin: 0px !important;
+                    // line-height: 1.2 !important;
+                    font-size: 18px !important;
+                }
+                ul {
+                    li {
+                        font-size: 18px !important;
+                    }
+                }
+
+                ol {
+                    li {
+                        margin: 0px !important;
+                        // line-height: 1.2 !important;
+                        font-size: 18px !important;
+                    }
+                }
+
+
+            }
+          
+        }
+    }
+
+}
+
+.button-style {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 2px solid black;
+    position: relative;
+
+    .btns {
+        margin-left: 10px;
+        padding: 10px 25px;
+        background: none;
+        border: 1px solid #c0c0c0;
+        border-radius: 2px;
+        color: #666;
+        font-size: 1.125em;
+        outline: none;
+        transition: all 100ms ease-out;
+        border-radius: 4px;
+        line-height: 13px;
+    }
+
+    .btn-confirms {
+        background: #000000;
+        color: #fff;
+        padding: 12px;
+        font-size: 14px;
+        line-height: 6px;
+    }
+
+    .btn-cancels {
+        padding: 12px;
+        font-size: 14px;
+        line-height: 6px;
+    }
+
+    .btns:hover,
+    .btns:focus {
+        transform: translateY(-3px);
+    }
+
+}
+

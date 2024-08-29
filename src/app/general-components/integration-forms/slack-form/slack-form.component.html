@@ -1,0 +1,80 @@
+<div class="page-header page-slack-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title">
+                {{header}} Slack Integration <span class="forheaderstyle">for</span> {{headerModule}}
+                <!-- x` -->
+            </h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <button class="docBtn preview-read" mat-raised-button (click)="documentationDialog()">
+                    Read Docs
+                </button>
+                <button mat-icon-button matTooltipPosition="left" matTooltip="Back to slack integration"
+                    (click)="backToSetting()">
+                    <img class="ph_back_arrow_img mb-4" src="../../assets/images/back.png">
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<section class="navcontainter">
+    <section class="container-fluid ">
+        <div class="card card-bg p-3 mb-4">
+            <!-- slack integration form -->
+            <form [formGroup]="slackIntegrationFormGroup" class="IntegrationFormGroup">
+                <div class="row py-2 pb-3">
+                    <div class="ml-3 labelstyle col-2">Module</div>
+                    <!-- <div class="ml-3 lablestyle">{{moduleName}}</div> -->
+                    <div class="ml-3 labelstyle d-flex flex-column">
+                        <h6>{{moduleDetails.name}}</h6>
+                        <small style="color:#093a79">{{moduleDetails.description}}</small>
+                        <!-- <small *ngIf="isSlackIntAvail" style="color:#ff2c2c">Please edit the existing integration to
+                                    update or delete the existing integration to create a new integration</small> -->
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="ml-3 labelstyle col-2">Incoming WebHook URL
+                    </div>
+                    <mat-form-field appearance="fill" class="col-8">
+                        <textarea matInput formControlName="url" rows="2" placeholder="URL *"></textarea>
+                        <mat-error>
+                            <div *ngIf="slackIntegrationFormGroup.get('url').hasError('required')">
+                                {{requiredMessage}}
+                            </div>
+                            <div *ngIf="slackIntegrationFormGroup.get('url').hasError('pattern')">
+                                {{validMessage}}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div *ngIf="approvals" class="row py-2">
+                    <div class="ml-3 labelstyle col-2">OAuth Token
+                    </div>
+                    <mat-form-field appearance="fill" class="col-8">
+                        <textarea matInput [formControl]="oauthToken" rows="2"></textarea>
+                        <mat-error>
+                            <div *ngIf="oauthToken.hasError('required')">
+                                {{requiredMessage}}
+                            </div>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="row btns ml-1">
+                    <div class="ml-3 labelstyle col-2"></div>
+                    <div class="btns col-5 p-0">
+                        <button *ngIf="!integrationId" class="btn btn-confirm" (click)="addSlackIntegration()"
+                        [disabled]="slackIntegrationFormGroup.invalid || (oauthToken.invalid && approvals )">Add</button>
+                        <button *ngIf="integrationId" class="btn btn-confirm mr-2" (click)="updateSlackIntegration()"
+                        [disabled]="slackIntegrationFormGroup.invalid || (oauthToken.invalid && approvals )">Update</button>
+                        <button class="btn btn-cancel" (click)="backToSetting()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+</section>

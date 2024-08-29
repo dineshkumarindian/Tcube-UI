@@ -1,0 +1,61 @@
+<div class="common_dialog">
+    <div class="dialog-header">
+        <h3 class="page-title">View Plan</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <section>
+        <div class="module-style d-flex justify-content-center">
+            <div class="card m-4 d-flex align-items-center">
+                <ul class="list-unstyled text-dark-l1 features text-left my-4 my-md-0 div2">
+                    <li class=" ml-5 m-3 " *ngFor="let data of pricing_plan_modules">
+
+                        <span class="text-110" *ngIf="data == 'dashboard'">
+                            <mat-icon>dashboard</mat-icon>
+                            <span class="ml-4 li_name">Dashboard</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'project/jobs'">
+                            <mat-icon>category</mat-icon>
+                            <span class="ml-4">Project/Jobs</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'time-tracker'">
+                            <mat-icon>timer</mat-icon>
+                            <span class="ml-4">Time-Tracker</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'attendance'">
+                            <mat-icon>event_available</mat-icon>
+                            <span class="ml-4">Attendance</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'leave-tracker'">
+                            <mat-icon>event</mat-icon>
+                            <span class="ml-4">Leave-Tracker</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'day-planner'">
+                            <mat-icon>date_range</mat-icon>
+                            <span class="ml-4">Day-Planner</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'settings'">
+                            <mat-icon>settings</mat-icon>
+                            <span class="ml-4">Settings</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'reports'">
+                            <mat-icon>library_books</mat-icon>
+                            <span class="ml-4">Reports</span>
+                        </span>
+                        <span class="text-110" *ngIf="data == 'apps-integration'">
+                            <mat-icon>apps</mat-icon>
+                            <span class="ml-4">App-Integration</span>
+                        </span>
+                        <span class="text-110 d-flex" *ngIf="data == 'company-policy'">
+                            <mat-icon>policy</mat-icon>
+                            <span class="ml-4">Policy</span>
+                        </span>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </section>
+</div>

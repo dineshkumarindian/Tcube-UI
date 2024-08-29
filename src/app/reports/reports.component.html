@@ -1,0 +1,153 @@
+<div class="report">
+    <!-- <div class="heading-sec">
+        <h3 class="pull-left col-4">Reports
+        </h3>
+        <div class="row col-4 pull-left mr-0">
+            <span class="w-100 mystyle">
+                <mat-form-field appearance="outline" class="w-100 mt-2" style="text-align: center">
+                    <mat-icon matSuffix>search</mat-icon>
+                    <mat-select [formControl]="reportCtrl" (selectionChange)="searchreport($event.value)"
+                        placeholder="Select Report" #singleSelect>
+                        <mat-option class="w-100">
+                            <ngx-mat-select-search placeholderLabel="Search Report..."
+                                noEntriesFoundLabel="'no matching report found'" [formControl]="reportFilterCtrl">
+                                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let data of filteredreport | async" [value]="data.name">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="col-3"></div>
+            </span>
+        </div>
+    </div> -->
+    <div class="page-header d-flex align-items-center justify-content-between">
+        <h3 class="page-title">Reports</h3>
+        <div class="p-0 col-4">
+            <span class="w-100 custom-search-style">
+                <mat-form-field appearance="outline" class="w-100 mt-2" style="text-align: center">
+                    <mat-icon matSuffix>search</mat-icon>
+                    <mat-select [formControl]="reportCtrl" (selectionChange)="searchreport($event.value)"
+                        placeholder="Select Report" #singleSelect>
+                        <mat-option class="w-100">
+                            <ngx-mat-select-search placeholderLabel="Search Report..."
+                                noEntriesFoundLabel="'no matching report found'" [formControl]="reportFilterCtrl">
+                                <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
+                            </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let data of filteredreport | async" [value]="data.id">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="col-3"></div>
+            </span>
+        </div>
+        <div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="container-style d-flex flex-wrap">
+                    <div class="card-style mx-4">
+                        <div class="face face1">
+                            <div class="content flex-column align-items-center d-flex">
+                                <img src="../../assets/images/attendance_report.png">
+                                <div>Attendance<br>Reports</div>
+                            </div>
+                        </div>
+                        <div class="face face2">
+                            <div class="content w-100">
+                                <button class="w-100" [routerLink]="['/employeeattendancedatereport']"> Daily Status
+                                </button>
+                                <button class="w-100" [routerLink]="['/userattendancereport']"> Resources Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ************************reports for leave tracker******************* -->
+                    <div class="card-style mx-4">
+                        <div class="face face1">
+                            <div class="content flex-column align-items-center d-flex">
+                                <img src="../../assets/images/reports leave.png">
+                                <div>Leave Tracker<br>Reports</div>
+                            </div>
+                        </div>
+                        <div class="face face2">
+                            <div class="content w-100">
+                                <button class="w-100" [routerLink]="['/user-reports-leavetracker']"> Resources Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!--- Projects and Jobs -->
+                    <div class="card-style mx-4">
+                        <div class="face face1">
+                            <div class="content flex-column align-items-center d-flex">
+                                <img src="../../assets/images/pJreport.png">
+                                <div>Project And Jobs<br>Reports</div>
+                            </div>
+                        </div>
+                        <div class="face face2">
+                            <div class="content w-100">
+                                <button class="w-100" [routerLink]="['/project-jobs-report']"> Projects and Jobs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-style mx-4">
+                        <div class="face face1">
+                            <div class="content flex-column align-items-center d-flex">
+                                <img src="../../assets/images/day_planner_reports.png">
+                                <div>Day Planner<br>Reports</div>
+                            </div>
+                        </div>
+                        <div class="face face2">
+                            <div class="content w-100">
+                                <button class="w-100" [routerLink]="['/day-planner-reports']"> Day Planner
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--- time tracker -->
+                    <div class="card-style mx-4">
+                        <div class="face face1">
+                            <div class="content flex-column align-items-center d-flex">
+                                <img src="../../assets/images/reminder-img-white.png">
+                                <div>Time Tracker<br>Reports</div>
+                            </div>
+                        </div>
+                        <div class="face face2">
+                            <div class="content w-100">
+                                <button class="w-100" [routerLink]="['/user-timesheet-reports']"> Timesheet
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--- Projects and Jobs -->
+
+                    <!-- <div class="card-style ml-5">
+                <div class="face face1">
+                    <div class="content flex-column align-items-center d-flex">
+                        <img src="../../assets/images/performance.png">
+                        <div>User Performance<br>Metrics</div>
+                    </div>
+                </div>
+                <div class="face face2">
+                    <div class="content w-100">
+                        <button class="w-100" [routerLink]="['/performance-metrics']" > Performance Metrics
+                        </button>
+                    </div>
+                </div>
+            </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

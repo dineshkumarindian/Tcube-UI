@@ -1,0 +1,867 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">leave tracker settings</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <!-- <span class="rs_btns"> -->
+                <!-- <div class="setting_add_btns"> -->
+                <button mat-raised-button class="add_create_btn_mi" *ngIf="showManageLeaveTypeTable && !previousYear"
+                    (click)="addLeaveType()">
+                    <mat-icon mat-icon-button>add</mat-icon>
+                    Add Leave Type
+                </button>
+                <button mat-raised-button class="add_create_btn_mi mr-2" *ngIf="showHolidayTable && !previousYear"
+                    (click)="addholiday()">
+                    <mat-icon mat-icon-button>add</mat-icon>
+                    Add Custom Holiday
+                </button>
+                <button mat-raised-button class="add_create_btn_mi"
+                    *ngIf="showHolidayTable && !previousYear && isCurrentYear" (click)="addgovholiday()">
+                    <mat-icon mat-icon-button>add</mat-icon>
+                    Add Gov holiday
+                </button>
+                <span matTooltip="Please edit the existing integration or delete the existing integration to create a new integration
+                    " [matTooltipDisabled]="integrationtype_arr.length > 0">
+                    <button [disabled]="integrationtype_arr.length == 0" *ngIf="integrationDetails"
+                        [matMenuTriggerFor]="integrationmenu" mat-raised-button class="add_create_btn_mi">
+                        <mat-icon mat-icon-button>add</mat-icon>
+                        Add Integration
+                    </button>
+                </span>
+                <mat-menu #integrationmenu="matMenu">
+                    <button mat-menu-item *ngFor="let data of integrationtype_arr"
+                        (click)="addIntegrationForm(data)">{{data}}</button>
+                </mat-menu>
+                <!-- </div> -->
+                <!-- </span> -->
+            </div>
+        </div>
+    </div>
+</div>
+<section class="lt-settings">
+
+    <div class="lt-card-section">
+        <div class="col-md-12 mb-3">
+            <div class="cardHead">
+                <section>
+                    <div class="card-setting-container mx-0 px-0 my-4">
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="togglecards('leavetypes')">
+                            <div class="card"
+                                [ngStyle]="{'background-color':isActiveLeaveTracker?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isActiveLeaveTracker == true">
+                                        <img src="..//../assets/images/calendarwhite.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="isActiveLeaveTracker == false">
+                                        <img src="..//../assets/images/calendar1.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="showManageLeaveTypeTable" style="color: white !important;">
+                                            Leave
+                                            Types
+                                        </h3>
+                                        <h3 *ngIf="!showManageLeaveTypeTable" style="color:#7f8291 !important;">
+                                            Leave
+                                            Types
+                                        </h3>
+                                    </div>
+                                    <ul class="sci">
+                                        <li *ngIf="showManageLeaveTypeTable">
+                                            <p style="color: white !important;">
+                                                {{leaveTypes.length}} Leave Types</p>
+                                        </li>
+                                        <li *ngIf="!showManageLeaveTypeTable">
+                                            <p style="color:#7f8291 !important;">
+                                                {{leaveTypes.length}} Leave Types</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="togglecards('holidays')">
+                            <div class="card"
+                                [ngStyle]="{'background-color':isHolidayLeaveTracker?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isHolidayLeaveTracker == true">
+                                        <img src="..//../assets/images/holidayswhite.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="isHolidayLeaveTracker == false">
+                                        <img src="..//../assets/images/holidays1.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="showHolidayTable" style="color: white !important;">Holidays
+                                        </h3>
+                                        <h3 *ngIf="!showHolidayTable" style="color:#7f8291 !important;">Holidays
+                                        </h3>
+                                    </div>
+                                    <ul class="sci">
+                                        <li *ngIf="showHolidayTable">
+                                            <p style="color: white !important;">
+                                                {{holidayDetails.length}} Holidays</p>
+                                        </li>
+                                        <li *ngIf="!showHolidayTable">
+                                            <p style="color:#7f8291 !important;">
+                                                {{holidayDetails.length}} Holidays</p>
+                                        </li>
+                                    </ul>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <!-- <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="togglecards('integration')">
+                            <div class="card" [ngStyle]="{'background-color':isActiveIntegration?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isActiveIntegration == true">
+                                        <img src="..//../assets/images/integration-img-white.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="isActiveIntegration == false">
+                                        <img src="..//../assets/images/integration-img.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="integrationDetails" style="color: white !important;">
+                                            Integrations</h3>
+                                        <h3 *ngIf="!integrationDetails" style="color:#7f8291 !important;">
+                                            Integrations
+                                        </h3>
+                                    </div>
+                                </div>
+                                <ul class="sci">
+                                    <li *ngIf="integrationDetails">
+                                        <p style="color: white !important;">
+                                            {{activeIntegrations.length}} Integration</p>
+                                    </li>
+                                    <li *ngIf="!integrationDetails">
+                                        <p style="color:#7f8291 !important;">
+                                            {{activeIntegrations.length}} Integration</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="togglecards('todayleaves')">
+                            <div class="card" [ngStyle]="{'background-color':isActiveTodayLeave?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isActiveTodayLeave == true">
+                                        <img src="../../../assets/images/today_leaves__white.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="isActiveTodayLeave == false">
+                                        <img src="../../../assets/images/today_leave_black.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="isActiveTodayLeave" style="color: white !important;">
+                                            Manage Notification</h3>
+                                        <h3 *ngIf="!isActiveTodayLeave" style="color:#7f8291 !important;">
+                                            Manage Notification
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 col-md-3 col-lg-3 divStyle" (click)="togglecards('manage-email')">
+                            <div class="card" [ngStyle]="{'background-color':isActiveMailConfig?'#00214c':'#ffffff' }">
+                                <div class="content">
+                                    <div class="imgBx" *ngIf="isActiveMailConfig == true">
+                                        <img src="../../../assets/images/mail-white.png">
+                                    </div>
+                                    <div class="imgBx" *ngIf="isActiveMailConfig == false">
+                                        <img src="../../../assets/images/mail.png">
+                                    </div>
+                                    <div class="contentBx">
+                                        <h3 *ngIf="isActiveMailConfig" style="color: white !important;">
+                                            Manage Mail</h3>
+                                        <h3 *ngIf="!isActiveMailConfig" style="color:#7f8291 !important;">
+                                            Manage Mail
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid integration-style">
+        <div class="mat-elevation-z8 mb-4" *ngIf="!integrationDetails && !todayLeaveDetails && !isActiveMailConfig">
+            <!-- <div>Leave Types</div> -->
+            <div class="row">
+                <div class="col-4">
+                    <div *ngIf="!Bulkdeleteleavetypesicon" class="table_bulk_dele">
+                        <!-- <h3 class="page-title table-page-head">{{page_header}}</h3> -->
+                    </div>
+                    <div class="table_bulk_dele" *ngIf="Bulkdeleteleavetypesicon && isActiveLeaveTracker">
+                        <button class="bulk-delete-icon mt-4">
+                            <mat-icon matTooltip="Delete selected leave Types" matTooltipPosition="right"
+                                (click)="LeavetypeBulkDelete()" *ngIf="Bulkdeleteleavetypesicon">
+                                delete
+                            </mat-icon>
+                        </button>
+                    </div>
+
+                    <div class="table_bulk_dele" *ngIf="Bulkdeleteleavetypesicon && isHolidayLeaveTracker">
+                        <button class="bulk-delete-icon mt-4">
+                            <mat-icon matTooltip="Delete selected holidays" matTooltipPosition="right"
+                                (click)="holidaysBulkDelete()" *ngIf="Bulkdeleteleavetypesicon">
+                                delete
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-4 col-md-4 mt-4 d-flex justify-content-center">
+                    <span class="datepicker_select d-flex align-items-center">
+                        <button mat-icon-button (click)="previousdate()" [disabled]="beforedisable">
+                            <mat-icon>chevron_left</mat-icon>
+                        </button>
+                        <p class="mx-2 mb-0">{{startOfYear | date:'dd-MM-yyyy'}} - {{endOfYear | date:'dd-MM-yyyy'}}</p>
+                        <button mat-icon-button (click)="nextdate()" [disabled]="nextdisable">
+                            <mat-icon>chevron_right</mat-icon>
+                        </button>
+                    </span>
+                </div>
+                <!-- <div class="col-md-6 d-flex flex-row flex-row-reverse">
+                    <div class="filter-form-sec mb-2"> -->
+                <div class="col-4">
+                    <div class="filter-form-sec">
+                        <mat-form-field appearance="standard" *ngIf="showManageLeaveTypeTable">
+                            <mat-label>Filter</mat-label>
+                            <input matInput (keyup)="applyFilterLeavetype($event)" placeholder="Search Leave Type ..."
+                                #input>
+                        </mat-form-field>
+                        <mat-form-field appearance="standard" *ngIf="showHolidayTable">
+                            <mat-label>Filter</mat-label>
+                            <input matInput (keyup)="applyFilterHoliday($event)" placeholder="Search Holiday ..."
+                                #input>
+                        </mat-form-field>
+                    </div>
+                    <!-- reset icon for leave types and holidays -->
+                    <div class="reset-default pull-right mr-4 mt-4">
+                        <img *ngIf="showManageLeaveTypeTable && !isresetLeaveType && leaveTypeDetails.length == 0 && !previousYear"
+                            class="mt-1 cursor-pointer" (click)="resetLeaveType()"
+                            src="../../../assets/images/arrows.png" height="30" width="30" alt="reset"
+                            matTooltipPosition="below" matTooltip="Click here to get default leave types">
+                        <span *ngIf="isresetLeaveType" class="btns">
+                            <button mat-flat-button class="btn btn-confirm" (click)="DefaultLeaveTypeData()">
+                                Confirm</button>
+                            <button mat-flat-button class="btn btn-cancel" (click)="resetCancelBtn()">Cancel</button>
+                        </span>
+                        <img *ngIf="showHolidayTable && !isresetHoliday && holidayDetails.length == 0 && !previousYear && isCurrentYear"
+                            class="mt-1 cursor-pointer" (click)="resetHoliday()" src="../../../assets/images/arrows.png"
+                            height="30" width="30" alt="reset" matTooltipPosition="below"
+                            matTooltip="Click here to get default holidays">
+                        <!-- <span *ngIf="isresetHoliday">
+                                <button mat-flat-button color="primary" style="background-color: #0e5eb8; color: white">
+                                    Confirm</button>
+                                <button mat-flat-button color="warn">Cancel</button>
+                            </span> -->
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+
+            <div class="mat-elevation-z8" *ngIf="isActiveLeaveTracker">
+                <div class="tablescroll">
+                    <table mat-table [dataSource]="tableDataSource" matSort class="table_tc">
+                        <!-- columns for the leave types *ngIf="isActiveLeaveTracker" -->
+                        <ng-container matColumnDef="selector">
+
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRows() : null; bulk_delete()"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null; bulk_delete()"
+                                    [checked]="selection.isSelected(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <!-- <ng-container matColumnDef="selector" *ngIf="isHolidayLeaveTracker">
+
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox (change)="$event ? toggleAllRows() : null; bulk_delete_holidays()"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null; bulk_delete_holidays()"
+                                [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container> -->
+                        <ng-container matColumnDef="leave_type">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Leave Type</th>
+                            <td mat-cell *matCellDef="let element" class="td_text_lowercased">
+                                <span class="mr-2"><img width="40"
+                                        [ngStyle]="{'background-color': manageleavebg(element.image_name) === true ? '#d1d1d1' : '#ffff' }"
+                                        [src]="element.image"></span>
+                                <p class="td_text_firstltr_capitalized mb-0 d-inline-block">{{element.leave_type}}</p>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="available_days">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Available Days</th>
+                            <td mat-cell *matCellDef="let element">{{element.available_days}}</td>
+                            <!-- <span *ngIf="element.available_days == 0"> - </span> *ngIf="element.available_days != 0"-->
+                        </ng-container>
+                        <ng-container matColumnDef="pre_Leave_notice_period">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pre-Leave Notice Period</th>
+                            <td mat-cell *matCellDef="let element">
+                                <p *ngIf="element.before_request_leave != null">{{element.before_request_leave}}</p>
+                                <p *ngIf="element.before_request_leave == null">0</p>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="year">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Year</th>
+                            <td mat-cell *matCellDef="let element">{{element.year}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="lt_action">
+                            <th mat-header-cell *matHeaderCellDef> Actions </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="action-btn">
+                                    <button mat-raised-button class="edit-btn" (click)="editleavetype(element.id)">
+                                        Edit
+                                    </button>
+                                    <button mat-raised-button class="delete-btn" (click)="deleteLeaveType(element.id)">
+                                        Delete
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <!-- columns for the holidays -->
+                        <!-- <ng-container matColumnDef="leave_name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Holiday Name
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.leave_name}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="leave_date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Holiday Date
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.leave_date_str | date:"dd-MM-yyyy" }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="hd_action">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-raised-button class="deletebtn" color="primary"
+                                (click)="deleteHoliday(element.id)">
+                                Delete
+                            </button>
+                        </td>
+                    </ng-container> -->
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                </div>
+                <div *ngIf="leave_nodata" class="text-center text-danger alert-danger no-search-match p-3">
+                    {{noDataMsg}}
+                </div>
+                <!-- <div *ngIf="holiday_nodata" class="text-center text-danger alert-danger no-search-match p-3">
+                    No Holiday Data Found..!
+                </div> -->
+                <div *ngIf="leavetypeFilter" class="text-center text-danger alert-danger no-search-match p-3">
+                    No Data Matching For "{{this.filterData}}"
+                </div>
+                <!-- <div *ngIf="holidayFilter" class="text-center text-danger alert-danger no-search-match p-3">
+                    No Data Matching For "{{this.filterData}}"
+                </div> -->
+                <mat-paginator #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+                    [pageSizeOptions]="tablePaginationOption" aria-label="Select page">
+                </mat-paginator>
+            </div>
+            <div class="mat-elevation-z8" *ngIf="isHolidayLeaveTracker">
+                <div class="tablescroll">
+                    <table mat-table [dataSource]="tableDataSource" class="table_tc" matSort>
+                        <ng-container matColumnDef="selector">
+
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? toggleAllRows2() : null; bulk_delete_holidays()"
+                                    [checked]="selection_1.hasValue() && isAllSelected2()"
+                                    [indeterminate]="selection_1.hasValue() && !isAllSelected2()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection_1.toggle(row) : null; bulk_delete_holidays()"
+                                    [checked]="selection_1.isSelected(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <!-- columns for the holidays -->
+                        <ng-container matColumnDef="leave_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Holiday Name
+                            </th>
+                            <!--  -->
+                            <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()"
+                                class="td_text_lowercased" [ngStyle]="{'color': leave_date(element.leave_date) === true ? '#000' : '#a5a8b4'  }">
+                                <p class="td_text_firstltr_capitalized mb-0">{{element.leave_name}}</p>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="leave_date">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Holiday Date
+                            </th>
+                            <!-- <td mat-cell *matCellDef="let element" [ngStyle]="[{'color': (element.leave_date | date:'dd-MM-yyyy')?.toString() >= todayDate?.toString() ? '#00000078' : '#000000de'  }]">
+                                {{ element.leave_date | date:"dd-MM-yyyy" }}
+                            </td>   -->
+                            <td mat-cell *matCellDef="let element" [ngStyle]="{'color': leave_date(element.leave_date) === true ? '#000' : '#a5a8b4'}">
+                                {{element.leave_date | date:"dd-MM-yyyy" }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="hd_action">
+                            <th mat-header-cell *matHeaderCellDef> Actions </th>
+                            <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                                <button mat-raised-button class="delete-btn" (click)="deleteHoliday(element.id)">
+                                    Delete
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns1" (click)="selection_1.toggle(row)">
+                        </tr>
+                    </table>
+                </div>
+
+                <div *ngIf="holiday_nodata" class="text-center text-danger alert-danger no-search-match p-3">
+                    {{noDataMsg}}
+                </div>
+                <div *ngIf="holidayFilter" class="text-center text-danger alert-danger no-search-match p-3">
+                    No Data Matching For "{{this.filterData}}"
+                </div>
+                <mat-paginator #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+                    [pageSizeOptions]="tablePaginationOption" aria-label="Select page">
+                </mat-paginator>
+            </div>
+        </div>
+        <!-- <div *ngIf="integrationDetails" class="outputSec mx-3">
+            <div *ngIf="integrationDetails" class="card-sec">
+                <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="col-7 page-title">{{page_header}} </h5>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="activeIntegrations.length == 0" class="cardNoData">
+                            <img src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                            <div>No Integrations Available!</div>
+                        </div>
+                        <div *ngIf="activeIntegrations.length > 0">
+                            <div class="card-body1 d-flex flex-wrap">
+                                <div class="d-flex flex-wrap col-2 col-md-2" *ngFor="let card of activeIntegrations">
+                                    <div class="card innerCard" [ngClass]="getStyleClass(card.is_paused)"
+                                        [matTooltip]="card.is_paused ? 'Integration Paused' : null"
+                                        matTooltipPosition="above">
+                                        <div class="card-details">{{card.app_name}}</div>
+                                        <div class="card-button d-flex justify-content-around">
+
+                                            <mat-icon class="edit" matTooltip="Edit" matTooltipPosition="left"
+                                                (click)="editIntegration(card.id,card.app_name)">edit
+                                            </mat-icon>
+
+                                            <mat-icon *ngIf="card.is_paused == false" class="pause" matTooltip="Pause"
+                                                matTooltipPosition="below"
+                                                (click)="pauseOrResumeDialog(card.id,'paused') ">
+                                                pause_circle_filled</mat-icon>
+
+                                            <mat-icon *ngIf="card.is_paused == true" class="pause" matTooltip="Resume"
+                                                matTooltipPosition="below"
+                                                (click)="pauseOrResumeDialog(card.id,'resumed') ">
+                                                play_circle_filled
+                                            </mat-icon>
+
+                                            <mat-icon class="edit" matTooltip="View" matTooltipPosition="below"
+                                                (click)="viewIntegration(card)">
+                                                remove_red_eye
+                                            </mat-icon>
+                                            <mat-icon class="delete" matTooltip="Delete" matTooltipPosition="right"
+                                                (click)="deleteIntegration(card.id)">delete
+                                            </mat-icon>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div *ngIf="todayLeaveDetails" class="outputSec mx-3">
+            <div *ngIf="todayLeaveDetails" class="card-sec">
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel class="mb-3" expanded="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                               <h5>Application Notification</h5>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <!-- <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="col-7 page-title">Manage Leave Notification</h5>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card mt-3">
+                                    <div class="card-body2 manage-leave-notify">
+                                       
+                                        <div class="row  mx-3 pt-4">
+                                            <div class="col-md-3">
+                                                <b>Time-off Summary</b>
+
+                                            </div>
+                                            <div class="col-md-9">
+                                                <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                    class="example-radio-group" [(ngModel)]="isReminderForCheckin">
+                                                    <mat-radio-button class="example-radio-button mr-3"
+                                                        *ngFor="let option of yesOrNoOption" [value]="option"
+                                                        (change)="radioButtonClickedAppPopup($event)">
+                                                        {{option}}
+                                                    </mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-3 pb-3">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-9" [innerHTML]="tcubeTodayNoteMessage">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-3" *ngIf="isReminderForCheckin == 'Yes'">
+                                            <div class="col-md-3"><b>Access Users</b></div>
+                                            <mat-form-field style="width: 100%;" appearance="outline" class="col-md-6">
+                                                <mat-select [formControl]="AssigneeCtrl" placeholder="Select Users" [(ngModel)]="managerselectedItems" 
+                                                (ngModelChange)="managerfunction($event)" #leaveselect multiple >
+                                                    <mat-option>
+                                                        <ngx-mat-select-search [formControl]="AssigneeFilterCtrl"
+                                                            placeholderLabel="Search Users..." noEntriesFoundLabel="'no match found'">
+                                                        </ngx-mat-select-search>
+                                                    </mat-option>
+                                                    <div class="select-all pl-3">
+                                                        <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                                                          (change)="toggleAllSelection()">Select All</mat-checkbox>
+                                                      </div>
+                                                    <mat-option *ngFor="let data of filteredAssignee | async" [value]="data.id">
+                                                        {{data.firstname}} {{data.lastname}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <mat-error class="errorfix" *ngIf="AssigneeCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                                            </mat-form-field>
+                                            <!-- <span class="col-md-3 mat-filter-refresh-btn users_btn">
+                                                <button matTooltip="Users" (click)="UsersDialog()" mat-icon-button
+                                                    class="example-icon action-btn">
+                                                    <mat-icon class="pr-menu-icon">supervisor_account
+                                                            </mat-icon>
+                                                    </button>
+                                            </span>  --> 
+                                        </div>
+                                        
+                                        
+                                        <div class="row mx-3 pb-3">
+                                            <div class="col-md-12">
+                                                <div class="btns">
+                                                    <button class="btn btn-confirm" *ngIf="isReminderForCheckin == 'Yes'" [disabled]="managerselectedItems.length == 0 || (!yesOrNoLeavePopup || !usersCheckBox)"
+                                                    (click)="todayLeavesCreateOrUpdate()">Save changes</button>
+                                                    <button class="btn btn-confirm" *ngIf="isReminderForCheckin == 'No'" [disabled] ="!yesOrNoLeavePopup || !usersCheckBox"
+                                                    (click)="todayLeavesCreateOrUpdate()">Save changes</button>
+                                                    <!-- <button class="btn btn-confirm" [disabled]="!yesOrNoLeavePopup || !usersCheckBox"
+                                                        (click)="todayLeavesCreateOrUpdate()">Save changes</button> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-6">
+                                <div class="card mt-3">
+                                    <div class="card-body2 manage-leave-notify">
+                                        <div class="row  mx-3 pt-3">
+                                            <div class="col-md-6">
+                                                <b>Slack Notification Time-off Summary :</b>
+                                            </div>
+                                            <div class="col-md-6 manage-slack-approvals">
+                                                <mat-radio-group aria-labelledby="example-radio-group-label"
+                                                    class="example-radio-group" [disabled]="!isslackConfig" 
+                                                    [matTooltip]="!isslackConfig ? 'Please verify the slack configurations':''"
+                                                    [(ngModel)]="isReminderForCheckSlackApp">
+                                                    <mat-radio-button class="example-radio-button mr-3"
+                                                        *ngFor="let option of yesOrNoOption" [value]="option"
+                                                        (change)="radioButtonClickedSlackApp($event)">
+                                                        {{option}}
+                                                    </mat-radio-button>
+                                                </mat-radio-group>
+                                            </div>
+                                        </div>
+                                        <div class="row mx-3 pb-3">
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6" [innerHTML]="manageLeavetrackerNoteMessage">
+                                            </div>
+                                        </div>
+                                        <div class="row mx-3 pb-3">
+                                            <div class="col-md-10">
+                                                <div class="btns">
+                                                    <button class="btn btn-confirm" [disabled]="!yesOrNoSlackApp"
+                                                        (click)="todayLeavesSlackAppCreateOrUpdate()">Save
+                                                        changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <mat-accordion class="example-headers-align mat-accordion-style">
+                    <mat-expansion-panel class="mb-3" >
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <h5>Slack Notification</h5>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="card mt-3">
+                            <div class="card-body2">
+                                <div class="row  mx-3 pt-3">
+                                    <div class="col-md-3">
+                                        <b>Leave Approvals</b>
+                                    </div>
+                                    <!-- -->
+                                    <div class="col-md-9 manage-slack-approvals">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group" [disabled]="!isslackConfig" [matTooltip]="!isslackConfig ? 'Please verify the slack configurations':''" 
+                                            [(ngModel)]="isRemainderSlackIntegration">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedSlackIntegration($event, 'leave-tracker')">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" [innerHTML]="slackApprovalsNoteMessage">
+                                        <!-- <small>If you choose <b>"Yes"</b>,send the notification to slack
+                                            application.</small> -->
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-10">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" [disabled]="!yesOrNoSlackIntegration"
+                                                (click)="SlackIntegrationPauseOrResume(isRemainderSlackIntegration, 'slack')">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3">
+                            <div class="card-body2">
+                                <div class="row  mx-3 pt-3">
+                                    <div class="col-md-3">
+                                        <b>Slack Approvals</b>
+                                    </div>
+                                    <!-- -->
+                                    <div class="col-md-9 manage-slack-approvals">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group" [disabled]="!isslackConfig" [matTooltip]="!isslackConfig ? 'Please verify the slack configurations':''" 
+                                            [(ngModel)]="isRemainderSlackApprovalsIntegration">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedSlackIntegration($event, 'approve-reject')">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" [innerHTML]="ApprovalsNoteMessage">
+                                        <!-- <small>If you choose <b>"Yes"</b>,send the notification to slack
+                                            application.</small> -->
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-10">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" [disabled]="!yesOrNoSlack"
+                                                (click)="SlackIntegrationPauseOrResume(isRemainderSlackApprovalsIntegration, 'slackApprovals')">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card mt-3">
+                            <div class="card-body2 manage-leave-notify">
+                                <div class="row  mx-3 pt-3">
+                                    <div class="col-md-3">
+                                        <b>Time-off Summary</b>
+                                    </div>
+                                    <div class="col-md-9 manage-slack-approvals">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group" [disabled]="!isslackConfig" 
+                                            [matTooltip]="!isslackConfig ? 'Please verify the slack configurations':''"
+                                            [(ngModel)]="isReminderForCheckSlackApp">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedSlackApp($event)">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" [innerHTML]="slackTodayNoteMessage">
+                                        <!-- <small>If you choose <b>"Yes"</b>it will show today
+                                            leave
+                                            users list once a day in slack application.</small> -->
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-10">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" [disabled]="!yesOrNoSlackApp"
+                                                (click)="todayLeavesSlackAppCreateOrUpdate()">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <mat-accordion class="example-headers-align">
+                    <mat-expansion-panel class="mb-3">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                               <h5>Whatsapp Notification</h5>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="card mt-3">
+                            <div class="card-body2">
+                                <div class="row  mx-3 pt-3">
+                                    <div class="col-md-3">
+                                        <b>Leave Approvals</b>
+                                    </div>
+                                    <div class="col-md-9 manage-whatsapp-approvals">
+                                        <mat-radio-group aria-labelledby="example-radio-group-label"
+                                            class="example-radio-group"  [disabled]="!isWAConfig || !isWAConfigForLT" [matTooltip]="(!isWAConfig || !isWAConfigForLT)? 'Please verify the whatsapp integration':''"
+                                             [(ngModel)]="isRemainderWhatsappIntegration">
+                                            <mat-radio-button class="example-radio-button mr-3"
+                                                *ngFor="let option of yesOrNoOption" [value]="option"
+                                                (change)="radioButtonClickedWhatsappIntegration($event)">
+                                                {{option}}
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-9" [innerHTML]="whatsNoteMessage">
+                                        <!-- <small>If you choose <b>"Yes"</b>,send the notification to whatsapp
+                                            application.</small> -->
+                                    </div>
+                                </div>
+                                <div class="row mx-3 pb-3">
+                                    <div class="col-md-10">
+                                        <div class="btns">
+                                            <button class="btn btn-confirm" [disabled]="!yesOrNoWhatsappIntegration"
+                                                (click)="SlackIntegrationPauseOrResume(isRemainderWhatsappIntegration , 'whatsapp')">Save
+                                                changes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <!-- <div class="card">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="col-7 page-title">Manage Leave Notification</h5>
+                    </div>
+                    <div class="card-body2">
+                        <div class="row  mx-3 pt-3">
+                            <div class="col-3">
+                                <b>Manage Leave Notification : </b></div>
+                            <div class="col-9">
+                                <mat-radio-group aria-labelledby="example-radio-group-label"
+                                    class="example-radio-group" [(ngModel)]="isReminderForCheckin">
+                                    <mat-radio-button class="example-radio-button mr-3"
+                                        *ngFor="let option of yesOrNoOption" [value]="option"
+                                        (change)="radioButtonClickedAttendance($event)">
+                                        {{option}}
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="row mx-3 pb-3">
+                            <div class="col-3"></div>
+                            <div class="col-9">
+                                <small>If you choose <b>"Yes"</b> when you visit dashboard it will show today leave users list once a day</small>
+                            </div>
+                        </div>
+                        <div class="row mx-3 pb-3">
+                            <div class="col-10">
+                                <div class="btns">
+                                    <button class="btn btn-confirm" [disabled]="!yesOrNoAttendance"
+                                        (click)="todayLeavesCreateOrUpdate()">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div *ngIf="isActiveMailConfig">
+
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="col-7 header-style">Email Notification</h5>
+                </div>
+                <div class="card-body2">
+                    <div class="row  mx-3 pt-3">
+                        <!-- <div class="col-3">
+                            <b>Notify Mail For leave Tracker : </b>
+                        </div> -->
+                        <div class="col-md-12 radio-btn-style">
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                                [disabled]="notifyDisable"
+                                [matTooltip]="notifyDisable ? 'Please verify the mail integration':''"
+                                [(ngModel)]="isRemainderMailConfig">
+                                <mat-radio-button class="example-radio-button mr-3" *ngFor="let option of yesOrNoOption"
+                                    [value]="option" (change)="radioButtonClickedManageMail($event)">
+                                    {{option}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="row mx-3 pb-3">
+                        <!-- <div class="col-3"></div> -->
+                        <div class="col-md-12" [innerHTML]="mailNoteMessage">
+                            <!-- <small>If you choose <b>Yes</b>, user will receive mail notification for leave
+                                tracker</small> -->
+                        </div>
+                    </div>
+                    <div class="row mx-3 pb-3">
+                        <div class="col-10">
+                            <div class="btns">
+                                <button class="btn btn-confirm" [disabled]="!yesOrNoMailConfig"
+                                    (click)="SaveOrUpdateLeaveTrackerMailConfig()">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

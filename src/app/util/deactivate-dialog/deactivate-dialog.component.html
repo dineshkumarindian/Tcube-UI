@@ -1,0 +1,29 @@
+<div class="dialog-header">
+    <h3 class="page-title">{{deactivateheadMsg}}</h3>
+
+    <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close"
+            class="mat-icon notranslate material-icons mat-icon-no-color" type="button">close</mat-icon>
+    </span>
+</div>
+<div mat-dialog-content>
+    <div class="dialog-question">{{deactivateContentMsg}}</div>
+    <small class="dialog-hint-content">
+        {{showDeactivateContent}}
+    </small>
+    <div>
+        <form [formGroup]="deactiveformgroup">
+            <div class="row justify-content-center">
+                <mat-form-field appearance="fill" class="px-3">
+                    <mat-label>Comments</mat-label>
+                    <textarea rows="1" matInput name="comments" formControlName="comments"></textarea>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+
+</div>
+<div class="dialog-btns px-3 mb-4">
+    <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+    <button mat-flat-button (click)="DeactiveDetails()" class="cnfm-btn">Deactivate</button>
+</div>

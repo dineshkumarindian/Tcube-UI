@@ -1,0 +1,2263 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  //  font-family:"Lato", "Helvetica Neue", "Helvetica","Aldrich", Helvetica, Arial, sans-serif,"Hind Madurai";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+// To hide the password extra reveal icon showing in microsoft edge browser
+::-ms-reveal {
+  display: none !important;
+}
+
+//----------------------common style--------------------------------------
+
+.example-fill-remaining-space {
+  /* This fills the remaining space, by using flexbox. 
+       Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.w_wrap_120 {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 120px;
+}
+
+.card-bg {
+  box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+  -ms-box-shadow: 0px 0px 10px 0px rgba(82, 63, 105, 0.1);
+}
+
+.scroll-y {
+  overflow-y: scroll;
+  width: 100%;
+}
+
+.errorfix {
+  margin-top: 20px;
+}
+
+.btn:disabled,
+.btn[disabled] {
+  cursor: not-allowed;
+}
+
+button:focus {
+  outline: 0;
+}
+
+.dialog-question {
+  margin-bottom: 0px;
+}
+
+.page-title {
+  text-transform: capitalize;
+  color: #0e5eb8;
+}
+
+.subtitle-color {
+  color: #000000;
+  font-size: 12px !important;
+}
+
+// hint message use all modules
+.mat-hint {
+  color: #322F2F;
+  font-size: 13px !important;
+  opacity: 1;
+  font-weight: 600;
+}
+
+.red {
+  color: #ff0000 !important;
+}
+
+sup {
+  font-size: 115%;
+  top: -0.1em;
+  margin-right: 1px;
+}
+
+.mat-toolbar,
+.mat-toolbar h1,
+.mat-toolbar h2,
+.mat-toolbar h3,
+.mat-toolbar h4,
+.mat-toolbar h5,
+.mat-toolbar h6 {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+// Separate font size and familly for headings (h1)
+h1 {
+  font-size: 17px;
+  // font-weight: 800 !important;
+  margin-bottom: 0;
+}
+
+// Separate font size and familly for headings (h2,h3)
+h2,
+h3 {
+  font-size: 16px;
+  font-weight: 700 !important;
+  margin-bottom: 0;
+}
+
+//Separate font size and familly for headings (h4,h5,h6)
+h4,
+h5 {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  margin-bottom: 0;
+}
+
+h6,
+th {
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  margin-bottom: 0;
+}
+
+//Separate font size and familly for links, para and small titles
+p,
+a,
+li {
+  font-size: 13px !important;
+}
+
+//Separate font size and familly for label, button, small, span text and error message
+
+span,
+label,
+button {
+  font-size: 12px !important;
+}
+
+small {
+  font-size: 11px !important;
+}
+
+abbr[title],
+abbr[data-original-title] {
+  text-decoration: underline;
+  -webkit-text-decoration: underline dotted;
+  text-decoration: underline dotted;
+  cursor: help;
+  border-bottom: 0;
+  text-decoration-skip-ink: none;
+}
+
+address {
+  margin-bottom: 1rem;
+  font-style: normal;
+  line-height: inherit;
+}
+
+ol,
+ul,
+dl {
+  margin-top: 0 !important;
+  margin-bottom: 1rem !important;
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+  margin-bottom: 0 !important;
+}
+
+// mat button font family and size
+.mat-button,
+.mat-fab,
+.mat-flat-button,
+.mat-icon-button,
+.mat-mini-fab,
+.mat-raised-button,
+.mat-stroked-button {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+  font-size: 13px !important;
+}
+
+//----------------------no data and no data matching found common style--------------------
+.nd_nmdata {
+  color: #dc3545;
+  font-size: 14px;
+  background-color: #f8d7da;
+  background-color: #f8d7da;
+  padding: 1rem;
+}
+
+//----------------------cursor common styles--------------------
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+//----------------------no data and no data matching found common style--------------------
+
+//------------------------ Display contents styles ----------------------------------------------------------------
+.d-contents {
+  display: contents;
+}
+
+//------------------------ Display contents styles ----------------------------------------------------------------
+
+
+//----------------------mat table font style --------------------
+.mat-table {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+
+  .td_text_lowercased {
+    text-transform: lowercase !important;
+
+    .td_text_firstltr_capitalized::first-letter {
+      text-transform: capitalize !important;
+    }
+  }
+
+}
+
+.mat-sort-header-button,
+.mat-header-cell {
+  font-size: 14px !important;
+}
+
+.mat-cell,
+.mat-footer-cell {
+  font-size: 13px !important;
+}
+
+//----------------------mat table font style --------------------
+
+// ----------------------Button common styles----------------------
+// color is white
+.edit-btn,
+.deactivate-btn,
+.activate-btn,
+.delete-btn,
+.publish-btn,
+.renew-btn,
+.upgrade-btn,
+.view-btn,
+.skip-btn,
+.videoBtn,
+.approvedbtn,
+.disabledpendingbtn,
+.docBtn,
+.contact-btn {
+  line-height: 25px !important;
+  padding: 0 10px !important;
+  min-width: 32px !important;
+  margin: 2px !important;
+  color: #fff !important;
+}
+
+//status action of approve,approved,reject,cancel and cancelled button
+.status-btn {
+  color: white !important;
+  font-weight: 500 !important;
+  text-align: center !important;
+  line-height: 21px !important;
+  padding: 1px 8px !important;
+  outline: none !important;
+  transition: all 100ms ease-out !important;
+  border-radius: 4px !important;
+  border: none !important;
+}
+
+.status-btn:disabled {
+  cursor: not-allowed !important;
+  background-color: -internal-light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3)) !important;
+}
+
+//timetracker ,leave tracker approved button
+.active-btn {
+  background-color: #2e7f35 !important;
+}
+
+//time tracker rejected button and leave tracker cancelled button 
+.inactive-btn {
+  background-color: #FFC107 !important;
+}
+
+//time tracker pending button and leave tracker rejected, reject button
+.pending-btn {
+  background-color: #f73838 !important;
+}
+
+.pending-btn:disabled {
+  cursor: not-allowed !important;
+  background-color: -internal-light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3)) !important;
+}
+
+//time tracker not submitted status 
+.not-submitted-btn {
+  background-color: #e0e0e0 !important;
+  color: #000000 !important;
+}
+
+//leave tracker approve button 
+.approve-btn {
+  background-color: #093a79 !important;
+}
+
+// cancel and cancelled button color of leave tracker
+.cancel-btn {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid grey !important;
+}
+
+// color is black
+// line height is diff because it has border so line height is reduced
+.approvedcancelbtn {
+  line-height: 22px !important;
+  padding: 0 10px !important;
+  min-width: 32px !important;
+  margin: 2px !important;
+  color: #000000 !important;
+  border: 1px solid grey !important;
+}
+
+.tb_dropdown_btn {
+  background-color: #334966;
+  line-height: 25px !important;
+  padding: 0 10px !important;
+  min-width: 32px !important;
+  // margin: 2px !important;
+  color: #fff !important;
+
+  .mat-icon {
+    height: 21px;
+    width: 21px;
+    font-size: 18px;
+  }
+}
+
+.backbtn {
+  width: 47px;
+  background-color: transparent;
+  border-color: transparent;
+  outline: none;
+}
+
+.edit-btn {
+  background-color: #093a79 !important;
+}
+
+.deactivate-btn {
+  outline: none !important;
+  background-color: #02a1b3 !important;
+  margin-right: 7px !important;
+}
+
+.activate-btn {
+  outline: none !important;
+  background-color: #2e7f35 !important;
+  margin-right: 7px !important;
+}
+
+.delete-btn {
+  background-color: #f73838 !important;
+}
+
+.renew-btn {
+  background-color: #0ab104 !important;
+}
+
+.upgrade-btn,
+.docBtn {
+  background-color: #b17a04 !important;
+}
+
+.videoBtn {
+  background-color: #0472b1 !important;
+}
+
+.view-btn {
+  background: #11698E !important;
+}
+
+.skip-btn {
+  background: #bebebe !important;
+}
+.resend_btn {
+  display: inline-block;
+  border-radius: 5px;
+  height: 24px !important;
+  border: none;
+  background: #C31A31 !important;
+  color: #fff !important;
+  font-family: inherit;
+  text-align: center;
+  box-shadow: 0px 14px 56px -11px #0054b7;
+  width: 53px !important;
+  transition: all 0.8s;
+  cursor: pointer;
+  line-height: 0;
+  vertical-align: middle;
+}
+.redirect-btn {
+  width: 4em;
+  border-radius: 5px;
+  border: none;
+  background: #0f61b0;
+  color: #fff;
+  text-align: center;
+  height: 30px;
+
+  .mat-icon {
+    display: flex;
+    align-items: center;
+    width: 28px;
+  }
+}
+
+.approvedbtn {
+  background-color: #2E7F35 !important;
+}
+
+.disabledpendingbtn {
+  background-color: #FFC107 !important;
+}
+
+.approvedcancelbtn {
+  background-color: #fff !important;
+}
+
+.mat-raised-button.preview_btn {
+  background-color: #fe8600;
+  line-height: 30px;
+  padding: 0 10px;
+  color: #fff;
+}
+
+.mat-raised-button.add_create_btn_mi {
+  background-color: #0f61b0;
+  line-height: 30px;
+  padding: 0px 10px;
+  color: #fff;
+
+  .mat-icon {
+    height: 21px;
+    width: 21px;
+    font-size: 18px;
+  }
+}
+
+.mat-raised-button.inactive_btn {
+  line-height: 30px;
+  background: #C31A31;
+  color: #fff;
+  padding: 0 10px;
+
+  .mat-icon {
+    height: 21px;
+    width: 21px;
+    font-size: 18px;
+  }
+}
+
+.attendance-btn {
+  color: #fff !important;
+  padding: 3px;
+  font-weight: 600;
+  border-radius: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.attendance-btn-in {
+  background-color: rgb(6, 179, 21);
+}
+
+.attendance-btn-out {
+  background-color: #ff0000;
+}
+
+//icon btns in time-tracker
+.add-button {
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+
+    .mat-icon {
+      font-size: 22px;
+      color: #087219;
+    }
+  }
+}
+
+.add-button:hover {
+  button {
+    border: 0.5px solid #087219;
+    background-color: #087219;
+
+    .mat-icon {
+      font-size: 22px;
+      color: #fff;
+    }
+  }
+}
+
+//same color like add button but the icon size differs
+.done-button {
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #087219;
+    }
+  }
+}
+
+.done-button:hover {
+  button {
+    border: 0.5px solid #087219;
+    background-color: #087219;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #fff;
+    }
+  }
+}
+
+.edit-button {
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #1170d8;
+    }
+  }
+}
+
+.edit-button:hover {
+  button {
+    border: 0.5px solid #1170d8;
+    background-color: #1170d8;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #fff;
+    }
+  }
+}
+
+.delete-button {
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+
+    .mat-icon {
+      font-size: 17px;
+      color: red;
+    }
+  }
+}
+
+.delete-button:hover {
+  button {
+    border: 0.5px solid red;
+    background-color: red;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #fff;
+    }
+  }
+}
+
+.reset-button {
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+
+    .mat-icon {
+      font-size: 19px;
+      color: #00214c;
+      font-weight: 600;
+    }
+  }
+}
+
+.reset-button:hover {
+  button {
+    border: 0.5px solid #00214c;
+    background-color: #00214c;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+}
+
+.add-branch-button {
+  span {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 27px;
+    height: 27px;
+    // line-height: 10px;
+
+    .mat-icon {
+      font-size: 19px;
+      color: #00214c;
+      font-weight: 600;
+    }
+  }
+}
+
+.add-branch-button:hover {
+  span {
+    border: 0.5px solid #00214c;
+    background-color: #00214c;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #fff;
+      font-weight: 600;
+    }
+  }
+}
+
+.add_branch {
+  .mat-icon {
+    border: 1px solid #00214c;
+    border-radius: 4px;
+    color: #00214c;
+    font-size: 18px !important;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.add_branch:hover {
+  .mat-icon {
+    color: #ffff;
+    background-color: #00214c;
+  }
+}
+
+.play-button {
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+
+    .mat-icon {
+      font-size: 17px;
+      color: green;
+    }
+  }
+}
+
+.add_stafftype {
+  .mat-icon {
+    border: 1px solid #00214c;
+    border-radius: 4px;
+    color: #00214c;
+    font-size: 18px !important;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.add_stafftype:hover {
+  .mat-icon {
+    color: #ffff;
+    background-color: #00214c;
+  }
+}
+
+
+.play-button:hover {
+  button {
+    border: 0.5px solid green;
+    background-color: green;
+
+    .mat-icon {
+      font-size: 19px;
+      color: #fff;
+    }
+  }
+}
+
+.pause-button {
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+
+    img {
+      width: 32px;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+    }
+
+    .mat-icon {
+      font-size: 14px;
+      color: #eb4c42;
+    }
+  }
+}
+
+.pause-button:hover {
+  button {
+    border: 0.5px solid red;
+    background-color: rgb(250, 181, 181);
+  }
+}
+
+// bulk-deactivate button style
+.deactive-button {
+  display: flex;
+  align-items: center;
+  // padding: 0 0 0 10px;
+
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+    // left: 10px;
+    // top: 17px;
+
+    mat-icon {
+      font-size: 20px;
+      color: #02a1b3;
+    }
+  }
+}
+
+.deactive-button:hover {
+  button {
+    border: 0.5px solid #02a1b3;
+    background-color: #02a1b3;
+
+    .mat-icon {
+      font-size: 20px;
+      color: white;
+    }
+  }
+}
+
+//bulk-activate button style 
+.active-button {
+  display: flex;
+  align-items: center;
+  // padding: 0 0 0 10px;
+
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+    // left: 10px;
+    // top: 17px;
+
+    mat-icon {
+      font-size: 20px;
+      color: #2e7f35;
+    }
+  }
+}
+
+.active-button:hover {
+  button {
+    border: 0.5px solid #2e7f35;
+    background-color: #2e7f35;
+
+    .mat-icon {
+      font-size: 20px;
+      color: white;
+    }
+  }
+}
+
+.activehrs {
+  // width           : 100px;
+  font-size: 12px;
+  height: 25px;
+  margin-left: 2px;
+  overflow: hidden;
+  box-shadow: none;
+  background-color: #24c342;
+  border-radius: 24px;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inactivehrs {
+  // width           : 100px;
+  font-size: 12px;
+  height: 25px;
+  margin-left: 2px;
+  overflow: hidden;
+  box-shadow: none;
+  background-color: #fb4c29;
+  border-radius: 24px;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+//action btns in td confirm/cancel for edit and delete
+.td_cnfmcncl_btns {
+  .mat-flat-button {
+    line-height: 18px !important;
+    padding: 1px;
+    margin-right: 2px;
+  }
+}
+
+//confirm btn in the table_data
+.td_cnfm_btn {
+  background-color: #09407D;
+  color: #fffafa;
+}
+
+// button{
+//   padding: 1px !important;
+//   padding-left: 10px !important;
+//   padding-right: 10px !important;
+//   border-radius: 4px !important;
+// }
+// ----------------------Button common styles----------------------
+
+// ----------------------page header common style----------------------
+.page-header {
+  height: 3.5em;
+  background: #F4F4F5;
+  padding: 1em;
+  margin-bottom: 20px;
+}
+
+.pfr {
+  float: right;
+}
+
+.ph_back_arrow_img {
+  width: 30px;
+}
+
+.datepicker_select {
+  bottom: 15px;
+  position: relative;
+  cursor: pointer;
+
+  .datestyle {
+    position: relative;
+    top: 2px;
+  }
+
+  button {
+    .mat-icon {
+      font-size: 30px;
+    }
+  }
+}
+
+.add-btn-quick {
+  color: #ffa725;
+  margin-right: 1px;
+  font-size: 26px;
+}
+
+
+.exprt-btn {
+  line-height: 26px !important;
+
+  .mat-icon {
+    font-size: 18px;
+    margin-top: 5px;
+    margin-right: 4px;
+    color: #80cbc4 !important;
+  }
+
+  span {
+    img {
+      margin-bottom: 6px;
+      margin-right: 4px;
+      width: 17px;
+    }
+  }
+}
+
+.filtericon:hover {
+  background-color: #e5e5e5;
+}
+
+
+// ----------------------page header common style----------------------
+
+
+// ----------------------table common style----------------------
+table {
+  width: 100%;
+}
+
+tr.mat-row:hover,
+mat-row:hover {
+  background-color: #f8f8f8;
+}
+
+.mat-header-cell {
+  background-color: #e4eaee;
+  color: #0c55a9;
+  background-color: #e4eaee;
+}
+
+.table_tc {
+
+  // margin-bottom: 10px;
+  th {
+    background-color: #e4eaee;
+    font-size: 15px;
+  }
+
+  // table link hover
+  .table-link-dialog-open {
+    color: #312ef5;
+    // width: 80px;
+    word-break: break-word;
+  }
+
+  .table-link-dialog-open:hover {
+    color: #0e5eb8;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  // table data viewmore style
+  .td_viewmore {
+    line-height: 20px;
+    font-size: 10px;
+    color: #0f61b0;
+    font-weight: 350;
+    bottom: 3px;
+    padding: 0 5px;
+    border-radius: 10px 7px;
+
+    b {
+      font-size: 11px;
+    }
+  }
+
+  .td_viewmore:hover {
+    color: #023579;
+    cursor: pointer;
+  }
+}
+
+// ------------------Table data project job style ----------------------
+td {
+  .project_name {
+    color: #003d71;
+    font-weight: 550;
+  }
+
+  .design_style {
+    background-color: #F1C8DB;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px 8px 8px 0px;
+
+    .job_name {
+      color: #212529;
+      font-weight: 500;
+    }
+  }
+
+  .testing_style {
+    background-color: #A0D9B4;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px 8px 8px 0px;
+
+    .job_name {
+      color: #212529;
+      font-weight: 500;
+    }
+  }
+
+  .develop_style {
+    background-color: #A8D7E0;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px 8px 8px 0px;
+
+    .job_name {
+      color: #212529;
+      font-weight: 500;
+    }
+  }
+
+  .default_style {
+    background-color: #bfb7e3;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px 8px 8px 0px;
+    display: flex;
+    margin-bottom: 5px;
+    width: fit-content;
+    padding-top: 3px;
+
+    .job_name {
+      color: #212529;
+      font-weight: 500;
+    }
+  }
+
+  //style for the default job name in timetracker module
+  .tt_default_style {
+    background-color: #bfb7e3;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px 8px 8px 0px;
+    margin-bottom: 5px;
+    width: fit-content;
+    padding-top: 1px;
+
+    .job_name {
+      color: #212529;
+      font-weight: 500;
+    }
+  }
+
+  .Total_default_style {
+    background-color: #bfb7e3;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px 8px 8px 0px;
+    display: flex;
+    margin-bottom: 5px;
+    width: fit-content;
+    padding-top: 3px;
+    margin-right: 14px;
+
+    .job_name {
+      color: #212529;
+      font-weight: 500;
+    }
+  }
+
+  .meet_style {
+    background-color: #FFE28C;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px 8px 8px 0px;
+
+    .job_name {
+      color: #212529;
+      font-weight: 500;
+    }
+  }
+
+  .other_style {
+    background-color: #FFAA8A;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 8px 8px 8px 0px;
+
+    .job_name {
+      color: #212529;
+      font-weight: 500;
+    }
+  }
+}
+
+//------------------------------Table excel data export style -----------------------------------------
+.table-excel-export-btn {
+  .button {
+    font-family: inherit;
+    font-weight: 400;
+    background: #0b519d;
+    color: white;
+    padding: 1.45em 0;
+    border: none;
+    border-radius: 0.7em;
+    letter-spacing: 0.08em;
+    position: relative;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 3.1em;
+    padding-left: 3.2em;
+    padding-right: 0.7em;
+
+    .icon {
+      background: #fff;
+      margin-right: 1em;
+      height: 2.2em;
+      width: 2.2em;
+      border-radius: 2em;
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      left: 0.3em;
+      transition: all .7s;
+    }
+
+    &:hover {
+      .icon {
+        width: calc(100% - 0.6rem);
+        border-radius: 0.5em;
+
+        .icon-shere {
+          display: flex;
+          align-items: center;
+        }
+
+        button {
+          position: relative;
+          padding: 5px;
+          margin: 0px;
+          width: 90px;
+          float: left;
+          border-radius: 4px;
+          color: #FFF;
+          text-decoration: none;
+          background-color: #00733B;
+          border: none;
+          text-shadow: 0px -2px #27ae60;
+          -webkit-transition: all 0.1s;
+          transition: all 0.1s;
+
+          &:active {
+            -webkit-transform: translate(0px, 5px);
+            -ms-transform: translate(0px, 5px);
+            transform: translate(0px, 5px);
+            border-bottom: 1px solid #2ecc71;
+          }
+        }
+
+      }
+
+      .shere {
+        width: calc(100% - 0.6rem);
+        border-radius: 0.5em;
+        display: none;
+      }
+    }
+
+    .icon-shere {
+      color: #000000;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: none;
+      margin: 2px;
+    }
+  }
+
+  .shere {
+    // width: 1.5rem;
+    // height: 1.5rem;
+    width: 1.3rem;
+    height: 1.1rem;
+    margin-left: 4px;
+  }
+
+  .btn-size {
+    // width: 25px;
+    margin: 0;
+  }
+
+}
+
+//-- ************************** No header for table **************************************
+.noheader {
+  thead {
+    display: none;
+  }
+}
+
+td,
+th {
+  white-space: normal;
+  word-wrap: break-word;
+  max-width: 150px;
+}
+
+// ----------------------table common style----------------------
+
+// ----------------------table bulk delete icon common style----------------------
+.table_bulk_dele {
+  .bulk-delete-icon {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+    margin-top: 32px;
+    margin-left: 16px;
+    background: #fff;
+
+    &:hover {
+      border: 0.5px solid #ff0000;
+      background-color: #ff0000;
+
+      .mat-icon {
+        color: #fff;
+      }
+    }
+
+    .mat-icon {
+      font-size: 17px;
+      color: #ff0000;
+      height: 17px;
+      width: 17px;
+    }
+  }
+}
+
+// ----------------------table bulk delete icon common style----------------------
+
+// ----------------------table filter common style----------------------
+.filter-form-sec {
+  max-width: 200px;
+  float: right;
+  margin-right: 15px;
+}
+
+// -----------------------table filter with mat select---------------------
+.filter-with-mat-select {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  .mat-form-field {
+    width: 100%;
+    height: 60%;
+  }
+}
+
+// -------------------------refresh button for filter with mat select-----------------------
+.mat-filter-refresh-btn {
+  margin: auto 0;
+
+  button {
+    border: 0.5px solid #dcd5d5;
+    border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 10px;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #0f61b0;
+    }
+  }
+}
+
+.mat-filter-refresh-btn:hover {
+  button {
+    border: 0.5px solid #0f61b0;
+    background-color: #0f61b0;
+
+    .mat-icon {
+      font-size: 17px;
+      color: #fff;
+    }
+  }
+}
+
+// ----------------------table filter common style----------------------
+
+// --------------------- mat ship style-------------------------------
+.mat_chip_style_primary {
+  padding: 9px !important;
+  font-size: 14px !important;
+  line-height: 5px !important;
+  text-align: center !important;
+  min-width: 25px !important;
+  height: 25px;
+  border-radius: 20px !important;
+  background-color: #00214c;
+  color: #fff;
+}
+
+.mat_chip_style_hours {
+  padding: 9px !important;
+  font-size: 14px !important;
+  line-height: 5px !important;
+  text-align: center !important;
+  min-width: 25px !important;
+  height: 25px;
+  border-radius: 20px !important;
+  background-color: #dd2550;
+  color: #fff;
+  cursor: default !important;
+}
+
+// ----------------------table download icon common style----------------------
+.download-btn-sec {
+  height: 35px !important;
+  width: 35px !important;
+  background-color: #009688 !important;
+
+  &:hover {
+    transform: translateY(-3px);
+  }
+
+  .download-svg-icon {
+    color: #fff;
+    top: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 16px;
+    transition: top 0.5s;
+  }
+}
+
+// ----------------------table download common style----------------------
+
+// ----------------------file upload common style----------------------
+.file_upload_sect {
+  border: 1px #8d8d8d solid;
+  padding: 15px;
+  margin: 5px 1px;
+
+  .preview_right_align {
+    float: right;
+
+    img {
+      height: 65px;
+      width: 80px;
+      margin-right: 30px;
+      border-radius: 4px;
+    }
+  }
+
+  .chooseBtn {
+    background-color: #efefef;
+  }
+}
+
+// ----------------------file upload common style----------------------
+
+// -----------------------------Card loder style-----------------------------------
+.loderwrapperstyle {
+  width: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: #0e5eb8;
+  left: 15%;
+  transform-origin: 50%;
+  animation: circle7124 .5s alternate infinite ease;
+}
+
+@keyframes circle7124 {
+  0% {
+    top: 60px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+  }
+
+  40% {
+    height: 20px;
+    border-radius: 50%;
+    transform: scaleX(1);
+  }
+
+  100% {
+    top: 0%;
+  }
+}
+
+.circle:nth-child(2) {
+  left: 45%;
+  animation-delay: .2s;
+}
+
+.circle:nth-child(3) {
+  left: auto;
+  right: 15%;
+  animation-delay: .3s;
+}
+
+.shadowcl {
+  width: 20px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.9);
+  position: absolute;
+  top: 62px;
+  transform-origin: 50%;
+  z-index: -1;
+  left: 15%;
+  filter: blur(1px);
+  animation: shadow046 .5s alternate infinite ease;
+}
+
+@keyframes shadow046 {
+  0% {
+    transform: scaleX(1.5);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: .7;
+  }
+
+  100% {
+    transform: scaleX(.2);
+    opacity: .4;
+  }
+}
+
+.shadowcl:nth-child(4) {
+  left: 45%;
+  animation-delay: .2s
+}
+
+.shadowcl:nth-child(5) {
+  left: auto;
+  right: 15%;
+  animation-delay: .3s;
+}
+
+// -----------------------------Card loder style-----------------------------------
+
+//---------------------------------card setting menu-------------------------------
+.card-setting-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  .divStyle {
+    padding: 0 7px;
+
+    .card {
+      position: relative;
+      // width: 230px;
+      height: 260px;
+      background: rgba(255, 255, 255, 0.05);
+      // margin: 10px;
+      box-shadow: 0 0px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(10px);
+
+      .content {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        transition: 0.5s;
+
+        .imgBx {
+          position: relative;
+          width: 90px;
+          height: 90px;
+          overflow: hidden;
+
+          img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .contentBx h3 {
+          color: #093a79;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          // font-weight: 500;
+          // font-size: 15px;
+          text-align: center;
+          margin: 20px 0 10px;
+          line-height: 1.1em;
+        }
+      }
+
+      .sci {
+        position: absolute;
+        bottom: 30px;
+        display: flex;
+        padding: 0px;
+
+        li {
+          // color: #093a79;
+          list-style: none;
+          margin: 0 10px;
+          transform: translateY(40px);
+          transition: 0.5s;
+          opacity: 0;
+
+          p {
+            color: #093a79;
+            // font-size: 17px;
+          }
+        }
+      }
+    }
+
+    .card:hover {
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+
+      .content {
+        transform: translateY(-20px);
+
+      }
+
+      .sci {
+        li {
+          transform: translateY(0px);
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+//-------------------success and failure message style----------------------
+.my-snack-bar-success {
+  color: snow;
+  background: #003d71;
+  display: flex;
+  justify-content: center;
+  // letter-spacing: 0.3mm;
+  // font-weight: 500;
+  .mat-simple-snackbar-action {
+    color: #fff !important;
+    background: #3fab64 !important;
+    border-radius: 4px;
+  }
+}
+
+.my-snack-bar-failed {
+  color: snow;
+  background: #C74B50;
+
+  //   letter-spacing: 0.3mm;
+  //    font-weight: 500;
+  .mat-simple-snackbar-action {
+    color: #fff !important;
+    background: #00214c !important;
+    border-radius: 4px;
+    //  background: #fff !important;
+  }
+}
+
+//-------------------success and failure message style----------------------
+
+
+//--------------------scoll bar style------------------------
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+//--------------------scoll bar style------------------------
+
+//---------------------- Mat calender selected date style ----------------------------
+.mat-calendar-body-selected {
+  background-color: #00214c !important;
+}
+
+//---------------------- Mat calender selected date style ----------------------------
+
+// -------------------------mat form field style--------------------------------
+.labelstyle {
+  display: block;
+  margin-top: auto;
+  margin-bottom: auto;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.mat-form-field-appearance-fill .mat-hint,
+.mat-form-field-appearance-fill .mat-error {
+  margin-left: -10px;
+}
+
+.mat-error {
+  font-size: 13px;
+  color: #f44336
+}
+
+
+.mat-form-field {
+  margin-bottom: 5px;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+
+  input:disabled,
+  input[disabled] {
+    cursor: not-allowed !important;
+  }
+
+}
+
+.multiselect-dropdown .dropdown-btn {
+  display: inline-block;
+  border: 1px solid #708090 !important;
+  width: 100%;
+  padding: 18px 0px;
+  margin-bottom: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.1;
+  text-align: left;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border-radius: 4px;
+}
+
+.mat-form-field {
+  .mat-input-element {
+    color: slategray;
+  }
+
+  .mat-form-field-label {
+    color: #7e8190;
+  }
+
+  .mat-form-field-underline {
+    background-color: slategray;
+  }
+
+  .mat-form-field-ripple {
+    background-color: rgb(8, 131, 253);
+  }
+
+  .mat-form-field-required-marker {
+    color: slategray;
+  }
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: 14px 0px;
+  border: none;
+  height: 40px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  color: #708090 !important;
+  // opacity: 1!important;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid .mat-form-field-outline-thick {
+  color: #dc3545 !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0 -4.25em 0 0.75em !important;
+  // margin-bottom: 22px;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-subscript-wrapper {
+  padding: 0px !important;
+}
+
+.mat-select-placeholder {
+  color: #000000;
+  font-size: 13px;
+}
+
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret:before {
+  border-width: 5px 6px 0 !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  padding: 0px !important;
+}
+
+.mat-form-field.mat-focused {
+  .mat-form-field-label {
+    color: #1e07e7;
+  }
+
+  .mat-form-field-ripple {
+    background-color: #000000;
+  }
+
+  .mat-form-field-required-marker {
+    color: #000000;
+  }
+
+  .mat-input-element {
+    color: #000000;
+  }
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: #0c0413;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  opacity: 0.03 !important;
+  background-color: #005691 !important;
+}
+
+::placeholder {
+  color: #00214ccc;
+  opacity: 1;
+  font-size: 14px;
+}
+
+//--------------------- mat expantion font style --------------------
+.mat-expansion-panel-header,
+.mat-expansion-panel-header-description,
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-content,
+.mat-expansion-panel-body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+//--------------------- mat expantion font style --------------------
+
+//-------------------- mat tab style --------------------------------
+.mat-tab-label,
+.mat-tab-link {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+//-------------------- mat tab style --------------------------------
+
+.text-input {
+  position: relative;
+  margin-top: 50px;
+}
+
+.text-input input[type=text] {
+  display: inline-block;
+  //   width: 500px;
+  height: 35px;
+  box-sizing: border-box;
+  outline: none;
+  border: 1px solid #7e8190;
+  border-radius: 3px;
+  padding: 10px 10px 10px 100px;
+  transition: all 0.1s ease-out;
+  // width: 285px;
+  width: 100%;
+}
+
+.text-input input[type=text]+label {
+  position: absolute;
+  top: 0;
+  left: 14px;
+  bottom: 0;
+  height: 35px;
+  line-height: 40px;
+  color: #fff;
+  border-radius: 3px 0 0 3px;
+  padding: 0 20px;
+  background: #000000;
+  transform: translateZ(0) translateX(0);
+  transition: all 0.3s ease-in;
+  transition-delay: 0.2s;
+}
+
+.text-input input[type=text]:focus+label {
+  transform: translateY(-120%) translateX(0%);
+  border-radius: 3px;
+  transition: all 0.1s ease-out;
+}
+
+.text-input input[type=text]:focus {
+  padding: 10px;
+  transition: all 0.3s ease-out;
+  transition-delay: 0.2s;
+}
+
+
+//style for the disabled mat-form-field bg-color
+.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline {
+  color: rgba(0, 0, 0, .06) !important;
+  background-color: #f6f7f8 !important;
+  cursor: not-allowed !important;
+}
+
+.mat-form-field-infix .mat-select .mat-select-trigger .mat-select-arrow-wrapper {
+  transform: translateY(0%);
+}
+
+.mat-select-disabled .mat-select-value {
+  cursor: not-allowed;
+}
+
+// ---------------------- mat tab bar style----------------------
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #389eff;
+}
+
+// mat select and mat option style
+.mat-select,
+.mat-option,
+.mat-list-item {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+
+// Mat radio button common color
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: #0077ff !important;
+  /*inner circle color change*/
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #0077ff !important;
+  /*outer ring color change*/
+}
+
+// -------------------------mat form field style--------------------------------
+
+//-----------------------default save, cancel btn and delete styles--------------------------------
+.btns {
+  // padding: 0px 0 0 224px;
+  padding: 0px;
+}
+
+.btns .btn {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 10px 25px;
+  background: none;
+  border: 1px solid #c0c0c0;
+  border-radius: 2px;
+  color: #666;
+  font-size: 1.125em;
+  outline: none;
+  transition: all 100ms ease-out;
+  border-radius: 4px;
+  line-height: 13px;
+}
+
+.btns .btn:hover,
+.input-content .btns .btn:focus {
+  transform: translateY(-3px);
+}
+
+.btns .btn-confirm {
+  background: #000000;
+  color: #fff;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 6px;
+}
+
+.btns .btn-delete {
+  background: #f73838;
+  color: #fff;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 6px;
+}
+
+.btns .btn-cancel {
+  padding: 12px;
+  font-size: 14px;
+  line-height: 6px;
+}
+
+.btns .btn-confirm:disabled {
+  transform: translateY(0) !important;
+  background: #262727;
+  color: whitesmoke;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 6px;
+  cursor: not-allowed;
+}
+
+//-----------------------default save and cancel btn styles--------------------------------
+
+//-----------------------settings add btn ------------------------------------------------
+
+.setting_add_btns {
+  button {
+    line-height: 22px;
+    color: #000000;
+    outline: none;
+
+    .mat-icon {
+      font-size: 23px;
+    }
+
+    .btn_txt {
+      display: contents;
+    }
+  }
+
+  button:disabled {
+    line-height: 26px;
+    background: #0000001f;
+    color: #fff;
+    outline: none;
+  }
+}
+
+//-----------------------settings add btn ------------------------------------------------
+
+//--------------------------------Card head styles--------------------------------
+.card-style h3 {
+  text-align: center !important;
+  background-color: #e4eaee !important;
+  padding: 9px !important;
+  color: #003d71 !important;
+}
+
+//--------------------------------Card head styles--------------------------------
+
+// ------------------------Common style for mat menu-----------------------
+.mat-menu-content {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  // width: 137px;
+}
+
+.mat-menu-item {
+  line-height: 22px !important;
+  height: 40px !important;
+  background-color: #ffffff;
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+.mat-menu-item:hover {
+  background-color: #e4eaee;
+}
+
+// --------------------- Common style mat expansion panel ----------------
+.mat-expansion-panel-header {
+  background-color: #f4f4f5 !important;
+  height: 40px !important;
+
+  mat-panel-title {
+    color: #0d57ac !important;
+  }
+}
+
+.mat-expansion-panel-header:hover {
+  background-color: #dfefff !important;
+
+  mat-panel-title {
+    color: #0a4689 !important;
+    font-weight: 500;
+  }
+}
+
+//----------end ---------------
+
+//---------------------view logs status chip-------------
+.statuschip {
+  margin-left: 5px;
+  color: #fff;
+  padding: 0 5px;
+  border-radius: 5px;
+  letter-spacing: 0.7px;
+}
+
+// ------------------------ mat badge style-------------------
+.mat_badge_primary .mat-badge-content {
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  background: #f44336 !important;
+  display: flex;
+  justify-content: center;
+  color: #fff
+}
+
+.mat_badge_secondary .mat-badge-content {
+  font-size: 10px !important;
+  font-weight: 500 !important;
+  background: #28a745 !important;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+.mat_badge_font .mat_badge_secondary .mat-badge-content{
+  font-size: 8px !important;
+}
+
+
+//--------------------  dialog common style --------------- //
+.custom-viewdialogstyle {
+  mat-dialog-container {
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+.dialog-header {
+  background: #F4F4F5;
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  height: 3em;
+}
+
+.cls-btn {
+  border: 0.5px solid #dcd5d5;
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  line-height: 10px;
+  position: relative;
+  bottom: 3px;
+
+  .mat-icon {
+    color: #f44336;
+    padding: 5.3px;
+    font-size: 17px;
+  }
+}
+
+.cls-btn:hover {
+  border: 0.5px solid #f44336;
+  background-color: #f44336;
+
+  .mat-icon {
+    color: white;
+    padding: 5.3px;
+    font-size: 17px;
+  }
+}
+
+.mat-dialog-content {
+  // padding: 15px;
+  margin: 10px 0 0 0 !important;
+  padding: 0 15px !important;
+}
+
+.dialog-btns {
+  text-align: end;
+
+  button {
+    line-height: 26px;
+  }
+
+  .cnfm-btn {
+    color: snow !important;
+    background-color: #09407d !important;
+  }
+
+  .cnfm-btn:disabled {
+    color: rgb(0 0 0 / 35%) !important;
+    background-color: #0000001f !important;
+    cursor: not-allowed;
+  }
+}
+
+.mat-button-focus-overlay {
+  background-color: transparent !important;
+}
+
+.dialog-hint-content {
+  color: #000000 !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  opacity: 0.9 !important;
+
+  b {
+    color: #f44336 !important;
+  }
+
+}
+
+.dialog-question {
+  font-size: 16px !important;
+  font-weight: 650 !important;
+}
+
+//---------------------view logs status chip-------------
+// ------------------------Common style for mat menu-----------------------
+
+// -------------------------- old common font size for Dashboard
+// .dashBoard{
+//   // Separate font size for headings (h1,h2,h3)
+
+// h1, h2, h3{
+//   font-size: 18px;
+// }
+
+// //Separate font size for headings (h4,h5,h6)
+
+// h4, h5, h6, th{
+//   font-size: 16px;
+// }
+
+// //Separate font size for links, para and small titles
+
+// p, a{
+//   font-size: 14px;
+// }
+
+// //Separate font size for label, button, small text and error message
+
+// span, button{
+//   font-size: 13px;
+// }
+// }
+
+//--------------------------------old font family
+// h1,h2,h3,h4,h5,h6{
+//    font-family:"Aldrich";
+//   }
+
+// p,span,td,li{
+//    font-family:"Hind Madurai";
+// }
+
+// Footer common style
+
+.footer_sec {
+  position: fixed;
+  bottom: 0px;
+  right: 5px;
+  background: #d4d4d4;
+  z-index: 9999;
+}
+
+// ckeditor common style
+.ck-editor__editable_inline {
+  min-height: 120px !important;
+
+  p {
+    margin: 0%;
+    font-size: 16px !important;
+  }
+
+  ul {
+    li {
+      margin: 0%;
+      font-size: 16px !important
+    }
+  }
+
+  ol {
+    li {
+      margin: 0%;
+      font-size: 16px !important;
+    }
+  }
+
+
+}
+
+.ck.ck-dropdown.ck-heading-dropdown .ck-dropdown__button .ck-button__label {
+  height: 15px !important;
+}
+
+//all pagination table responsive 
+.tablescroll {
+  max-height: 303px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.mat-drawer-content {
+  background-color: white;
+}
+
+//style for the dropdown add button in the time tracker
+.dropdown-addbtn {
+  display: flex;
+  justify-content: center;
+  background: #0f61b0;
+  height: 28px;
+  align-items: center;
+  color: #ffff;
+  // margin: 10px;
+  border-radius: 4px;
+
+  .mat-icon {
+    width: 20px;
+    font-size: 20px;
+  }
+}
+
+.font-weight-550 {
+  font-weight: 550;
+}
+
+.notification-submodule-color {
+  color: #ccff00;
+}

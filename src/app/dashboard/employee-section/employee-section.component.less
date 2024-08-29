@@ -1,0 +1,94 @@
+.emp-section {
+  .card-style {
+    height: 460px;
+    cursor: default;
+
+    .F_icon {
+      padding: 0 !important;
+
+      button {
+        height: 37px;
+      }
+    }
+
+    .filter_icon {
+      cursor: pointer;
+    }
+
+    .table-card {
+      height: 375px;
+      overflow: auto;
+
+      .td_width {
+        min-width: 100px;
+      }
+
+      .my-2 {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 20px;
+        cursor: pointer;
+      }
+
+      .mat-column-image {
+        width: 70px;
+      }
+
+      .mat-column-email {
+        width: 50%;
+      }
+
+      .mat-column-name {
+        width: 16%;
+      }
+
+      .mat-column-time {
+        div {
+          width: 55%;
+          margin: auto;
+        }
+      }
+
+      .mat-column-Status {
+        vertical-align: middle;
+
+        .inactive {
+          background-color: #0e67c1;
+          color: white;
+          padding: 1px;
+          font-weight: 500;
+          height: 23px;
+          border-radius: 4px;
+          text-align: center;
+          width: 46px;
+        }
+
+        .active {
+          background-color: #2e7f35;
+          color: white;
+          padding: 1px;
+          font-weight: 500;
+          height: 23px;
+          border-radius: 4px;
+          text-align: center;
+          width: 46px;
+        }
+      }
+
+      .filter_field {
+        height: 50px;
+
+        .filter-form-sec {
+          max-width: 150px;
+          // float: right;
+          margin-right: 10px;
+
+          ::ng-deep .mat-form-field-flex {
+            padding-top: 0px !important;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,184 @@
+::ng-deep .mat-primary .mat-pseudo-checkbox-checked,
+.mat-primary .mat-pseudo-checkbox-indeterminate {
+    background: #0c0413 !important;
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #0c0413;
+}
+
+.mat-standard-chip {
+    background-color: #00214c !important;
+    color: white !important;
+    font-size: 12px;
+    text-transform: capitalize;
+    padding: 5px 10px;
+    cursor: default;
+    min-height: 25px;
+}
+
+.allDayPlanner {
+    // margin-bottom: 107px;
+
+    .DPDetails {
+
+        .page-header {
+            .datepicker_select {
+                position: relative;
+                bottom: 10px;
+            }
+
+            .rightSection {
+                position: relative;
+                bottom: 5px;
+            }
+        }
+
+        .mainContent {
+            overflow: auto;
+
+            .filterSec {
+                width: 100%;
+            }
+
+            .totalTasks {
+                width: 25px;
+                height: 25px;
+                overflow: hidden;
+                box-shadow: none;
+                background-color: #ffce41;
+                border: none;
+                border-radius: 15px;
+            }
+
+            .statusSec {
+                .card {
+                    .projectStyle {
+                        border: 1px solid #0a4689;
+                        padding: 0 10px;
+                        border-radius: 15px;
+                        color: white;
+                        background-color: #0a4689;
+                        transition: 0.5s;
+                    }
+
+                    .projectStyle:hover {
+                        color: #0a4689;
+                        background-color: white;
+                    }
+
+                    .imageStyle {
+                        border-radius: 20px;
+                    }
+                }
+
+                .card:hover {
+                    background-color: #fbfbfb;
+                }
+
+                .tasksDetalsNoData {
+                    height: 350px;
+                }
+            }
+
+            .projectSec {
+                .card {
+                    .imageStyle {
+                        border-radius: 20px;
+                    }
+
+                    .statusStyle {
+                        // border: 1px solid #0a4689;
+                        padding: 0 10px;
+                        border-radius: 15px;
+                        color: white;
+                        // background-color:#0a4689;
+                        transition: 0.5s;
+                    }
+
+                    .statusStyle:hover {
+                        border: 1px solid gray;
+                        color: #0a4689;
+                        background-color: white !important;
+                    }
+                }
+
+                .card:hover {
+                    background-color: #fbfbfb;
+                }
+
+                .tasksDetalsNoData {
+                    height: 350px;
+                }
+            }
+
+            .userSec {
+
+                .imageStyle {
+                    border-radius: 20px;
+                }
+
+                .progressiveCircle {
+                    border: none;
+                    width: 30px;
+                    height: 30px;
+                    // justify-content: space-evenly;
+                    // margin-left: -13px;
+                    background: #eee;
+                    background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+                    // background: linear-gradient(110deg, #deebff 8%, #d4e5ff 18%, #cce0ff 33%);
+                    border-radius: 20px;
+                    background-size: 200% 100%;
+                    animation: 1.5s shine linear infinite;
+                }
+
+                .card {
+
+                    .projectStyle {
+                        border: 1px solid #0a4689;
+                        padding: 0 10px;
+                        border-radius: 15px;
+                        color: white;
+                        background-color: #0a4689;
+                        transition: 0.5s;
+                    }
+
+                    .projectStyle:hover {
+                        color: #0a4689;
+                        background-color: white;
+                    }
+
+                    .statusStyle {
+                        // border: 1px solid #0a4689;
+                        padding: 0 10px;
+                        border-radius: 15px;
+                        color: white;
+                        // background-color:#0a4689;
+                        transition: 0.5s;
+                    }
+
+                    .statusStyle:hover {
+                        border: 1px solid gray;
+                        color: #0a4689;
+                        background-color: white !important;
+                    }
+                }
+
+                .card:hover {
+                    background-color: #fbfbfb;
+                }
+
+                .tasksDetalsNoData {
+                    height: 350px;
+                }
+            }
+        }
+
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}

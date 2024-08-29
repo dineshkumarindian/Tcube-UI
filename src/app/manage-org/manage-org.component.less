@@ -1,0 +1,330 @@
+.trial-button{
+    background: #ff740c !important;
+}
+.reject-org-btn{
+    background-color:#f73838 !important;
+}
+.pending-org-btn{
+    background-color: #66bb6a !important;
+   
+}
+// #66bb6a;
+.manage-org {
+
+    ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+    .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+        background-color: #0c0413;
+    }
+
+    .secondrow {
+        display: flex;
+        align-items: center;
+
+        .icondelete {
+            // display: flex;
+            align-items: center;
+            padding: 0 0 0 5px;
+
+            button {
+                border: 0.5px solid #dcd5d5;
+                border-radius: 4px;
+                width: 30px;
+                height: 30px;
+                line-height: 10px;
+                position: relative;
+                left: -3px;
+                top: 1px;
+                background: white;
+
+                .mat-icon {
+                    font-size: 17px;
+                    color: red;
+                    height: 17px;
+                    width: 17px;
+                }
+            }
+
+            button:hover {
+                border: 0.5px solid red;
+                background-color: red;
+
+                .mat-icon {
+                    font-size: 17px;
+                    color: white;
+
+                }
+            }
+        }
+
+        .icondeactivate {
+            align-items: center;
+            padding: 0 0 0 10px;
+
+            button {
+                border: 0.5px solid #dcd5d5;
+                border-radius: 4px;
+                width: 30px;
+                height: 30px;
+                line-height: 10px;
+                position: relative;
+                left: -1px;
+                top: 1px;
+                background: white;
+
+                .mat-icon {
+                    font-size: 17px;
+                    color: #02A1B3;
+                    height: 17px;
+                    width: 17px;
+                }
+            }
+
+            button:hover {
+                border: 0.5px solid #02A1B3;
+                background-color: #02A1B3;
+
+                .mat-icon {
+                    font-size: 17px;
+                    color: white;
+
+                }
+            }
+        }
+    }
+    // .approved , .trial{
+    //     cursor: default;
+    // }
+    // .approved::before{
+    //     content: "";
+    //     display: inline-block;
+    //     width: .75em;
+    //     height: .75em;
+    //     border-radius: 50%;
+    //     background: #007bff;
+    //     margin-right: 10px;
+    //   }
+    // .trial::before{
+    //     content: "";
+    //     display: inline-block;
+    //     width: .75em;
+    //     height: .75em;
+    //     border-radius: 50%;
+    //     background: #ff740c;
+    //     margin-right: 10px;
+    //   }
+
+    .orgTable {
+        mat-table {
+            width: 100%;
+            position: sticky;
+            border-top: 5px solid #e4eaee;
+            border-radius: 4px;
+
+            mat-header-cell {
+                background-color: #e4eaee;
+                color: #0e5eb8;
+                font-size: 14px;
+
+            }
+
+
+            ::ng-deep .mat-flat-button.mat-primary:disabled {
+                color: rgb(0 0 0 / 35%);
+                background: #dbdadf !important;
+                cursor: not-allowed;
+            }
+
+            mat-header-row {
+                background-color: #e4eaee;
+            }
+
+            .link_td {
+                color: #007bff;
+                font-weight: 500;
+                cursor: auto;
+            }
+            .org_id_style{
+                color: #007bff;
+                font-weight: 500;
+            }
+            .org_id_style:hover{
+                cursor: pointer;
+                text-decoration: underline;
+            }
+
+            .deletebtn {
+                outline: none;
+                background-color: #f73838 !important;
+            }
+
+            .deactivatebtn {
+                outline: none;
+                background-color: #02a1b3 !important;
+            }
+
+            .upgradebtn {
+                outline: none;
+                background-color: #b17a04;
+            }
+
+            .upgradebtn:disabled {
+                color: rgb(0 0 0 / 35%);
+                background: #dbdadf !important;
+                cursor: not-allowed;
+            }
+
+            .renewbtn {
+                outline: none;
+                background-color: #0ab104;
+            }
+
+            .renewbtn:disabled {
+                color: rgb(0 0 0 / 35%);
+                background: #dbdadf !important;
+                cursor: not-allowed;
+            }
+
+            .aligning {
+                margin-left: -18px !important;
+            }
+
+            button {
+                background-color: #093a79;
+                line-height: 25px;
+                font-size: 13px;
+                min-width: 40px;
+                padding: 0 5px;
+            }
+
+            //tstyle for reduce the checkbox colomn
+            .mat-column-selector {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 8% !important;
+                width: 9% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+            .mat-column-organization_id {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 13% !important;
+                width: 9% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+                padding: 10px;
+            }
+
+            .mat-column-orgname {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 13% !important;
+                width: 9% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+                padding: 10px;
+            }
+
+            .mat-column-name {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 13% !important;
+                width: 9% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+                word-break: break-word;
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+
+
+
+
+            .mat-column-email {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 13% !important;
+                width: 9% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+                margin-right: 30px;
+            }
+
+            .mat-column-Approved_date {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 1 13% !important;
+                width: 9% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+
+
+            .mat-column-modified_time {
+                word-wrap: break-word !important;
+                white-space: unset !important;
+                flex: 0 0 13% !important;
+                width: 90% !important;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
+
+                word-break: break-word;
+
+                -ms-hyphens: auto;
+                -moz-hyphens: auto;
+                -webkit-hyphens: auto;
+                hyphens: auto;
+                border: none;
+            }
+
+            mat-header-cell:first-of-type {
+                padding-left: 24px;
+                margin-right: 11px;
+            }
+
+        }
+    }
+}

@@ -1,0 +1,102 @@
+<div class="page-header d-flex align-items-center justify-content-between">
+    <h3 class="page-title">
+        GitLab Integration
+        <!-- <p class="m-0 subtitle-color"></p> -->
+    </h3>
+    <div class="d-flex align-items-center">
+        <button mat-raised-button class="add_create_btn_mi mr-3" *ngIf="!gitlabConfigured"
+            color="primary" matTooltip="Add gitLab integration"
+            [routerLink]="['/add-gitlab-configuration']" routerLinkActive="router-link-active">
+            <mat-icon mat-icon-button>add</mat-icon>Add
+            Integration
+        </button>
+        <button class="backbtn" matTooltipPosition="left" matTooltip="Back to apps integration"
+            [routerLink]="['/apps-integration']">
+            <img class="ph_back_arrow_img" src="../../assets/images/back.png">
+        </button>
+    </div>
+
+</div>
+<div class="container-fluid">
+    <div class="w-100 outputSec">
+        <div class="d-flex justify-content-center" *ngIf="!gitlabConfigured">
+            <div  class="w-25 text-center">
+                <img src="../../../assets/images/notConfigured.png" alt="not yet Configured" class="w-100">
+                <h3>Not yet configured...!</h3>
+            </div>
+        </div>
+        <div class=" card-sec" *ngIf="gitlabConfigured">
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="col-7 page-title">GitLab Integration Details</h5>
+                    <div class="d-flex">
+                        <button mat-raised-button class="add_create_btn_mi mr-3" *ngIf="gitlabConfigured"
+                            color="primary" matTooltip="Edit gitLab intgeration" (click)="editconfig()"
+                            routerLinkActive="router-link-active">
+                            <mat-icon mat-icon-button>edit</mat-icon>Edit
+                            Intgeration
+                        </button>
+                        <div class="btns">
+                            <button class="btn btn-delete ml-2" (click)="deleteIntegrationDialog()">Delete</button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card-body2">
+                    <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b> Email </b>
+                        </div>
+                        <div class="col-9">
+                            : {{gitlabConfigured ? " "+gitlabIntegrationDetails.email :""}}
+                        </div>
+                    </div>
+                    <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b> Base URL </b>
+                        </div> 
+                        <div class="col-9">
+                            : {{gitlabConfigured ? " "+gitlabIntegrationDetails.url :""}}
+                        </div>
+                    </div>
+                    <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b>Access Token </b>
+                        </div>
+                        <div class="col-9">
+                            :{{gitlabConfigured ? " "+gitlabIntegrationDetails.access_token :""}}
+                        </div>
+                    </div>
+                    <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b>GitLab Integration</b>
+                        </div>
+                        <div class="col-9">
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" 
+                                [(ngModel)]="GitIntegration">:
+                                <mat-radio-button class="example-radio-button mr-3" *ngFor="let option of yesOrNoOption"
+                                    [value]="option" (change)="radioButtonClickedGitLabIntegration($event)">
+                                    {{option}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="row mx-3 pb-3">
+                        <div class="col-3"></div>
+                        <div class="col-9" [innerHTML]="gitLabConfigNoteMessage">
+                            <!-- <small>If you choose <b>"No"</b> it will restric gitlab integration from Tcube</small> -->
+                        </div>
+                    </div>
+                    <div class="row mx-3 pb-3 mt-3">
+                        <div class="col-10 d-flex">
+                            <div class="btns">
+                                <button class="btn btn-confirm" [disabled]="!gitlabConfigureYesOrNo"
+                                    (click)="UpdateGitLabIntegration()">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

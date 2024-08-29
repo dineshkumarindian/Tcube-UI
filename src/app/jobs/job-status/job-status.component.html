@@ -1,0 +1,31 @@
+<div class="dialog">
+    <!-- <h2 mat-dialog-title color="primary">Change Project Status</h2> -->
+    <div class="dialog-header">
+        <h3 class="page-title">{{updateStatus}}</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon (click)="closeDialog()" matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div class="Dialog_form mt-1" mat-dialog-content>
+        <form [formGroup]="changeStatusFormGroup">
+            <mat-form-field appearance="outline">
+                <!-- <mat-label>Change Status</mat-label> -->
+                <mat-select formControlName="jobStatus" name="prjStatus" placeholder="Set job status">
+                    <mat-option *ngFor="let status of jobStatus" [value]="status">{{status}}</mat-option>
+                </mat-select>
+                <!-- <mat-hint>Select the current status of project</mat-hint> -->
+            </mat-form-field>
+            <div>
+                <mat-form-field appearance="fill" style="width: 100% ; margin-top: 8px;">
+                    <mat-label>Comments</mat-label>
+                    <textarea rows="1" matInput name="comments" formControlName="statuscomments"></textarea>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions align="end" class="dialog-btns pr-3">
+        <button mat-flat-button color="warn" (click)="closeDialog()">Cancel</button>
+        <button mat-flat-button class="cnfm-btn status-update" (click)="editJobStatus(changeStatusFormGroup.value)" [disabled]="changeStatusFormGroup.invalid">Update</button>
+    </div>
+</div>

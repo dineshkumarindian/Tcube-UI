@@ -1,0 +1,384 @@
+<div class="timesheets">
+
+    <!-- page-header start -->
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-5">
+                <h3 class="page-title">Timesheets</h3>
+            </div>
+            <div class="col-md-5 datepicker_sec">
+                <span class="datepicker_select" style="position: relative;bottom: 34px;">
+                    <mat-form-field appearance="fill" class="example-full-width invisible p-0"
+                        style="width:0px; height: 0px;">
+                        <input matInput [matDatepicker]="picker" (dateChange)="previousdate()"
+                            [formControl]="datepicker" [max]="maxDate">
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                    <div *ngIf="isYearClicked">
+                        <span class="datepicker_select d-flex align-items-center">
+                            <button mat-icon-button (click)="previousdate()">
+                                <mat-icon>chevron_left</mat-icon>
+                            </button>
+                            <p class="mx-2 mb-0">{{startOfYear | date:'yyyy'}} </p>
+                            <button mat-icon-button (click)="nextdate()" [disabled]="futureYearDisabled">
+                                <mat-icon>chevron_right</mat-icon>
+                            </button>
+                        </span>
+                    </div>
+                    <div *ngIf="isMonthClicked">
+                        <span class="datepicker_select d-flex align-items-center">
+                            <button mat-icon-button (click)="previousdate()">
+                                <mat-icon>chevron_left</mat-icon>
+                            </button>
+                            <p class="mx-2 mb-0">{{startOfMonth | date:"dd MMM yyyy"}} - {{endOfMonth | date:"dd MMM
+                                yyyy"}}
+                            </p>
+                            <button mat-icon-button (click)="nextdate()" [disabled]="futureYearDisabled">
+                                <mat-icon>chevron_right</mat-icon>
+                            </button>
+                        </span>
+                    </div>
+                    <div *ngIf="isWeekClicked">
+                        <span class="datepicker_select d-flex align-items-center">
+                            <button mat-icon-button (click)="previousdate()">
+                                <mat-icon>chevron_left</mat-icon>
+                            </button>
+                            <p class="mx-2 mb-0">{{startOfWeek | date:'dd-MM-yyyy'}} - {{endOfWeek | date:'dd-MM-yyyy'}}
+                            </p>
+                            <button mat-icon-button (click)="nextdate()" [disabled]="futureYearDisabled">
+                                <mat-icon>chevron_right</mat-icon>
+                            </button>
+                        </span>
+                    </div>
+                </span>
+            </div>
+            <div class="col-md-2">
+                <span class="pfr d-inline-flex position-relative">
+                    <button class="redirect-btn timesheet-btn mr-2" matTooltipPosition="below"
+                        matTooltip="Move to approvals" [routerLink]="['/approvals']"
+                        routerLinkActive="router-link-active">
+                        <span>
+                            <mat-icon mat-icon-button class="pl-1">arrow_right_alt</mat-icon>
+                        </span>
+                    </button>
+                    <button mat-icon-button matTooltipPosition="left" matTooltip="Back to time tracker"
+                        [routerLink]="['/time-tracker']" routerLinkActive="router-link-active">
+                        <img class="ph_back_arrow_img mb-4" src="../../assets/images/back.png">
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="date_button_style">
+        <div class="row col-4 date_style">
+            <div class="fixed-btn mb-2 align-items-center h-60">
+                <button mat-stroked-button class="mr-2 week_button" (click)="showWeekBasedTimesheet()"
+                    [style.background]="isWeekClicked ? '#093a79 ' : '#fff'"
+                    [style.color]="isWeekClicked ? '#fff' : '#000000'">
+                    Week
+                </button>
+                <button mat-stroked-button class="mr-2 month_button" (click)="showMonthBasedTimesheet()"
+                    [style.background]="isMonthClicked ? '#093a79 ' : '#fff'"
+                    [style.color]="isMonthClicked ? '#fff' : '#000000'">
+                    Month
+                </button>
+                <button mat-stroked-button class="year_button" (click)="showYearBasedTimesheet()"
+                    [style.background]="isYearClicked ? '#093a79 ' : '#fff'"
+                    [style.color]="isYearClicked ? '#fff' : '#000000'">
+                    Year
+                </button>
+                <button mat-stroked-button class="view_all_button" (click)="showAllTimesheetsByDate()"
+                    [disabled]="timesheetDetails.length ==0 || isFilterByDateEmpty">
+                    View All Timesheets
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- page-header emd -->
+
+    <div class="container-fluid " *ngIf="!showAllTimesheets">
+        <div class="timesheetTable mat-elevation-z8">
+            <!-- filter section start -->
+            <div class="row">
+                <div class="col-6">
+                </div>
+                <div class="col-6">
+                    <div class="filter-form-sec">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Filter</mat-label>
+                            <input matInput (keyup)="applyProjectFilter($event)" placeholder="Search ..." #input>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <!-- filter section end -->
+            <div>
+                <!-- table section start -->
+                <div class="tablescroll">
+                    <mat-table [dataSource]="timeDataSource" matSort class="table_tc">
+                        <ng-container matColumnDef="timesheet_name">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Timesheet Name
+                            </mat-header-cell>
+                            <mat-cell *matCellDef="let element" class="td_text_lowercased">
+                                <span class="td_text_firstltr_capitalized"
+                                    (click)="element.timesheet_name  == 'Today' || element.approval_status == 'Updated'? $event.stopPropagation() : viewLog(element.date_of_request , element.approval_status, element.id ,element.approval_comments)"
+                                    [ngClass]="getStatusClass(element.timesheet_name,element.approval_status)">
+                                    {{element.timesheet_name}}</span>
+                            </mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="reporter_name">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header> Approved By</mat-header-cell>
+                            <mat-cell *matCellDef="let element" class="td_text_lowercased">
+                                <span class="approver td_text_firstltr_capitalized">
+                                    {{element.reporter_name}}
+                                </span>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="billable_total_time">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Billable Hours </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span>
+                                    <span *ngIf="element.billable_total_time == '00:00:00' ">-</span>
+                                    <span
+                                        *ngIf="element.billable_total_time != '00:00:00' ">{{element.billable_total_time}}</span>
+                                </span>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="non_billable_total_time">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Non Billable Hours </mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span>
+                                    <span *ngIf="element.non_billable_total_time == '00:00:00' ">-</span>
+                                    <span
+                                        *ngIf="element.non_billable_total_time != '00:00:00' ">{{element.non_billable_total_time}}</span>
+                                </span>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="total_time">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header>Total Hours</mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <span class="totalTime">
+                                    {{element.total_time}}
+                                </span>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="Status">
+                            <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                            <mat-cell *matCellDef="let element; let i=index" class="timesheet_status_btn">
+                                <button class="status-btn active-btn" *ngIf="element.approval_status == 'Approved' ">
+                                    Approved
+                                </button>
+                                <button class="status-btn inactive-btn" *ngIf="element.approval_status == 'Rejected' ">
+                                    Rejected
+                                </button>
+                                <button class="status-btn pending-btn" *ngIf="element.approval_status == 'Pending' ">
+                                    Pending
+                                </button>
+                                <button class="status-btn not-submitted-btn"
+                                    *ngIf="element.approval_status == 'Submit' ">
+                                    Not submitted
+                                </button>
+                                <button class="status-btn docBtn" *ngIf="element.approval_status == 'Updated'">
+                                    Updated
+                                </button>
+                            </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                            <mat-cell *matCellDef="let element">
+                                <button class="status-btn btn-primary" *ngIf="element.approval_status == 'Submit' "
+                                    (click)="timelog_submit_dialog()" [disabled]="timesheets_submit_button">
+                                    <span [matTooltipDisabled]="!timesheets_submit_button"
+                                        matTooltip="you can't submit the timelogs because of one active task">
+                                        Submit Timelogs
+                                    </span>
+                                </button>
+                                <button class="status-btn btn-primary" *ngIf="element.approval_status == 'Rejected'"
+                                    (click)="resubmit_dialog(element.id,element.date_of_request)">
+                                    <span matTooltip="Click the button to edit and resubmit your tasks">
+                                        Resubmit Timelogs
+                                    </span>
+                                </button>
+                                <span class="ml-5"
+                                    *ngIf="element.approval_status == 'Approved' || element.approval_status == 'Pending' || element.approval_status == 'Updated'">-</span>
+                            </mat-cell>
+                        </ng-container>
+                        <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row">
+                        </mat-row>
+                    </mat-table>
+                </div>
+                <div *ngIf="timesheetDetails.length ==0 || isFilterByDateEmpty"
+                    class="text-center text-danger alert-danger no-search-match p-3">
+                    {{noRecordMsg}}
+                </div>
+                <div *ngIf="Filter " class="text-center text-danger alert-danger no-search-match p-3">
+                    No Data Matching For "{{this.filterData}}"
+                </div>
+                <mat-paginator class="paginator" #paginator [pageSize]="pageSize" (page)="changePage($event)"
+                    [pageSizeOptions]="tablePaginationOption">
+                </mat-paginator>
+            </div>
+            <!-- table section end -->
+        </div>
+    </div>
+    <div class="container-fluid" *ngIf="showAllTimesheets">
+        <div class="row col-7 download_option_style" >
+            <button class="btn table-excel-export-btn" type="button">
+                <button class="button" matTooltipPosition="right" matTooltip="Export Report">
+                    <div class="icon">
+                        <img class="shere btn-size" src="../../assets/images/export-file.png">
+                        <button class="icon-shere mx-1" (click)="generateXLSX()">
+                            XLSX
+                        </button>
+                        <button class="icon-shere mx-1" (click)="generateXLS()">
+                            XLS
+                        </button>
+                        <button class="icon-shere mx-1" (click)="generateCSV()">
+                            CSV
+                        </button>
+                    </div>
+                    <p class="m-0">Timesheet Report</p>
+                </button>
+            </button>
+        </div>
+        <div class="scroll-container">
+            <div class="row col-12 p-0 m-0 d-flex">
+                <section class="w-100 d-contents bil-section col-md-6">
+                    <div class="col-md-6 col-sm-12 col-lg-12">
+                        <div class="ng-star-inserted card my-2 card-style ">
+                            <h3>Timesheet Details</h3>
+                            <section class="timesheet_section">
+                                <div class="entiretablescroll" style="width: 100%;padding:13px;" id="contentToConvert">
+                                    <mat-accordion class="example-headers-align">
+                                        <mat-expansion-panel class="mb-3" *ngFor="let element of entiretimesheetDetails | keyvalue;let i = index"
+                                        [expanded]=" i == 0 ? 'true' : 'false'">
+                                            <mat-expansion-panel-header mat-expansion-panel-header class="mb-2">
+                                                <mat-panel-title>
+                                                    <span class="status-btn date_btn">{{ element.key |
+                                                        date:'dd-MM-yyyy'}}</span>
+                                                </mat-panel-title>
+                                            </mat-expansion-panel-header>
+                                            <section class="container-fluid accordion-table">
+                                                <table mat-table [dataSource]="element.value"
+                                                    class="mat-elevation-z8 timesheet_table">
+                                                    <ng-container *ngFor="let column of displayedColumns1"
+                                                        [matColumnDef]="column">
+                                                        <th mat-header-cell *matHeaderCellDef>{{ column ===
+                                                            'task_duration'
+                                                            ? 'Task
+                                                            Duration' :
+                                                            column | titlecase }}</th>
+                                                        <td mat-cell *matCellDef="let row">
+                                                            {{ row[column] }}</td>
+                                                        <hr>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="footer">
+                                                        <td mat-footer-cell *matFooterCellDef class="approveFooter"
+                                                            colspan="5">
+                                                            <div>
+                                                                <span class="status_style">Status:</span>
+                                                                <button class="status-btn ml-2"
+                                                                    [ngClass]="{'active_button1': getStatus(element.value) === 'Submitted','approve_button': getStatus(element.value) === 'Approved',
+                                            'inactive_button_style': getStatus(element.value) === 'Rejected','pending_button': getStatus(element.value) === 'Pending',
+                                            'active_button': getStatus(element.value) === 'Updated','not_submitted_button': getStatus(element.value) === 'Not submitted'}">
+                                                                    {{ getStatus(element.value) }}
+                                                                </button>
+                                                                <span class="status_style ml-3">Approver:
+                                                                    <span class="approver_style ml-2">
+                                                                        {{ getApprover(element.value) }}
+                                                                    </span>
+                                                                </span>
+                                                                <span class="status_style ml-3">
+                                                                    Total Hours:
+                                                                    <span
+                                                                        class="hours_style">{{getTotalHours(element.value)}}</span>
+                                                                </span>
+                                                                <span class="status_style ml-3">
+                                                                    Total Billable Hours:
+                                                                    <span
+                                                                        class="hours_style">{{getBillableHours(element.value)}}</span>
+                                                                </span>
+                                                                <span class="status_style ml-3">
+                                                                    Total Non-Billable Hours:
+                                                                    <span
+                                                                        class="hours_style">{{getNonBillableHours(element.value)}}</span>
+                                                                </span>
+                                                                <span class="status_style ml-3">Comments:
+                                                                    <button mat-flat-button color="info"
+                                                                        class="sbmt-btn mr-4"
+                                                                        (click)="getComments(element.value)"> View
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                    </ng-container>
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns1">
+                                                    </tr>
+                                                    <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
+                                                </table>
+                                            </section>
+                                        </mat-expansion-panel>
+                                    </mat-accordion>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- <div class="entiretablescroll" style="width: 100%;padding:13px;"
+                    *ngFor="let element of entiretimesheetDetails | keyvalue">
+                    <span class="status-btn date_btn">{{ element.key | date:'dd-MM-yyyy'}}</span>
+                    <table mat-table [dataSource]="element.value" class="mat-elevation-z8 timesheet_table">
+                        <ng-container *ngFor="let column of displayedColumns1" [matColumnDef]="column">
+                            <th mat-header-cell *matHeaderCellDef>{{ column === 'task_duration' ? 'Task Duration' :
+                                column | titlecase }}</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{ row[column] }}</td>
+                            <hr>
+                        </ng-container>
+                        <ng-container matColumnDef="footer">
+                            <td mat-footer-cell *matFooterCellDef class="approveFooter" colspan="5">
+                                <div>
+                                    <span class="status_style">Status:</span>
+                                    <button class="status-btn ml-2"
+                                        [ngClass]="{'active_button1': getStatus(element.value) === 'Submitted','approve_button': getStatus(element.value) === 'Approved',
+                                'inactive_button_style': getStatus(element.value) === 'Rejected','pending_button': getStatus(element.value) === 'Pending',
+                                'active_button': getStatus(element.value) === 'Updated','not_submitted_button': getStatus(element.value) === 'Not submitted'}">
+                                        {{ getStatus(element.value) }}
+                                    </button>
+                                    <span class="status_style ml-3">Approver:
+                                        <span class="approver_style ml-2">
+                                            {{ getApprover(element.value) }}
+                                        </span>
+                                    </span>
+                                    <span class="status_style ml-3">
+                                        Total Hours:
+                                        <span class="hours_style">{{getTotalHours(element.value)}}</span>
+                                    </span>
+                                    <span class="status_style ml-3">
+                                        Total Billable Hours:
+                                        <span class="hours_style">{{getBillableHours(element.value)}}</span>
+                                    </span>
+                                    <span class="status_style ml-3">
+                                        Total Non-Billable Hours:
+                                        <span class="hours_style">{{getNonBillableHours(element.value)}}</span>
+                                    </span>
+                                    <span class="status_style ml-3">Comments:
+                                        {{ getComments(element.value) }}
+                                    </span>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns1">
+                        </tr>
+                        <tr mat-footer-row *matFooterRowDef="['footer']"></tr>
+                    </table> -->
+            <!-- </div> -->
+            <!-- </div> -->
+        </div>
+    </div>
+</div>

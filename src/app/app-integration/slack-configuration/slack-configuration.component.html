@@ -1,0 +1,111 @@
+<div class="page-header d-flex align-items-center justify-content-between">
+  <h3 class="page-title">Slack Integration</h3>
+  <div class="d-flex align-items-center">
+    <button class="backbtn" matTooltipPosition="left" matTooltip="Back to apps integration"
+      [routerLink]="['/apps-integration']">
+      <img class="ph_back_arrow_img" src="../../assets/images/back.png" />
+    </button>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="w-100 outputSec">
+   
+    <div class="card-sec">
+      <div class="card">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <h5 class="col-7 page-title">Slack Integration Details</h5>
+          <div>
+            <button mat-button class="tb_dropdown_btn" [matMenuTriggerFor]="menu1">
+              Manage Slack<mat-icon>keyboard_arrow_down</mat-icon>
+            </button>
+            <mat-menu #menu1="matMenu">
+              <button mat-menu-item [matMenuTriggerFor]="attendance">Attendance</button>
+              <button mat-menu-item [matMenuTriggerFor]="dayplanner">Day planner</button>
+              <button mat-menu-item [matMenuTriggerFor]="leavetracker">Leave</button>
+              <button mat-menu-item [matMenuTriggerFor]="approvals">Approvals</button>
+            </mat-menu>
+            <mat-menu #attendance="matMenu">
+              <button mat-menu-item (click)="navigateModule('attendance')">
+                {{ attendancePresent == false ? "Add" : "Edit" }} for Attendance
+              </button>
+              <button mat-menu-item *ngIf="attendancePresent" (click)="deleteIntegration(attendanceData.id)">
+                Delete Attendance Integration
+              </button>
+            </mat-menu>
+            <mat-menu #dayplanner="matMenu">
+              <button mat-menu-item (click)="navigateModule('dayplanner')">
+                {{ dayplannerPresent == false ? "Add" : "Edit" }} for Day planner
+              </button>
+              <button mat-menu-item *ngIf="dayplannerPresent" (click)="deleteIntegration(dayplannerData.id)">
+                Delete dayplanner Integration
+              </button>
+            </mat-menu>
+            <mat-menu #leavetracker="matMenu">
+              <button mat-menu-item (click)="navigateModule('leave')">
+                {{ leavePresent == false ? "Add" : "Edit" }} for Leave
+              </button>
+              <button mat-menu-item *ngIf="leavePresent" (click)="deleteIntegration(leaveData.id)">
+                Delete Leave tracker Integration
+              </button>
+            </mat-menu>
+            <mat-menu #approvals="matMenu">
+              <button mat-menu-item (click)="navigateModule('approvals')">
+                {{ approvalsPresent == false ? "Add" : "Edit" }} for Approvals
+              </button>
+              <button mat-menu-item *ngIf="approvalsPresent" (click)="deleteIntegration(approvalsData.id)">
+                Delete Approvals Integration
+              </button>
+            </mat-menu>
+            
+          </div>
+        </div>
+        <div class="card-body2 d-flex justify-content-center" *ngIf="!datapresent">
+          <div class="w-25 text-center">
+            <img src="../../../assets/images/notConfigured.png" alt="not yet Configured" class="w-100" />
+            <h3 class="mb-4">Not yet configured...!</h3>
+          </div>
+        </div>
+        <div class="card-body2" *ngIf="datapresent">
+          <div class="row mx-3 pt-3" *ngFor="let data of slackconfigurations">
+            <div class="col-3 text-capitalize">
+              <b> {{ data.module_name }} </b>
+            </div>
+            <div class="col-9">: {{ data.url }}</div>
+          </div>
+          <div class="row mx-3 pt-3">
+            <div class="col-3">
+              <b>Send Slack Notification </b>
+            </div>
+            <div class="col-9">
+              <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                [disabled]="!isSlackconfigured" [(ngModel)]="Notify">:
+                <mat-radio-button class="example-radio-button mr-3" *ngFor="let option of yesOrNoOption"
+                  [value]="option" (change)="radioButtonClickedManageSlackConfig($event)">
+                  {{ option }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="row mx-3 pb-3">
+            <div class="col-3"></div>
+            <div class="col-9" [innerHTML]="slackConfigNoteMessage">
+              <!-- <small>If you choose <b>"No"</b> it will restric all slack
+                notification from Tcube</small> -->
+            </div>
+          </div>
+          <div class="row mx-3 pb-3">
+            <div class="col-10">
+              <div class="btns">
+                <button class="btn btn-confirm" [disabled]="Notify == isNotify || !isSlackconfigured"
+                  (click)="UpdateModuleslack()">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

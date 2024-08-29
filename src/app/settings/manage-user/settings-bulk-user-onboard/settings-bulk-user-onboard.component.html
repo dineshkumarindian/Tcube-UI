@@ -1,0 +1,152 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">Import Files</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <div class="pfr">
+                    <mat-icon mat-dialog-close matTooltip="Close" class="red" role="img" type="button">close</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="importUser">
+    <div class=" container importImage">
+        <img src="../../assets/images/import123.png">
+    </div>
+    <div class="container">
+        <div class="col-md-6 offset-md-3 text-center">
+            <div class="user_dialog">
+                <b>Choose the file to be imported</b>
+                <small>
+                    <p class="hint_notes">
+                        [only xls,xlsx and csv formats are supported]<br>
+                        Maximum upload file size is 5 MB.
+                    </p>
+                </small>
+                <div *ngIf="file" class="user_dialog mb-2">
+                    <span>{{this.file.name}}</span>
+                </div>
+                <div>
+                    <div class="row import_submit_button">
+                        <input type="file" capture accept=".xls,.xlsx,.csv" (change)="importUserExcelFile($event)"
+                            name="excelUserFile" hidden #FileSelect id="jsonFile">
+                        <div class="import_button">
+                            <button type="button" mat-raised-button class="add_create_btn_mi"
+                                (click)="FileSelect.click()">
+                                Import File
+                            </button>
+                        </div>
+                        
+                        <div class="submit_file_button">
+                            <span *ngIf="TrailAccount; else others" matTooltip="Unable to onboard users more than your Organization Account User limit , Please upgrade your plan to onboard more users " [matTooltipDisabled]="userLimit>arraylist.length-1 + numberOfUsers">
+                                <button type="button" mat-raised-button class="add_create_btn_mi"  (click)="uploadUserExcelFile()" [disabled]="!file || incorrectExcelFile ||  TrailAccount && userLimit<=arraylist.length-1 + numberOfUsers">
+                                    Submit
+                               </button>
+                                </span>
+                                <ng-template #others >
+                                    <button type="button" mat-raised-button class="add_create_btn_mi" [disabled]="!file || incorrectExcelFile" (click)="uploadUserExcelFile()">
+                                         Submit
+                                    </button>
+                                </ng-template>
+                            
+                        </div>
+                        <div>
+                            <button type="button" mat-raised-button class="reset_file_button"
+                                (click)="resetImportedFile()">
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+                    <div *ngIf="clearDuplicateEmail">
+                        <pre class="red" *ngFor="let element of duplicateEmail">{{ element }}</pre>
+                    </div>
+                    <div *ngIf="clearDuplicateName">
+                        <pre class="red" *ngFor="let element of duplicateName">{{ element }}</pre>
+                    </div>
+                    <div  *ngIf="clearDuplicateEmailInExcel">
+                        <pre class="red" *ngFor="let element of duplicateEmails">{{ element }}</pre>
+                    </div>
+                    <div  *ngIf="clearDuplicateNameInExcel">
+                        <pre class="red" *ngFor="let element of duplicateNameInExcel">{{ element }}</pre>
+                    </div>
+                    <div  *ngIf="clearDuplicateMobileNumberInExcel">
+                        <pre class="red" *ngFor="let element of duplicateMobileNumber">{{ element }}</pre>
+                    </div>
+                    <div class="red" [innerHtml]="msg" *ngIf="msg">
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <div  class="red"  *ngIf="TrailAccount && userLimit<=arraylist.length-1 + numberOfUsers">
+            Unable to onboard users more than your Organization Account User limit , Please upgrade your plan to onboard more users 
+        </div>
+        <b>
+            Sample Excel Format
+        </b>
+
+        <div class="sample_excel_table">
+            <table class="table_tc" id="excel-table">
+                <tr>
+                    <th>first_ name</th>
+                    <th>last_ name</th>
+                    <th>password</th>
+                    <th>email</th>
+                    <th>date_of_ joining</th>
+                    <th>designation</th>
+                    <th>reporting _ manager</th>
+                    <th>role</th>
+                    <th>branch</th>
+                    <th>stafftype</th>
+                    <th>countrycode</th>
+                    <th>mobilenumber</th>
+                    <th>shift</th>
+                </tr>
+                <tr *ngFor="let item of newEmpList">
+                    <th><span>{{item.first_name}}</span></th>
+                    <th><span>{{item.last_name}}</span></th>
+                    <th><span>{{item.password}}</span></th>
+                    <th><span>{{item.email}}</span></th>
+                    <th><span>{{item.date_of_joining}}</span></th>
+                    <th><span>{{item.designation}}</span></th>
+                    <th><span>{{item.reporting_manager}}</span></th>
+                    <th><span>{{item.role}}</span></th>
+                    <th><span>{{item.branch}}</span></th>
+                    <th><span>{{item.stafftype}}</span></th>
+                    <th><span>{{item.countrycode}}</span></th>
+                    <th><span>{{item.mobilenumber}}</span></th>
+                    <th><span>{{item.shift}}</span></th>
+                </tr>
+            </table>
+        </div>
+        <small>
+            <div class="download_sample_excel">
+                <button type="button" mat-raised-button class="add_create_btn_mi" (click)="exportSampleExcelFile()">
+                    Download Sample Excel File
+                </button>
+            </div>
+            <div class="hint_notes">
+                <b> Note: </b>
+                <div class="notes_for_filling_excel">
+                    <ul>
+                        <li><b>Before first letter or number don't give space</b></li>
+                        <li><b>Before giving staff type,branch and countrycode please check those are available in respective org or else add them</b></li>
+                        <li><b>Don't edit or reuse the Sample format file, it will not work its just for reference.Use
+                                new excel file for uploading</b></li>
+                        <li><b>Reporting manager id must be selected from user table</b></li>
+                        <li><b>For password you can give default / custom password and that custom password should be
+                                greater than 5 digits</b></li>      
+                        <li><b>Designation , Role and branch should be selected from org details only(case sensitive)</b></li>
+                        <li><b>First and last name should not contain digits</b></li>
+                        <li>Date values should be in the same format as specified in the Company Details page under
+                            Display
+                            Settings
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </small>
+    </div>

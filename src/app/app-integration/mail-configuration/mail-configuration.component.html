@@ -1,0 +1,171 @@
+<!-- <div class="row">
+    <div class="col-md-12 mb-3">
+        <h3 class="set-heading">Mail Configuration
+            <span class="pull-right rs_btns">
+                <div class="setting_add_btns">
+                    <button class="mx-2" mat-stroked-button 
+                         [routerLink]="['/add-designation']">
+                        <mat-icon mat-icon-button>add</mat-icon><span class="btn_txt">
+                            Add Configuration</span>
+                    </button>
+                </div>
+            </span>
+        </h3>
+    </div>
+</div> -->
+<div class="page-header d-flex align-items-center justify-content-between">
+  <h3 class="page-title">
+    Email Integration
+    <!-- <p class="m-0 subtitle-color"></p> -->
+  </h3>
+  <div class="d-flex align-items-center">
+    <button
+      mat-raised-button
+      class="add_create_btn_mi mr-3"
+      *ngIf="!ismailconfigured && show"
+      color="primary"
+      matTooltip="Add mail integration"
+      [routerLink]="['/add-mail-configuration']"
+      routerLinkActive="router-link-active"
+    >
+      <mat-icon mat-icon-button>add</mat-icon>Add Integration
+    </button>
+    <button
+      class="backbtn"
+      matTooltipPosition="left"
+      matTooltip="Back to apps integration"
+      [routerLink]="['/apps-integration']"
+    >
+      <img class="ph_back_arrow_img" src="../../assets/images/back.png" />
+    </button>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="w-100 outputSec">
+    <div
+      class="d-flex justify-content-center"
+      *ngIf="!ismailconfigured && show"
+    >
+      <div class="w-25 text-center">
+        <img
+          src="../../../assets/images/notConfigured.png"
+          alt="not yet Configured"
+          class="w-100"
+        />
+        <h3>Not yet configured...!</h3>
+      </div>
+    </div>
+    <div class="card-sec" *ngIf="ismailconfigured && show">
+      <div class="card">
+        <div
+          class="card-header d-flex align-items-center justify-content-between"
+        >
+          <h5 class="col-7 page-title">Mail Integration Details</h5>
+          <div class="d-flex">
+            <button
+              mat-raised-button
+              class="add_create_btn_mi mr-3"
+              color="primary"
+              matTooltip="Edit mail integration"
+              (click)="editconfig()"
+              routerLinkActive="router-link-active"
+            >
+              <mat-icon mat-icon-button>edit</mat-icon>Edit Integration
+            </button>
+            <div class="btns">
+              <button
+                class="btn btn-delete ml-2"
+                (click)="deleteDialog()"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body2">
+          <div class="row mx-3 pt-3">
+            <div class="col-3">
+              <b> Host </b>
+            </div>
+            <div class="col-9">
+              : {{ ismailconfigured ? " " + configData.host : "" }}
+            </div>
+          </div>
+          <div class="row mx-3 pt-3">
+            <div class="col-3">
+              <b> Port </b>
+            </div>
+            <div class="col-9">
+              : {{ ismailconfigured ? " " + configData.port : "" }}
+            </div>
+          </div>
+          <div class="row mx-3 pt-3">
+            <div class="col-3">
+              <b> Username </b>
+            </div>
+            <div class="col-9">
+              :{{ ismailconfigured ? " " + configData.username : "" }}
+            </div>
+          </div>
+          <div class="row mx-3 pt-3">
+            <div class="col-3">
+              <b> Password </b>
+            </div>
+            <div class="col-9">
+              :{{ ismailconfigured ? " " + configData.password : "" }}
+            </div>
+          </div>
+          <div class="row mx-3 pt-3">
+            <div class="col-3">
+              <b>Sender Mail </b>
+            </div>
+            <div class="col-9">
+              :{{ ismailconfigured ? " " + configData.sender : "" }}
+            </div>
+          </div>
+          <div class="row mx-3 pt-3">
+            <div class="col-3">
+              <b>Send Mail Notification </b>
+            </div>
+            <div class="col-9">
+              <mat-radio-group
+                aria-labelledby="example-radio-group-label"
+                class="example-radio-group"
+                [disabled]="!ismailconfigured"
+                [(ngModel)]="NotifyMail"
+                >:
+                <mat-radio-button
+                  class="example-radio-button mr-3"
+                  *ngFor="let option of yesOrNoOption"
+                  [value]="option"
+                  (change)="radioButtonClickedMailIntegration($event)"
+                >
+                  {{ option }}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <div class="row mx-3 pb-3">
+            <div class="col-3"></div>
+            <div class="col-9" [innerHTML]="mailConfigNoteMessage">
+              <!-- <small>If you choose <b>"No"</b> it will restric all mail from Tcube</small> -->
+            </div>
+          </div>
+          <div class="row mx-3 pb-3">
+            <div class="col-10 d-flex">
+              <div class="btns">
+                <button
+                  class="btn btn-confirm"
+                  [disabled]="!mailConfigureYesOrNo"
+                  (click)="UpdateMailNotification()"
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

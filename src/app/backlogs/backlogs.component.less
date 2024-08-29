@@ -1,0 +1,73 @@
+.backlogs {
+    .example-tree-invisible {
+        display: none;
+    }
+
+    .example-tree ul,
+    .example-tree li {
+        margin-top: 0;
+        margin-bottom: 0;
+        list-style-type: none;
+    }
+
+    /*
+       * This padding sets alignment of the nested nodes.
+       */
+    .example-tree .mat-nested-tree-node div[role=group] {
+        padding-left: 40px;
+    }
+
+    /*
+       * Padding for leaf nodes.
+       * Leaf nodes need to have padding so as to align with other non-leaf nodes
+       * under the same parent.
+       */
+    .example-tree div[role=group]>.mat-tree-node {
+        padding-left: 40px;
+    }
+
+    .table-section {
+        .todo {
+            color: #5a5959;
+            font-weight: 700;
+            background: #ded9d9;
+            padding: 0px 4px 0px 5px;
+            border-radius: 4px;
+        }
+
+        .inprogress {
+            color: #15669f;
+            font-weight: 700;
+            background: #c8e4f8;
+            padding: 0px 4px 0px 4px;
+            border-radius: 4px;
+        }
+
+        .done {
+            color: #255e30;
+            font-weight: 700;
+            background: #b2dca9;
+            border-radius: 4px;
+            padding: 0px 4px 0px 4px;
+        }
+
+        .action {
+            display: none;
+        }
+
+        tr:hover .action {
+            display: inline;
+        }
+
+        .action-btn:hover {
+            opacity: .7;
+        }
+
+        ::ng-deep td.mat-cell:last-of-type,
+        td.mat-footer-cell:last-of-type,
+        th.mat-header-cell:last-of-type {
+            padding-right: 0 !important;
+            width: 75px;
+        }
+    }
+}

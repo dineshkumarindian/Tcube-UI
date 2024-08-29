@@ -1,0 +1,49 @@
+<div class="profile-img-preview">
+    <div class="image-carsoul image-carsoul--visible">
+        <!-- <p class="emp_name">Employee Profile</p> -->
+        <div class="emp_name mat-dialog-container ">
+            <h5>Staff Profile</h5>
+            <span class="pull-right cls-btn">
+                <mat-icon mat-dialog-close matTooltip="Close"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" role="img"
+                    type="button">close</mat-icon>
+            </span>
+        </div>
+
+        <div class="emp-image">
+            <img [src]="image">
+        </div>
+
+        <button class="slide carousel-control-prev" role="button" [disabled]="currentItem == 0" (click)="Prev()">
+            <!-- <span class="carousel-control-prev-icon"></span> -->
+            <mat-icon>chevron_left</mat-icon>
+            <span class="sr-only">Previous</span>
+        </button>
+
+
+        <button class="slide carousel-control-next" role="button" [disabled]="length -1 == currentItem"
+            (click)="Next()">
+            <!-- <span class="carousel-control-next-icon"></span> -->
+            <mat-icon>chevron_right</mat-icon>
+            <span class="sr-only">Next</span>
+        </button>
+
+    </div>
+    <hr>
+    <div class="emp-nd">
+        <div class="row">
+            <p class="col-7 mb-0">{{name}}</p>
+        </div>
+    </div>
+</div>
+
+<!-- <a class="prev" (click)="Prev()" aria-hidden="true" disabled="currentItem==0">❮</a>
+        <a class="next" (click)="Next()" aria-hidden="true" disabled="length==currentItem">❯</a> -->
+
+<!-- <button class="carousel__btn carousel__btn--left" (click)="Prev()">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <button class="carousel__btn carousel__btn--right" (click)="Next()">
+            <mat-icon>chevron_right</mat-icon>
+        </button> -->

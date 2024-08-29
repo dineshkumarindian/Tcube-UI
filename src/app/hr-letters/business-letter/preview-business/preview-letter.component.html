@@ -1,0 +1,147 @@
+<!----- preview business_letter ----->
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">Preview Letter</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <mat-icon mat-dialog-close matTooltip="Close" class="red"
+                role="img" type="button">close</mat-icon>
+        </div>
+        </div>
+    </div>
+</div>
+
+<section class="preview_content_sect">
+    <div mat-dialog-content *ngIf="!isInternActiveId">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="">
+                        <img src="../../../../assets/images/servx_logo.png" width="150"  height="65" alt="Logo" class="img-fluid ">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="float-right">
+                        <h5>Date: <span>DD/MM/YYYY</span></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="to_section">
+                    <h5>To :</h5>
+                    <div class="line-list"></div>
+                    <div class="line-list"></div>
+                    <div class="line-list"></div>
+                </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3 class="text-uppercase">2 month of internship letter</h3>
+                    <small><b>(Program Title)</b></small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 class="mb-4">Dear <span><b>(Employee Name)</b></span>,</h4>
+                    <p>Based on the discussions over the last meeting, we are happy to offer you an
+                        internship for a period of 2 months.</p>
+                    <p>If you complete the internship successfully, we may offer you full time employment or consultant position,
+                        post-internship. The decisions on whether we can onboard you by the end of 2 months are entirely discretional
+                        to the Company without disclosing the reason.</p>
+                    <p>During the tenure of 2 months, at any time, our project team may decide to terminate your internship without
+                        disclosing actual reasons. Though termination is not at the best of the interests of the company, the following
+                        factors are usually the influence towards the termination of Internships</p>
+                    <p>1. lack of focus, 2. non-performant, 3. lack of attendance, 4. lack of communication, 5. dishonesty, 6.
+                        distractive to ongoing projects & operations, 7. any general misuse and misconduct, etc. </p>
+                    <p>During the Internship, the company shall pay you a stipend of Rs.5000/- per month towards your expenses to
+                        support yourselves on your basic needs to stay focused and achieve as much hands-on experience as
+                        possible.</p>
+                    <p>PS: You must bring your own laptop during the internship period.</p>
+                    <p>Once again, we wish you all the best and look forward to kickstarting the Internship program by (Joining Date).</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="offset-md-6 col-md-6">
+                    <div class="sign_section mt-3 float-right">
+                        <h5>Sincerely,</h5>
+                        <img src="../../../../assets/images/letters-signaturely.svg" alt="Signature" width="150"  height="65" class="img-fluid">
+                        <p><b>(Name)</b></p>
+                        <p><b>(Role)</b></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p><b>xxxx xxxx private limited</b></p>
+                    <div class="line-list"></div>
+                    <p><b>Door No:yy/y,yy floor, place yyyy, state yyyy, pincode-yyyyyy.</b></p>
+                    <p><b>www.zzzz.com</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div mat-dialog-content *ngIf="isInternActiveId">
+        <div class="container-fluid" style="padding-top:20px;">
+            <div class="top-form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="">
+                            <img src="{{data.companyLogo}}" width="150" height="65" alt="Logo" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="float-right">
+                            <h5>Date: <span>{{data.date}}</span></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="to_section">
+                        <h5>To :</h5>
+                        <p class="underline"><span>{{data.name}},</span><br>{{data.address}}</p>
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <h3 class="text-uppercase">{{data.programtitle}}</h3>
+                        <!-- <small><b>(Program Title)</b></small> -->
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-md-12">
+                <p [innerHTML]="description" class="description"></p>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="offset-md-6 col-md-6">
+                        <div class="sign_section mt-3 float-right">
+                            <h5>Sincerely,</h5>
+                            <img src="{{data.directorSign}}" width="150" height="65" alt="Signature" class="img-fluid">
+                            <p><b>{{data.directorName}}</b></p>
+                            <p><b>{{data.signatureRole}}</b></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center footer-preview-letter">
+                        <p><b>{{data.companyName}}</b></p>
+                        <div class="line-list"></div>
+                        <div class="address_line">
+                        <p class="company-address"><b>{{data.companyAddress}}</b></p>
+                        </div>
+                        <p><b>{{data.companyLink}}</b></p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>

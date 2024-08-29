@@ -1,0 +1,15 @@
+<div class="delete row">
+  <div clss="col-4">
+    <img src="assets/images/logout.jpg">
+  </div>
+  <div class="col-7">
+    <h1 mat-dialog-title color="primary">Logout</h1>
+    <div mat-dialog-content>
+      <div class="dialog-question">{{logOutMsg}}</div>
+    </div>
+    <div mat-dialog-actions align="center" class="mt-1">
+      <button mat-raised-button class="cbtn" mat-dialog-close>Cancel</button>
+      <button mat-raised-button color="warn" mat-dialog-close (click)="logout()">Logout</button>
+    </div>
+  </div>
+</div>

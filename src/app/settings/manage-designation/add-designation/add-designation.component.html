@@ -1,0 +1,65 @@
+<div class="add_role">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="page-title" *ngIf="!designationIdUpdate">Add Designation</h3>
+                <h3 class="page-title" *ngIf="designationIdUpdate">Update Designation</h3>
+            </div>
+            <div class="col-md-8 designation_back_button">
+                <div class="pfr">
+                    <button mat-icon-button class="backbtn" matTooltip="Back to manage designation" matTooltipPosition="left"
+                    (click)="backToDesignation()">
+                        <!-- [routerLink]="['/settings']" routerLinkActive="active"> -->
+                        <img src="../../../../assets/images/back.png" class="ph_back_arrow_img"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="container-fluid">
+        <div class="input-content-wrap card card-bg p-3 mb-4">
+            <form [formGroup]="DesignationFormGroup" class="DesignationFormGroup">
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Designation</div>
+                    <div class="col-5">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Designation</mat-label>
+                        <input matInput formControlName="designation" (ngModelChange)="onCheckDesignation()"
+                            placeholder="Designation" required />
+                            <mat-error>
+                                <p  *ngIf="DesignationFormGroup.get('designation').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                            <mat-error>
+                                <p  *ngIf="DesignationFormGroup.get('designation').hasError('pattern')">{{validFormatMessage}}</p>
+                            </mat-error>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2"></div>
+                    <div class="error_msg col-5" *ngIf="ifDesignationAvail">
+                        {{existMessage}}</div>
+                </div>
+                <div class="row py-2">
+                    <div class="ml-3 labelstyle col-2">Designation Responsibilities
+                    </div>
+                    <div class="col-5">
+                    <mat-form-field appearance="fill">
+                        <textarea matInput formControlName="responsibilities"></textarea>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row btns">
+                    <div class="ml-3 labelstyle col-2"></div>
+                    <div class="col-5">
+                        <button *ngIf="!designationIdUpdate" class="btn btn-confirm" color="primary"
+                            (click)="addDesignation()" [disabled]="DesignationFormGroup.invalid || ifDesignationAvail">Add</button>
+                        <button *ngIf="designationIdUpdate" class="btn btn-confirm mr-2" color="primary"
+                            (click)="updateDesignation()"
+                            [disabled]="DesignationFormGroup.invalid || ifDesignationAvail">Update</button>
+                        <button class="btn btn-cancel" (click)="designationCancelformtoggle()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

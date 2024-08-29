@@ -1,0 +1,272 @@
+<section class="w-100 d-contents leave-section">
+    <!-- My leave -->
+    <div class="col-md-6 col-sm-12 col-lg-4  p-0 my_leave_section">
+        <div class="ng-star-inserted card my-2 card-style">
+            <h3>My Leaves
+                <span class="position-relative">
+                    <mat-icon matTooltip="Apply Leave" matTooltipPosition="right" (click)="applyLeave()"
+                        routerLinkActive="router-link-active" style="color: #0f61b0; background-color: #e4eaee;"
+                        class="icon_add position-absolute cursor-pointer" mat-icon-button>
+                        add_circle
+                    </mat-icon>
+                </span>
+            </h3>
+            <div class="table-card">
+                <div *ngIf="!myleavesdata && myleavedataloader != true" class="text-center">
+                    <img style="width:300px; height:300px;" src="../../assets/images/No data.png" alt="no data"
+                        class="pr-menu-icon">
+
+                    <div>{{nodataMsg}}</div>
+                </div>
+                <div *ngIf="myleavedataloader" class="text-center cover">
+                    <div class="loderwrapperstyle">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="">
+                        <div class="col" class="d-flex align-items-center justify-content-center">
+                            <div class="carding radius-10 border-start border-0 border-3">
+                                <div class="carding-body">
+                                    <div class="row">
+                                        <div class="d-flex align-items-center leave_card"
+                                            *ngFor="let data of newLeaveTypeDetails ; let i = index ;">
+
+                                            <div
+                                                class="widgets-icons-2 rounded-circle bg-gradient-ohhappiness text-white">
+                                                <img [src]="data.image">
+                                            </div>
+
+
+                                            <div class="border-warning1 text-lowercase ml-2">
+                                                <div class="td_text_firstltr_capitalized takenleaveStyle">
+                                                    <p class="mb-0 text-secondary">{{data.leave_type}}</p>
+                                                    <h4 class="my-1 text-info td_text_firstltr_capitalized">Taken :
+                                                        {{data.counts}}</h4>
+                                                    <p class="mb-0 td_text_firstltr_capitalized"
+                                                        *ngIf="data.available_days != 0">
+                                                        Available :
+                                                        {{data.available_days}}</p>
+                                                    <p class="mb-0 td_text_firstltr_capitalized"
+                                                        *ngIf="data.available_days == 0 ">
+                                                        Available : - </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Today leaves section -->
+    <div class="col-md-6 col-sm-12 col-lg-4 p-0">
+        <div class="ng-star-inserted card mr-2 my-2 card-style">
+            <h3>Today Leaves</h3>
+            <span style="display: flex; justify-content: flex-end;">
+            </span>
+            <div class="table-card noheader">
+                <div *ngIf="todayleavesloader" class="text-center cover">
+                    <div class="loderwrapperstyle">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                    </div>
+                </div>
+
+                <table mat-table [dataSource]="dataSourceleave" class="mat-elevation-z0 w-100">
+                    <ng-container matColumnDef="image">
+                        <th mat-header-cell *matHeaderCellDef> image </th>
+                        <td mat-cell *matCellDef="let data">
+                            <div class="d-flex align-items-center">
+                                <!-- <img style="width: 50px; height:50px; border-radius: 50%; margin-right: 20px;"
+                                    class="my-2" [src]="data.emp_img"> -->
+                                <div *ngIf="isGettingEMpImage" class="progressiveCircle mr-2">
+                                </div>
+                                <img *ngIf="!isGettingEMpImage"
+                                    style="width: 50px; height:50px; border-radius: 50%; margin-right: 20px;"
+                                    class="my-2" [src]="data.emp_img" alt="user_image">
+                            </div>
+                        </td>
+                        <!-- name column -->
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> name </th>
+                        <td mat-cell *matCellDef="let data">
+                            <div class="d-flex flex-column align-items-start small td_text_lowercased">
+                                <span class="td_text_firstltr_capitalized">{{data.emp_name}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- leavetype Column -->
+                    <ng-container matColumnDef="Leavetype">
+                        <th mat-header-cell *matHeaderCellDef> Leavetype </th>
+                        <td mat-cell *matCellDef="let data">
+                            <div class="d-flex flex-column align-items-start small td_text_lowercased">
+                                <span class="td_text_firstltr_capitalized">{{data.leave_type}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- Status Column -->
+                    <ng-container matColumnDef="Status">
+                        <th mat-header-cell *matHeaderCellDef> Status </th>
+                        <td mat-cell *matCellDef="let data">
+                            <div class="d-flex flex-column align-items-start small td_text_lowercased">
+                                <span class="td_text_firstltr_capitalized">{{data.half_full_day}}</span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedactiveLeaveColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedactiveLeaveColumns;"></tr>
+                </table>
+                <div *ngIf="leaveontoday && todayleavesloader == false" class="text-center">
+                    <img style="width:300px; height:300px; pointer-events: none" src="../../assets/images/No data.png"
+                        alt="no data" class="pr-menu-icon">
+
+                    <div>{{nodataMsg}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard page upcomming holidays data's -->
+    <div class="col-md-6 col-sm-12 col-lg-4 p-0 last_card">
+        <div class="ng-star-inserted card my-2 card-style">
+            <h3>Upcoming Holidays</h3>
+            <div class="table-card" style="overflow: hidden;">
+                <div *ngIf="upcomingholidaysloader" class="text-center cover">
+                    <div class="loderwrapperstyle">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                    </div>
+                </div>
+                <div>
+                    <table *ngIf="!holiday" mat-table [dataSource]="dataSource_up" class="mat-elevation-z0 w-100">
+                        <ng-container matColumnDef="leavetype">
+                            <th class="holidays" mat-header-cell *matHeaderCellDef> Leave Name </th>
+                            <td mat-cell *matCellDef="let data">
+                                <div class="d-flex align-items-center td_text_lowercased">
+                                    <!-- <a
+                                    [ngStyle]="{'color': data.date!= todaystatuscheck ? '#0499CE' : '#019267' }">
+                                    {{data.leave_name}}</a> -->
+                                    <span [ngStyle]="{'color': data.date!= todaystatuscheck ? '#0499CE' : '#019267' }"
+                                        class="td_text_firstltr_capitalized">
+                                        {{data.leave_name}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="date">
+                            <th class="holidays" mat-header-cell *matHeaderCellDef> Date </th>
+                            <td mat-cell *matCellDef="let data">
+                                <div *ngIf="data.leave_date_str != 'Tommorrow'"
+                                    class="d-flex flex-column align-items-start small">
+                                    <!-- <span>Date</span> -->
+                                    <span>{{data.leave_date_str | date:"dd-MM-yyyy"}}</span>
+                                </div>
+                                <div *ngIf="data.leave_date_str == 'Tommorrow'"
+                                    class="d-flex flex-column align-items-start small">
+
+                                    <button class="button_holiday"><span>Tomorrow</span></button>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsforholidays"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsforholidays;"></tr>
+                    </table>
+                    <!--  -->
+                </div>
+                <div *ngIf="holiday && upcomingholidaysloader == false" class="text-center">
+                    <img style="width:300px; height:300px;" src="../../assets/images/No data.png" alt="no data"
+                        class="pr-menu-icon">
+
+                    <div>{{nodataMsg}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-12 col-lg-4 p-0 last_card">
+        <div class="ng-star-inserted card my-2 card-style">
+            <h3>Upcoming Leaves</h3>
+            <div class="table-card" style="overflow: hidden;">
+                <div *ngIf="upComingLeaves" class="text-center cover">
+                    <div class="loderwrapperstyle">
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="circle"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                        <div class="shadowcl"></div>
+                    </div>
+                </div>
+                <div>
+                    <table *ngIf="!isLeaves" mat-table [dataSource]="upComingLeavesDataSource" class="mat-elevation-z0 w-100">
+                        <ng-container class="holidays" matColumnDef="name">
+                            <th class="holidays" mat-header-cell *matHeaderCellDef> Name </th>
+                            <td mat-cell *matCellDef="let data">
+                                <div class="d-flex align-items-center td_text_lowercased">
+                                    <!-- <a
+                                    [ngStyle]="{'color': data.date!= todaystatuscheck ? '#0499CE' : '#019267' }">
+                                    {{data.leave_name}}</a> -->
+                                    <span class="td_text_firstltr_capitalized">{{data.emp_name}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="leavetype">
+                            <th class="holidays" mat-header-cell *matHeaderCellDef> Leave Type </th>
+                            <td mat-cell *matCellDef="let data">
+                                <div class="d-flex flex-column align-items-start small td_text_lowercased">
+                                    <span class="td_text_firstltr_capitalized">{{data.leave_type}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="duration">
+                            <th class="holidays" mat-header-cell *matHeaderCellDef> Date </th>
+                            <td mat-cell *matCellDef="let data">
+                                <div class="d-flex flex-column align-items-start small td_text_lowercased">
+                                    <span class="td_text_firstltr_capitalized">{{data.start_date | date:"dd-MM-yyyy" }} - {{data.end_date | date:"dd-MM-yyyy"}}</span>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="days">
+                            <th class="holidays" mat-header-cell *matHeaderCellDef> Days </th>
+                            <td mat-cell *matCellDef="let data">
+                                <div class="d-flex flex-column align-items-start small td_text_lowercased">
+                                    <span class="td_text_firstltr_capitalized" *ngIf="data.total_days == 1 || data.total_days == 0.5">{{data.total_days}} day</span>
+                                    <span class="td_text_firstltr_capitalized" *ngIf="data.total_days > 1">{{data.total_days}} days</span>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsUpComingLeaves"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsUpComingLeaves;"></tr>
+                    </table>
+                    <!--  -->
+                </div>
+                <div *ngIf="isLeaves && upComingLeaves == false" class="text-center">
+                    <img style="width:300px; height:300px;" src="../../assets/images/No data.png" alt="no data"
+                        class="pr-menu-icon">
+
+                    <div>{{nodataMsg}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,66 @@
+
+
+.delete {
+    
+
+    .mat-dialog-content {
+        // padding: 15px;
+        // margin: 10px 0 0 0;
+        // padding: 0 15px;
+
+        .TasksUpdateDialog{
+            .oldTaskSec{
+                .taskContent{
+                    border: 1px gray solid;
+                    border-radius: 10px;
+                }
+                .projectStyle {
+                    border: 1px solid #0a4689;
+                    padding: 0 10px;
+                    border-radius: 15px;
+                    color: white;
+                    background-color: #0a4689;
+                    transition: 0.5s;
+                }
+
+                .projectStyle:hover {
+                    color: #0a4689;
+                    background-color: white;
+                }
+
+                .statusStyle{
+                    border: 1px solid coral;
+                    padding: 0 10px;
+                    border-radius: 15px;
+                    color: white;
+                    background-color: coral;
+                    transition: 0.5s;
+                }
+                .statusStyle:hover{
+                    color: coral;
+                    background-color: white;
+                }
+            }
+            .edit-btn:disabled{
+                cursor: not-allowed;
+                color: gray !important; ;
+                background-color: #e9e9e9 !important;
+            }
+        }
+
+        .bulkStatusUpdate{
+            height:  65px;
+        }
+    }
+
+    .updateBtn:disabled{
+        cursor: not-allowed;
+        color: gray !important; ;
+        background-color: #e9e9e9 !important;
+    }
+
+    .mat-dialog-actions {
+        margin-right: 15px;
+    }
+
+}

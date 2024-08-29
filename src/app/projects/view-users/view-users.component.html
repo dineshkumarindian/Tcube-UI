@@ -1,0 +1,87 @@
+<div class="view">
+    <!-- Application loader -->
+    <!-- <ngx-spinner bdColor = "rgba(0, 0, 0, 0)" size = "large" color = "#fff" type = "square-loader" [fullScreen] = "true"> 
+    <img style="width:150px; display: block; margin: 0 auto;" src="../assets/images/loader_gif.gif" />
+  </ngx-spinner> -->
+    <div class="view-user-header dialog-header">
+        <h3 class="page-title" *ngIf="header === 'View Team Members' || header ==='View Team Member'">{{viewTeamMsg}}
+            <span *ngIf="projectIsActive" class="pull-right add-btn">
+                <mat-icon matTooltip="Add team members" matTooltipPosition="right" class="mat-icon addUser"
+                    (click)="assignusers()">add_circle
+                </mat-icon>
+            </span>
+        </h3>
+        <h3 class="page-title" *ngIf="header === 'View Manager' || header==='View Managers'">{{viewManager}}
+            <!-- <span class="pull-right add-btn">
+                <mat-icon mat-dialog-close matTooltip="Add managers" matTooltipPosition="right" class="mat-icon addUser">add_circle
+                </mat-icon>
+            </span> -->
+        </h3>
+        <span class="pull-right cls-btn">
+            <mat-icon  matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                role="img" type="button" (click)="closeDialog()">close</mat-icon>
+        </span>
+    </div>
+    <div class="content">
+        <div class="" *ngFor="let data of view_data">
+            <!-- <div [ngStyle]="{'color': data.status  == Active ? 'white' ' : 'grey' }"> -->
+                <div *ngIf="data.status == 'Active' ">
+                    <div class="card shadow-sm p-2  bg-body roundedscroll-y">
+                        <div class="img-sec">
+                            <span class="push-left col-5">
+                                <img class="img-fluid" [src]=data.photo alt="profile-img">
+                            </span>
+                            <span class="name_rtsd col-7 pl-0">
+                                <h6>{{data.name}}</h6>
+                                <small>{{data.role}}</small>
+                            </span>
+                            <div class="d-flex flex-column close_icons col-2" *ngIf="View_members">
+                                <span class="pull-right cls-btn" *ngIf="projectIsActive">
+                                    <mat-icon matTooltip="Remove user"
+                                        class="mat-icon notranslate material-icons mat-icon-no-color" role="img"
+                                        type="button" (click)="remove(data.emp_id)">close</mat-icon>
+                                </span>
+                                <div class="done-btn" *ngIf="close_open && data.emp_id == removinguser_id">
+                                    <mat-icon class="done" (click)="userremove(data.emp_id,data.Project_id)"
+                                        matTooltip="Done" matTooltipPosition="right">done</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="data.status == 'Inactive'">
+                    <div class="card shadow-sm p-2  bg-body roundedscroll-y" style='background-color: rgb(0 0 0 / 14%);'>
+                        <div class="img-sec">
+                            <span class="push-left col-5">
+                                <img class="img-fluid" [src]=data.photo alt="profile-img">
+                            </span>
+                            <span class="name_rtsd col-7 pl-0">
+                                <h6 style="color: #343a40;">{{data.name}}</h6>
+                                <small>{{data.role}}</small>
+                            </span>
+                            <div class="d-flex flex-column close_icons col-2" *ngIf="View_members">
+                                <span class="pull-right cls-btn">
+                                    <mat-icon matTooltip="Remove user"
+                                        class="mat-icon notranslate material-icons mat-icon-no-color" role="img"
+                                        type="button" (click)="remove(data.emp_id)">close</mat-icon>
+                                </span>
+                                <div class="done-btn" *ngIf="close_open && data.emp_id == removinguser_id">
+                                    <mat-icon class="done" (click)="userremove(data.emp_id,data.Project_id)"
+                                        matTooltip="Done" matTooltipPosition="right">done</mat-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+
+        <!-- <mat-chip-list aria-label="Fish selection">
+            <mat-chip  class="example-box" *ngFor="let data of view_data">
+                {{data.name}}
+            </mat-chip>
+           
+          </mat-chip-list> -->
+    </div>
+</div>

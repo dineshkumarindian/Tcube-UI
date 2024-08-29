@@ -1,0 +1,21 @@
+<div class="dialog-header" style="margin-top: -24px;
+margin-left: -25px;
+margin-right: -24px;">
+    <h3 class="page-title">{{header}}</h3>
+    <span class="pull-right cls-btn" style="margin-top:-3px;">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+            type="button">close</mat-icon>
+    </span>
+</div>
+<section>
+    <div mat-dialog-content>
+        <div class="dialog-hint-content" *ngIf="splitteddetails !='-'">
+            <ul *ngFor="let data of splitteddetails">
+            <li><p> {{data}}</p></li>
+            </ul>
+        </div>
+        <div class="dialog-hint-content" *ngIf="splitteddetails =='-'">
+           <div class="text-center text-danger no-search-match p-3"> {{noCommentMessage}}</div>
+            </div>
+    </div>
+</section>

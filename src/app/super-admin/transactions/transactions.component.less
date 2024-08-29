@@ -1,0 +1,222 @@
+.transactions {
+    margin-top: 50px;
+
+    //table_section
+    .table-section {
+        .secondrow {
+            height: 15px;
+            width: 99%;
+            margin-bottom: 30px;
+
+            .icondelete {
+                display: flex;
+                align-items: center;
+                padding: 0 0 0 36px;
+
+                button {
+                    border: 0.5px solid #dcd5d5;
+                    border-radius: 4px;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 10px;
+                    position: relative;
+                    left: -5px;
+                    // top: 14px;
+                    background: white;
+
+                    .mat-icon {
+                        font-size: 17px;
+                        color: red;
+                        height: 17px;
+                        width: 17px;
+                    }
+                }
+
+                button:hover {
+                    border: 0.5px solid red;
+                    background-color: red;
+
+                    .mat-icon {
+                        font-size: 17px;
+                        color: white;
+
+                    }
+                }
+            }
+        }
+
+        .orgTable {
+            .pay-status-btn {
+                button {
+                    line-height: 25px !important;
+                    padding: 0 8px !important;
+                    border-radius: 15px !important;
+                    color: white;
+                    width: 70px !important;
+                    cursor: inherit;
+                }
+
+                .success-btn {
+                    background-color: #37ac99 !important;
+                }
+
+                .fail-btn {
+                    background-color: red !important;
+                }
+
+                .others {
+                    background-color: #f67200 !important;
+                }
+            }
+            .pay-action-btn {
+                button {
+                    line-height: 24px !important;
+                    padding: 0 7px !important;
+                    margin-right: 10px;
+                    color: white;
+                }
+
+                .download-btn {
+                    background-color: #4678c9 !important;
+                }
+
+                .download-btn:disabled {
+                    color: #9b8e8e !important;
+                    border-color: #dddddd !important;
+                    background: #dddddd !important;
+                    cursor: not-allowed;
+                }
+
+                .view-btn {
+                    a {
+                        color: white !important;
+                    }
+                }
+
+            }
+
+            mat-table {
+                border-radius: 10px 10px 0 0;
+                box-shadow: rgba(0, 0, 0, 0.27) 0px 5px 15px;
+
+                mat-header-cell {
+                    background-color: #e4eaee;
+                    color: #0e5eb8;
+                    font-size: 14px;
+                }
+
+                mat-header-row {
+                    background-color: #e4eaee;
+                }
+
+                .link_td {
+                    color: #007bff;
+                    font-weight: 500;
+                    cursor: pointer;
+                }
+
+                .rejectbtn {
+                    outline: none;
+                    background-color: #c90707 !important;
+                }
+
+                button {
+                    background-color: #093a79;
+                    line-height: 25px;
+                    font-size: 13px;
+                    min-width: 40px;
+                    padding: 0 5px;
+                }
+
+                .currency {
+                    font-weight: 700;
+                    color: #ff6e40;
+                }
+
+                .paid {
+                    background-color: #2e7f35;
+                    color: white;
+                    font-size: 14px;
+                    padding: 1px;
+                    font-weight: 500;
+                    height: 23px;
+                    border-radius: 4px;
+                    text-align: center;
+                    min-width: 69px;
+                }
+
+                .initiated {
+                    background-color: #0c55a9;
+                    color: white;
+                    font-size: 14px;
+                    padding: 1px;
+                    font-weight: 500;
+                    height: 23px;
+                    border-radius: 4px;
+                    text-align: center;
+                    min-width: 69px;
+                }
+
+                .amount {
+                    font-weight: 700;
+                }
+
+                .mat-standard-chip {
+                    background-color: #00214c !important;
+                    color: white !important;
+                    font-size: 12px;
+                    text-transform: capitalize;
+                    padding: 5px 10px;
+                    cursor: default;
+                    min-height: 24px;
+                }
+
+                //tstyle for reduce the checkbox colomn
+                .mat-column-selector {
+                    word-wrap: break-word !important;
+                    white-space: unset !important;
+                    flex: 0 0 8% !important;
+                    width: 9% !important;
+                    overflow-wrap: break-word;
+                    word-wrap: break-word;
+
+                    word-break: break-word;
+
+                    -ms-hyphens: auto;
+                    -moz-hyphens: auto;
+                    -webkit-hyphens: auto;
+                    hyphens: auto;
+                    border: none;
+                }
+
+                .mat-column-transaction_id {
+                    word-wrap: break-word !important;
+                    white-space: unset !important;
+                    flex: 0 0 18% !important;
+                    width: 20% !important;
+                    overflow-wrap: break-word;
+                    word-wrap: break-word;
+                    word-break: break-word;
+                    -ms-hyphens: auto;
+                    -moz-hyphens: auto;
+                    -webkit-hyphens: auto;
+                    hyphens: auto;
+                }
+
+                .mat-column-orgName {
+                    word-wrap: break-word !important;
+                    white-space: unset !important;
+                    flex: 0 0 15% !important;
+                    width: 15% !important;
+                    overflow-wrap: break-word;
+                    word-wrap: break-word;
+                    word-break: break-word;
+                    -ms-hyphens: auto;
+                    -moz-hyphens: auto;
+                    -webkit-hyphens: auto;
+                    hyphens: auto;
+                }
+            }
+        }
+    }
+}

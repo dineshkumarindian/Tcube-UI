@@ -1,0 +1,163 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">{{heading}}</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <button mat-icon-button class="add_create_btn_mi" [routerLink]="['/project-jobs-settings']"
+                    matTooltip="Back to project/jobs settings" matTooltipPosition="left"
+                    routerLinkActive="router-link-active">
+                    <img class="ph_back_arrow_img mb-4" src="../../assets/images/back.png">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="container-fluid">
+    <div class="input-content-wrap card card-bg p-3 mb-4">
+        <!-- leavetype form -->
+        <form [formGroup]="ClientFormGroup" class="ClientFormGroup">
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Client Name</div>
+                <mat-form-field appearance="standard" class="col-9">
+                    <mat-label>Name</mat-label>
+                    <input matInput placeholder="Client Name" formControlName="clientName"
+                        (ngModelChange)="onCheckClientName()" required />
+                    <mat-error>
+                        <div class="mat-error" *ngIf="ClientFormGroup.get('clientName').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                        <div class="mat-error" *ngIf="ClientFormGroup.get('clientName').hasError('pattern')">
+                            Invalid, please enter a valid format
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="col-5 mat-error" *ngIf="onClientName">Client
+                    name already
+                    exist</div>
+            </div>
+            <div class="row pb-3">
+                <div class="ml-3 labelstyle col-2">Currency</div>
+                <mat-form-field appearance="outline" class="col-9">
+                    <mat-select [formControl]="currencyCtrl" placeholder="Currency *" #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="currencyFilterCtrl"
+                                placeholderLabel="Search Currency..." noEntriesFoundLabel="'no matching found'"
+                                required>
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filteredCurrency | async" [value]="data.text">
+                            {{data.text}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix"
+                        *ngIf="currencyCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row pt-2 pb-2">
+                <div class="ml-3 labelstyle col-2">Billing Method</div>
+                <mat-form-field appearance="outline" class="col-9">
+                    <mat-select [formControl]="billCtrl" placeholder="Billing Method *" #singleSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="billFilterCtrl" placeholderLabel="Search ..."
+                                noEntriesFoundLabel="'no match found'" required>
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let data of filteredbill | async" [value]="data.name">
+                            {{data.name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error class="errorfix" *ngIf="billCtrl.hasError('required')">{{requiredMessage}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Email Id</div>
+                <mat-form-field appearance="standard" class="col-9">
+                    <mat-label>Email</mat-label>
+                    <input matInput placeholder="Email" formControlName="email" required />
+                    <mat-error>
+                        <div class="mat-error" *ngIf="ClientFormGroup.get('email').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                        <div class="mat-error"
+                            *ngIf="ClientFormGroup.get('email').hasError('email') || ClientFormGroup.get('email').hasError('pattern') ">
+                            Invalid, please enter a valid format
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">First Name</div>
+                <mat-form-field appearance="standard" class="col-9">
+                    <mat-label>First Name</mat-label>
+                    <input matInput placeholder="First Name" formControlName="fName" required />
+                    <mat-error>
+                        <div class="mat-error" *ngIf="ClientFormGroup.get('fName').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                        <div class="mat-error" *ngIf="ClientFormGroup.get('fName').hasError('pattern')">
+                            Invalid, please enter a valid format
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2">Last Name</div>
+                <mat-form-field appearance="standard" class="col-9">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput placeholder="Last Name" formControlName="lName" required />
+                    <mat-error>
+                        <div class="mat-error" *ngIf="ClientFormGroup.get('lName').hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+                        <div class="mat-error" *ngIf="ClientFormGroup.get('lName').hasError('pattern')">
+                            Invalid, please enter a valid format
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row pb-2">
+                <div class="ml-3 labelstyle col-2">Mobile</div>
+                <mat-form-field appearance="standard" class="col-9">
+                    <mat-label>Mobile</mat-label>
+                    <input matInput type="number" min="0" oninput="validity.valid || (value = '')" placeholder="Mobile"
+                        formControlName="mobile" (keypress)="numberOnly($event)"
+                        required />
+                    <!-- <mat-error>Field Required!</mat-error> -->
+                    <mat-error>
+                        <div class="mat-error" *ngIf="ClientFormGroup.controls['mobile'].hasError('required')">
+                            {{requiredMessage}}
+                        </div>
+
+                        <div class="mat-error" *ngIf="ClientFormGroup.controls['mobile'].hasError('pattern')">
+                            {{validFormat}}
+                        </div>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <div class="ml-3 labelstyle col-2"></div>
+                <div class="btns col-5 px-3">
+                    <button class="btn btn-confirm" *ngIf="!clientIdUpdate"
+                        [disabled]="ClientFormGroup.invalid || billCtrl.invalid ||currencyCtrl.invalid || onClientName"
+                        (click)="addClient()">Save</button>
+                    <button class="btn btn-confirm" *ngIf="clientIdUpdate"
+                        [disabled]="ClientFormGroup.invalid || billCtrl.invalid ||currencyCtrl.invalid || onClientName"
+                        (click)="updateClient()">Update</button>
+                    <button class="btn btn-cancel" (click)="clienttformtoggle()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- </div> -->
+<!-- </mat-sidenav-content> -->
+<!-- </mat-sidenav-container> -->

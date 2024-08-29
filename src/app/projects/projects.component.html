@@ -1,0 +1,414 @@
+<div>
+  <!-- ********** page header*********** -->
+  <div class="page-header">
+    <div class="row d-flex justify-content-between">
+      <div class="col-md-6">
+        <h6 class="page-title">
+          <div>
+            <h3 *ngIf="!inactiveProject && !completedProjects && !inactiveProjects_bystatus">Active Projects</h3>
+          </div>
+          <h3 class="page-title" *ngIf="completedProjects">Other Projects
+            <p *ngIf="completedProjects" class="subtitle-color mb-0" style="text-transform: math-auto;">(Completed and
+              Closed Project)</p>
+          </h3>
+          <h3 class="page-title" *ngIf="inactiveProject">Inactive Projects By Client's Deactivated
+          </h3>
+          <div>
+            <h3 *ngIf="inactiveProjects_bystatus">Inactive Projects</h3>
+          </div>
+        </h6>
+      </div>
+      <div class="Button-section d-flex">
+        <button mat-raised-button class="add_create_btn_mi mr-3" [routerLink]="['/addproject']"
+          *ngIf="!inactiveProject && !completedProjects && !inactiveProjects_bystatus"
+          routerLinkActive="router-link-active">
+          <mat-icon mat-icon-button>add</mat-icon>Add Project
+        </button>
+        <!-- <button mat-raised-button color="primary" class="inactive_btn mr-3" *ngIf="!inactiveProject"
+          matTooltipPosition="below" matTooltip="Deactivated client projects details shown here"
+          (click)="toggleInactiveProject()">
+          <mat-icon mat-icon-button>arrow_right</mat-icon>Inactive Projects
+        </button> -->
+        <!-- ************************************ mat-menu ************************* -->
+        <button mat-button class="tb_dropdown_btn" [matMenuTriggerFor]="menu1"
+          *ngIf="!inactiveProject && !completedProjects &&!inactiveProjects_bystatus">
+          Projects By Status<mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #menu1="matMenu">
+          <button mat-menu-item (click)="toggleInactiveProjectbyStatus()" class="Job_button">Inactive projects</button>
+          <button mat-menu-item (click)="toggleOtherProjects()" class="project_button">Other projects</button>
+        </mat-menu>
+        <!-- ***************** get inactive jobs by status***************** -->
+        <button *ngIf="inactiveProjects_bystatus && !completedProjects" (click)="toggleInactiveProject()"
+          class="inactive_jobs_by_status mr-3" matTooltip="Move to deactivated client projects"
+          matTooltipPosition="below">
+          <div>
+            <mat-icon mat-icon-button>last_page</mat-icon>
+            <!-- <span class="toclientsection">Manage Clients</span> -->
+          </div>
+        </button>
+        <!-- ************* move to  other projects section from inactive projects section********-->
+        <button *ngIf="inactiveProjects_bystatus && !completedProjects"
+          class="redirect-btn d-flex align-items-center justify-content-center mr-2" matTooltip="Move to other projects"
+          matTooltipPosition="below" (click)="toggleOtherProjects()">
+          <div>
+            <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+          </div>
+        </button>
+
+        <!-- button for manage-client section -->
+        <button *ngIf="inactiveProject && Accesstoclient_settings" (click)="Movetoclients()" class="redirect-btn mr-3"
+          matTooltip="Click manage client to reactivate the client to get all projects and jobs active again"
+          matTooltipPosition="below">
+          <div>
+            <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+          </div>
+        </button>
+        <!-- *********************move to jobs button***************** -->
+        <button *ngIf="!inactiveProject && !completedProjects && !inactiveProjects_bystatus" class="redirect-btn mr-5"
+          matTooltip="Move to jobs" matTooltipPosition="below" [routerLink]="['/jobs']"
+          routerLinkActive="router-link-active">
+          <div>
+            <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+          </div>
+        </button>
+        <!-- ************* move to  other projects section from inactive projects section********-->
+        <button *ngIf="completedProjects" class="redirect-btn d-flex align-items-center justify-content-center mr-2"
+          matTooltip="Move to inactive projects" matTooltipPosition="below" (click)="toggleInactiveProjectbyStatus()">
+          <div>
+            <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+          </div>
+        </button>
+        <!-- ******* back button ******* -->
+        <button *ngIf="inactiveProject || completedProjects || inactiveProjects_bystatus" class="moveto_active"
+          matTooltipPosition="left" matTooltip="Back to active projects" (click)="toggleActiveProject()"><img
+            class="ph_back_arrow_img" src="../../assets/images/back.png"></button>
+      </div>
+    </div>
+
+  </div>
+  <!-- ****************** table above section *************** -->
+  <div class="container-fluid mb-4 mat-checkbox-check project_content">
+    <div class="project_section mat-elevation-z8">
+      <div class="row">
+        <div class="col-6 icondelete d-flex align-items-center">
+          <div *ngIf="!inactiveProject && !completedProjects && !inactiveProjects_bystatus">
+            <button mat-icon-button *ngIf="listProject.length >=2 || select_all" class="add_assignees mr-0"
+              (click)="bulkAssignee()">
+              <mat-icon matTooltip="Assign Users" matTooltipPosition="right">add_circle
+              </mat-icon>
+            </button>
+          </div>
+          <div *ngIf="listProject.length >=2 || select_all" class="table_bulk_dele">
+            <button *ngIf="completedProjects || inactiveProjects_bystatus" class="bulk-delete-icon mt-0">
+              <mat-icon matTooltip="Delete Selected Projects" matTooltipPosition="right" (click)="bulkdelete()">delete
+              </mat-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="row justify-content-end">
+            <!-- *** filter for active projects -->
+            <div class="col-6 filter-with-mat-select pr-0">
+              <mat-form-field appearance="outline" class="col-8">
+                <mat-select [formControl]="clientCtrl" placeholder="Filter By Client" #singleSelect
+                  [(ngModel)]="selectedClientId" (selectionChange)="selectedClientEvent($event)">
+                  <mat-option>
+                    <ngx-mat-select-search [formControl]="clientFilterCtrl" placeholderLabel="Search Client..."
+                      noEntriesFoundLabel="'no match found'">
+                    </ngx-mat-select-search>
+                  </mat-option>
+
+                  <mat-option *ngFor="let data of filteredclient | async" [value]="data.id" class="text-capitalize">
+                    {{data.client_name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <!-- **** filter refresh button*** -->
+            <div class="mat-filter-refresh-btn" *ngIf="reset_filter_btn">
+              <button matTooltip="Reset filter" (click)="resetTableFilterByClient()" mat-icon-button
+                class="example-icon action-btn">
+                <mat-icon class="pr-menu-icon ">refresh
+                </mat-icon>
+              </button>
+            </div>
+
+            <!-- ********* search filter ************ -->
+            <div class="col-4 filter-form-sec">
+              <mat-form-field appearance="standard">
+                <mat-label>Filter</mat-label>
+                <input matInput (keyup)="applyProjectFilter($event)" placeholder="Search Projects ..." #input>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- ************ table section ************** -->
+      <div class="tablescroll">
+        <mat-table #table [dataSource]="dataSource1" matSort class="table_tc"
+          [ngClass]="{'inactive_project_columns_style' : inactiveProject}">
+          <div>
+            <ng-container matColumnDef="selector">
+              <mat-header-cell class="mat_header_project" *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? masterToggle() : null;bulk_delete()"
+                  [checked]="selection.hasValue() && isAllSelected()"
+                  [indeterminate]="selection.hasValue() && !isAllSelected()">
+                </mat-checkbox>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row" (click)="$event.stopPropagation()">
+                <td>
+                  <mat-checkbox (change)="$event ? selection.toggle(row) : null;bulk_delete()"
+                    [checked]="selection.isSelected(row)">
+                  </mat-checkbox>
+                </td>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="project_name">
+              <mat-header-cell *matHeaderCellDef mat-sort-header class="Column_padding">Project Name</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" class="td_text_lowercased">
+                <td class="table-link-dialog-open td_text_firstltr_capitalized"
+                  (click)="filterJobsByProjectId(element)">
+                  {{element.project_name}}</td>
+              </mat-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Project Name</mat-header-cell>
+              <!-- <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+              <span class="projectName" (click)="viewProject(element) ; filterJobsByProjectId(element.id)">{{element.project_name}}</span></mat-cell> -->
+            </ng-container>
+
+            <ng-container matColumnDef="client_name">
+              <mat-header-cell *matHeaderCellDef class="Column_padding">Client</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" class="td_text_lowercased">
+                <!-- <mat-chip>
+                {{element.clientDetails.client_name}}
+              </mat-chip> -->
+                <button mat-raised-button
+                  class="mat_chip_style_primary td_text_firstltr_capitalized">{{element.clientName}}</button>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="start_date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                <td *ngIf="element.start_date == undefined"> - </td>
+                <td *ngIf="element.start_date != null ">{{element.start_date |date:"dd-MM-yyyy"}}</td>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="end_date">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>End Date</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                <td *ngIf="element.end_date == undefined"> - </td>
+                <td *ngIf="element.end_date != null "> {{element.end_date |date:"dd-MM-yyyy"}} </td>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Logged_Hours">
+              <mat-header-cell *matHeaderCellDef>Total Hours</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+                <button mat-raised-button class="mat_chip_style_hours"
+                  *ngIf="element.logged_hours && element.logged_hours !='0 Hrs : 0 Mins ' && element.logged_hours !='0'">{{element.logged_hours}}</button>
+                <span class="ml-4"
+                  *ngIf="!element.logged_hours || element.logged_hours =='0 Hrs : 0 Mins ' || element.logged_hours =='0'">
+                  - </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Head">
+              <mat-header-cell *matHeaderCellDef>Head</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()" class="td_text_lowercased">
+                <td class="td_text_firstltr_capitalized"><span
+                    *ngIf="element.resourceDetails.length">{{element.resourceDetails[0].map.name}}</span></td>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Manager">
+              <mat-header-cell *matHeaderCellDef>Manager(s)</mat-header-cell>
+              <mat-cell *matCellDef="let element ; let i=index" (click)="$event.stopPropagation()"
+                class="td_text_lowercased">
+                <div *ngIf="element.managers.length < 2">
+                  <td class="manager_hovering td_text_firstltr_capitalized"
+                    (click)="viewUsers(element.id,'View Manager' ,[element.managers])">
+                    {{element.managers[0].name?element.managers[0].name : "-" }}</td>
+                </div>
+                <div *ngIf="element.managers.length > 1" class="managerSub">
+                  <p class="managerP td_text_firstltr_capitalized">
+                    <td>{{element.managers[0].name}}&nbsp;</td>
+                    <td>...</td>
+                  </p>
+                  <p class="td_viewmore td_text_firstltr_capitalized"
+                    (click)="viewUsers(element.id, 'View Managers', [element.managers])"><b>View more</b>
+                  </p>
+                </div>
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Members">
+              <mat-header-cell *matHeaderCellDef>Team Member(s)</mat-header-cell>
+              <mat-cell *matCellDef="let element ; let i=index" (click)="$event.stopPropagation()"
+                class="td_text_lowercased">
+
+                <button mat-icon-button *ngIf=" 1 >= element.users.length" class="mb-0 cursor-pointer ml-4"
+                  (click)="viewUsers(element.id,'View Team Member',element.project_name)">
+                  <mat-icon class="workicon mat_badge_secondary" [matBadgeHidden]="matBadgeCounts[i] == 0"
+                    matBadge="{{element.users.length}}" matBadgeColor="accent" matBadgeSize="small">person
+                  </mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="element.users.length > 1 && element.users.length>99"
+                  class="mb-0 cursor-pointer ml-4"
+                  (click)="viewUsers(element.id,'View Team Members',element.project_name)"
+                  [ngClass]="{'mat_badge_font' : element.users.length>99}">
+                  <mat-icon class="workicon mat_badge_secondary" [matBadgeHidden]="matBadgeCounts[i] == 0"
+                    matBadge="99+" matBadgeColor="accent" matBadgeSize="small">group
+                  </mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="element.users.length > 1 && element.users.length<100"
+                  class="mb-0 cursor-pointer ml-4"
+                  (click)="viewUsers(element.id,'View Team Members',element.project_name)">
+                  <mat-icon class="workicon mat_badge_secondary" [matBadgeHidden]="matBadgeCounts[i] == 0"
+                    matBadge="{{element.users.length}}" matBadgeColor="accent" matBadgeSize="small">group
+                  </mat-icon>
+                </button>
+                <!-- <div *ngIf=" 1 >= userTemp[i].length">
+                <td *ngFor="let temp of userTemp[i] ; let i=index" class="manager_hovering td_text_firstltr_capitalized"
+                  (click)="viewUsers(element.id,'View Team Member',[temp])">{{temp.name}}</td>
+              </div>
+              <div *ngIf="userTemp[i].length > 1 " class="managerSub">
+                <p class="managerP td_text_firstltr_capitalized" *ngFor="let temp of userTemp[i] ; let i=index">
+                  <td *ngIf=" 0 >= i">{{temp.name}}&nbsp;</td>
+                  <td *ngIf=" 1 == i">...</td>
+                </p>
+                <p class="td_viewmore" (click)="viewUsers(element.id,'View Team Members' ,userTemp[i])"><b>View more</b>
+                </p>
+              </div> -->
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Estimated_Hours">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Estimated Hours</mat-header-cell>
+              <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">100
+              </mat-cell>
+            </ng-container>
+
+
+            <!-- <ng-container matColumnDef="Status">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+            <mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">{{element.project_status}}
+            </mat-cell>
+          </ng-container> -->
+
+            <ng-container matColumnDef="Jobs">
+              <mat-header-cell *matHeaderCellDef>Jobs</mat-header-cell>
+              <mat-cell *matCellDef="let element; let i=index" [id]="'logId'+i" class="cursor-pointer"
+                (click)="details(element.id, i)">
+                <div [ngClass]="{'mat_badge_font' : element.total_jobs>99}">
+                  <mat-icon *ngIf="(i != Expandindex || !Expandcondition) && (element.total_jobs>99)"
+                    class="workicon mat_badge_secondary" [matBadgeHidden]="matBadgeCounts[i] == 0" matBadge="99+"
+                    matBadgeColor="accent" matBadgeSize="small">work</mat-icon>
+                  <mat-icon *ngIf="(i != Expandindex || !Expandcondition) && (element.total_jobs<100)"
+                    class="workicon mat_badge_secondary" [matBadgeHidden]="matBadgeCounts[i] == 0"
+                    matBadge="{{element.total_jobs}}" matBadgeColor="accent" matBadgeSize="small">work</mat-icon>
+                </div>
+                <mat-icon class="d-flex align-items-center justify-content-center"
+                  *ngIf="i == Expandindex && Expandcondition" style="font-size: 18px;">close</mat-icon>
+
+              </mat-cell>
+            </ng-container>
+            <!-- ********button actions ********** -->
+            <ng-container matColumnDef="actions">
+              <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+              <mat-cell *matCellDef="let element; let i=index" (click)="$event.stopPropagation()"
+                class="Hours_mat-cell">
+                <button mat-raised-button color="primary" class="edit-btn"
+                  *ngIf="!inactiveProject && !completedProjects && !inactiveProjects_bystatus"
+                  (click)=" updateProject(element.id , element.resourceDetails)">
+                  Edit
+                </button>
+                <button (click)="getProjectDetails(element.id)" mat-raised-button class="status-button"
+                  matTooltip="Project status" matTooltipPosition="above"
+                  [disabled]="element.is_activated_project == false"
+                  [ngStyle]="{'background-color': element.project_status == 'Inprogress' ? '#408948' : element.project_status == 'Completed' ?'#4d96d5': element.project_status == 'Closed' ?'#212529' : '#8D8D8D' }"
+                  (click)="changeStatus(element.id)">
+                  {{element.project_status}}
+                </button>
+                <button *ngIf="inactiveProjects_bystatus || completedProjects" mat-raised-button class="delete-btn"
+                  (click)="deleteProject(element.id)">
+                  Delete
+                </button>
+              </mat-cell>
+            </ng-container>
+          </div>
+          <mat-header-row *matHeaderRowDef="displayedColumns1 sticky: true"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns1;" matRipple [cdkDetailRow]="row"
+            [cdkDetailRowTpl]="tpl">
+          </mat-row>
+        </mat-table>
+      </div>
+      <div *ngIf="projectDetails.length ==0 && firstNoData"
+        class="text-center text-danger alert-danger no-search-match p-3">
+        {{nodataMsg}}
+      </div>
+      <div *ngIf="tempProject.length ==0 && secondNoData"
+        class="text-center text-danger alert-danger no-search-match p-3">
+        {{nodataMsg}}
+      </div>
+      <div *ngIf="Filter && this.filterData != ''" class="text-center text-danger alert-danger no-search-match p-3">
+        No Data Matching For "{{this.filterData}}"
+      </div>
+      <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="tablePaginationOption"
+        (page)="resetlog($event)"></mat-paginator>
+
+    </div>
+    <ng-template #tpl let-element>
+      <div class="mat-row detail-row" [@detailExpand] class="job_details">
+        <hr class="hr-lg mt-0 mb-2 w-10 mx-auto hr-primary">
+        <h3 class="text-slab text-center text-uppercase mt-0 mb-4 job_details_h3">
+          Job Details
+        </h3>
+        <div class="addjob container "><button
+            *ngIf="!inactiveProject && !completedProjects && !inactiveProjects_bystatus" mat-raised-button
+            class="addbtn" (click)="redirectToJob(element.id)" routerLinkActive="router-link-active">Add Job</button>
+        </div>
+        <div *ngIf="detailsLength  == 0" class="nojobs">
+          <img matTooltip="No jobs available..." matTooltipPosition="right" src="assets/images/No-data-gif.gif">
+        </div>
+        <div *ngFor="let data of expand_details; let i = index">
+          <div class="container animated animated-done bootdey" data-animate="fadeIn" data-animate-delay="0.05">
+            <div class="timeline timeline-left mx-lg-10">
+              <div class="timeline-breaker">
+                <div>{{data.job_name}}</div>
+              </div>
+              <div class="Job_status"> <b>Status: </b>
+                <button
+                  [ngStyle]="{'background-color': data.job_status == 'Inprogress' ? '#408948' : data.job_status == 'Completed' ?'#4d96d5': data.job_status == 'Closed' ?'#212529' : '#8D8D8D' }">{{data.job_status}}</button>
+              </div>
+              <div class="timeline-item mt-3 row text-center p-2">
+                <div class="col font-weight-bold text-md-right">
+                  <div>Estimated Hours</div>
+                </div>
+                <div class="col-1">vs</div>
+                <div class="col font-weight-bold text-md-left">
+                  <div>Logged Hours</div>
+                </div>
+                <div class="row col-12 text-center">
+                  <div *ngIf="data.hours" class="col text-xs text-muted text-md-right">
+                    <div>{{data.hours}}</div>
+                  </div>
+                  <div *ngIf="!data.hours" class="col text-xs text-muted text-md-right mr-3">
+                    -
+                  </div>
+                  <div class="col-1"></div>
+                  <div *ngIf="data.logged_hours" class="col text-xs text-muted text-md-left pl-5">
+                    <div>{{data.logged_hours }}</div>
+                  </div>
+                  <div *ngIf="!data.logged_hours" class="col text-xs text-muted text-md-left pl-5">
+                    0
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

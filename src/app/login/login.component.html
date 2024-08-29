@@ -1,0 +1,93 @@
+<section class="center-form login-sect">
+    <div class="wrapper shadow">
+        <form class="form-right" [formGroup]="loginForm">
+            <h2 class="text-uppercase"><img src="../../assets/images/App_logo.png">User Login</h2>
+            <div class="hight-set mb-3">
+                <label>Your Email or Mobile Number</label>
+                <input type="text" class="input-field" name="email" required formControlName="email">
+                <small class="mat-error"
+                    *ngIf="loginForm.controls['email'].invalid && loginForm.controls['email'].errors.required && (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
+                    {{requiredMessage}}
+                </small>
+                <small class="mat-error"
+                    *ngIf="loginForm.get('email').errors?.invalidContact">{{InvalidMessage}}</small>
+            </div>
+            <div class="hight-set mb-3">
+                <label>Password</label>
+                <input type="password" [type]="hide? 'password':'text'" name="pwd" id="pwd"
+                    class="input-field input-password" formControlName="password">
+                <span class="password-mat-icon" mat-icon-button matSuffix (click)="hidePassword()"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon class="mat-eye-icon">{{hide ? visibility : visibility }}</mat-icon>
+                </span>
+                <small class="mat-error"
+                    *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].errors.required && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+                    {{requiredMessage}}
+                </small>
+                <small class="mat-error" *ngIf="loginForm.get('password').hasError('whitespace')">
+                    {{validMessage}}
+                </small>
+                <small class="mat-error" *ngIf="loginForm.controls['password'].hasError('minlength')">
+                    {{minLengthMsg}}
+                </small>
+            </div>
+            <div class="mb-3">
+                <div><label><span>Let us know you're human</span></label></div>
+                <div><ngx-turnstile [siteKey]="siteKey" theme="light" formControlName="captcha"></ngx-turnstile></div>
+            </div>
+            <!-- (resolved)="sendCaptchaResponse($event)" -->
+            <div class="form-field">
+                <button class="btn mb-2" [disabled]="!loginForm.valid" (click)="commonAuthentication()"> Login
+                </button>
+            </div>
+            <div class="col-12 text-lg-right mb-2">
+                <a [routerLink]="['/forgot-password']" class="c-black">Forgot password ?</a>
+            </div>
+            <span class="loginwith mb-2">Or Connect with</span>
+            <img class="centerimg" src="../../assets/images/google.png">
+        </form>
+        <div class="form-left">
+            <div class="content">
+                <img src="../../assets/images/login.png" width="80" height="80">
+                <h1 class="my-3">Welcome Back!</h1>
+                <h3 class="color-w mb-3">To keep connected with us please login </h3>
+                <!-- <h1 class="ml15">
+                    <span class="word">TIME</span>
+                    <span class="word color-w">TASK</span>
+                    <span class="word">TRACKER</span>
+                </h1> -->
+                <!-- <h1 class="ml7">
+                    <span class="text-wrapper">
+                      <span class="word">TIME</span>
+                    <span class="word color-w">TASK</span>
+                    <span class="word">TRACKER</span>
+                    </span>
+                </h1> -->
+                <h1 class="ml7">
+                    <span class="title">
+                        <div class="title-word title-word-1">TIME</div>
+                        <div class="title-word title-word-2">TASK</div>
+                        <div class="title-word title-word-3">TRACKER</div>
+                    </span>
+                </h1>
+
+                <button class="custom-btn btn mt-3" (click)="redirectRegister()"><span>Register <svg
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="feather feather-arrow-right-circle">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 16 16 12 12 8" />
+                            <line x1="8" y1="12" x2="16" y2="12" />
+                        </svg></span></button>
+                <div class="move_homepage">
+                    <a href="https://tcube.io" target="_blank"><button mat-raised-button matTooltip="Move to home page"
+                            matTooltipPosition="below" class="redirectbtn" [routerLink]="['/home']">
+                            <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+                            <span>Visit home page</span>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

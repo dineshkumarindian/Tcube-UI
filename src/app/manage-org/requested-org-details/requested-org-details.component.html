@@ -1,0 +1,192 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title">{{heading}}</h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <!-- <span class="pull-right btn_area"> -->
+                <!-- <button mat-raised-button class="add_create_btn_mi mr-3" matBadgeColor="warn"
+                    [matBadgeHidden]="pending_req == 0" [matBadge]="pending_req" matBadgeSize="small"
+                    (click)="getallpendingdetails()" *ngIf="heading == 'Rejected org details'">
+                    <mat-icon mat-icon-button>watch_later</mat-icon>Pending Orgs
+                </button> -->
+                <!-- <button mat-raised-button class="add_create_btn_mi mr-3" (click)=" rejectedlist()"
+                    *ngIf="heading == 'Pending org details'">
+                    <mat-icon mat-icon-button>cancel</mat-icon>Rejected Orgs
+                </button> -->
+                <button mat-raised-button class="add_create_btn_mi mr-3" [routerLink]="['/manage-org']"
+                    routerLinkActive="router-link-active">
+                    <mat-icon mat-icon-button>arrow_right_alt</mat-icon>Active Orgs
+                </button>
+                <!-- </span> -->
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="heading-sec">
+    <h6 class="pull-left" style="padding-top: 16px; font-weight: bold;margin-left: 1em; color: #0e5eb8;">
+        </h6> -->
+
+</div>
+<section class="requested_org">
+    <!-- table_section -->
+    <!-- <div class="container-fluid"> -->
+    <!-- <div class="example-container mat-elevation-z8"> -->
+    <div class="container-fluid">
+        <div class="mat-elevation-z8 mb-4 orgTable">
+            <div class="row">
+                <div class="col-12 row">
+                    <div class="deleterow col-6">
+                        <div class="icondeleteorg">
+                            <!-- <mat-icon matTooltip="Delete selected org details" TooltipPosition="right"
+                                *ngIf="listOrg.length >=2 && selectValue == true" class="mat-icon delete"
+                                (click)="rejectedBulkDelete()">
+                                delete
+                            </mat-icon> -->
+                            <button matTooltip="Delete selected org details" matTooltipPosition="right"
+                                *ngIf="listOrg.length >=2 && selectValue == true" class="mat-icon delete"
+                                (click)="rejectedBulkDelete()">
+                                <mat-icon class="pr-menu-icon">delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-6 justify-content-end">
+                        <!-- ********* search filter ************ -->
+                        <div class="col-4 filter-form-sec">
+                            <mat-form-field appearance="standard">
+                                <mat-label>Filter</mat-label>
+                                <input matInput (keyup)="applyProjectFilter($event)"
+                                    placeholder="Search Organizations ..." #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="reject_content">
+                <div class="example-container mat-elevation-z8 mb-4" class="orgTable">
+                    <div class="tablescroll">
+                        <mat-table [dataSource]="orgDataSource" matSort>
+                            <ng-container matColumnDef="selector">
+                                <mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox (change)="$event ? masterToggle() : null;bulk_delete()"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                    </mat-checkbox>
+                                </mat-header-cell>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null;bulk_delete()"
+                                        [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="organization_id">
+                                <mat-header-cell class="aligning ml-4" *matHeaderCellDef mat-sort-header>Id
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="text-capitalize"><a [ngStyle]="{ 'color': element.status==='Trial' ? '#ff740c' : '' }"
+                                        class="org_id_style td_text_firstltr_capitalized" matTooltip="View Org details"
+                                        (click)="openVieworg(element.org_id)">{{element.org_id}}</a></mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="orgname">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Organization Name
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="text-capitalize"><a
+                                        class="link_td td_text_firstltr_capitalized text-decoration-none">{{element.company_name}}</a></mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Name
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="text-capitalize">
+                                    <p class="td_text_firstltr_capitalized mb-0">{{element.firstname}}
+                                        {{element.lastname}}
+                                    </p>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="email">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Email</mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="created_time">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Registered Date
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> {{element.created_time |
+                                    date:"dd-MM-yyyy"}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="Rejected_Date">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Rejected Date
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">{{element.modified_time |
+                                    date:"dd-MM-yyyy"}}</mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="Reason">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> comments
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="td_text_lowercased">
+                                    <p class="td_text_firstltr_capitalized mb-0">{{element.apporrejcomments}}</p>
+                                </mat-cell>
+
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                                <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <button mat-raised-button color="primary" class="delete-btn mr-2"
+                                        (click)="rejectDelete(element.org_id)">
+                                        Delete
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="actions">
+                                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <button mat-raised-button color="primary" class="mail_issue_style approve-btn-disabled mr-2"
+                                        *ngIf="element.status == 'Created' && element.is_mail_send == true">
+                                        Approve
+                                    </button>
+                                    <button mat-raised-button color="primary" class="status-btn approve-btn mr-2"
+                                        *ngIf="element.status == 'Created' && element.is_mail_send == false"
+                                        (click)="approveRejectOrgDetails(element,'Approved',element.plan)">
+                                        Approve
+                                    </button>
+                                    <button mat-raised-button color="primary" class="mr-2 status-btn pending-btn"
+                                        *ngIf="element.status == 'Created'"
+                                        (click)="approveRejectOrgDetails(element,'Rejected',element.plan)">
+                                        Reject
+                                    </button>
+                                    <button mat-raised-button color="primary" class="mr-2 status-btn pending-btn" style="background-color: #C31A31 !important;"
+                                        *ngIf="element.is_mail_send == true"
+                                        (click)="resendMail(element.emp_id)">
+                                        Resend
+                                    </button>
+                                    <button mat-raised-button color="primary" class="mr-2 status-btn active-btn"
+                                        *ngIf="element.status == 'Pending'">Approved</button>
+                                    <button class="status-btn cancel-btn not-proccess" *ngIf="element.status == 'Pending'" matTooltip="Please login to proceed payment">
+                                        Payment not processed
+                                    </button>
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row">
+                            </mat-row>
+                        </mat-table>
+                    </div>
+
+                    <div *ngIf="nodata" class="text-center text-danger alert-danger no-search-match p-3">
+                        {{nodataMsg}}
+                    </div>
+                    <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+                        No Data Matching For "{{this.filterData}}"
+                    </div>
+                    <mat-paginator class="paginator" #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+                        [pageSizeOptions]="tablePaginationOption">
+                    </mat-paginator>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

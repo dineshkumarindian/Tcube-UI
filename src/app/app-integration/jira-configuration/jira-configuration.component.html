@@ -1,0 +1,131 @@
+<div class="page-header d-flex align-items-center justify-content-between">
+    <h3 class="page-title">
+        Jira Software Integration
+        <!-- <p class="m-0 subtitle-color"></p> -->
+    </h3>
+    <div class="d-flex align-items-center">
+        <button mat-raised-button class="add_create_btn_mi mr-3" *ngIf="!jiraConfigured" color="primary"
+            matTooltip="Add jira integration" [routerLink]="['/add-jira-integration']"
+            routerLinkActive="router-link-active">
+            <mat-icon mat-icon-button>add</mat-icon>Add
+            Integration
+        </button>
+        <button class="backbtn" matTooltipPosition="left" matTooltip="Back to apps integration"
+            [routerLink]="['/apps-integration']">
+            <img class="ph_back_arrow_img" src="../../assets/images/back.png">
+        </button>
+    </div>
+
+</div>
+<div class="container-fluid">
+    <div class="w-100 outputSec">
+        <div class="d-flex justify-content-center" *ngIf="!jiraConfigured">
+            <div class="w-25 text-center">
+                <img src="../../../assets/images/notConfigured.png" alt="not yet Configured" class="w-100">
+                <h3>Not yet configured...!</h3>
+            </div>
+        </div>
+        <div class=" card-sec" *ngIf="jiraConfigured">
+            <div class="card">
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <h5 class="col-7 page-title">Jira Software Integration Details</h5>
+                    <div class="d-flex">
+                        <button mat-raised-button class="add_create_btn_mi mr-3" *ngIf="jiraConfigured" color="primary"
+                        matTooltip="Edit jira integration" (click)="editconfig()"
+                        routerLinkActive="router-link-active">
+                        <mat-icon mat-icon-button>edit</mat-icon>Edit
+                        Integration
+                    </button>
+                    <div class="btns">
+                        <button mat-raised-button class="btn btn-delete" (click)="deleteDialog()">Delete</button>
+                    </div>
+                    </div>
+                </div>
+                <div class="card-body2">
+                    <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b> Email </b>
+                        </div>
+                        <div class="col-9">
+                            : {{jiraConfigured ? " "+jiraIntegrationDetails.email :""}}
+                        </div>
+                    </div>
+                    <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b> Base URL </b>
+                        </div>
+                        <div class="col-9">
+                            : {{jiraConfigured ? " "+jiraIntegrationDetails.url :""}}
+                        </div>
+                    </div>
+                    <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b> Token </b>
+                        </div>
+                        <div class="col-9">
+                            :{{jiraConfigured ? " "+jiraIntegrationDetails.token :""}}
+                        </div>
+                    </div>
+                    <div class="row  mx-3 py-3">
+                        <div class="col-3">
+                            <b> Projects </b>
+                        </div>
+                        <div class="col-9 d-flex">
+                            <p class="mr-1">:</p>
+                            <mat-chip-list>
+                               <mat-chip *ngFor="let data of boardNames" class="mat-chip-boardcolor">
+                                    <p class="td_text_firstltr_capitalized mb-0">{{data.project_name}}</p>
+                                </mat-chip>
+                            </mat-chip-list>
+                            <!-- :{{jiraConfigured ? " "+jiraIntegrationDetails.projects :""}} -->
+                        </div>
+                    </div>
+                    <!-- <div class="row  mx-3 py-3">
+                        <div class="col-3">
+                            <div class="btns">
+                                <button class="btn btn-delete" (click)="deleteDialog()">Delete</button>
+                            </div>
+                        </div>
+
+                    </div> -->
+                    <!-- <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b>Sender Mail </b>
+                        </div>
+                        <div class="col-9">
+                            :{{ismailconfigured ? " "+configData.sender :""}}
+                        </div>
+                    </div> -->
+                    <!-- <div class="row  mx-3 pt-3">
+                        <div class="col-3">
+                            <b>Send Mail Notification </b>
+                        </div>
+                        <div class="col-9">
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [disabled]="!ismailconfigured"
+                                [(ngModel)]="NotifyMail">:
+                                <mat-radio-button class="example-radio-button mr-3" *ngFor="let option of yesOrNoOption"
+                                    [value]="option">
+                                    {{option}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row mx-3 pb-3">
+                        <div class="col-3"></div>
+                        <div class="col-9">
+                            <small>If you choose <b>"No"</b> it will restric all mail from Tcube</small>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row mx-3 pb-3">
+                        <div class="col-10">
+                            <div class="btns">
+                                <button class="btn btn-confirm" [disabled]="NotifyMail==isNotify || !ismailconfigured"
+                                    (click)="UpdateMailNotification()">Save changes</button>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

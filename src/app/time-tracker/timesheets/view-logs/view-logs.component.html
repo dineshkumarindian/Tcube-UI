@@ -1,0 +1,93 @@
+<div class="viewTimeLogs">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-6">
+                <h3 class="page-title">My Timelogs</h3>
+            </div>
+            <div class="col-md-6">
+                <span class="pfr btn_sec">
+                    <button mat-icon-button matTooltipPosition="left" matTooltip="Back to timesheets" (click)="back()"
+                    [routerLink]="['/timesheets']" routerLinkActive="router-link-active">
+                    <img class="ph_back_arrow_img" src="../../assets/images/back.png">
+                    </button>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mainContent">
+        <div class="mat-elevation-z8 approveTable mb-3">
+            <div class="row datatable mx-0">
+                <table mat-table [dataSource]="dataSource" class="table_tc">
+                    <ng-container matColumnDef="task">
+                        <th mat-header-cell *matHeaderCellDef> Tasks </th>
+                        <td mat-cell *matCellDef="let element" class="pr-5"> {{element.task}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="project">
+                        <th mat-header-cell *matHeaderCellDef> Project </th>
+                        <td mat-cell *matCellDef="let element">
+
+                            <span class="project_name">{{element.project}} </span>
+                            <span style="position: relative; left: 3px">
+                                <span *ngIf="element.job == 'Design'" class="design_style">
+                                    <span class="job_name">{{element.job}}</span>
+                                </span>
+                                <span *ngIf="element.job == 'Testing'" class="testing_style">
+                                    <span class="job_name">{{element.job}}</span>
+                                </span>
+                                <span *ngIf="element.job == 'Development'" class="develop_style">
+                                    <span class="job_name">{{element.job}}</span>
+                                </span>
+                                <span *ngIf="element.job == 'Meeting'" class="meet_style">
+                                    <span class="job_name">{{element.job}}</span>
+                                </span>
+                                <span *ngIf="element.job == 'Others'" class="other_style">
+                                    <span class="job_name">{{element.job}}</span>
+                                </span>
+                                <span
+                                    *ngIf="element.job != 'Others' && element.job != 'Meeting' && element.job != 'Development' && element.job != 'Testing' && element.job !='Design'"
+                                    class="tt_default_style">
+                                    <span class="job_name">{{element.job}}</span>
+                                </span>
+                            </span>
+
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="bill">
+                        <th mat-header-cell *matHeaderCellDef> Bill </th>
+                        <td mat-cell *matCellDef="let element"> {{element.bill}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fromToTime">
+                        <th mat-header-cell *matHeaderCellDef> From - To Time </th>
+                        <td mat-cell *matCellDef="let element ; let i = index" class="py-2">
+                            <span class="time" *ngFor="let time of timeIntervals[i] ">
+                                <p style="margin-bottom: 3px;">{{time.stTime}} - {{time.etTime}}</p>
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="hours">
+                        <th mat-header-cell *matHeaderCellDef> Hours </th>
+                        <td mat-cell *matCellDef="let element"> <span class="hoursHover">{{element.task_duration}}</span> </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </div>
+            
+        </div>
+        <div class="row approveFooter" *ngIf="tSheetStatus !='Pending' ">
+            <div class="col-3"><span class="dateHead">Date of request : </span><span class="data">{{requestedDate}}</span></div>
+            <div class="col-2"><span class="statusHead">Status : </span>
+                <button class="status-btn" [ngClass]="getStatusClass()">{{tSheetStatus}}</button>
+            </div>
+            <div *ngIf="comments" class="col-6 showComment">
+                <span class="head">Comments : &nbsp;</span><span class="commentData">{{comments}}</span>
+            </div>
+        </div>
+        <div class="row approveFooter" *ngIf="tSheetStatus =='Pending' ">
+            <div class="col-3"><span class="dateHead">Date of request : </span><span class="data">{{requestedDate}}</span></div>
+            <div class="col-2"><span class="statusHead">Status : </span>
+                <span class="status-btn" [ngClass]="getStatusClass()">Pending</span></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+.video {
+    cursor: default;
+   
+    .mat-dialog-content {
+        // padding: 15px;
+        margin: 10px 0 0 0;
+        padding: 0 15px;
+        height: fit-content;
+        .content{
+            display: flex;
+            justify-content: center;
+            .headCard {
+                width: 65%;
+                // height: 85px;
+                padding: 10px;
+                // background: linear-gradient(135deg, #ebadb6 0%, #aceae1 100%);
+                background: linear-gradient(90deg, hsla(255, 57%, 86%, 1) 20%, hsla(345, 33%, 93%, 1) 100%);
+                border-radius: 7px;
+                // box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+                border:none;
+                // align-items: center;
+                justify-content: center;
+                .headDetails{
+                    display:flex;
+                    flex-direction:row;
+                    .imageSec{
+                        .defaultImg{
+                            width:50px;
+                        }
+                    }
+                    .detailsSec{
+                        h6{
+                            text-transform: capitalize;
+                        }
+                    }
+                }
+
+                .countsCard{
+                    transform: scale(0.9);
+                    transition:0.5s;
+                    p{
+                        color:#0a4689;
+                    }
+                }
+            }
+            .headCard:hover{
+                .countsCard{
+                    transform: scale(1);
+                    transition:0.5s;
+                    background-color: #fe8600;
+                    p{
+                        color: white !important;
+                    }
+                }
+            }
+        }
+        .content1{
+            ul{
+                list-style-type: none;
+                .token{
+                    border: 1px solid transparent;
+                    font-size:14px;
+                    padding:5px 10px;
+                }
+                .token:hover{
+                    border: 1px solid black;
+                    border-radius: 10px;
+                    font-size:14px;
+                    font-weight: bold;
+                }
+            }
+            .mat-standard-chip {
+                background-color: #00214c !important;
+                color: white !important;
+                font-size: 12px;
+                text-transform: capitalize;
+                padding: 5px 10px;
+                cursor: default;
+                min-height: 25px;
+            }
+        }
+    }
+}

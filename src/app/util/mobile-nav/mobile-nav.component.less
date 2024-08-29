@@ -1,0 +1,85 @@
+.more_container {
+	// display: flex;
+	// justify-content: center;
+	// align-items: center;
+	padding-top      : 6%;
+	// height: 100%;
+	// vertical-align: center;
+	// align-items: center;
+	// display: flex;
+	// flex-wrap: wrap;
+	text-align       : center;
+
+	ul {
+		// display: contents;
+		padding-bottom: 25%;
+		padding-left  : 0%;
+		width         : 85%;
+		margin        : auto;
+
+		li {
+			width          : 150px;
+			text-align     : center;
+			vertical-align : middle;
+			height         : 150px;
+			display        : inline-block;
+			text-decoration: none;
+			border-radius  : 41px;
+			background     : #4185cb;
+			/* box-shadow  : 10px -10px 20px #0f57b5, -10px 10px 20px #1762ff; */
+			margin         : 10px;
+			color          : white;
+
+			&:hover {
+				background: #2d4f7c;
+				box-shadow: inset -10px 10px 20px #10345a, inset 10px -10px 20px #001037;
+				transition: background 1s;
+			}
+
+			i {
+				color      : #fff;
+				font-size  : 35px;
+				padding-top: 55px;
+				display    : block;
+			}
+
+			div {
+				p {
+					color                     : #e1e1e1;
+					cursor                    : pointer;
+					position                  : relative;
+					border                    : none;
+					background                : none;
+					transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+					transition-duration       : 400ms;
+					transition-property       : color;
+				}
+
+				p:focus,
+				p:hover {
+					color: #fff;
+				}
+
+				p:focus:after,
+				p:hover:after {
+					width: 100%;
+					left : 0%;
+				}
+
+				P:after {
+					content                   : "";
+					pointer-events            : none;
+					bottom                    : -2px;
+					left                      : 50%;
+					position                  : absolute;
+					width                     : 0%;
+					height                    : 2px;
+					background-color          : #fff;
+					transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+					transition-duration       : 400ms;
+					transition-property       : width, left;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,954 @@
+<mat-sidenav-container class="sidenav-container">
+    <!-- <mat-sidenav #geminiai class="notification-sidenav" position="end">
+        <div class="header">
+            <h5>Gemini AI</h5>
+            <span class="cls-btn">
+                <mat-icon matTooltip="Close" (click)="geminiai.toggle(); cancelMore()"
+                    class="mat-icon notranslate material-icons mat-icon-no-color" role="img" type="button">close
+                </mat-icon>
+            </span>
+        </div>
+        <textarea [(ngModel)]="inputData" placeholder="Enter text to analyze"></textarea>
+        <button (click)="checkResponse()">Analyze</button>
+        <div *ngIf="result">
+            <h3>Analysis Result:</h3>
+            <p>{{ response | json }}</p>
+        </div>
+    </mat-sidenav> -->
+    <mat-sidenav #notification class="notification-sidenav" position="end">
+        <div class="header">
+            <h5>Notifications</h5>
+            <span *ngIf="unread_msg > 0" class="allread"><a (click)="markAllasread()">Mark all as read</a></span>
+            <span class="pull-right d-flex">
+                <span class="rfh-btn" *ngIf="!countsLoader">
+                    <mat-icon class="mr-2" matTooltip="Refresh" (click)="getBadgeCounts()">refresh</mat-icon>
+                </span>
+                <span class="loaderStyle" *ngIf="countsLoader">
+                    <div class="loader"></div>
+                </span>
+                <span class="cls-btn">
+                    <mat-icon matTooltip="Close" (click)="notification.toggle(); cancelMore()"
+                        class="mat-icon notranslate material-icons mat-icon-no-color" role="img" type="button">close
+                    </mat-icon>
+                </span>
+            </span>
+        </div>
+        <div *ngIf=" activeemploader" class="text-center cover">
+            <div class="wrapperstyle">
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="circle"></div>
+                <div class="shadowcl"></div>
+                <div class="shadowcl"></div>
+                <div class="shadowcl"></div>
+            </div>
+        </div>
+        <div *ngIf="!activeemploader" class="panel-bg">
+            <div *ngIf="!isErrorNotification">
+                <div id="topNot" class="sub-heading-days bg-white" *ngIf="!twoOrTwenty">
+                    Last Three Days
+                </div>
+                <div id="topNot" class="sub-heading-days bg-white d-flex justify-content-between align-items-center"
+                    *ngIf="twoOrTwenty">
+                    Last Fifteen Days<div *ngIf="refreshClicked" class="loader"></div>
+                </div>
+                <div *ngFor="let data of notification_data">
+                    <div class="card" [ngStyle]="{'background-color':(data.Common_Notify_is_read)? 'white' : '#ebf5ff'}"
+                        (click)="markasread(data.id)"> 
+                        <div class="card-horizontal align-items-center">
+                            <div class="img-square-wrapper">
+                                <!-- <img class="profile_image" [src]=data.to_notifier_prfl_img alt="Card image cap"> -->
+                                <div *ngIf="isGettingEMpImage" class="progressiveCircle">
+                                </div>
+                                <img *ngIf="!isGettingEMpImage" class="profile_image" [src]="data.to_notifier_prfl_img"
+                                    alt="user_image">
+                            </div>
+                            <div class="card-body">
+                                <h6 class="card-title mb-1" [innerHtml]="sanitizeHtml(data.message)"
+                                    *ngIf="data.keyword != 'timesheet-not-submitted' && data.keyword !='all-submitted' && data.keyword != 'attendance-summary' && data.keyword != 'approved-leave-cancel' && data.keyword != 'cancel-leave' && data.keyword != 'Staff-leave-today'
+                                                                 && data.keyword != 'mail-issue' && data.keyword != 'resgister-mail-issue' && data.keyword != 'new-org-created' && data.keyword != 'forgotpassword-mail-issue'">
+                                    <span class="date-field" *ngIf="data.date_of_request != null">
+                                        ({{data.date_of_request | date: 'dd-MM-yyyy'}})</span>
+                                </h6>
+                                <h6 class="card-title mb-1" *ngIf="data.module_name == '' && data.sub_module_name == '' && data.keyword =='all-submitted' ||  data.keyword == 'timesheet-not-submitted' || data.keyword == 'attendance-summary' || data.keyword == 'approved-leave-cancel' || data.keyword == 'cancel-leave' 
+                                || data.keyword == 'Staff-leave-today' || data.keyword == 'mail-issue' || data.keyword == 'new-org-created' || data.keyword == 'forgotpassword-mail-issue'
+                                || data.keyword == 'resgister-mail-issue'">
+                                    {{data.message}}
+                                </h6>
+                                <!-- <h6 class="card-title mb-1"
+                                    *ngIf="data.module_name == '' && data.sub_module_name == '' || data.keyword == 'resgister-mail-issue' && data.keyword != 'timesheet-not-submitted' && data.keyword !='all-submitted' && data.keyword != 'attendance-summary' && data.keyword != 'approved-leave-cancel' && data.keyword != 'cancel-leave' && data.keyword != 'Staff-leave-today'
+                                    && data.keyword != 'mail-issue'">
+                                    {{data.message}} 
+                                </h6>
+                                <h6 class="card-title mb-1"
+                                    *ngIf="data.module_name == '' && data.sub_module_name == '' || data.keyword == 'new-org-created' && data.keyword != 'timesheet-not-submitted' && data.keyword !='all-submitted' && data.keyword != 'attendance-summary' && data.keyword != 'approved-leave-cancel' && data.keyword != 'cancel-leave' && data.keyword != 'Staff-leave-today'
+                                    && data.keyword != 'mail-issue'">
+                                    {{data.message}}
+                                </h6>
+                                <h6 class="card-title mb-1"
+                                    *ngIf="data.module_name == '' && data.sub_module_name == '' || data.keyword == 'forgotpassword-mail-issue' && data.keyword != 'timesheet-not-submitted' && data.keyword !='all-submitted' && data.keyword != 'attendance-summary' && data.keyword != 'approved-leave-cancel' && data.keyword != 'cancel-leave' && data.keyword != 'Staff-leave-today'
+                                    && data.keyword != 'mail-issue'">
+                                    {{data.message}}
+                                </h6> -->
+                                <div class="card-text d-flex  ">
+                                    <a class="notlink" *ngIf="data.module_name === 'Project and Jobs'"
+                                        (click)="notification.toggle()">{{data.module_name}}
+                                        <span class="arrow">>> <span class="sub_mdl_nm">{{data.sub_module_name}}</span>
+                                            <span class="date" *ngIf="data.date_of_request != null ">
+                                                ({{data.date_of_request | date: 'dd-MM-yyyy'}})</span>
+                                            <!-- <span class="date"> ({{data.date_of_request}})</span> -->
+                                            <!-- <span class="date"> ({{data.created_time | date:'dd-MM-yyyy, h:mm a'}})</span> -->
+                                        </span></a>
+                                    <a *ngIf="data.module_name != 'Project and Jobs' && data.module_name != '' && data.sub_module_name != '' && data.keyword != 'timesheet-not-submitted' && data.keyword != 'all-submitted'
+                                    && data.keyword != 'mail-issue' && data.keyword != 'resgister-mail-issue' && data.keyword != 'new-org-created' && data.keyword != 'forgotpassword-mail-issue'"
+                                        (click)="redirecttomodule(data); notification.toggle()">{{data.module_name}}
+                                        <span class="arrow">>> <span class="sub_mdl_nm">{{data.sub_module_name}}</span>
+                                            <span class="date" *ngIf="data.date_of_request != null ">
+                                                ({{data.date_of_request | date: 'dd-MM-yyyy'}})</span>
+                                            <!-- <span class="date"> ({{data.date_of_request}})</span> -->
+                                            <!-- <span class="date"> ({{data.created_time | date:'dd-MM-yyyy, h:mm a'}})</span> -->
+                                        </span></a>
+                                </div>
+                                <!-- <div class="check">
+                                    <mat-icon
+                                        style=" color: green; margin-top: 3px; font-size: 19px;">check_circle</mat-icon>
+                                    <span class="date_2">{{data.modified_time | date:'dd-MM-yyyy, h:mm a'}}</span>
+                                </div> -->
+
+                                <div *ngIf="data.sub_module_name ==   'My-Timesheets' || data.sub_module_name ==   'My-Leaves'  "
+                                    class="d-flex align-items-center">
+                                    <mat-icon *ngIf="data.approval_status == 'Approved' " class="check"
+                                        style=" color: green; margin-top: 8px; font-size: 16px;">check_circle</mat-icon>
+                                    <mat-icon *ngIf="data.approval_status == 'Rejected' " class="check"
+                                        style=" color: red; margin-top: 8px; font-size: 16px;">highlight_off</mat-icon>
+                                    <!-- <span class="date_2">{{data.timesheet_date}}</span> -->
+                                    <span class="date"> {{data.created_time | date:'dd-MM-yyyy, h:mm a'}}</span>
+                                </div>
+
+                                <div class="d-flex align-items-center"
+                                    *ngIf="data.module_name == '' && data.sub_module_name == ''  &&  data.keyword == 'timesheet-not-submitted' || data.keyword == 'all-submitted' || data.keyword == 'attendance-summary' || data.keyword == 'Staff-leave-today' || data.keyword == 'Staff without plans' || data.keyword == 'Staff without updates'
+                                || data.keyword != 'resgister-mail-issue' || data.keyword != 'new-org-created' || data.keyword != 'forgotpassword-mail-issue'">
+                                    <span class="date-field-color"> {{data.created_time | date:'dd-MM-yyyy, h:mm a'}}</span>
+                                </div>
+
+
+                                <!-- <div *ngIf="data.date_of_request != null && data.date_of_request != '' ">
+                                    <div *ngIf="data.id== notification_id">
+                                        <div class="modified_time">
+                                            <span>{{data.date_of_request}}</span>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div *ngIf="data.approval_comments != null && data.approval_comments != ''">
+                                <span (click)="special_notification(data.id)" class="special_btn"><i
+                                        class="fa fa-commenting-o cursor-pointer"></i></span>
+                            </div>
+                            <!-- <div *ngIf="data.approval_comments != null && data.approval_comments != '' && data.message == 'Timesheets not submitted staff'">
+                                <span (click)="special_notification(data.id)" class="employee_btn cursor-pointer mr-1">
+                                    <img style=" width: 29px; height: 25px; margin-right: 5px;" src="../../assets/images/coloured-icon(timesheet-not-submitted).png"  alt="expired" />
+                                </span>
+                            </div> -->
+                        </div>
+                        <div
+                            *ngIf="data.approval_comments != null && data.approval_comments != '' && data.message != 'Timesheets not submitted staff' && data.keyword != 'attendance-summary' && data.keyword != 'Staff-leave-today' && data.keyword != 'Staff without plans' && data.keyword != 'Staff without updates'">
+                            <div *ngIf="data.id== notification_id">
+                                <div class="approval_comments"> <span class="comment">comments: </span>
+                                    <span>{{data.approval_comments}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div *ngIf="data.approval_comments != null && data.approval_comments != '' && data.keyword == 'mail-issue'">
+                            <div *ngIf="data.id== notification_id">
+                                <div class="approval_comments"> <span class="comment">comments: </span>
+                                    <span>{{data.approval_comments}}</span>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div
+                            *ngIf="data.approval_comments != null && data.approval_comments != '' && data.keyword == 'timesheet-not-submitted'">
+                            <div *ngIf="data.id== notification_id">
+                                <div class="approval_comments">
+                                    <!-- <span class="comment">Users List</span> -->
+                                    <div class="row" *ngFor="let item of data.approval_comments">
+                                        <div class="col-md-6"><span>{{item.id}}</span></div>
+                                        <div class="col-md-6"><span>{{item.name}}</span></div>
+                                        <!-- <div class="col-md-3">{{item.id}}</div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="data.approval_comments != null && data.approval_comments != '' && data.keyword == 'attendance-summary'">
+                            <div *ngIf="data.id== notification_id">
+                                <div class="approval_comments">
+                                    <div class="row" *ngIf="data.workFromHomeData.length > 0">
+                                        <div class="col-md-9"><span><b>Staff in from home</b></span></div>
+                                        <div class="col-md-3">
+                                            <span class="wfh_wfo ml-1">{{data.workFromHomeData.length}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="dataOfItems">
+                                                <span *ngFor="let item of data.workFromHomeData;index as i">
+                                                    {{item}}
+                                                    <span *ngIf="data.workFromHomeData.length-1 != i">|</span>
+                                                </span>
+                                            </div>
+                                            <!-- <button mat-mini-fab class="wfh_wfo ml-1">
+                                            {{data.count_of_workFromHome}}
+                                        </button> -->
+                                        </div>
+                                        <!-- <div class="col-md-6"> : -->
+
+
+                                        <!-- </div> -->
+                                    </div>
+                                    <div class="row" *ngFor="let item of data.attendance_summary">
+
+                                        <div class="col-md-9"><span><b>Staff in from {{item.branch}} office</b></span>
+                                        </div>
+                                        <div class="col-md-3"><span class="wfh_wfo ml-1">{{item.count}}</span></div>
+
+                                        <div class="col-md-12">
+                                            <div class="dataOfItems">
+                                                <span *ngFor="let arrayOfOfficeData of item.arrayOfOffice;index as i">
+                                                    {{arrayOfOfficeData}}
+                                                    <span *ngIf="item.count-1 != i">|</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data.arrayfromTodayLeaveUser.length > 0 ">
+                                        <div class="col-md-9"><span><b>Staff on leave today</b></span></div>
+                                        <div class="col-md-3"><span
+                                                class="wfh_wfo ml-1">{{data.arrayfromTodayLeaveUser.length}}</span>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="dataOfItems">
+                                                <span
+                                                    *ngFor="let todatLeaveUser of data.arrayfromTodayLeaveUser;index as i">
+                                                    {{todatLeaveUser.map.emp_name}} {{todatLeaveUser.map.emp_lastname}}
+                                                    <span *ngIf="data.arrayfromTodayLeaveUser.length-1 != i">|</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data.noUpdateUserList.length > 0">
+                                        <div class="col-md-9"><span><b>Staff with no updates</b></span></div>
+                                        <div class="col-md-3"><span class="wfh_wfo ml-1">{{data.noUpdateUserList.length}}</span></div>
+                                        <div class="col-md-12">
+                                            <div class="dataOfItems">
+                                                <span *ngFor="let noUpdateUser of data.noUpdateUserList;index as i">
+                                                    {{noUpdateUser.map.firstname}} {{noUpdateUser.map.lastname}}
+                                                    <span *ngIf="data.noUpdateUserList.length-1 != i">|</span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                        *ngIf="data.approval_comments != null && data.approval_comments != '' && data.keyword == 'Staff without plans'">
+                        <div *ngIf="data.id== notification_id">
+                            <div class="approval_comments">
+                                <div class="row" *ngIf="data.planForTheDayNotPostedList.length > 0">
+                                    <div class="col-md-9"><span><b>Staff without plans</b></span></div>
+                                    <div class="col-md-3"><span class="wfh_wfo ml-1">{{data.planForTheDayNotPostedList.length}}</span></div>
+                                    <div class="col-md-12">
+                                        <div class="dataOfItems">
+                                            <span *ngFor="let noUpdateUser of data.planForTheDayNotPostedList;index as i">
+                                                {{noUpdateUser.map.empName}}
+                                                <span *ngIf="data.planForTheDayNotPostedList.length-1 != i">|</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data.planForTheDayNotPostedList == 0 ">
+                                    <div class="col-md-12 d-flex justify-content-center">
+                                        <span class="no-leave">All are posted dayplanner today!</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                    *ngIf="data.approval_comments != null && data.approval_comments != '' && data.keyword == 'Staff without updates'">
+                    <div *ngIf="data.id== notification_id">
+                        <div class="approval_comments">
+                            <div class="row" *ngIf="data.UpdateForTheDayNotPosted.length > 0">
+                                <div class="col-md-9"><span><b>Staff without updates</b></span></div>
+                                <div class="col-md-3"><span class="wfh_wfo ml-1">{{data.UpdateForTheDayNotPosted.length}}</span></div>
+                                <div class="col-md-12">
+                                    <div class="dataOfItems">
+                                        <span *ngFor="let noUpdateUser of data.UpdateForTheDayNotPosted;index as i">
+                                            {{noUpdateUser.map.empName}}
+                                            <span *ngIf="data.UpdateForTheDayNotPosted.length-1 != i">|</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="data.UpdateForTheDayNotPosted == 0 ">
+                                <div class="col-md-12 d-flex justify-content-center">
+                                    <span class="no-leave">All are posted dayplanner today!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <!-- <div
+                        *ngIf="data.approval_comments != null && data.approval_comments != '' && data.keyword == 'Day Planner Not Created Staff'">
+                        <div *ngIf="data.id== notification_id">
+                            <div class="approval_comments">
+                                <div class="row" *ngIf="data.UpdateForTheDayNotPosted.length > 0">
+                                    <div class="col-md-10"><span><b>Day planner not created staff</b></span></div>
+                                    <div class="col-md-2"><span class="wfh_wfo ml-1">{{data.UpdateForTheDayNotPosted.length}}</span></div>
+                                    <div class="col-md-12">
+                                        <div class="dataOfItems">
+                                            <span *ngFor="let noUpdateUser of data.UpdateForTheDayNotPosted;index as i">
+                                                {{noUpdateUser.map.empName}}
+                                                <span *ngIf="data.UpdateForTheDayNotPosted.length-1 != i">|</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="data.UpdateForTheDayNotPosted == 0">
+                                    <div class="col-md-12 d-flex justify-content-center">
+                                        <span class="no-leave">{{data.approval_comments}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+
+                        <div
+                            *ngIf="data.approval_comments != null && data.approval_comments != '' && data.keyword == 'Staff-leave-today'">
+                            <div *ngIf="data.id== notification_id">
+                                <div class="approval_comments">
+                                    <div class="row" *ngIf="data.TodayUserCount >0">
+                                        <div class="col-md-12  d-flex mb-1"
+                                            *ngFor="let todayLeaveUser of data.approval_comments;index as i">
+                                            <span class="col-md-4">{{todayLeaveUser.map.emp_name}}</span>
+                                            <span class="col-md-4">{{todayLeaveUser.map.leave_type}}</span>
+                                            <span class="col-md-4">{{todayLeaveUser.map.half_full_day}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="row" *ngIf="data.TodayUserCount == 0">
+                                        <div class="col-md-12 d-flex justify-content-center">
+                                            <span class="no-leave">{{data.approval_comments}}</span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="d-flex justify-content-center font-weight-bold p-3" *ngIf="notification_data.length == 0">No Notifications Available . . .</div> -->
+                <div *ngIf="notification_data.length == 0" class="text-center">
+                    <img style="width:150px; height:150px;" src="../../assets/images/No data.png" alt="no data"
+                        class="pr-menu-icon">
+                    <div>No Data Found !</div>
+                </div>
+                <!-- <div class="d-flex justify-content-center mb-2"><div *ngIf="refreshClicked" class="loader"></div></div> -->
+                <div *ngIf="!twoOrTwenty && !activeemploader" class="d-flex justify-content-center mt-2 bg-white">
+                    <span class="loadMoreNotification" (click)="loadMore()">LOAD MORE</span>
+                    <!-- <a href="#topNot" class="loadMoreNotification" (click)="loadMore()">LOAD MORE</a> -->
+                </div>
+            </div>
+            <div *ngIf="topBtn" class="d-flex justify-content-center mt-2 bg-white topBtnSty">
+                <a href="#topNot" class="goToTopNotification" matTooltip="TOP" matTooltipPosition="above">
+                    <mat-icon>arrow_upward</mat-icon>
+                </a>
+            </div>
+            <div *ngIf="isErrorNotification"
+                class="d-flex justify-content-center align-items-center flex-column isErrorNotification">
+                <p>Something went wrong . . .Try again later</p>
+                <p (click)="getNotificationByEmpidAndDate()" class="refreshSec">refresh</p>
+                <div *ngIf="refreshClicked" class="loader"></div>
+            </div>
+        </div>
+    </mat-sidenav>
+    <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false"
+        [ngStyle]="{'width': sidenavWidth == true ? '137px' : '56px' }">
+        <mat-toolbar [ngClass]="{'tcubeicon_style' : sidenavWidth}">
+            <img src="../../assets/images/App_logo.png" alt="logo">
+            <!-- <p>V - 7.0.0</p> -->
+        </mat-toolbar>
+
+        <mat-nav-list class="icons">
+            <a style="margin-top: 0px; border-top: 1px solid #fff;" mat-list-item href="#" *ngIf="sa_dashboard"
+                matTooltipPosition="right" matTooltip="Dashboard" [matTooltipDisabled]="sidenavWidth"
+                [routerLink]="['/admin_dashboard']" routerLinkActive="router-link-active">
+                <mat-icon>dashboard</mat-icon>
+                <span *ngIf="sidenavWidth" class="modulename_style"
+                    routerLinkActive="router-link-active_sidenav">Dashboard</span>
+            </a>
+
+            <a style="margin-top: 0px; border-top: 1px solid #fff;" mat-list-item href="#" *ngIf="manageOrg"
+                matTooltipPosition="right" matTooltip="Manage Organization" [matTooltipDisabled]="sidenavWidth"
+                [routerLink]="['/manage-org']" routerLinkActive="router-link-active">
+                <mat-icon>supervisor_account</mat-icon>
+                <span *ngIf="sidenavWidth" class="modulename_style" routerLinkActive="router-link-active_sidenav">Manage
+                    Org</span>
+            </a>
+
+            <a style="margin-top: 0px; border-top: 1px solid #fff;" mat-list-item href="#" *ngIf="managePlan"
+                matTooltipPosition="right" matTooltip="Manage Pricing Plan" [matTooltipDisabled]="sidenavWidth"
+                [routerLink]="['/pricing-plan']" routerLinkActive="router-link-active">
+                <mat-icon>attach_money</mat-icon>
+                <span *ngIf="sidenavWidth" class="modulename_style" style="margin-left: 12px !important;"
+                    routerLinkActive="router-link-active_sidenav">Manage
+                    Pricing Plan</span>
+            </a>
+            <a style="margin-top: 0px; border-top: 1px solid #fff;" mat-list-item href="#" *ngIf="managePlan"
+                matTooltipPosition="right" matTooltip="Transactions" [matTooltipDisabled]="sidenavWidth"
+                [routerLink]="['/transactions']" routerLinkActive="router-link-active">
+                <mat-icon>account_balance</mat-icon>
+                <span *ngIf="sidenavWidth" class="modulename_style" style="margin-left: 12px !important;"
+                    routerLinkActive="router-link-active_sidenav">Transactions</span>
+            </a>
+
+            <div><a class="release_notes" style="margin-top: 0px; border-top: 1px solid #fff;" mat-list-item href="#"
+                    *ngIf="manageReleaseNotes" matTooltipPosition="right" matTooltip="Manage Release Notes"
+                    [matTooltipDisabled]="sidenavWidth" [routerLink]="['/release-notes']"
+                    routerLinkActive="router-link-active">
+                    <mat-icon>new_releases</mat-icon>
+                    <span *ngIf="sidenavWidth" class="modulename_style" style="margin-left: -16px !important; position: relative;
+                    left: 25px;" routerLinkActive="router-link-active_sidenav">Manage Release Notes</span>
+                </a></div>
+
+            <div>
+                <a style="margin-top: 0px; border-top: 1px solid #fff;" mat-list-item href="#"
+                    matTooltipPosition="right" *ngIf="dashboard" matTooltip="Dashboard"
+                    [matTooltipDisabled]="sidenavWidth" aria-label="Button that shows a red tooltip"
+                    matTooltipClass="example-tooltip-red" [routerLink]="['/dashboard']"
+                    routerLinkActive="router-link-active" class="example-button">
+                    <mat-icon>dashboard</mat-icon>
+                    <span *ngIf="sidenavWidth" class="modulename_style"
+                        routerLinkActive="router-link-active_sidenav">Dashboard</span>
+                </a>
+            </div>
+
+
+            <span *ngFor="let data of topFive">
+                <span *ngIf="data == 'projectsJobs'">
+                    <button *ngIf="projectsJobs || clientSettings" mat-button (click)="menuTrigger.openMenu()"
+                        [ngStyle]="{'background-color':isActiveProject? '#00214c' : '#f4f4f5'}"
+                        [ngClass]="{'projects_jobsbtn_style' : sidenavWidth}" matTooltipPosition="right"
+                        matTooltip="Projects/Jobs" [matTooltipDisabled]="sidenavWidth" class="letters">
+                        <mat-icon [ngStyle]="{'color':isActiveProject? 'white' : '#7e8190' }">category</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            [ngStyle]="{'color':isActiveProject? '#fff' : ''}"
+                            routerLinkActive="router-link-active_sidenav">Projects/Jobs</span>
+                        <div #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu"></div>
+                    </button>
+
+                    <mat-menu #menu="matMenu" class="py-0">
+                        <button mat-menu-item *ngIf="projectsJobs" [routerLink]="['/projects']">Projects</button>
+                        <button mat-menu-item *ngIf="projectsJobs" [routerLink]="['/jobs']">Jobs</button>
+                        <button mat-menu-item *ngIf="clientSettings"
+                            [routerLink]="['/project-jobs-settings']">Settings</button>
+                    </mat-menu>
+                </span>
+
+                <!-- ***************Timetracker without settings sidenav [routerLink]="['/time-tracker']"
+                        routerLinkActive="router-link-active"************** -->
+                <span *ngIf="data == 'timeTracker'">
+                    <a mat-list-item *ngIf="timeTracker && !timetrackerSettings" href="#" matTooltipPosition="right"
+                        matTooltip="Time Tracker" [matTooltipDisabled]="sidenavWidth" [routerLink]="['/time-tracker']"
+                        routerLinkActive="router-link-active">
+                        <mat-icon>timer</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav">Time Tracker</span>
+                    </a>
+                    <!-- <span *ngIf="data == 'HR_Letters'">
+                        <button mat-button (click)="letterTrigger.openMenu()" class="letters" *ngIf="HR_Letters"
+                            [ngStyle]="{'background-color':isActivateHrLetter?'#00214c':'#f4f4f5' }"
+                            [ngClass]="{'lettersbtn_style' : sidenavWidth}" matTooltipPosition="right"
+                            matTooltip="HR Letters" [matTooltipDisabled]="sidenavWidth">
+                            <mat-icon [ngStyle]="{ 'color':isActivateHrLetter ? '#fff':'#7e8190'}">ballot</mat-icon>
+                            <span *ngIf="sidenavWidth" style="margin-top: 17px;margin-left: 4px;"
+                                routerLinkActive="router-link-active_sidenav"
+                                [ngStyle]="{'color':isActivateHrLetter? '#fff' : ''}">HR Letters</span>
+                            <div #letterTrigger="matMenuTrigger" [matMenuTriggerFor]="HRLetters"></div>
+                        </button>
+                        <mat-menu #HRLetters="matMenu" class="py-0">
+                            <button mat-menu-item [routerLink]="['/business_letter']" (click)="activateLetters()">Business
+                                Letter</button>
+                            <button mat-menu-item [routerLink]="['/offer']" (click)="activateLetters()">Offer
+                                Letter</button>
+                        </mat-menu>
+                    </span> -->
+                    <button mat-button matTooltipPosition="right" *ngIf="timeTracker && timetrackerSettings"
+                        matTooltip="Time Tracker" [matTooltipDisabled]="sidenavWidth" (click)="menuTrigger.openMenu()"
+                        [ngStyle]="{'background-color':isActivetimeTracker? '#00214c' : '#f4f4f5'}"
+                        [ngClass]="{'time_tracker_btn_style' : sidenavWidth}" class="letters">
+                        <mat-icon [ngStyle]="{'color':isActivetimeTracker? 'white' : '#7e8190' }">timer</mat-icon>
+                        <!-- <p *ngIf="sidenavWidth" style="margin-top: 17px;margin-left: 4px;"
+                            routerLinkActive="router-link-active_sidenav">Time Tracker</p> -->
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            [ngStyle]="{'color':isActivetimeTracker? '#fff' : ''}"
+                            routerLinkActive="router-link-active_sidenav">Time Tracker</span>
+                        <div #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="timeTracker"></div>
+                    </button>
+
+                    <!-- ***************Timetracker with settings sidenav************** -->
+
+                    <!-- <button *ngIf="timeTracker && timeTrackerSettings" mat-button
+                        (click)="timeTrackerTrigger.openMenu()"
+                        [ngStyle]="{'background-color':isActivetimeTracker? '#00214c' : '#f4f4f5'}"
+                        [ngClass]="{'timeTrackerbtn_style' : sidenavWidth}" matTooltipPosition="right"
+                        matTooltip="Time Tracker" [matTooltipDisabled]="sidenavWidth" class="letters">
+                        <mat-icon [ngStyle]="{'color':isActivetimeTracker? 'white' : '#7e8190' }">timer
+                        </mat-icon>
+                        <span *ngIf="sidenavWidth" style="margin-left: 4px;"
+                            routerLinkActive="router-link-active_sidenav"
+                            [ngStyle]="{'color':isActivetimeTracker? '#fff' : ''}">TimeTracker</span>
+                        <div #timeTrackerTrigger="matMenuTrigger" [matMenuTriggerFor]="timeTracker"></div>
+                    </button> -->
+
+                    <mat-menu #timeTracker="matMenu" class="py-0">
+                        <button mat-menu-item *ngIf="timeTracker" [routerLink]="['/time-tracker']">Time Tracker</button>
+                        <button mat-menu-item *ngIf="timetrackerSettings"
+                            [routerLink]="['/time-tracker-settings']">Settings</button>
+                        <!-- <button mat-menu-item *ngIf="timeTrackerSettings" [routerLink]="['/tt-settings']">settings</button> -->
+                        <!-- <button mat-menu-item *ngIf="timeTrackerSettings" (click)="Setttsettings()">Settings</button> -->
+                    </mat-menu>
+                </span>
+
+
+                <span *ngIf="data == 'attendence'">
+                    <!-- ***************Attendance without settings sidenav************** -->
+                    <a mat-list-item *ngIf="attendence && !attendanceSettings" href="#" matTooltipPosition="right"
+                        matTooltip="Attendance" [matTooltipDisabled]="sidenavWidth" [routerLink]="['/attendance']"
+                        routerLinkActive="router-link-active">
+                        <mat-icon>event_available</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav">Attendance</span>
+                    </a>
+                    <!-- ***************Attendance with settings sidenav************** -->
+                    <button *ngIf="attendence && attendanceSettings" mat-button (click)="attendanceTrigger.openMenu()"
+                        [ngStyle]="{'background-color':isActiveAttendance? '#00214c' : '#f4f4f5'}"
+                        [ngClass]="{'attendancebtn_style' : sidenavWidth}" matTooltipPosition="right"
+                        matTooltip="Attendance" [matTooltipDisabled]="sidenavWidth" class="letters">
+                        <mat-icon [ngStyle]="{'color':isActiveAttendance? 'white' : '#7e8190' }">event_available
+                        </mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav"
+                            [ngStyle]="{'color':isActiveAttendance? '#fff' : ''}">Attendance</span>
+                        <div #attendanceTrigger="matMenuTrigger" [matMenuTriggerFor]="attendance"></div>
+                    </button>
+
+                    <mat-menu #attendance="matMenu" class="py-0">
+                        <button mat-menu-item *ngIf="attendence" [routerLink]="['/attendance']">Attendance</button>
+                        <button mat-menu-item *ngIf="attendanceSettings" (click)="SetAtdsettings()">Settings</button>
+                    </mat-menu>
+                </span>
+
+                <span *ngIf="data == 'leaveTracker'">
+
+                    <!-- ***************Leavetracker without settings sidenav************** -->
+                    <a mat-list-item *ngIf="leaveTracker && !leaveTrackerSettings" href="#" matTooltipPosition="right"
+                        matTooltip="Leave Tracker" [matTooltipDisabled]="sidenavWidth" [routerLink]="['/leave-tracker']"
+                        routerLinkActive="router-link-active">
+                        <mat-icon>event</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav">Leave Tracker</span>
+                    </a>
+
+                    <!-- ***************Leavetracker with settings sidenav************** -->
+                    <button *ngIf="leaveTracker && leaveTrackerSettings" mat-button
+                        (click)="LeavetrackerTrigger.openMenu()"
+                        [ngStyle]="{'background-color':isActiveleavetracker? '#00214c' : '#f4f4f5' }"
+                        [ngClass]="{'leavetracker_style' : sidenavWidth}" matTooltipPosition="right"
+                        matTooltip="Leave Tracker" [matTooltipDisabled]="sidenavWidth" class="letters">
+                        <mat-icon [ngStyle]="{'color':isActiveleavetracker? 'white' : '#7e8190' }">event</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav"
+                            [ngStyle]="{'color':isActiveleavetracker? '#fff' : ''}">Leave Tracker</span>
+                        <div #LeavetrackerTrigger="matMenuTrigger" [matMenuTriggerFor]="Leavetracker"></div>
+                    </button>
+
+                    <mat-menu #Leavetracker="matMenu" class="py-0">
+                        <button mat-menu-item *ngIf="leaveTracker" [routerLink]="['/leave-tracker']">Leave
+                            Tracker</button>
+                        <button mat-menu-item *ngIf="leaveTrackerSettings" (click)="setltsettingsls()">Settings</button>
+                    </mat-menu>
+                </span>
+
+                <span *ngIf="data == 'company-policy'">
+                    <!-- ***************Company Policy without settings sidenav************** -->
+                    <a mat-list-item *ngIf="companypolicy && !companypolicySettings" href="#" matTooltipPosition="right"
+                        matTooltip="Policy" [matTooltipDisabled]="sidenavWidth" [routerLink]="['/company-policy']"
+                        routerLinkActive="router-link-active">
+                        <mat-icon>policy</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav">Policy</span>
+                    </a>
+
+                    <!-- ***************Company Policy with settings sidenav************** -->
+                    <button *ngIf="companypolicy && companypolicySettings " mat-button
+                        (click)="CompanyPolicyTrigger.openMenu()"
+                        [ngStyle]="{'background-color':isActivateComapnyPolicy? '#00214c' : '#f4f4f5' }"
+                        [ngClass]="{'companypolicy_style' : sidenavWidth}" matTooltipPosition="right"
+                        matTooltip="Policy" [matTooltipDisabled]="sidenavWidth" class="letters">
+                        <mat-icon [ngStyle]="{'color':isActivateComapnyPolicy? 'white' : '#7e8190' }">policy</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav"
+                            [ngStyle]="{'color':isActivateComapnyPolicy? '#fff' : ''}">Policy</span>
+                        <div #CompanyPolicyTrigger="matMenuTrigger" [matMenuTriggerFor]="CompanyPolicy"></div>
+                    </button>
+
+                    <mat-menu #CompanyPolicy="matMenu" class="py-0">
+                        <button mat-menu-item *ngIf="companypolicy" [routerLink]="['/company-policy']">Policy</button>
+                        <button mat-menu-item *ngIf="companypolicySettings" (click)="setCompanyPolicy()">Settings</button>
+                        <!-- <button mat-menu-item *ngIf="companypolicySettings"
+                        [routerLink]="['/company-policy-settings']">Settings</button> -->
+                    </mat-menu>
+                </span>
+
+                <!-- <span *ngIf="data == 'HR_Letters'">
+                    <button mat-button (click)="letterTrigger.openMenu()" class="letters" *ngIf="HR_Letters"
+                        [ngStyle]="{'background-color':isActivateHrLetter?'#00214c':'#f4f4f5' }"
+                        [ngClass]="{'lettersbtn_style' : sidenavWidth}" matTooltipPosition="right"
+                        matTooltip="HR Letters" [matTooltipDisabled]="sidenavWidth">
+                        <mat-icon [ngStyle]="{ 'color':isActivateHrLetter ? '#fff':'#7e8190'}">ballot</mat-icon>
+                        <span *ngIf="sidenavWidth" style="margin-top: 17px;margin-left: 4px;"
+                            routerLinkActive="router-link-active_sidenav"
+                            [ngStyle]="{'color':isActivateHrLetter? '#fff' : ''}">HR Letters</span>
+                        <div #letterTrigger="matMenuTrigger" [matMenuTriggerFor]="HRLetters"></div>
+                    </button>
+                    <mat-menu #HRLetters="matMenu" class="py-0">
+                        <button mat-menu-item [routerLink]="['/business_letter']" (click)="activateLetters()">Business
+                            Letter</button>
+                        <button mat-menu-item [routerLink]="['/offer']" (click)="activateLetters()">Offer
+                            Letter</button>
+                    </mat-menu>
+                </span> -->
+
+                <span *ngIf="data == 'reports'">
+                    <a mat-list-item *ngIf="reports" href="#" matTooltipPosition="right" matTooltip="Reports"
+                        [matTooltipDisabled]="sidenavWidth" [routerLink]="['/reports']"
+                        [ngStyle]="{'background-color':isActiveReports? '#00214c' : '#f4f4f5' }">
+                        <mat-icon [ngStyle]="{ 'color':isActiveReports ? '#fff':'#7e8190'}">insert_chart</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            [ngStyle]="{ 'color':isActiveReports ? '#fff':''}"
+                            routerLinkActive="router-link-active_sidenav">Reports</span>
+                    </a>
+                </span>
+
+                <span *ngIf="data == 'common-day-planner'">
+                    <!-- ***************Day planner without settings sidenav************** -->
+                    <a mat-list-item *ngIf="dayplanner && !dpsettings && !allDayPlanner" href="#"
+                        matTooltipPosition="right" matTooltip="My Day Planner" [matTooltipDisabled]="sidenavWidth"
+                        [routerLink]="['/my-day-planner']" routerLinkActive="router-link-active">
+                        <mat-icon>date_range</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav">Day Planner</span>
+                    </a>
+                    <a mat-list-item *ngIf="allDayPlanner && !dayplanner && !dpsettings" href="#"
+                        matTooltipPosition="right" matTooltip="Day Planner" [matTooltipDisabled]="sidenavWidth"
+                        [routerLink]="['/all-day-planner']" routerLinkActive="router-link-active">
+                        <mat-icon>date_range</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav">Day Planner</span>
+                    </a>
+                    <a mat-list-item *ngIf="!allDayPlanner && !dayplanner && dpsettings" href="#"
+                        matTooltipPosition="right" matTooltip="Day Planner" [matTooltipDisabled]="sidenavWidth"
+                        [routerLink]="['/dp-settings']" routerLinkActive="router-link-active">
+                        <mat-icon>date_range</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            routerLinkActive="router-link-active_sidenav">Day Planner</span>
+                    </a>
+                    <!-- ***************Day planner with settings sidenav************** -->
+
+                    <button
+                        *ngIf="dayplanner && allDayPlanner || dayplanner && dpsettings || dpsettings && allDayPlanner || dayplanner && allDayPlanner && dpsettings"
+                        mat-button (click)="triggerMenu.openMenu()" class="letters"
+                        [ngStyle]="{'background-color':isDayPlanner?'#00214c':'#f4f4f5' }"
+                        [ngClass]="{'dayplannerbtn_style' : sidenavWidth}" matTooltipPosition="right"
+                        matTooltip="Day Planner" [matTooltipDisabled]="sidenavWidth">
+                        <mat-icon [ngStyle]="{ 'color':isDayPlanner ? 'white':'#7e8190'}">date_range</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            [ngStyle]="{'color':isDayPlanner? '#fff' : ''}">Day Planner</span>
+                        <div #triggerMenu="matMenuTrigger" [matMenuTriggerFor]="dayPlanner"></div>
+                    </button>
+                    <mat-menu #dayPlanner="matMenu">
+                        <button mat-menu-item *ngIf="dayplanner" [routerLink]="['/my-day-planner']"
+                            (click)="dayPlannerStatus()">My Day Planner</button>
+                        <button mat-menu-item *ngIf="allDayPlanner" [routerLink]="['/all-day-planner']"
+                            (click)="dayPlannerStatus()">Day Planner</button>
+                        <button mat-menu-item *ngIf="dpsettings" [routerLink]="['/dp-settings']"
+                            (click)="dayPlannerStatus()">Settings</button>
+                    </mat-menu>
+                </span>
+
+                <span *ngIf="data == 'performance-metrics'">
+                    <a mat-list-item *ngIf="performance_metrics" href="#" matTooltipPosition="right" matTooltip="performance-metrics"
+                        [matTooltipDisabled]="sidenavWidth" [routerLink]="['/performance-metrics']"
+                        [ngStyle]="{'background-color':isActivePerformanceMetrics? '#00214c' : '#f4f4f5' }">
+                        <mat-icon [ngStyle]="{ 'color':isActivePerformanceMetrics ? '#fff':'#7e8190'}">trending_up</mat-icon>
+                        <span *ngIf="sidenavWidth" class="modulename_style"
+                            [ngStyle]="{ 'color':isActivePerformanceMetrics ? '#fff':''}"
+                            routerLinkActive="router-link-active_sidenav">performance-metrics</span>
+                    </a>
+                </span>
+
+            </span>
+            <button mat-button *ngIf="remaining.length > 0" mat-button matTooltipPosition="right" matTooltip="More"
+                [matTooltipDisabled]="sidenavWidth" class="letters" (click)="menuTrigger.openMenu();"
+                [ngClass]="{'Morebtn_style' : sidenavWidth}">
+                <mat-icon *ngIf="!sidenavWidth"
+                    [ngStyle]="{'margin-bottom':sidenavWidth?'25px':'' }">more_horiz</mat-icon>
+                <mat-icon *ngIf="sidenavWidth">more_vert</mat-icon>
+                <span *ngIf="sidenavWidth">More</span>
+                <div #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="moreicon"></div>
+            </button>
+            <div>
+                <mat-menu #moreicon="matMenu" class="py-0 sub_menus">
+                    <ng-container>
+                        <span *ngFor="let data of remaining">
+                            <button mat-menu-item *ngIf="data == 'projectsJobs'" [routerLink]="['/projects']"
+                                (click)="moreitemchange(data)">
+                                <mat-icon>category</mat-icon>
+                                Projects/Jobs
+                            </button>
+                            <button mat-menu-item *ngIf="data == 'attendence'" [routerLink]="['/attendance']"
+                                (click)="moreitemchange(data)">
+                                <mat-icon>event_available</mat-icon>
+                                Attendance
+                            </button>
+                            <button mat-menu-item *ngIf="data == 'timeTracker'" [routerLink]="['/time-tracker']"
+                                (click)="moreitemchange(data)">
+                                <mat-icon>event_available</mat-icon>
+                                Time Tracker
+                            </button>
+                            <button mat-menu-item *ngIf="data == 'leaveTracker'" [routerLink]="['/leave-tracker']"
+                                (click)="moreitemchange(data)">
+                                <mat-icon>event</mat-icon>
+                                Leave Tracker
+                            </button>
+                            <button mat-menu-item *ngIf="data == 'company-policy'" [routerLink]="['/company-policy']"
+                            (click)="moreitemchange(data)">
+                            <mat-icon>policy</mat-icon>
+                            Policy
+                        </button>
+                            <!-- ***********************HR letter section*************************** -->
+                            <!-- <button mat-menu-item *ngIf="data == 'HR_Letters'" [routerLink]="['/business_letter']"
+                                (click)="moreitemchange(data)">
+                                <mat-icon>ballot</mat-icon>
+                                HR Letters
+                            </button> -->
+                            <!-- <mat-menu #HR_Letters="matMenu">
+                                <button mat-menu-item [routerLink]="['/business_letter']" (click)="activateLetters()"
+                                    (click)="moreitemchange(data)">Business
+                                    Letter</button>
+                                <button mat-menu-item [routerLink]="['/offer']" (click)="activateLetters()"
+                                    (click)="moreitemchange(data)">Offer
+                                    Letter</button>
+                            </mat-menu> -->
+                            <!-- ***********************Day planner section*************************** -->
+                            <button mat-menu-item *ngIf="data == 'common-day-planner'" (click)="Dayplannermodules()"
+                                (click)="moreitemchange(data)">
+                                <mat-icon>date_range</mat-icon>
+                                Day Planner
+                            </button>
+                            <!-- <mat-menu #allDayPlanner="matMenu">
+                                <button mat-menu-item [routerLink]="['/my-day-planner']" (click)="dayPlannerStatus()"
+                                    (click)="moreitemchange(data)">My Day
+                                    Planner</button>
+                                <button mat-menu-item [routerLink]="['/all-day-planner']" (click)="dayPlannerStatus()"
+                                    (click)="moreitemchange(data);">Day Planner</button>
+                                <button mat-menu-item [routerLink]="['/dp-settings']" (click)="dayPlannerStatus()"
+                                    (click)="moreitemchange(data)">Settings</button>
+                            </mat-menu> -->
+                            <!-- **********************Reports section*********************** -->
+                            <button mat-menu-item *ngIf="data == 'reports'" [routerLink]="['/reports']"
+                                (click)="moreitemchange(data)">
+                                <mat-icon>insert_chart</mat-icon>
+                                Reports
+                            </button>
+                            <button mat-menu-item *ngIf="data == 'performance-metrics'" [routerLink]="['/performance-metrics']"
+                                (click)="moreitemchange(data)">
+                                <mat-icon>trending_up</mat-icon>
+                                performance-metrics
+                            </button>
+                        </span>
+                    </ng-container>
+                </mat-menu>
+            </div>
+            <!-- ***********************HR letter section*************************** -->
+            <!-- <mat-menu #HR_Letters="matMenu">
+                <button mat-menu-item [routerLink]="['/business_letter']" (click)="activateLetters()"
+                    (click)="moreitemchange('HR_Letters')">Business
+                    Letter</button>
+                <button mat-menu-item [routerLink]="['/offer']" (click)="activateLetters()"
+                    (click)="moreitemchange('HR_Letters')">Offer
+                    Letter</button>
+            </mat-menu>
+            <mat-menu #allDayPlanner="matMenu">
+                <button mat-menu-item [routerLink]="['/my-day-planner']"
+                    (click)="moreitemchange('allDayPlanner'); dayPlannerStatus()">My Day
+                    Planner</button>
+                <button mat-menu-item [routerLink]="['/all-day-planner']"
+                    (click)="moreitemchange('allDayPlanner'); dayPlannerStatus()">Day Planner</button>
+                <button mat-menu-item [routerLink]="['/dp-settings']"
+                    (click)="moreitemchange('allDayPlanner'); dayPlannerStatus()">Settings</button>
+            </mat-menu> -->
+            <div class="icons bottom-menu" [ngClass]="{'router-link-active': sidenavWidth}">
+                <a mat-list-item [ngClass]="{'expand_style' : sidenavWidth}" matTooltipPosition="right"
+                    matTooltip="Maximize" [matTooltipDisabled]="sidenavWidth" (click)="Toggle_sidenav()"
+                    style="background-color: #dfdfe0;">
+                    <mat-icon class="d-flex align-items-center justify-content-center" style="color: #00214C;"><span><i
+                                *ngIf="!sidenavWidth" class="fas fa-angle-double-right side-nav"></i></span></mat-icon>
+
+                    <!-- <mat-icon *ngIf="sidenavWidth">arrow_left</mat-icon> -->
+                    <i *ngIf="sidenavWidth" class="fas fa-angle-double-left" style="color: #00214C;"></i>
+                    <p *ngIf="sidenavWidth" style="margin-left: 12px;" class="mb-0"><span
+                            style="font-weight: 500;">Minimize</span>
+                    </p>
+                </a>
+            </div>
+        </mat-nav-list>
+
+
+    </mat-sidenav>
+
+    <mat-sidenav-content [ngStyle]="{'margin-left': sidenavWidth == true ? '137px' : '56px' }">
+
+        <mat-toolbar color="primary">
+            <h6 class="orgname_cnt">
+                {{orgName}}
+            </h6>
+            <!-- <h6 class="orgname_cnt position-relative">
+                {{orgName}}   
+                <p class="position-absolute m-0 p-0">V - 7.0.0</p>                 
+            </h6> -->
+
+
+
+            <!-- <div class="main">
+                <div class="has-search">
+                    <i class="material-icons form-control-feedback">
+                        search
+                        </i>
+                    <input type="text" style="height: 35px;
+                    width: 500px;" class="form-control" placeholder="Search...">
+                </div>
+            </div> -->
+            <span class="spacer"></span>
+            <span class="loaderStyle">
+                <div class="role_loader" *ngIf="roleloader  && userrole !== 'super_admin'">
+                    <div class="bar bar1"></div>
+                    <div class="bar bar2"></div>
+                    <div class="bar bar3"></div>
+                    <div class="bar bar4"></div>
+                    <div class="bar bar5"></div>
+                    <div class="bar bar6"></div>
+                    <div class="bar bar7"></div>
+                    <div class="bar bar8"></div>
+                </div>
+                <span *ngIf="roledata" class="roleDetails">Role : {{role}} </span>
+            </span>
+            <!-- <span *ngIf="roledata" class="roleDetails">Role : {{role}} </span> -->
+            <mat-nav-list class="list-horizontal">
+                <a href="#" class="pl-3"  *ngIf="settings" matTooltipPosition="below" matTooltip="Settings" matTooltipClass="custom-tooltip"
+                    [routerLink]="['/settings']" routerLinkActive="router-link-active"
+                    style="padding-right: 0px !important;">
+                    <mat-icon class="settings_color">settings</mat-icon>
+                </a>
+                <a href="#" class="pl-3" *ngIf="appIntegration" matTooltipPosition="below" matTooltip="Apps integration" matTooltipClass="custom-tooltip"
+                    [routerLink]="['/apps-integration']" routerLinkActive="router-link-active"
+                    style="padding-right: 0px !important;">
+                    <mat-icon class="settings_color">apps</mat-icon>
+                </a>
+                <a mat-list-item matTooltip="Notifications" (click)="notification.toggle(); cancelMore()"
+                    *ngIf="!unReadBadge && Notification_count != '0'" class=" mat_badge_primary" matTooltipClass="custom-tooltip">
+                    <mat-icon class="settings_color"
+                    [matBadgeHidden]="unread_msg == 0" [matBadge]="Notification_count" matBadgeColor="warn"
+                    matBadgeSize="small">
+                    notifications
+                </mat-icon>
+                </a>
+                <a mat-list-item matTooltip="Notifications" matTooltipClass="custom-tooltip" (click)="notification.toggle(); cancelMore()" *ngIf="unReadBadge"
+                    class=" mat_badge_primary">
+                    <mat-icon class="settings_color">notifications</mat-icon>
+                </a>
+
+                <!-- <a mat-list-item matTooltip="Gemini AI" (click)="geminiai.toggle(); cancelMore()"
+                     class=" mat_badge_primary" matTooltipClass="custom-tooltip">
+                    <img src="../../assets/images/icons8-chatgpt-240 (3).png">
+                </a> -->
+
+                <a mat-list-item class="myprofile-drpdwn" style="margin-top: 10px;"><span class="user" for="profile">
+                        <img *ngIf="!imgAvailable" class="navImg"
+                            style="width: 36px; height:36px; border-radius: 50%; cursor: default; position :absolute; top: -14px; margin-left: -18px;"
+                            src="assets/images/user_person.png">
+                        <img *ngIf="imgAvailable" class="navImg"
+                            style="width: 36px; height:36px; border-radius: 50%; cursor: default; position :absolute; top: -14px; margin-left: -18px;"
+                            [src]="url"> </span>
+                    <mat-menu #beforeMenu="matMenu" xPosition="before">
+                        <button *ngIf="userrole!='super_admin'" mat-menu-item class="prfile-menu" (click)="myProfile()"
+                            [ngStyle]="{'background-color':isActivatedProfile? '#f4f4f5' : 'white' }">
+                            <i class="material-icons"> person_pin </i><span>My Profile</span>
+                        </button>
+                        <button mat-menu-item class="prfile-menu" *ngIf="isShown" (click)="myAccount()"
+                            [ngStyle]="{'background-color':isActivatedAccount? '#f4f4f5' : 'white' }">
+                            <i class="material-icons"> person</i><span>Subscription</span>
+                        </button>
+                        <button mat-menu-item class=" prfile-menu pwd-change" (click)="changePassword()"
+                            [ngStyle]="{'background-color':isActivatedPassword? '#f4f4f5' : 'white' }">
+                            <i class="material-icons"> lock_reset </i><span>Change Password</span>
+                        </button>
+                        <button mat-menu-item matTooltip="Logout" class="prfile-menu" (click)="logout()">
+                            <i class="material-icons"> exit_to_app </i><span>Logout</span>
+                        </button>
+                    </mat-menu>
+                </a>
+                <a mat-list-item [matMenuTriggerFor]="beforeMenu" class="name">{{name}}<mat-icon>expand_more</mat-icon>
+                </a>
+            </mat-nav-list>
+
+            <!-- <div class="example-container">
+                <mat-form-field class="text-center">
+                    <input matInput placeholder="Search">
+                </mat-form-field>
+            </div> -->
+        </mat-toolbar>
+
+        <!-- Add Content Here -->
+        <ng-content>
+
+        </ng-content>
+        <div class="phone-menu">
+            <div class="phone">
+                <input type="radio" name="s" id="s1" [checked]="notification_mobile"
+                    (click)="mobile_nav('notification_mobile')">
+                <input type="radio" name="s" id="s2" [checked]="dashboard_mobile"
+                    (click)="mobile_nav('dashboard_mobile')">
+                <input type="radio" name="s" id="s3" [checked]="more_mobile" (click)="mobile_nav('more_mobile')">
+                <label for="s1"><img src="../../assets/images/notification-mobile.png" alt=""></label>
+                <label for="s2"><img src="../../assets/images/dashboard-mobile.png" alt=""></label>
+                <label for="s3"><img src="../../assets/images/all-mobile.png" alt=""></label>
+                <div class="circle-phone"></div>
+                <div class="phone_content">
+                    <div class="phone_bottom">
+                        <span class="indicator"></span>
+                    </div>
+                    <div class="mobile-project-version">
+                        <p class="d-flex justify-content-center">V - {{newUpdateVersion}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer_sec">
+            <app-footer></app-footer>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+<!-- <div class="footer_sec">
+    <app-footer></app-footer>
+</div> -->

@@ -1,0 +1,95 @@
+<div class="page-header renewal-plan">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">{{heading}}</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <div class="align_preview_sec">
+                    <button mat-icon-button matTooltipPosition="left" matTooltip="Back to subscription"
+                        [routerLink]="['/subscription']" routerLinkActive="router-link-active"><img
+                            src="../../../../assets/images/back.png" class="ph_back_arrow_img ">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="h-100">
+    <div class="container payment-container">
+        <div class="row d-flex justify-content-center align-items-center">
+            <div class="col-md-12">
+                <div class="cards">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="content1">
+                                <div class="image">
+                                    <div class="pay">
+                                        <h3 class="mb-3">Choose Payment Gateway</h3>
+                                        <div class="option">
+                                            <input type="radio" name="card" id="royal_silver" [(ngModel)]="payment"
+                                                value="stripe" required />
+                                            <label for="royal_silver" aria-label="royal_silver"
+                                                class="royal-silver-style">
+                                                <span></span>
+                                                Stripe
+                                                <div class="card card--sm">
+                                                    <img src="../../assets/images/logo_stripe.png" alt="stripe" 
+                                                        class="img-fluid h-100" />
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <form #paymentForm="ngForm" class="d-flex flex-column align-items-center">
+                                            <div class="option">
+                                                <input type="radio" name="card" id="silver" [(ngModel)]="payment"
+                                                    value="razorpay" disabled />
+                                                <label for="silver" aria-label="Silver" matTooltipPosition="right"
+                                                    matTooltip="Coming soon" class="silver-style">
+                                                    <span></span>
+                                                    Razorpay
+                                                    <div class="card card--sm">
+                                                        <img src="../../assets/images/logo_razorpay.jpg" alt="Razorpay"
+                                                            class="img-fluid h-100" />
+                                                    </div>
+                                                </label>
+                                            </div>
+
+                                            <div class="option">
+                                                <input type="radio" name="card" id="royal" [(ngModel)]="payment"
+                                                    value="cashfree" disabled />
+                                                <label for="royal" aria-label="Royal blue" matTooltipPosition="right"
+                                                    matTooltip="Coming soon" class="royal-style">
+                                                    <span></span>
+                                                    Cashfree
+                                                    <div class="card card--sm">
+                                                        <img src="../../assets/images/logo_cashfree.png" alt="cashfree"  class="h-100 img-fluid" />
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <mat-error *ngIf="payment == 'cashfree'" class="trial-style mb-2">
+                                                The Cashfree implementation is currently under
+                                                construction.</mat-error>
+                                            <!-- makePayment() redirectToCheckout() -->
+                                            <button class="submitBtn" [disabled]="payment == ''" (click)="clickPaymentValue()">
+                                                Pay Now
+                                                <svg fill="white" viewBox="0 0 448 512" height="1em" class="arrow">
+                                                    <path
+                                                        d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z">
+                                                    </path>
+                                                </svg>
+                                            </button>
+                                            <!-- [class.disabled]=" !paymentForm.valid || payment !== 'razorpay'" [disabled]="!paymentForm.valid || payment !== 'razorpay' " -->
+                                        </form>
+                                        <!-- <div class="bottom-msg mt-2">
+                                            <span>(Do not take any action until the payment is finished)</span>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

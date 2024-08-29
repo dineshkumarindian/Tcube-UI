@@ -1,0 +1,110 @@
+<div class="row">
+    <div class="col-md-12 mb-3">
+        <h3 class="set-heading">Role
+            <span class="pull-right rs_btns">
+                <div class="setting_add_btns">
+                    <button class="mx-2" mat-stroked-button (click)="toggleRole()"
+                        *ngIf="showAdminFormBtn && !roledetails" [routerLink]="['/add-role']">
+                        <mat-icon mat-icon-button>add</mat-icon><span class="btn_txt">
+                            Add Role</span>
+                    </button>
+                </div>
+            </span>
+        </h3>
+    </div>
+</div>
+<div class="mat-elevation-z8 mb-4" *ngIf="!roledetails">
+    <div class="row">
+        <div class="col-6">
+            <div class="table_bulk_dele">
+                <button class="example-icon" *ngIf="Bulkdeleteroleicon" class="bulk-delete-icon"
+                    matTooltip="Delete selected roles" matTooltipPosition="right" (click)="bulkDeleteRoleConfirm()">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="filter-form-sec">
+                <mat-form-field appearance="standard">
+                    <mat-label>Filter</mat-label>
+                    <input matInput (keyup)="applyFilterRole($event)" id="searchRoleText" placeholder="Search Role ..." #input>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <table mat-table [dataSource]="roleDataSource" matSort class="table_tc">
+        <ng-container matColumnDef="selector">
+            <th style="width: 7% !important;" mat-header-cell *matHeaderCellDef>
+                <mat-checkbox (change)="$event ? toggleAllRows1() : null; bulk_deleted2()"
+                    [checked]="selection_role.hasValue() && isAllSelected2()"
+                    [indeterminate]="selection_role.hasValue() && !isAllSelected2()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <span *ngIf="row.role != 'OrgAdmin' ">
+                    <mat-checkbox (click)="$event.stopPropagation()"
+                        (change)="$event ? selection_role.toggle(row) : null; bulk_deleted2()"
+                        [checked]="selection_role.isSelected(row)">
+                    </mat-checkbox>
+                </span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Role
+            </th>
+            <td mat-cell *matCellDef="let element" class="td_text_lowercased"> <p class="td_text_firstltr_capitalized mb-0">{{element.role}}</p> </td>
+
+        </ng-container>
+        <ng-container matColumnDef="accessto">
+            <th mat-header-cell *matHeaderCellDef> Access To
+            </th>
+            <td mat-cell *matCellDef="let element" class="chip_style">
+                <mat-chip-list>
+                    <!-- <mat-chip *ngFor="let data of element.access_to" class="chip-style"> -->
+                        <mat-chip *ngFor="let data of element.access_to">
+                        {{data}}
+                    </mat-chip>
+                </mat-chip-list>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-raised-button class="edit-btn" color="primary" *ngIf="element.role != 'OrgAdmin' "
+                    (click)="editRole(element.id)">
+                    Edit
+                </button>
+                <span *ngIf="element.role == 'OrgAdmin' "
+                    matTooltip='You cannot edit the role contact "sales@tcube.io" ' matTooltipPosition="below">
+                    <button mat-raised-button class="editOrgbtn" [disabled]="true">
+                        Edit
+                    </button>
+                </span>
+                <button mat-raised-button class="delete-btn" color="primary" *ngIf="element.role != 'OrgAdmin' "
+                    (click)="deleteRoleDialog(element.id)">
+                    Delete
+                </button>
+                <span *ngIf="element.role == 'OrgAdmin' "
+                    matTooltip='You cannot delete the role contact "sales@tcube.io" ' matTooltipPosition="below">
+                    <button mat-raised-button class="deleteOrgbtn" [disabled]="true">
+                        Delete
+                    </button>
+                </span>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsRole"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsRole">
+        </tr>
+    </table>
+    <div *ngIf="nodata" class="text-center text-danger alert-danger no-search-match p-3">
+        {{noDataFoundMessage}}
+    </div>
+    <div *ngIf="roleFilter" class="text-center text-danger alert-danger no-search-match p-3">
+        No Data Matching For "{{this.filterData}}"
+    </div>
+    <mat-paginator class="paginator" [pageSize]="10" [length]="100" [pageSizeOptions]="tablePaginationOption"
+        aria-label="Select page">
+    </mat-paginator>
+</div>

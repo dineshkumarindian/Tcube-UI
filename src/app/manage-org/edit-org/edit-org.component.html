@@ -1,0 +1,95 @@
+
+<div class="edit">
+
+    <ng-container>
+        <div class="input-content-wrap card card-bg scroll-y clientform">
+            <div class="header">
+                <h5>Edit Organization Details</h5>
+                <span class="pull-right cls-btn">
+                    <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                        role="img" type="button">close</mat-icon>
+                </span>
+            </div>
+            <form [formGroup]="OrgFormGroup" class="ClientFormGroup  px-4 py-2">
+                <div class="row">
+                    <div class="col-6 col-md-6">
+                        <!-- <div class="ml-3 lablestyle col-2">First Name</div> -->
+                        <mat-form-field appearance="standard">
+                            <mat-label>First Name</mat-label>
+                            <input matInput placeholder="First Name" formControlName="fName" required />
+                            <mat-error>Field Required!</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <!-- <div class="ml-3 lablestyle col-2">Last Name</div> -->
+                        <mat-form-field appearance="standard">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput placeholder="Last Name" formControlName="lName" required />
+                            <mat-error>Field Required!</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6 pb-2">
+                        <!-- <div class="ml-3 lablestyle col-2">Client Name</div> -->
+                        <mat-form-field appearance="standard">
+                            <mat-label>Org Name</mat-label>
+                            <input matInput placeholder="Company Name" formControlName="clientName" required />
+                            <mat-error>Field Required!</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <!-- <div class="col-6 col-md-6">
+                        <mat-form-field style="width: 100%;" appearance="standard">
+                            <mat-label>Pricing Plan</mat-label>
+                            <mat-select placeholder="Select Pricing plan&nbsp;*" #singleSelect formControlName="plan" required (selectionChange)="openpricingdetails()">
+                              <mat-option *ngFor="let data of pricingarr" [value]="data.name">{{data.name}}
+                              </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <div *ngIf="OrgFormGroup.get('plan').hasError('required')">
+                                    Field Required!
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                     </div>  -->
+                    <div class="col-6 col-md-6 pb-2">
+                        <!-- <div class="ml-3 lablestyle col-2">Email Id</div> -->
+                        <mat-form-field appearance="standard">
+                            <mat-label>Email</mat-label>
+                            <input matInput placeholder="Email" formControlName="email" required />
+                            <mat-error>Field Required!</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <!-- <div class="ml-3 lablestyle col-2">Mobile</div> -->
+                        <mat-form-field appearance="standard">
+                            <mat-label>Password</mat-label>
+                            <input matInput placeholder="Password" formControlName="password" required />
+                            <mat-error>Field Required!</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <!-- <div class="ml-3 lablestyle col-2">Mobile</div> -->
+                        <mat-form-field appearance="standard">
+                            <mat-label>Confirm Password</mat-label>
+                            <input matInput placeholder="Confirm Password" (change)="cPass($event.target.value)" formControlName="c_password" required />
+                            <mat-error>Field Required!</mat-error>
+                            <!-- <mat-error *ngIf="OrgFormGroup.hasError('notSame') && (OrgFormGroup.controls['c_password'].dirty || OrgFormGroup.controls['c_password'].touched)">
+                                Password should be same !</mat-error> -->
+                        </mat-form-field>
+                        <small class="text-danger"
+                                *ngIf="OrgFormGroup.hasError('notSame') ">
+                                Password doesn't match
+                        </small>
+                    </div>
+
+                </div>
+                <div class="row footerbtn">
+                    <!-- <div class="ml-3 lablestyle col-2"></div> -->
+                    <div class="btns px-3">
+                        <button class="btn btn-confirm" [disabled]=" OrgFormGroup.invalid" (click)="updateOrg()">Update</button>
+                        <button mat-dialog-close class="btn btn-cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-container>
+</div>

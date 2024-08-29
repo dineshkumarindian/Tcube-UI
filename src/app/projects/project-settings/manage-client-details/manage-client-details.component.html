@@ -1,0 +1,203 @@
+<section class="manage-client-details">
+    <!-- <div class="heading-sec d-flex align-items-center justify-content-between">
+        <h3 class="page-title">{{heading}}</h3>
+        <span class="pull-right rs_btns">
+            <div class="setting_add_btns">
+                <button class="mx-2" mat-stroked-button [routerLink]="['/add-client']">
+                    <mat-icon mat-icon-button>add</mat-icon><span class="btn_txt">
+                        Create client</span>
+                </button>
+                <button *ngIf="!inactiveClient" class="redirectbtn1" style="vertical-align:middle"
+                    (click)="getInactiveClientDetails()">
+                    <span>
+                        <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+                    </span>
+                </button>
+                <button *ngIf="inactiveClient" class="redirectactivebtn1" style="vertical-align:middle"
+                    (click)="getActiveClientDetailsByOrgId()">
+                    <span>
+                        <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+                    </span>
+                </button>
+            </div>
+        </span>
+    </div> -->
+
+    <!-- table-section -->
+    <!-- <div class=""> -->
+    <div class="col-md-12 my-4">
+        <div class="mat-elevation-z8">
+            <div class="row">
+                <div class="col-6 iconclientdelete d-flex align-items-center" *ngIf="!inactiveClient">
+                    <div class="ml-4" *ngIf="clientlist.length <= 1">
+                        <h3 class="page-title">{{heading}}</h3>
+                    </div>
+                    <!-- <div class="bulkdeleteClient">
+                            <button mat-icon-button *ngIf="clientlist.length >=2"
+                                (click)="bulkDeleteActiveClientDetails()" class="deleteClient">
+                                <mat-icon matTooltip="Delete selected clients" class="pr-menu-icon">
+                                    delete
+                                </mat-icon>
+                            </button>
+                        </div> -->
+                    <span class="deactive-button ml-4">
+                        <button mat-icon-button *ngIf="clientlist.length >=2" class="deactivate"
+                            (click)="bulkDeactivateClientDetails()">
+                            <mat-icon matTooltip="deactivate selected clients" class="pr-menu-icon">gpp_bad
+                            </mat-icon>
+                        </button>
+                    </span>
+                </div>
+                <div class="col-6 iconclientdelete d-flex align-items-center" *ngIf="inactiveClient">
+                    <div class="ml-4" *ngIf="clientlist.length <= 1">
+                        <h3 class="page-title">{{heading}}</h3>
+                    </div>
+                    <div class="delete-button ml-4">
+                        <button mat-icon-button *ngIf="clientlist.length >=2"
+                            (click)="bulkDeleteInactiveClientDetails()">
+                            <mat-icon matTooltip="Delete selected clients" class="pr-menu-icon">
+                                delete
+                            </mat-icon>
+                        </button>
+                    </div>
+                    <div class="active-button">
+                        <button mat-icon-button *ngIf="clientlist.length >=2" class="deactivate ml-2"
+                            (click)="bulkactivateClientDetails()">
+                            <mat-icon matTooltip="activate selected clients" class="pr-menu-icon">gpp_good
+                            </mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-4 d-flex justify-content-end">
+                    <div class="mr-5 mt-4">
+                        <button *ngIf="!inactiveClient" class="mt-1 redirect-btn redirect-btn-active"
+                            (click)="getInactiveClientDetails()" matTooltip="Inactive clients">
+                            <span>
+                                <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+                            </span>
+                        </button>
+                        <button *ngIf="inactiveClient" class="mt-1 redirect-btn" style="vertical-align:middle"
+                            (click)="getActiveClientDetailsByOrgId()" matTooltip="Active clients">
+                            <span>
+                                <mat-icon mat-icon-button class="redirect-btn-inactive">arrow_right_alt</mat-icon>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="">
+                        <div class="filter-form-sec">
+                            <mat-form-field appearance="standard">
+                                <mat-label>Filter</mat-label>
+                                <input matInput (keyup)="applyFilterClient($event)" placeholder="Search Client ..."
+                                    #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table mat-table [dataSource]="tableDataSource" class="table_tc" matSort>
+                <ng-container matColumnDef="selector">
+                    <th mat-header-cell *matHeaderCellDef
+                        style="flex: none !important; padding-right: 40px !important;">
+                        <mat-checkbox (change)="$event ? masterToggle() : null; bulk_delete()"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null; bulk_delete()"
+                            [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="client_name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Client Name
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span class="clientNameStyle" (click)="viewUserdetails( 'viewClient' , element)"
+                            matTooltip="View Details" matTooltipPosition="above">{{element.client_name}}
+                        </span>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="currency">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Currency
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                        <mat-chip>{{element.currency}}</mat-chip>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="billing_method">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Billing
+                        Method </th>
+                    <td mat-cell *matCellDef="let element">{{element.billing_method}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="mobile_number">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile No
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{element.mobile_number}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                    <td mat-cell *matCellDef="let element">{{element.firstname}}
+                        {{element.lastname}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Email</th>
+                    <td mat-cell *matCellDef="let element">{{element.email}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-raised-button class="mr-2 edit-btn" *ngIf="!inactiveClient"
+                            (click)="editClient(element.id)">
+                            Edit
+                        </button>
+                        <button mat-raised-button class="deactivate-btn" *ngIf="!inactiveClient"
+                            (click)="deactivateClient(element.id)">
+                            Deactivate
+                        </button>
+                        <button mat-raised-button class="activate-btn" *ngIf="inactiveClient"
+                            (click)="activateClient(element.id)">
+                            Activate
+                        </button>
+                        <button mat-raised-button class="delete-btn" *ngIf="inactiveClient"
+                            (click)="deleteClient(element.id)">
+                            Delete
+                        </button>
+                        <!-- <mat-icon matTooltip="Edit" matTooltipPosition="left"
+                                class="editicon" (click)="editClient(element.id)">edit
+                            </mat-icon>
+                            <mat-icon matTooltip="Delete" matTooltipPosition="right"
+                                class="deleteicon" (click)="deleteClient(element.id)">delete
+                            </mat-icon> -->
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                </tr>
+            </table>
+            <div *ngIf="nodata" class="text-center text-danger alert-danger no-search-match p-3">
+                No Client Data Found..!
+            </div>
+            <div *ngIf="clientFilter" class="text-center text-danger alert-danger no-search-match p-3">
+                No Data Matching For "{{this.filterData}}"
+            </div>
+            <mat-paginator class="paginator" [pageSize]="pageSize" (page)="changePage($event)"
+                [pageSizeOptions]="tablePaginationOption" aria-label="Select page">
+            </mat-paginator>
+
+        </div>
+    </div>
+    <!-- </div> -->
+</section>

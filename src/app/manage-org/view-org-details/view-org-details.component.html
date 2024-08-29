@@ -1,0 +1,345 @@
+<!-- <div class="dialog-header">
+    <h5 class="page-title">{{heading}}</h5>
+    <span class="pull-right cls-btn">
+        <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+            role="img" type="button">close</mat-icon>
+    </span>
+</div> -->
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title">View Organization</h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <button mat-icon-button matTooltipPosition="left" matTooltip="Back"
+                    [routerLink]="backUrl" routerLinkActive="router-link-active">
+                    <img class="ph_back_arrow_img mb-4" src="../../assets/images/back.png">
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="container-fluid view_org">
+    <div>
+    <div class="row first-content">
+        <div class="col-md-6 col-sm-12 col-lg-6 pl-2">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="page-title">Organization Details</h2>
+                </div>
+                <div class="shadow basicDetails">
+                    <ul class="list-group list-group-flush">
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Id</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.org_id}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Organization Name</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.company_name}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">First Name</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.firstname}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Last Name</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.lastname}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Email</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.email}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Password</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.password}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Mobile Number</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.login_mobilenumber}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Status</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.status}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Plan</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">
+                                    <mat-chip class="mb-0">{{orgDetails.plan}}</mat-chip>
+                                </p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Registered Date</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0">{{orgDetails.created_time |date:"dd-MMM-yyyy"}}</p>
+                            </div>
+                            <hr>
+                        </li>
+                        <li>
+                            <div class="row">
+                                <p class="col-5 mb-0 head">Expiry Date</p>
+                                <p class="col-2 mb-0">:</p>
+                                <p class="col-5 mb-0"><span *ngIf="orgDetails.expiry_date != null">{{orgDetails.expiry_date |date:"dd-MMM-yyyy"}}</span><span *ngIf="orgDetails.expiry_date == null">-</span></p>
+                            </div>
+                            <!-- <hr> -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6 p-0">
+            <div class="card pricing-Plan-Details">
+                <div class="card-header">
+                    <h2 class="page-title">{{pricingplan.plan}} - Pricing Details</h2>
+                </div>
+                <div class="shadow bg-white rounded card pricing_card">
+                    <div class="card-block p-2">
+                        <!-- <h5 class="card-title mt-1 mb-0">{{pricingplan.plan}}</h5> -->
+                        <div class="d-flex justify-content-center align-items-center">
+                            <h2 class="price">{{pricingplan.currency}}<span
+                                    class="pl-2 text-dark">{{pricingplan.amount}}</span></h2>
+                            <h2 class="mx-2"></h2>
+                            <h2 class="price">Days
+                                <span class="pl-2 text-dark">{{pricingplan.days}}</span>
+                            </h2>
+                        </div>
+                        <h2 class="price">Max Users<span class="pl-2 text-dark">{{pricingplan.userslimit}}</span></h2>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" *ngFor="let module of pricingplan.modules">{{module}}</li>
+                    </ul>
+                    <!-- <button mat-flat-button mat-dialog-close>Ok</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row second-content">
+        <div class="header">
+            <h2 class="page-title">Transaction Details</h2>
+        </div>
+        <div class="col-12">
+            <div class="orgTable mb-5 mr-2">
+                <div class="example-container mat-elevation-z8">
+                    <div class="tablescroll">
+                        <mat-table [dataSource]="transactionDataSource" matSort>
+
+                            <ng-container matColumnDef="transaction_id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Transaction Id
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span>{{element.transaction_id}}</span> </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="amount">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Amount($)
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span class="amount">{{element.amount}}</span> </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="created_time">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Payment Date
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span class="pr-1">{{element.created_time | date:"dd-MM-yyyy hh:mm aa"}}</span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="payment_gateway">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Payment Gateway
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span class="pr-1">{{element.key_note}}</span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="status">
+                                <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="pay-status-btn">
+                                    <button mat-flat-button class="success-btn"
+                                        *ngIf="element.status == 'success'">Success</button>
+                                    <button mat-flat-button class="fail-btn"
+                                        *ngIf="element.status == 'failed'">Failed</button>
+                                    <button mat-flat-button class="others"
+                                        *ngIf="element.status != 'success' && element.status != 'failed'">{{element.status}}</button>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="action">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Action
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="pay-action-btn">
+                                    <button mat-flat-button class="download-btn" disabled *ngIf="element.invoicepPdfContent == null" matTooltipPosition="right" matTooltip="Not available">Receipt</button>
+                                    <button mat-flat-button class="download-btn" *ngIf="element.invoicepPdfContent != null"(click)="downloadInvoicePdf(element.invoicepPdfContent)" matTooltipPosition="right" matTooltip="Download">Receipt</button>
+                                    <!-- <button mat-flat-button class="view-btn" *ngIf="element.receipt_url != null" (click)="viewReceipt(element.receipt_url)">
+                                        View
+                                    </button>
+                                    <button mat-flat-button class="view-btn" *ngIf="element.receipt_url == null"
+                                        matTooltip="Not available">
+                                        View
+                                    </button> -->
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns sticky:true"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row">
+                            </mat-row>
+                        </mat-table>
+                    </div>
+                    <div *ngIf="transactionDetails.length == 0 && nodata == true"
+                        class="text-center text-danger alert-danger no-search-match p-3">
+                        {{noDataMsg}}
+                    </div>
+                    <!-- <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+                        No Data Matching For "{{this.filterData}}"
+                    </div> -->
+                    <mat-paginator class="paginator" #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+                        [pageSizeOptions]="tablePaginationOption">
+                    </mat-paginator>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<!-- <section class="view_org">
+    <div mat-dialog-content>
+        <div class="second my-3">
+            <mat-accordion class="example-headers-align">
+                <mat-expansion-panel [expanded]="true" class="mb-2">
+                    <mat-expansion-panel-header mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Basic Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="basicDetails">
+                        <ul>
+                            <li>
+                                <div class="row">
+                                    <p class="col-4 mb-0">Organization Name</p><span>:</span>
+                                    <p class="col-7 mb-0">{{data.data.company_name}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">First Name</p><span>:</span>
+                                    <p class="col-7 mb-0">{{data.data.firstname}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Last Name</p><span>:</span>
+                                    <p class="col-7 mb-0">{{data.data.lastname}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Email</p><span>:</span>
+                                    <p class="col-7 mb-0">{{data.data.email}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Mobile Number</p><span>:</span>
+                                    <p class="col-7 mb-0">{{data.data.login_mobilenumber}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Status</p><span>:</span>
+                                    <p class="col-7 mb-0">{{data.data.status}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Plan Choosed</p><span>:</span>
+                                    <mat-chip class="ml-3 mb-0">{{data.data.plan}}</mat-chip>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Registered Date</p><span>:</span>
+                                    <p class="col-7 mb-0">{{data.data.created_time |date:"dd-MMM-yyyy"}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Expiry Date</p><span>:</span>
+                                    <p class="col-7 mb-0">{{data.data.expiry_date |date:"dd-MMM-yyyy"}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-expansion-panel>
+                <mat-expansion-panel class="mb-2">
+                    <mat-expansion-panel-header mat-expansion-panel-header>
+                        <mat-panel-title>
+                            Pricing Plan Details
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="shadow bg-white rounded card pricing_card">
+                        <div class="card-block">
+                            <h5 class="card-title mt-3">{{pricingplan.plan}}</h5>
+                            <div class="d-flex justify-content-center align-items-center">
+                                <h2 class="price">{{pricingplan.currency}}<span
+                                  class="pl-2 text-dark">{{pricingplan.amount}}</span></h2>
+                                  <h2 class="mx-2"></h2>
+                              <h2 class="price">Days
+                                <span class="pl-2 text-dark">{{pricingplan.days}}</span>
+                              </h2>
+                            </div>
+                            <h2 class="price">Max Users<span
+                                class="pl-2 text-dark">{{pricingplan.userslimit}}</span></h2>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" *ngFor="let module of pricingplan.modules">{{module}}</li>
+                        </ul>
+                        <button mat-flat-button mat-dialog-close>Ok</button>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+</section> -->

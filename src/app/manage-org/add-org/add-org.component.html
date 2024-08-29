@@ -1,0 +1,162 @@
+<div class="addOrg">
+    <ng-container>
+        <div class="input-content-wrap card card-bg clientform">
+            <div class="header">
+                <h5>Create New Organization Details</h5>
+                <span class="pull-right cls-btn">
+                    <mat-icon mat-dialog-close matTooltip="Close"
+                        class="mat-icon notranslate material-icons mat-icon-no-color" role="img" type="button">close
+                    </mat-icon>
+                </span>
+            </div>
+            <form [formGroup]="OrgFormGroup" class="ClientFormGroup  px-4 py-2">
+                <div class="row">
+                    <div class="col-6 col-md-6">
+                        <mat-form-field appearance="standard">
+                            <mat-label>First Name</mat-label>
+                            <input matInput placeholder="First Name" formControlName="fName" required />
+                            <mat-error>
+                                <div *ngIf="OrgFormGroup.get('fName').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div *ngIf="OrgFormGroup.get('fName').hasError('pattern')">
+                                    Invalid, please enter a valid format
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Last Name</mat-label>
+                            <input matInput placeholder="Last Name" formControlName="lName" required />
+                            <mat-error>{{requiredMessage}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-12 col-md-12 pb-2">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Org Name</mat-label>
+                            <input matInput placeholder="Org Name" formControlName="clientName" required />
+                            <mat-error>
+                                <div *ngIf="OrgFormGroup.get('clientName').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div *ngIf="OrgFormGroup.get('clientName').hasError('pattern')">
+                                    Invalid, please enter a valid format
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <mat-form-field style="width: 100%;" appearance="standard">
+                            <mat-label>Pricing Plan</mat-label>
+                            <mat-select placeholder="Select Pricing plan&nbsp;*" #singleSelect formControlName="plan"
+                                required (selectionChange)="openpricingdetails()">
+                                <mat-option *ngFor="let data of pricingarr" [value]="data.name">{{data.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>
+                                <div *ngIf="OrgFormGroup.get('plan').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6 pt-1">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Email</mat-label>
+                            <input matInput placeholder="Email" (keyup)="mailchange($event.target.value)"
+                                formControlName="email" required />
+                            <mat-error>
+                                <div *ngIf="OrgFormGroup.get('email').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div *ngIf="OrgFormGroup.get('email').hasError('email')">
+                                    Invalid, please enter a valid format
+                                </div>
+                            </mat-error>
+                            <mat-hint class="mat-error" *ngIf="mailExists">{{existMessage}}</mat-hint>
+                        </mat-form-field>
+                        <!-- <small class="text-danger" *ngIf="mailExists">Email already registered</small> -->
+
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Country Code</mat-label>
+                            <mat-select placeholder="Select Country Code&nbsp;*" #singleSelect [formControl]="countrycodeCtrl" class="input-field"
+                                required (selectionChange)="selectedTelcode($event.value)" name="countryCode">
+                                <mat-option *ngFor="let opt of filteredcountrycode | async" [value]="opt.id">{{opt.telcode}} -
+                                    {{opt.country}}
+                                </mat-option>
+                            </mat-select>
+                            </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Mobile Number</mat-label>
+                            <input matInput class="input-field " name="mobilenumber" formControlName="mobilenumber" required>
+                            <mat-error>
+                                <div *ngIf="OrgFormGroup.get('mobilenumber').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div *ngIf="OrgFormGroup.get('mobilenumber').hasError('pattern')">
+                                    {{invalidFormat}}
+                                </div>
+                                </mat-error>
+                            </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Password</mat-label>
+                            <input matInput placeholder="Password" formControlName="password" required />
+                            <mat-error>
+                                <div *ngIf="OrgFormGroup.get('password').hasError('required')">
+                                    {{requiredMessage}}
+                                </div>
+                                <div
+                                    *ngIf="!OrgFormGroup.get('password').hasError('whitespace') && OrgFormGroup.get('password').hasError('minlength')">
+                                    Password should be greater than five digits
+                                </div>
+                                <div *ngIf="OrgFormGroup.get('password').hasError('whitespace')">
+                                    Invalid, please enter a valid format
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Confirm Password</mat-label>
+                            <input matInput placeholder="Confirm Password" formControlName="c_password" required />
+                            <!--(change)="cPass($event.target.value)"-->
+                            <mat-error>
+                                <div class=""
+                                    *ngIf="OrgFormGroup.get('c_password').hasError('required') && !OrgFormGroup.hasError('notSame')">
+                                    {{requiredMessage}}
+                                </div>
+                            </mat-error>
+                        </mat-form-field>
+                        <p class="mat-error" *ngIf="OrgFormGroup.hasError('notSame') && (OrgFormGroup.controls['c_password'].dirty || OrgFormGroup.controls['c_password'].touched) && OrgFormGroup.get('c_password').value.length > 0">
+                            Password doesn't match
+                        </p>
+                    </div>
+                    <div class="col-6 col-md-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Description</mat-label>
+                            <textarea rows="2" matInput name="desc" formControlName="description"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-md-6 d-flex align-items-center">
+                        <span *ngIf="TrialCheckbox" class="text-danger"> Trial period for T-cube is valid for {{TrailData[0]}} days only.</span>
+                    </div>
+
+                </div>
+                <div class="row footerbtn mb-3">
+                    <div class="btns px-3">
+                        <button class="btn btn-confirm" [disabled]=" OrgFormGroup.invalid || countrycodeCtrl.invalid"
+                            (click)="addOrg()">Create</button>
+                        <button mat-dialog-close class="btn btn-cancel">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-container>
+</div>

@@ -1,0 +1,168 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">My Approvals</h3>
+        </div>
+        <div class="col-md-6">
+            <span class="pfr d-inline-flex position-relative">
+                <button class="redirect-btn timesheet-btn mr-2" matTooltipPosition="below"
+                    matTooltip="Move to timesheets" [routerLink]="['/timesheets']"
+                    routerLinkActive="router-link-active">
+                    <div>
+                        <mat-icon mat-icon-button class="ml-1">arrow_right_alt</mat-icon>
+                    </div>
+                </button>
+                <button mat-icon-button matTooltipPosition="below" matTooltip="Back to time tracker"
+                    [routerLink]="['/time-tracker']" routerLinkActive="router-link-active">
+                    <img class="ph_back_arrow_img mb-4" src="../../assets/images/back.png">
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+<div class="approvals">
+
+    <div class="container-fluid">
+        <div class="timesheetTable mat-elevation-z8">
+            <div class="row">
+                <div class="col-md-8 d-flex">
+                    <div class="countsCard">
+                        <div class="card totalCountsCard"
+                            [style.background-color]="allDetails ? '#b0e6ffbf' : '#68c7f314'" (click)="getTaskDetails()"
+                            matTooltip="View All Timesheets" matTooltipPosition="below"><span class="imageApproved"><img
+                                    class="defaultImg" src="assets/images/total_sum_of.png"></span>Total :
+                            {{totalCounts}}</div>
+                        <div class="card approveCard"
+                            [style.background-color]="approvedDetails ? '#b0e6ffbf' : '#f5fff5'"
+                            (click)="getActiveApprovedTaskDetails()" matTooltip="View Approved Timesheets"
+                            matTooltipPosition="below"><span class="imageApproved"><img class="defaultImg"
+                                    src="assets/images/approve1.png"></span>Approved : {{approvedCounts}}</div>
+                        <div class="card rejectCard"
+                            [style.background-color]="rejectedDetails ? '#b0e6ffbf' : '#fffbf2'"
+                            (click)="getActiveRejectedTaskDetails()" matTooltip="View Rejected Timesheets"
+                            matTooltipPosition="below"><span class="imageRejected"><img class="defaultImg"
+                                    src="assets/images/rejected1.png"></span>Rejected : {{rejectedCounts}}</div>
+                        <div class="card pendingCard"
+                            [style.background-color]="pendingDetails ? '#b0e6ffbf' : '#fffbf2'"
+                            (click)="getActivePendingTaskDetails()" matTooltip="View Pending Timesheets"
+                            matTooltipPosition="below"><span class="imagesPending"><img class="defaultImg"
+                                    src="assets/images/pending1.png"></span>Pending : {{pendingCounts}}</div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end">
+                    <span class="mat-filter-refresh-btn mx-2">
+                        <button matTooltip="Refresh" (click)="getTaskDetails()" mat-icon-button
+                            class="example-icon action-btn">
+                            <mat-icon class="pr-menu-icon ">refresh
+                            </mat-icon>
+                        </button>
+                    </span>
+                    <div class="filter-form-sec">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Filter</mat-label>
+                            <input matInput (keyup)="applyProjectFilter($event)" placeholder="Search ..." #input
+                                [formControl]="filterInput">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="tablescroll">
+                <mat-table [dataSource]="timeDataSource" matSort class="table_tc">
+                    <ng-container matColumnDef="timesheet_name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Timesheet Name
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="td_text_lowercased"> <span
+                                class="byDate td_text_firstltr_capitalized"
+                                (click)="approveReject(element.date_of_request , element.emp_id, element.approval_status, element.id ,element.approval_comments)">{{element.timesheet_name}}</span>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="emp_name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Request Raised By
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="td_text_lowercased">
+                            <span class="approver td_text_firstltr_capitalized">
+                                {{element.emp_name}}
+                            </span>
+                        </mat-cell>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="Submitted">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Submitted Hours</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.submitted_hoursht}} </mat-cell>
+                </ng-container> -->
+                    <ng-container matColumnDef="billable_total_time">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Billable Hours </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <span>
+                                <span *ngIf="element.billable_total_time == '00:00:00' ">-</span>
+                                <span
+                                    *ngIf="element.billable_total_time != '00:00:00' ">{{element.billable_total_time}}</span>
+                            </span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="non_billable_total_time">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Non Billable Hours </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <span>
+                                <span *ngIf="element.non_billable_total_time == '00:00:00' ">-</span>
+                                <span
+                                    *ngIf="element.non_billable_total_time != '00:00:00' ">{{element.non_billable_total_time}}</span>
+                            </span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="total_time">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header>Hours</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <span class="totalTime">
+                                {{element.total_time}}
+                            </span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Status">
+                        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                        <mat-cell *matCellDef="let element; let i=index" class="">
+                            <button class="mr-2 status-btns active-btns" *ngIf="element.approval_status == 'Approved' "
+                                disabled>
+                                Approved
+                            </button>
+                            <button class="rj-btn inactive-btns" *ngIf="element.approval_status == 'Rejected' "
+                                disabled>
+                                Rejected
+                            </button>
+                            <button class="status-btn pending-btn" *ngIf="element.approval_status == 'Pending' "
+                                matTooltip="Approve / Reject" matTooltipPosition="right"
+                                (click)="approveReject(element.date_of_request , element.emp_id, element.approval_status,element.id ,element.approval_comments)">
+                                Pending
+                            </button>
+                            <!-- <span class="active" *ngIf="element.status == 'Approved' ">
+                            Approved
+                        </span>
+                        <span class="inactive" *ngIf="element.status == 'Rejected' ">
+                            Rejected
+                        </span>
+                        <span class="pending" *ngIf="element.status == 'Pending' ">
+                            Pending
+                        </span> -->
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row">
+                    </mat-row>
+                </mat-table>
+            </div>
+            <div *ngIf="timesheetDetails.length ==0" class="text-center text-danger alert-danger no-search-match p-3">
+                {{noRecordMsg}}
+            </div>
+            <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+                No Data Matching For "{{this.filterData}}"
+            </div>
+            <mat-paginator #paginator [pageSize]="pageSize" (page)="changePage($event)"
+                [pageSizeOptions]="tablePaginationOption">
+            </mat-paginator>
+
+        </div>
+    </div>
+</div>

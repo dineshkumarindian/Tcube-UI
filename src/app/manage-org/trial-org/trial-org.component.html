@@ -1,0 +1,156 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title">Trial Organizations</h3>
+        </div>
+        <div class="col-md-8">
+            <div class="pfr">
+                <!-- <span class="pull-right btn_area"> -->
+                <button mat-raised-button class="add_create_btn_mi mr-3" [routerLink]="['/manage-org']"
+                    routerLinkActive="router-link-active">
+                    <mat-icon mat-icon-button>arrow_right_alt</mat-icon>Active Orgs
+                </button>
+                <!-- </span> -->
+            </div>
+        </div>
+    </div>
+
+</div>
+<section class="manage-org">
+    <div class="container-fluid">
+        <div class="orgTable mb-4 mat-elevation-z8">
+            <div class="row col-12 pr-0">
+                <div class="col-6 secondrow">
+                    <div class="icondelete">
+                        <!-- <mat-icon matTooltip="Delete Selected Orgs" matTooltipPosition="right" class="mat-icon"
+                        *ngIf="listOrg.length >=2 || select_all" (click)="bulkdelete()">delete</mat-icon> -->
+                        <button matTooltip="Delete Selected Orgs" matTooltipPosition="right" class="mat-icon"
+                            *ngIf="listOrg.length >=2 || select_all" (click)="bulkdelete()">
+                            <mat-icon class="pr-menu-icon">delete</mat-icon>
+                        </button>
+                    </div>
+                    <div class="icondeactivate">
+                        <!-- <mat-icon matTooltip="Deactivate Selected Orgs" matTooltipPosition="right" class="mat-icon"
+                        *ngIf="listOrg.length >=2 || select_all" (click)="bulkdeactivate()">gpp_bad</mat-icon> -->
+                        <button matTooltip="Deactivate Selected Orgs" matTooltipPosition="right" class="mat-icon"
+                            *ngIf="listOrg.length >=2 || select_all" (click)="bulkdeactivate()">
+                            <mat-icon class="pr-menu-icon">gpp_bad</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-6 d-flex align-items-center justify-content-end pr-0">
+                                       
+                    <div>
+                        <!-- ********* search filter ************ -->
+                        <div class="col-4 filter-form-sec pr-0">
+                            <mat-form-field appearance="standard">
+                                <mat-label>Filter</mat-label>
+                                <input matInput (keyup)="applyProjectFilter($event)"
+                                    placeholder="Search Organizations ..." #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="tablescroll">
+                <mat-table [dataSource]="orgDataSource" matSort>
+                    <ng-container matColumnDef="selector">
+                        <mat-header-cell *matHeaderCellDef
+                            style="flex: none !important; padding-right: 40px !important;">
+                            <mat-checkbox (change)="$event ? masterToggle() : null;bulk_delete()"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </mat-header-cell>
+                        <td mat-cell *matCellDef="let row">
+                            <mat-checkbox (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null;bulk_delete()"
+                                [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="organization_id">
+                        <mat-header-cell class="aligning" *matHeaderCellDef mat-sort-header>Id
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="text-capitalize"><a [ngStyle]="{ 'color': element.status==='Trial' ? '#ff740c' : '' }"
+                                class="org_id_style td_text_firstltr_capitalized" matTooltip="View Org details"
+                                (click)="openVieworg(element.org_id)">{{element.org_id}}</a></mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="orgname">
+                        <mat-header-cell class="aligning" *matHeaderCellDef mat-sort-header>Organization Name
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="text-capitalize"><a [ngStyle]="{ 'color': element.status==='Trial' ? '#ff740c' : '' }"
+                                class="link_td td_text_firstltr_capitalized text-decoration-none">{{element.company_name}}</a></mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Name
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element" class="text-capitalize">
+                            <p class="td_text_firstltr_capitalized">{{element.firstname}} {{element.lastname}}</p>
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="email">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Email</mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="Approved_date">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Approved Date</mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.date_of_joining | date:"dd-MM-yyyy"}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="expiry_date">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Expired Date</mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.expiry_date | date:"dd-MM-yyyy"}}  </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="actions">
+                        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+
+                            <button mat-raised-button color="primary" class="action-button mr-2"
+                                (click)="editOrg(element.org_id)">
+                                Edit
+                            </button>
+                            <button mat-raised-button color="primary" class="mr-2 deactivate-btn"
+                                (click)="deactivateOrg(element.org_id)">
+                                Deactivate
+                            </button>
+                            <button mat-raised-button color="primary" class="mr-2 deletebtn"
+                                (click)="deleteOrg(element.org_id)">
+                                Delete
+                            </button>
+                            <!-- <button *ngIf="element.plan_upgrade" mat-raised-button color="primary"
+                                class="mr-2 upgrade-btn" (click)="upgradeplan(element.org_id,element.plan,'upgrade')">
+                                Upgrade
+                            </button>
+                            <button *ngIf="element.plan_renewal" mat-raised-button color="primary"
+                                class="mr-2 renew-btn"
+                                (click)="renewplan(element.org_id,element.plan,'renew',element.pricingPlanDetails.id,element.pricingPlanDetails.modules)">
+                                Renewal Approve
+                            </button> -->
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns sticky: true"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row">
+                    </mat-row>
+                </mat-table>
+            </div>
+            <!-- <div *ngIf="orgDetails == 0 && noDataMsgOrg == true"
+                class="text-center text-danger alert-danger no-search-match p-3">
+                {{noDataMsg}}
+            </div> -->
+            <div *ngIf="orgDetails == 0 && noDataMsgOrg == true" class="text-center text-danger alert-danger no-search-match p-3">
+                {{noDataMsg}}
+            </div>
+            <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+                No Data Matching For "{{this.filterData}}"
+            </div>
+            <mat-paginator class="paginator" #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+                [pageSizeOptions]="tablePaginationOption">
+            </mat-paginator>
+
+        </div>
+    </div>
+</section>

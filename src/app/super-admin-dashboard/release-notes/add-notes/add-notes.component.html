@@ -1,0 +1,428 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-4">
+            <h3 class="page-title" *ngIf="!isReleaseNotesActiveId">Add Release Notes</h3>
+            <h3 class="page-title" *ngIf="isReleaseNotesActiveId">Update Release Notes</h3>
+        </div>
+        <!-- <div class="col-md-4 text-center">
+            <span class="releasekey">{{releaseKey}}</span>
+        </div> -->
+        <div class="col-md-8">
+            <div class="pfr">
+                <div class="align_preview_sec">
+                    <!-- matTooltipPosition="bottom" -->
+                    <button mat-icon-button class="backbtn" matTooltip="Back to release notes"
+                        [routerLink]="['/release-notes']" routerLinkActive="router-link-active"><img
+                            src="../../../../assets/images/back.png" class="ph_back_arrow_img">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container-fluid mb-3">
+    <form [formGroup]="releaseForm">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true" class="mb-2">
+                <mat-expansion-panel-header mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Header
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <section class="container-fluid">
+                    <div class="p-3">
+                        <div class="row">
+                            <div class="ml-3 labelstyle col-2">Release notes type</div>
+                            <mat-form-field appearance="outline" class="col-8">
+                                <mat-select placeholder="Release notes type" name="releaseType"
+                                    [formControl]="releaseType" required ngModel>
+                                    <mat-option value="Web Application">Web Application</mat-option>
+                                    <mat-option value="Android">Android</mat-option>
+                                    <mat-option value="iOS">iOS</mat-option>
+                                </mat-select>
+                                <mat-error  class="errorfix" *ngIf="releaseType.hasError('required')">{{requiredMessage}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+
+                            <div class="ml-3 labelstyle col-2">Release notes title</div>
+                            <mat-form-field appearance="standard" class="col-8">
+                                <mat-label>Release notes title</mat-label>
+                                <input matInput placeholder="Release notes titles" name="title" [formControl]="title"
+                                    required ngModel>
+                                <mat-error *ngIf="title.hasError('required')">{{requiredMessage}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="ml-3 labelstyle col-2">Product / Project Name</div>
+                            <mat-form-field appearance="standard" class="col-8">
+                                <mat-label>Product name</mat-label>
+                                <input matInput placeholder="Enter The product/project Name" name="version"
+                                    [formControl]="productName" required ngModel>
+                                <mat-error *ngIf="productName.hasError('required')">{{requiredMessage}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="ml-3 labelstyle col-2">Release version</div>
+                            <mat-form-field appearance="standard" class="col-8">
+                                <mat-label>Release Version</mat-label>
+                                <input matInput placeholder="Enter The Version" name="version"
+                                    [formControl]="ReleaseVersion" required ngModel>
+                                <mat-error *ngIf="ReleaseVersion.hasError('required')">{{requiredMessage}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="row">
+                            <div class="ml-3 labelstyle col-2">Date of release</div>
+                            <mat-form-field appearance="standard" class="col-8">
+                                <mat-label>Select release date</mat-label>
+                                <input matInput [matDatepicker]="datepicker" name="dor"
+                                    [formControl]="dor" required>
+                                <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                                <mat-datepicker #datepicker>
+                                </mat-datepicker>
+                                <mat-error *ngIf="dor.hasError('required')">{{requiredMessage}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="row">
+                            <div class="ml-3 labelstyle col-2">Logo</div>
+                            <div class="col-8">
+                                <div class="row file_upload_sect">
+                                    <div class="col-3">
+                                        <input type="file" capture accept="image/png,image/jpeg,image/jpg"
+                                            (change)="onFileChanged($event)" [formControl]="companyLogo"
+                                            name="companyLogo" hidden #FileSelect>
+
+                                        <button type="button" mat-raised-button class="choose_btn mr-2"
+                                            (click)="FileSelect.click()">
+                                            <mat-icon class="align-middle">image</mat-icon> Choose from file
+                                        </button>
+
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="preview_right_align">
+                                            <div *ngIf="this.attachmentCopy != null">
+                                                <img [src]="url" class="ml-md-3 img-fluid">
+                                            </div>
+                                            <!-- <div class="text-dark" *ngIf="this.attachmentCopy == null"
+                                                    style="font-size: small;">
+                                                    file preview</div> -->
+                                            <small *ngIf="this.attachmentCopy == null">file preview</small>
+                                            <div *ngIf="this.attachmentName != null"><small class="align-middle">
+                                                    {{this.attachmentName}}
+                                                </small>
+                                                <button (click)="cancel()" mat-icon-button matTooltip="Remove">
+                                                    <mat-icon>cancel</mat-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <mat-hint>Better look of file size ex:150*100</mat-hint>
+                                <mat-error [innerHtml]="msg" *ngIf="msg"></mat-error>
+                            </div>
+                        </div>  
+                    </div>
+                </section>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="true" class="mb-2">
+                <mat-expansion-panel-header mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Release notes summary
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <section class="container-fluid">
+                    <div class="p-3">
+                        <div class="row mb-4">
+                            <div class="ml-3 labelstyle col-2">What's new
+                            </div>
+                            <div class="col-8 ckeditorArea">
+                                <ckeditor [formControl]="whatsNew" [editor]="Editor" (ready)="onReady($event)"
+                                [config]="{ placeholder:'Enter the what is new in the release!',
+                                toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ] }" 
+                                name="whatsNew" class="ckeditor-style" required>
+                                </ckeditor>
+                                <div class="mat-error" *ngIf="whatsNew.errors?.maxlength">
+                                    {{charLength}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="ml-3 labelstyle col-2">Improvements
+                            </div>
+                            <div class="col-8 ckeditorArea">
+                                <ckeditor [formControl]="improvement" [editor]="Editor" (ready)="onReady($event)"
+                                [config]="{ placeholder:'Enter the what are the improvements in the release!',
+                                toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ] }"
+                                name="improvement" class="ckeditor-style" required>
+                                </ckeditor>
+                                <div class="mat-error" *ngIf="improvement.errors?.maxlength">
+                                    {{charLength}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="ml-3 labelstyle col-2">Bug fixes
+                            </div>
+                            <div class="col-8 ckeditorArea">
+                                <ckeditor [formControl]="bugFixes" [editor]="Editor" (ready)="onReady($event)"
+                                [config]="{ placeholder:'Enter the brief description of modifications made to fix the bugs in the release!',
+                                toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ] }" 
+                                name="bugFixes" class="ckeditor-style" required>
+                                </ckeditor>
+                                <div class="mat-error" *ngIf="bugFixes.errors?.maxlength">
+                                    {{charLength}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="ml-3 labelstyle col-2">Coming soon
+                            </div>
+                            <div class="col-8 ckeditorArea">
+                                <ckeditor [formControl]="comingSoon" [editor]="Editor" (ready)="onReady($event)"
+                                [config]="{ placeholder:'Enter the specific actions needed by users or functionality in the release!',
+                                toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ] }" 
+                                name="comingSoon" class="ckeditor-style" required>
+                                </ckeditor>
+                                <div class="mat-error" *ngIf="comingSoon.errors?.maxlength">
+                                    {{charLength}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="ml-3 labelstyle col-2">General
+                            </div>
+                            <div class="col-8 ckeditorArea">
+                                <ckeditor [formControl]="general" [editor]="Editor" (ready)="onReady($event)"
+                                [config]="{ placeholder:'Enter the general description in the release!',
+                                toolbar: [ 'heading','|','bold', 'italic','|','link','|','bulletedList','numberedList','|','outdent','indent','|','blockQuote','|','insertTable','mediaEmbed','|','undo','redo' ] }" 
+                                name="general" class="ckeditor-style" required>
+                                </ckeditor>
+                                <div class="mat-error" *ngIf="general.errors?.maxlength">
+                                    {{charLength}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </form>
+</div>
+<!-- [disabled]="version.invalid ||  notesTitle.invalid || description.invalid || companyLogo.invalid || dor.invalid  || companyLink.invalid ||
+this.attachmentCopy == null" -->
+<div class="text-center mb-2">
+
+    <div class="ml-3 labelstyle col-2"></div>
+    <div class="btns col-8 d-flex justify-content-center align-items-end">
+        <button class="btn btn-confirm" *ngIf="!isReleaseNotesActiveId" type="submit" (click)="openDialog()"
+            [disabled]="releaseType.invalid || title.invalid ||  productName.invalid || ReleaseVersion.invalid || dor.invalid || attachmentCopy == null">
+            Save
+        </button>
+        <button class="btn btn-confirm" *ngIf="isReleaseNotesActiveId" type="submit"
+            [disabled]="releaseType.invalid || title.invalid ||  productName.invalid || ReleaseVersion.invalid || dor.invalid || attachmentCopy == null"
+            (click)="openDialogData()">Update</button>
+        <button class="btn btn-cancel" [routerLink]="['/release-notes']"
+            routerLinkActive="router-link-active">Cancel</button>
+    </div>
+</div>
+
+
+<!-- <div class="row">
+    <div class="ml-3 labelstyle col-2"></div>
+    <div class="btns col-8 px-3">
+        
+        <button class="btn btn-confirm" *ngIf="!isReleaseNotesActiveId" 
+     type="submit"
+            (click)="openDialog()"> Save
+        </button>
+      
+    </div>
+</div> -->
+
+<!-- <div class="text-center mb-2">
+    <div class="ml-3 labelstyle col-2"></div>
+    <div class="btns col-8 d-flex justify-content-center align-items-end">
+        <button class="btn btn-confirm" *ngIf="!isReleaseNotesActiveId" [disabled]="version.invalid ||  notesTitle.invalid || description.invalid || companyLogo.invalid || dor.invalid  || companyLink.invalid 
+        this.attachmentCopy == null" type="submit" (click)="openDialog()"> Save
+        </button>
+        <button class="btn btn-confirm" *ngIf="isReleaseNotesActiveId" type="submit" [disabled]="version.invalid ||  notesTitle.invalid || description.invalid || companyLogo.invalid || dor.invalid  || companyLink.invalid 
+        this.attachmentCopy == null"
+            (click)="openDialogData()">Update</button>
+        <button class="btn btn-cancel" [routerLink]="['/release-notes']" routerLinkActive="router-link-active">Cancel</button>
+    </div>
+</div> -->
+
+
+<!-- <div id="wrap" class="input style">
+    <div class="pt-3 mb-3" style="background: #F4F4F5;">
+        <div class="container-fluid head alt-head d-flex justify-content-between">
+            <h3 style="margin: 0px !important;">Add Release Notes</h3>
+
+
+            <div class="float-right" style="margin-bottom: 4px;"><button mat-icon-button class="backbtn"
+                    style="margin-left: 20px;" matTooltip="Back to manage release notes"
+                    [routerLink]="['/release-notes']" routerLinkActive="router-link-active"><img
+                    style=" width: 32px;margin-bottom: 10px;" src="../../../../assets/images/back.png"></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="second mb-3">
+        <mat-accordion class="example-headers-align">
+            <mat-expansion-panel [expanded]="true" class="mb-2">
+                <mat-expansion-panel-header mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Release Notes
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="basicDetails">
+                    <section class="container-fluid">
+                        <div class="input-content-wrap  p-3">
+                            <form [formGroup]="releaseForm">
+                                <div class="row">
+                                    <div class="ml-3 labelstyle col-2">Version</div>
+                                    <mat-form-field appearance="standard" class="col-8">
+                                        <mat-label>Version</mat-label>
+                                        <input matInput placeholder="Enter The Version" name="version"
+                                            [formControl]="version" required ngModel>
+                                        <mat-error class="errorfix" *ngIf="version.hasError('required')">Field is
+                                            Required!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <div class="ml-3 labelstyle col-2">Date of release</div>
+                                    <mat-form-field appearance="standard" class="col-8">
+                                        <mat-label>Select release date</mat-label>
+                                        <input matInput [matDatepicker]="datepicker" [max]="maxDate" name="dor"
+                                            [formControl]="dor" required>
+                                        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                                        <mat-datepicker #datepicker>
+                                        </mat-datepicker>
+                                        <mat-error class="errorfix" *ngIf="dor.hasError('required')">Field is Required!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <div class="ml-3 labelstyle col-2">Release notes title</div>
+                                    <mat-form-field class="col-8" appearance="standard">
+                                        <mat-label>Release Title</mat-label>
+                                        <input matInput name="title" [formControl]="notesTitle"
+                                            placeholder="Enter the Release title, eg: TCUBE-v0.0.1" required>
+                                        <mat-error class="errorfix" *ngIf="notesTitle.hasError('required')">Field is
+                                            Required!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="row">
+                                    <div class="ml-3 labelstyle col-2">Description
+                                    </div>
+                                    <div class="col-8 ckeditorArea">
+                                        <ckeditor [formControl]="description" [editor]="Editor"
+                                            (ready)="onReady($event)" name="description" class="ckeditor-style"
+                                            required>
+                                        </ckeditor>
+                                        <div class=" text-danger" *ngIf="description.errors?.maxlength">
+                                            Character of length is exceeded!
+                                        </div>
+                                        <div style="color:#0e5eb8 ;font-size: small;"
+                                            *ngIf="description.errors?.required">
+                                            Maximum 5000 characters allowed !
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="ml-3 labelstyle col-2">Company Logo</div>
+                                    <div class="file col-7">
+                                        <div class="d-flex align-items-center justify-content-between ">
+                                            <div class=" pl-0 my-4 d-flex align-items-center">
+                                                <input type="file" capture accept="image/png,image/jpeg,image/jpg"
+                                                    (change)="onFileChanged($event)" [formControl]="companyLogo"
+                                                    name="companyLogo" hidden #FileSelect>
+
+                                                <button type="button" mat-raised-button class="chooseBtn mr-2"
+                                                    (click)="FileSelect.click()">
+                                                    <mat-icon class="align-middle">image</mat-icon> Choose from file
+                                                </button>
+
+                                            </div>
+                                            <div class="col-9" style="text-align:right;">
+                                                <div *ngIf="this.attachmentCopy != null">
+                                                    <img [src]="url"
+                                                        style="height: 65px; width: 80px; margin-right: 30px;border:1px solid black;"
+                                                        class="ml-md-3">
+                                                </div>
+                                                <div class="text-dark" *ngIf="this.attachmentCopy == null"
+                                                    style="font-size: small;">
+                                                    file preview</div>
+                                                <div *ngIf="this.attachmentName != null"><span class="align-middle">
+                                                        {{this.attachmentName}}
+                                                    </span>
+                                                    <button (click)="cancel()" mat-icon-button matTooltip="Remove">
+                                                        <mat-icon>cancel</mat-icon>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div [innerHtml]="msg" *ngIf="msg" style="color: #ff0000;"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="ml-3 labelstyle col-2"></div>
+                                    <div class="col-8">
+                                        <small style="color: #0e5eb8;">Better look of file size ex:150*100</small>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="ml-3 labelstyle col-2">Company Link</div>
+                                    <mat-form-field appearance="standard" class="col-8">
+                                        <mat-label>Company Link</mat-label>
+                                        <input matInput placeholder="Enter The Company Link" name="companyLink"
+                                            [formControl]="companyLink" required ngModel>
+                                        <mat-error class="errorfix" *ngIf="companyLink.hasError('required')">Field is
+                                            Required!
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                            </form>
+
+                            <div class="row">
+                                <div class="ml-3 labelstyle col-2"></div>
+                                <div class="btns col-8 px-3">
+                                    
+                                    <button class="btn btn-confirm" *ngIf="!isReleaseNotesActiveId" 
+                                 type="submit"
+                                        (click)="openDialog()"> Save
+                                    </button>
+                                  
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div> -->

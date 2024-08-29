@@ -1,0 +1,144 @@
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">Manage Pricing Plan</h3>
+        </div>
+        <div class="col-md-6">
+            <div class="pfr">
+                <button mat-raised-button class="add_create_btn_mi" (click)="addplan()">
+                    <mat-icon mat-icon-button>add</mat-icon>Add Plan
+                </button>
+            </div>
+
+        </div>
+        <div class="col-md-12 pt-2">
+            <div>
+                <!-- ********* search filter ************ -->
+                <div class="col-4 filter-form-sec pr-0">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Filter</mat-label>
+                        <input matInput (keyup)="applyProjectFilter($event)" placeholder="Search Pricing Plans ..."
+                            #input>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="manage_pricing_plan">
+    <div class="table-section">
+        <div class="container-fluid">
+            <div class="row secondrow">
+                <div class="icondelete mt-2">
+                    <!-- <mat-icon matTooltip="Delete Selected plans" matTooltipPosition="right" class="mat-icon"
+                    *ngIf="listplan.length >=2" (click)="bulkDeleteByCheckedIds()">delete</mat-icon> -->
+                    <button matTooltip="Delete Selected plans" matTooltipPosition="right" class="mat-icon"
+                        *ngIf="listplan.length >=2" (click)="bulkDeleteByCheckedIds()">
+                        <mat-icon class="pr-menu-icon">delete</mat-icon></button>
+                </div>
+
+            </div>
+            <div class="orgTable">
+                <div class="example-container mat-elevation-z8">
+                    <div class="tablescroll">
+                        <mat-table [dataSource]="planDataSource" matSort>
+                            <ng-container matColumnDef="selector">
+                                <mat-header-cell *matHeaderCellDef
+                                    style="flex: none !important; padding-right: 40px !important;">
+                                    <mat-checkbox (change)="$event ? masterToggle() : null;bulk_delete()"
+                                        [checked]="selection.hasValue() && isAllSelected()"
+                                        [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                    </mat-checkbox>
+                                </mat-header-cell>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox (click)="$event.stopPropagation()"
+                                        (change)="$event ? selection.toggle(row) : null;bulk_delete()"
+                                        [checked]="selection.isSelected(row)">
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="plan">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Plan Name
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element" class="td_text_lowercased"> <a
+                                        class="link_td td_text_firstltr_capitalized"
+                                        matTooltip="View Pricing plan details"
+                                        (click)="viewPlanDetails(element)">{{element.plan}}</a></mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="amount">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Plan Amount
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> <span
+                                        class="currency pr-1">{{element.currency}}</span>
+                                    <span class="amount">{{element.amount}}</span> </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="users">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Users
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> 
+                                    <span class="currency pr-1">{{element.userslimit}}</span>
+                                </mat-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="days">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header> Days
+                                </mat-header-cell>
+                                <mat-cell *matCellDef="let element"> 
+                                    <span class="currency pr-1">{{element.days}}</span>
+                                </mat-cell>
+                            </ng-container>                            
+
+                            <ng-container matColumnDef="modules">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Modules</mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <span class="py-2 pr-3">
+                                        <mat-chip-list>
+                                            <mat-chip *ngFor="let data of element.modules" class="td_text_lowercased">
+                                                <p class="td_text_firstltr_capitalized mb-0">{{data}}</p>
+                                            </mat-chip>
+                                        </mat-chip-list>
+                                    </span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="actions">
+                                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                                <mat-cell *matCellDef="let element">
+                                    <!-- <button mat-raised-button color="primary" class="action-button mr-2"
+                            (click)="editplan(element.id)">
+                            Edit
+                        </button> -->
+                                    <div class="action-btn">
+                                        <button mat-raised-button class="mr-2 delete-btn" (click)="delete(element.id)">
+                                            Delete
+                                        </button>
+                                    </div>
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns sticky:true"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;" matRipple class="element-row">
+                            </mat-row>
+                        </mat-table>
+                    </div>
+
+                    <div *ngIf="allplandetails.length == 0 && noDataMsgPlan == true" class="text-center text-danger alert-danger no-search-match p-3">
+                        {{noDataMsg}}
+                    </div>
+                    <!-- <div *ngIf="allplandetails == 0 && noDataMsgPlan == true" class="text-center text-danger alert-danger no-search-match p-3">
+                        {{noDataMsg}}
+                    </div> -->
+                    <div *ngIf="Filter" class="text-center text-danger alert-danger no-search-match p-3">
+                        No Data Matching For "{{this.filterData}}"
+                    </div>
+                    <mat-paginator class="paginator" #MatPaginator [pageSize]="pageSize" (page)="changePage($event)"
+                        [pageSizeOptions]="tablePaginationOption">
+                    </mat-paginator>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

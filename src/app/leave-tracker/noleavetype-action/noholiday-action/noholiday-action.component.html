@@ -1,0 +1,90 @@
+<h3 class="" *ngIf="!isManageGovHoliday && !isresetHoliday">No Holidays Available!<span class="pull-right cncl-btn">
+    <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+      type="button">close</mat-icon>
+  </span>
+</h3>
+<h3 class="" *ngIf="isManageGovHoliday || isresetHoliday">Add Default Govt Holidays !<span class="pull-right cncl-btn">
+    <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+      type="button">close</mat-icon>
+  </span>
+</h3>
+<div *ngIf="!isManageGovHoliday && !isresetHoliday">
+  <div class="px-4" *ngIf="isCurrentYear">Select country to get a default govt holidays click <strong>"Default Gov Holiday"</strong> button
+  </div>
+  <div class="px-4" *ngIf="isCurrentYear">Or</div>
+  <div class="px-4">Customize the govt holiday click<strong>"Add Custom Holiday"</strong> button</div>
+  <div class="btns p-3">
+    <button mat-flat-button class="manage-btn mr-2" (click)="manageCustomHoliday()">Add Custom Holiday</button>
+    <button mat-flat-button class="default-btn mr-2" (click)="addDefaultGovtHoliday()" *ngIf="isCurrentYear">Default Gov Holidays</button>
+    <span class=""><button mat-flat-button class="skip-btn" (click)="skipHolidays()">Skip</button></span><br>
+    <mat-hint class="ml-2 mat-hint" *ngIf="isCurrentYear">The holidays taken currentyear only!</mat-hint>
+    <mat-hint class="ml-2 mat-hint" *ngIf="!isCurrentYear">The holidays taken given year only!</mat-hint>
+  </div>
+</div>
+<div *ngIf="isManageGovHoliday && !isresetHoliday" style="margin-left:50px;">
+  <form [formGroup]="defaultHolidayFormGroup" class="defaultHolidayAction">
+    <div class="row text-center m-0">
+      <div class="ml-4 countrystyle col-2">Country</div>
+      <div class="col-6">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-select formControlName="country_name" placeholder="Select country"
+            (selectionChange)="countrySelectEvent($event.value.code)">
+            <mat-option>
+              <ngx-mat-select-search [formControl]="countryFilterCtrl" placeholderLabel="Search Country..."
+                noEntriesFoundLabel="'no match found'">
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let data of filteredCountry | async" [value]="data">
+              {{data.country}}
+            </mat-option>
+          </mat-select>
+          <mat-error class="errorfix">Field required!</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row text-center btns m-0">
+      <div class="ml-4 countrystyle col-2"></div>
+      <div class="btns leavedefault-add col-6 p-0">
+        <button class="btn btn-confirm" color="primary" (click)="addDefaultHoliday()"
+          [disabled]="defaultHolidayFormGroup.invalid">Add</button>
+        <button class="btn btn-cancel" mat-dialog-close>Cancel</button>
+      </div>
+    </div>
+  </form>
+
+</div>
+<div *ngIf="isresetHoliday" style="margin-left:50px;">
+  <form [formGroup]="defaultHolidayFormGroup" class="mt-4">
+    <div class="row text-center m-0">
+      <div class="ml-4 countrystyle col-2">Country</div>
+      <div class="col-6">
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-select formControlName="country_name" placeholder="Select country"
+            (selectionChange)="countrySelectEvent($event.value.code)">
+            <mat-option>
+              <ngx-mat-select-search [formControl]="countryFilterCtrl" placeholderLabel="Search Country..."
+                noEntriesFoundLabel="'no match found'">
+              </ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let data of filteredCountry | async" [value]="data">
+              {{data.country}}
+            </mat-option>
+          </mat-select>
+          <mat-error class="errorfix">Field required!</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row text-center btns m-0">
+      <div class="ml-4 countrystyle col-2"></div>
+      <div class="btns leavedefault-add col-6 p-0">
+        <button class="btn btn-confirm reset-confirm"  (click)="addResetHoliday()"
+          [disabled]="defaultHolidayFormGroup.invalid" color="primary">Confirm</button>
+        <button class="btn btn-cancel reset-cancel" mat-dialog-close>Cancel</button>
+      </div>
+    </div>
+  </form>
+
+</div>
+<!-- <mat-dialog-actions align="start" class="ml-4" *ngIf="!isManageGovHoliday && !isresetHoliday">
+  <button mat-button mat-dialog-close class="skip-btn">Skip</button>
+</mat-dialog-actions> -->

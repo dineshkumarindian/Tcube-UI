@@ -1,0 +1,483 @@
+<section class="manage-user-styles">
+    <div class="col-md-12 mb-3">
+        <h3 class="set-heading" *ngIf="!inactiveUser">Active User
+            <span class="pull-right rs_btns">
+                <div class="setting_add_btns">
+                    <span *ngIf="TrailAccount ; else others"
+                        matTooltip="Your Organization Account User limit reached , Please upgrade your plan to onboard more users "
+                        [matTooltipDisabled]="TrailData[1]>employeeDetails.length + inActiveEmpCnt">
+                        <button class="mx-2" mat-stroked-button [routerLink]="['/add-user']" *ngIf="!inactiveUser"
+                            [disabled]="TrailData[1]<=employeeDetails.length + inActiveEmpCnt">
+                            <mat-icon mat-icon-button>add</mat-icon><span class="btn_txt">
+                                Add User</span>
+                        </button>
+                    </span>
+                    <ng-template #others>
+                        <button class="mx-2" mat-stroked-button [routerLink]="['/add-user']" *ngIf="!inactiveUser">
+                            <mat-icon mat-icon-button>add</mat-icon><span class="btn_txt">
+                                Add User</span>
+                        </button>
+                    </ng-template>
+
+                    <span *ngIf="TrailAccount ; else others1"
+                        matTooltip="Your Organization Account User limit reached , Please upgrade your plan to onboard more users "
+                        [matTooltipDisabled]="TrailData[1]>employeeDetails.length + inActiveEmpCnt">
+                        <button mat-button class="exprt-btn" matTooltip="Import Bulk User" matTooltipPosition="below"
+                            *ngIf="!inactiveUser" (click)="importBulkUserOnboard()"
+                            [disabled]="TrailData[1]<=employeeDetails.length + inActiveEmpCnt">
+                            <span><img src="../../assets/images/import123.png"></span>
+                            Bulk User Onboard
+                        </button>
+                    </span>
+                    <ng-template #others1>
+                        <button mat-button class="exprt-btn" matTooltip="Import Bulk User" matTooltipPosition="below"
+                            *ngIf="!inactiveUser" (click)="importBulkUserOnboard()">
+                            <span><img src="../../assets/images/import123.png"></span>
+                            Bulk User Onboard
+                        </button>
+                    </ng-template>
+
+                    <button class="mx-2" mat-stroked-button [routerLink]="['/manage-user-settings']">
+                        <span class="btn_txt">
+                            Manage Settings</span>
+                    </button>
+                    <button *ngIf="!inactiveUser" class="inactivebtn" matTooltip="Move to inactive users"
+                        (click)="inActiveUserRedirect()">
+                        <div>
+                            <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+                        </div>
+                    </button>
+                </div>
+            </span>
+        </h3>
+        <h3 class="set-heading" *ngIf="inactiveUser">Inactive User
+            <span class="pull-right rs_btns">
+                <div class="setting_add_btns">
+                    <button *ngIf="inactiveUser" class="redirectactivebtn1" matTooltip="Move to active users"
+                        (click)="toggleActiveUser()">
+                        <span>
+                            <mat-icon mat-icon-button>arrow_right_alt</mat-icon>
+                        </span>
+                    </button>
+                </div>
+            </span>
+        </h3>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="mat-elevation-z8 empTable" *ngIf="!userdetails">
+                <div class="cardRole">
+                    <div class="row"></div>
+                    <div class="d-flex flex-wrap rowStyle">
+                        <div class="col-3">
+                            <div class=" card p-2 cardRoleStyle" style="border-left: 4px solid #004399;">
+                                <div class="cardContent" *ngIf="!inactiveUser">
+                                    <h6>Total Active Users</h6>
+                                    <p *ngIf="employeeDetails.length == 0">No Users</p>
+                                    <p *ngIf="employeeDetails.length == 1">
+                                        <span>{{employeeDetails.length}}</span> User
+                                    </p>
+                                    <p *ngIf="employeeDetails.length > 1">
+                                        <span>{{employeeDetails.length}}</span> Users
+                                    </p>
+                                </div>
+                                <div class="cardContent" *ngIf="inactiveUser">
+                                    <h6>Total Inactive Users</h6>
+                                    <p *ngIf="inactiveEmployeeDetails.length == 0">No Users
+                                    </p>
+                                    <p *ngIf="inactiveEmployeeDetails.length == 1">
+                                        <span>{{inactiveEmployeeDetails.length}}</span> User
+                                    </p>
+                                    <p *ngIf="inactiveEmployeeDetails.length > 1">
+                                        <span>{{inactiveEmployeeDetails.length}}</span>
+                                        Users
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-3" *ngFor="let branch of branchDetailsWithColor; let i=index">
+                            <div class=" card p-2 cardRoleStyle" [style.border-left-color]=" getColor(i)"
+                                style="border-left: 4px solid;" *ngIf="3>i"><span style="overflow: hidden;"
+                                    matTooltip='{{branch.branch}}' matTooltipPosition="below">
+                                    <div class="cardContent" *ngIf="!inactiveUser">
+                                        <h6> {{branch.branch}}</h6>
+                                        <p *ngIf="branch.active_total_counts > 1"><span
+                                                class="countStyle">{{branch.active_total_counts}}</span>
+                                            Users</p>
+                                        <p *ngIf="branch.active_total_counts == 1"><span
+                                                class="countStyle">{{branch.active_total_counts}}</span>
+                                            User</p>
+                                        <p *ngIf="branch.active_total_counts == 0">No Users
+                                        </p>
+                                        <p *ngIf="branch.active_total_counts == null">No Users
+                                        </p>
+                                    </div>
+                                    <div class="cardContent" *ngIf="inactiveUser">
+                                        <h6> {{branch.branch}}</h6>
+                                        <p *ngIf="branch.inactive_total_counts > 1 "><span
+                                                class="countStyle">{{branch.inactive_total_counts}}</span>
+                                            Users</p>
+                                        <p *ngIf="branch.inactive_total_counts == 1"><span
+                                                class="countStyle">{{branch.inactive_total_counts}}</span>
+                                            User</p>
+                                        <p *ngIf="branch.inactive_total_counts == null ">No
+                                            Users
+                                        </p>
+                                        <p *ngIf="branch.inactive_total_counts == 0 ">No Users
+                                        </p>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p *ngIf="3 < branchDetailsWithColor.length"><span class="view_more_user"
+                            (click)="viewUsers(branchDetailsWithColor)">View
+                            more...</span></p>
+                </div>
+                <!-- <div class="container-fluid">   
+        <div class="mat-elevation-z8 empTable" *ngIf="!userdetails">
+        <div class="cardRole">
+            <div class="row"></div>
+            <div class="d-flex flex-wrap rowStyle">
+                <div class="col-3 mt-3">
+                    <div class="card p-2  cardRoleStyle" style="border-left: 4px solid #004399;">
+                        <div class="cardContent" *ngIf="!inactiveUser">
+                            <h6>Total Active Users</h6>
+                            <p *ngIf="employeeDetails.length == 0">No Users</p>
+                            <p *ngIf="employeeDetails.length == 1">
+                                <span>{{employeeDetails.length}}</span> User
+                            </p>
+                            <p *ngIf="employeeDetails.length > 1">
+                                <span>{{employeeDetails.length}}</span> Users
+                            </p>
+                        </div>
+                        <div class="cardContent" *ngIf="inactiveUser">
+                            <h6>Total Inactive Users</h6>
+                            <p *ngIf="inactiveEmployeeDetails.length == 0">No Users
+                            </p>
+                            <p *ngIf="inactiveEmployeeDetails.length == 1">
+                                <span>{{inactiveEmployeeDetails.length}}</span> User
+                            </p>
+                            <p *ngIf="inactiveEmployeeDetails.length > 1">
+                                <span>{{inactiveEmployeeDetails.length}}</span>
+                                Users
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-3 mt-3" *ngFor="let role of roleDetailsWithColor; let i=index">
+                <div class=" card p-2 cardRoleStyle" [style.border-left-color]=" getColor(i)" *ngIf="3>i"
+                    style="border-left: 4px solid;"><span style="overflow: hidden;" matTooltip='{{role.role}}'
+                        matTooltipPosition="below">
+
+                        <div class="cardContent" *ngIf="!inactiveUser">
+                            <h6> {{role.role}}</h6>
+                            <p *ngIf="role.active_total_counts > 1">
+                                <span>{{role.active_total_counts}}</span>
+                                Users
+                            </p>
+                            <p *ngIf="role.active_total_counts == 1"><span>{{role.active_total_counts}}</span>
+                                User</p>
+                            <p *ngIf="role.active_total_counts == 0">No Users
+                            </p>
+                            <p *ngIf="role.active_total_counts == null">No Users
+                            </p>
+                        </div>
+                        <div class="cardContent" *ngIf="inactiveUser">
+                            <h6> {{role.role}}</h6>
+                            <p *ngIf="role.inactive_total_counts > 1 "><span>{{role.inactive_total_counts}}</span>
+                                Users</p>
+                            <p *ngIf="role.inactive_total_counts == 1"><span>{{role.inactive_total_counts}}</span>
+                                User</p>
+                            <p *ngIf="role.inactive_total_counts == null ">No
+                                Users
+                            </p>
+                            <p *ngIf="role.inactive_total_counts == 0 ">No Users
+                            </p>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <p *ngIf="3 < roleDetailsWithColor.length"><span class="view_more_user"
+                    (click)="viewUsers(roleDetailsWithColor)">view
+                    more...</span></p>
+        </div> -->
+                <div class="row">
+                    <div class="col-6 d-flex align-items-center">
+                        <span class="deactive-button ml-2" *ngIf="!inactiveUser">
+                            <button mat-icon-button *ngIf="listUser.length >=2 || select_all" class="deactivate"
+                                (click)="bulkDeactiveUserDetails()">
+                                <mat-icon matTooltip="Deactivate Selected User" class="pr-menu-icon">gpp_bad
+                                </mat-icon>
+                            </button>
+                        </span>
+                        <div class="active-button" *ngIf="inactiveUser">
+                            <button mat-icon-button *ngIf="listUser.length >=2 || select_all" class="deactivate ml-2"
+                                (click)="bulkActiveUserDetails()">
+                                <mat-icon matTooltip="Activate Selected User" class="pr-menu-icon">gpp_good
+                                </mat-icon>
+                            </button>
+                        </div>
+                        <div class="delete-button ml-2" *ngIf="inactiveUser">
+                            <button mat-icon-button *ngIf="listUser.length >=2" (click)="UserBulkDelete()"
+                                matTooltipPosition="right">
+                                <mat-icon matTooltip="Delete selected Users" class="pr-menu-icon"> delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <mat-form-field style="width: 100%;" appearance="outline" class="col-5 mt-4">
+                            <!-- <mat-form-field appearance="outline" class="col-8"> -->
+                            <mat-select [formControl]="branchCtrl" placeholder="Branch" #singleSelect
+                                (selectionChange)="selectedBranchEvent($event)">
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="branchFilterCtrl" placeholderLabel="Search by branch"
+                                        noEntriesFoundLabel="'no match found'" (ngModelChange)="Branchnameset()">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let data of filteredbranch | async" [value]="data.id">
+                                    <span class="branch_row">
+                                        <span>{{data.branch}} </span>
+                                    </span>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div class="row pull-right">
+                            <div>
+                                <mat-form-field appearance="standard">
+                                    <mat-label>Filter</mat-label>
+                                    <input matInput (keyup)="applyFilterEmp($event)" id="searchText"
+                                        placeholder="Search User ..." #input>
+                                </mat-form-field>
+                            </div>
+                            <div class="d-flex align-items-center p-0 ml-2 mt-3 mr-5">
+                                <span class="mat-filter-refresh-btn">
+                                    <button mat-icon-button matTooltip="Refresh" (click)="resetUserTable()"
+                                        class="example-icon action-btn">
+                                        <mat-icon class="pr-menu-icon ">refresh
+                                        </mat-icon>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table mat-table [dataSource]="empDataSource" matSort class="table_tc">
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef
+                            style="flex: none !important; padding-right: 12px !important;">
+                            <mat-checkbox (change)="$event ? master_Toggle() : null; bulk_delete_User();"
+                                [checked]="selection_1.hasValue() && isAll_Selected()"
+                                [indeterminate]="selection_1.hasValue() && !isAll_Selected()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="row.role != 'OrgAdmin'">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection_1.toggle(row) : null; bulk_delete_User();"
+                                    [checked]="selection_1.isSelected(row)">
+                                </mat-checkbox>
+                            </span>
+                            <!-- <span *ngIf="row.roleDetails.role == 'OrgAdmin'" matTooltip='You cannot deactivate the account contact "sales@tcube.io" '
+                    matTooltipPosition="below">
+                        <img class="comment_icon" src="../assets/images/icons8-comment-67.png"/>
+                    </span> -->
+                        </td>
+                    </ng-container>
+                    <!-- </span> -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-right: 40px !important;">
+                            Id
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="empIdStyle" (click)="viewUserdetails( 'user' , element)"
+                                matTooltip="View Details" matTooltipPosition="above">{{element.id}}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="firstname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="padding-right: 31px;"> Name
+                        </th>
+                        <td mat-cell *matCellDef="let element"> {{element.firstname}}
+                            {{element.lastname}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="branch">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Branch</th>
+                        <td mat-cell *matCellDef="let element">
+                            <!-- <span *ngIf="element.is_branch_deleted == false ">
+                                {{element.branch? element.branch : '-'}}
+                            </span> -->
+                            <mat-chip class="mat_chip_style_primary_role" *ngIf="element.is_branch_deleted == false && element.branch">
+                                {{element.branch}}
+                            </mat-chip>
+                            <button mat-raised-button class="mat_chip_update_designation"
+                                *ngIf="element.is_branch_deleted == false && !element.branch" (click)="redirectToUpdatePage(element.id)"
+                                matTooltip="Click here to update the branch...">
+                                Update Branch
+                            </button>
+                            <button mat-raised-button class="mat_chip_update_designation"
+                                *ngIf="element.is_branch_deleted == true && element.branch" (click)="redirectToUpdatePage(element.id)"
+                                matTooltip="This branch has been removed, click here to update the branch...">
+                                Update Branch
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="designation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span *ngIf="element.is_designation_deleted == false ">
+                                {{element.designation}}
+                            </span>
+                            <mat-chip class="mat_chip_update_designation" *ngIf="element.is_designation_deleted == true "
+                            (click)="redirectToUpdatePage(element.id)"  matTooltip="This designation has been removed, click here to update the designation...">
+                            Update Designation
+                            </mat-chip>
+                            <!-- <button mat-raised-button class="mat_chip_update_designation"
+                                *ngIf="element.is_designation_deleted == true "
+                                (click)="redirectToUpdatePage(element.id)"
+                                matTooltip="This designation has been removed, click here to update the designation...">
+                                Update Designation
+                            </button> -->
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="reporting_manager">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Reporting Manager
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <span class="reporter_name d-flex align-items-center" *ngIf="element.reporting_manager">
+                                {{element.reporting_manager}}
+                                <span class="action reporting-manager-edit" *ngIf="element.is_activated">
+                                    <span class="edit-button">
+                                        <button mat-icon-button class="example-icon action-btn"
+                                            (click)="UEReportingMAnager('Edit',element.id,element.reporting_manager_id)">
+                                            <mat-icon class="pr-menu-icon" matTooltip="Edit Reporting Manager">edit
+                                            </mat-icon>
+                                        </button>
+                                    </span>
+                                </span>
+                                <!-- <span class="reporting-manager-edit" *ngIf="element.is_activated">
+                            <mat-icon matTooltip="Edit Reporting Manager"(click)="UEReportingMAnager('Edit',element.id,element.reporting_manager_id)">edit</mat-icon>
+                        </span> -->
+                            </span>
+                            <span class="action reporting-manager-edit"
+                                *ngIf="!element.reporting_manager && element.is_activated">
+                                <span class="edit-button">
+                                    <button mat-icon-button class="example-icon action-btn"
+                                        (click)="UEReportingMAnager('Update',element.id,'')">
+                                        <mat-icon class="pr-menu-icon" matTooltip="Update Reporting Manager">add
+                                        </mat-icon>
+                                    </button>
+                                </span>
+                            </span>
+                            <!-- <span *ngIf="!element.reporting_manager && element.is_activated">
+                            <span class="reporting-manager-edit"><mat-icon matTooltip="Update Reporting Manager"
+                                    (click)="UEReportingMAnager('Update',element.id,'')">add</mat-icon></span>
+                        </span> -->
+                            <!-- <button mat-raised-button class="mat_chip_update_reportingmanager"
+                        *ngIf="element.isReportingManagerAvail == false"
+                        matTooltip="This reporting manager has been removed, use edit button to update the reporting manager...">
+                        Update Reporting Manager
+                    </button> -->
+                            <!-- <span class="reporter_name"  *ngIf="element.is_reporting_manager_activated == false">
+                        {{element.orgAdminName}}
+                    </span> -->
+                            <!-- <span *ngIf="!element.reporting_manager" class="orgadmin_reportingManager">
+                        -
+                    </span> -->
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="role">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Role </th>
+                        <td mat-cell *matCellDef="let element">
+                            <!-- <button mat-raised-button class="mat_chip_style_primary_role"
+                                *ngIf="element.is_role_deleted == false " (click)="redirectToRole()">
+                            <span>{{element.role}}</span>
+                            </button> -->
+                            <mat-chip class="mat_chip_style_primary_role" *ngIf="element.is_role_deleted == false " (click)="redirectToRole()">
+                        {{element.role}}
+                    </mat-chip>
+                    <mat-chip class="mat_chip_update_role"  *ngIf="element.is_role_deleted == true" (click)="redirectToUpdatePage(element.id)"  matTooltip="This role has been removed, click here to update the role...">
+                        Update Role
+                    </mat-chip> 
+                            <!-- <button mat-raised-button class="mat_chip_update_role"
+                                *ngIf="element.is_role_deleted == true" (click)="redirectToUpdatePage(element.id)"
+                                matTooltip="This role has been removed, click here to update the role...">
+                                Update Role
+                            </button> -->
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actions" class="user_action">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let element">
+                            <button mat-raised-button class="mr-2 edit-btn" color="primary" *ngIf="!inactiveUser"
+                                (click)="editEmployee(element.id)">
+                                Edit
+                            </button>
+                            <!-- <button mat-raised-button class="mr-2 edit-btn" color="primary"
+                        *ngIf="element.roleDetails.role == 'OrgAdmin' && !inactiveUser" 
+                        (click)="editEmployee(element.id)" matTooltipPosition="below">
+                            Edit
+                        </button> -->
+                            <!-- <span *ngIf="element.role == 'OrgAdmin' && !inactiveUser"
+                            matTooltip='You cannot deactivate the account contact "sales@tcube.io" '
+                            matTooltipPosition="below">
+                            <button mat-raised-button class="editOrgbtn" [disabled]="true"> Edit </button>
+                        </span> -->
+                            <span *ngIf="element.role == 'OrgAdmin' && !inactiveUser "
+                                matTooltip='You cannot deactivate the account contact "sales@tcube.io" '
+                                matTooltipPosition="below">
+                                <button mat-raised-button class="deactivateOrgbtn" [disabled]="true">
+                                    Deactivate
+                                </button>
+                            </span>
+                            <button mat-raised-button class="deactivate-btn" color="warn"
+                                *ngIf="element.role != 'OrgAdmin' && !inactiveUser "
+                                (click)="deactivateEmployee(element.id)">
+                                Deactivate
+                            </button>                            
+                            <button class=" resend_btn"
+                            *ngIf="element.emp_mail_issue == true" (click)="resendMail(element.id)">
+                            Resend
+                        </button>
+                            <button mat-raised-button class="activate-btn"
+                                *ngIf="element.role != 'OrgAdmin' && inactiveUser"
+                                (click)="activateEmployee(element.id)">
+                                Activate
+                            </button>
+                            <button mat-raised-button class="delete-btn" color="warn"
+                                *ngIf="element.role != 'OrgAdmin' && inactiveUser "
+                                (click)="deleteEmployeeDialog(element.id)">
+                                Delete
+                            </button>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsEmp"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsEmp;">
+                    </tr>
+                </table>
+                <div *ngIf="nodata || selectedBranchLength.length ==0 && branchAvail" class="text-center text-danger alert-danger no-search-match p-3">
+                    {{noDataFoundMessage}}
+                </div> 
+                <!-- <div *ngIf="selectedBranchLength.length ==0 && branchAvail" class="text-center text-danger alert-danger no-search-match p-3">
+                    {{noDataFoundMessage}}
+                </div>  -->
+                <div *ngIf="empFilter && this.filterData != ''"
+                    class="text-center text-danger alert-danger no-search-match p-3">
+                    No Data Matching For "{{this.filterData}}"
+                </div>
+                <mat-paginator class="paginator" #paginator [pageSize]="pageSize" [length]="paginationTotalLength"
+                    (page)="changePage($event)" [pageSizeOptions]="tablePaginationOption">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</section>

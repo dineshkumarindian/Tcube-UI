@@ -1,0 +1,48 @@
+<div class="delete">
+    <div class="dialog-header">
+        <h3 class="page-title">Edit Task - {{todayDate}}</h3>
+        <span class="pull-right cls-btn">
+            <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+                type="button">close</mat-icon>
+        </span>
+    </div>
+    <div mat-dialog-content>
+        <form [formGroup]="dayTaskFormGroup">
+            <div class="row mt-3 mb-2 justify-content-center">
+                <div class="col-12 col-md-12 mb-3">
+                    <mat-form-field appearance="outline">
+                        <mat-select formControlName="project" required placeholder="Project *">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="projectFilterCtrl" placeholderLabel="Search ..."
+                                    noEntriesFoundLabel="'no match found'">
+                                </ngx-mat-select-search>
+                            </mat-option>
+                            <mat-option *ngIf="noProjects" [disabled]="true">No data available!
+                            </mat-option>
+                            <mat-option *ngFor="let data of filteredproject | async" [value]="data.id">
+                                {{data.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error class="mat-error">Field required!
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-md-12">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Task</mat-label>
+                        <textarea rows="2" matInput formControlName="task" required></textarea>
+                        <mat-error>Field required!</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row ml-2 mb-2">
+                <div class="btns col-12 col-md-12 px-2 mb-2 d-flex justify-content-end">
+                    <button class="btn btn-cancel" mat-dialog-close>Cancel</button>
+                    <button class="btn btn-confirm" type="submit" [disabled]="dayTaskFormGroup.invalid"
+                        (click)="editDayTask()">Update</button>
+                   
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

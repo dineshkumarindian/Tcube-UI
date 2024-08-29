@@ -1,0 +1,123 @@
+<section class="h-100">
+  <div class="container payment-container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-12">
+        <div class="cards">
+          <div class="row g-0 h-100">
+            <div class="col-md-11">
+              <div class="content1 mt-5">
+                <span class="d-flex justify-content-between align-items-center">
+                  <h1>{{ payment_action }} Plan</h1>
+                  <button class="moveto_active inactive_btn_position h-50 p-0 btn" matTooltipPosition="left"
+                    matTooltip="Back to login" [routerLink]="['/login']">
+                    <img class="ph_back_arrow_img " src="../../assets/images/back.png" /></button>
+                </span>
+                <br />
+                <div class="content2">
+                  <span>This pricing is calculated based on your plan and
+                    organization size.</span>
+                </div>
+                <div class="p-5"></div>
+                <div class="content3 mt-5">
+                  <h3>
+                    <sup> {{ pricingPlandetails.currency }} </sup>{{ pricingPlandetails.amount
+                    }}<sub> / {{ pricingPlandetails.category }}</sub>
+                  </h3>
+                  <span class="ms-2"> </span>
+                </div>
+                <div class="image">
+                  <img src="../../assets/images/App_logo.png" class="logo" />
+                  <div class="pay">
+                    <h3 class="mb-3">Choose Payment Gateway</h3>
+                    <div class="option">
+                      <input type="radio" name="card" id="royal_silver" [(ngModel)]="payment" value="stripe" required />
+                      <label for="royal_silver" aria-label="royal_silver" class="royal-silver-style">
+                        <span></span>
+                        Stripe
+                        <div class="card card--sm">
+                          <img src="../../assets/images/logo_stripe.png" alt="stripe" class="h-100 img-fluid" />
+                        </div>
+                      </label>
+                    </div>
+                    <form #paymentForm="ngForm" class="d-flex flex-column align-items-center">
+
+                      <div class="option">
+                        <input type="radio" name="card" id="silver" [(ngModel)]="payment" value="razorpay" disabled />
+                        <label for="silver" aria-label="Silver" class="silver-style" matTooltipPosition="right"
+                          matTooltip="Coming soon">
+                          <span></span>
+                          Razorpay
+                          <div class="card card--sm">
+                            <img src="../../assets/images/logo_razorpay.jpg" alt="Razorpay" class="h-100 img-fluid" />
+                          </div>
+                        </label>
+                      </div>
+                      <div class="option">
+                        <input type="radio" name="card" id="royal" [(ngModel)]="payment" value="cashfree" disabled />
+                        <label for="royal" aria-label="Royal blue" class="royal-style" matTooltipPosition="right"
+                          matTooltip="Coming soon">
+                          <span></span>
+                          Cashfree
+                          <div class="card card--sm">
+                            <img src="../../assets/images/logo_cashfree.png" class="h-100 img-fluid" alt="cashfree" />
+                          </div>
+                        </label>
+                      </div>
+                      <mat-error *ngIf="payment == 'cashfree'" class="trial-style mb-2">
+                        The Cashfree implementation is currently under
+                        construction.</mat-error>
+
+                      <!-- makePayment() redirectToCheckout() -->
+                      <button class="submitBtn" [disabled]="payment == ''" (click)="clickPaymentValue()">
+                        Pay Now
+                        <svg fill="white" viewBox="0 0 448 512" height="1em" class="arrow">
+                          <path
+                            d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z">
+                          </path>
+                        </svg>
+                      </button>
+                      <!-- [class.disabled]="
+                      !paymentForm.valid || payment !== 'razorpay'
+                    "
+                    [disabled]="
+                      !paymentForm.valid || payment !== 'razorpay' 
+                    " -->
+                    </form>
+                    <!-- <div class="bottom-msg mt-2">
+                      <span>(Do not take any action until the payment is finished)</span>
+                    </div> -->
+                  </div>
+                </div>
+                <span class="rounded-1"></span> <span class="rounded-2"></span>
+                <span class="warranty">{{ orgdetails.company_name }} <br /><span class="icon">
+                    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0h24v24H0z" fill="none"></path>
+                      <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z">
+                      </path>
+                    </svg>
+                  </span>
+                  Email : {{ orgdetails.email }} <br /><span class="icon">
+                    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0h24v24H0z" fill="none"></path>
+                      <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z">
+                      </path>
+                    </svg>
+                  </span>
+                  Plan : {{ pricingPlandetails.plan }} <br /><span class="icon">
+                    <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M0 0h24v24H0z" fill="none"></path>
+                      <path fill="currentColor" d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z">
+                      </path>
+                    </svg>
+                  </span>
+                  Number of Days : {{ pricingPlandetails.days }}
+                </span>
+                <div class="bubbles"><span></span> <span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,85 @@
+<div class="add_role">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="page-title" *ngIf="!roleIdUpdate">Add Role</h3>
+                <h3 class="page-title" *ngIf="roleIdUpdate">Update Role</h3>
+            </div>
+            <div class="col-md-8 role_back_button">
+                <div class="pfr">
+                    <button mat-icon-button class="backbtn" matTooltip="Back to manage role" matTooltipPosition="left"
+                        (click)="backToRole()"><img src="../../../../assets/images/back.png"
+                            class="ph_back_arrow_img"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="container-fluid">
+        <div class="input-content-wrap card card-bg p-3 mb-4">
+            <form [formGroup]="RoleFormGroup" class="RoleFormGroup1">
+                <div class="row ">
+                    <div class="ml-3 labelstyle col-2 ">Role</div>
+                    <div class="col-5">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Role</mat-label>
+                            <input matInput formControlName="new_role" placeholder="Role"
+                            (ngModelChange)="onCheckRole($event)" required />
+                            <mat-error>
+                                <p *ngIf="RoleFormGroup.get('new_role').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                            <mat-error>
+                                <p *ngIf="RoleFormGroup.get('new_role').hasError('pattern')">{{validFormatMessage}}</p>
+                            </mat-error>                             
+                        <mat-error>
+                            <p *ngIf="RoleFormGroup.get('new_role').hasError('maxlength')"> {{characterLength}} </p>
+                        </mat-error>
+                        </mat-form-field>
+                        <div style="margin-top: -11px;">
+                            <mat-hint>Maximum 40 characters allowed!</mat-hint>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 lablestyle col-2"></div>
+                    <small class="error_msg col-5" *ngIf="ifRoleNameAvail">{{existMessage}}</small>
+                </div>
+                <div class="row py-2 pb-2">
+                    <div class="ml-3 labelstyle col-2">Access To</div>
+                    <div class="col-5">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-select [formControl]="accessCtrl" placeholder="Select Access *" #select multiple
+                                [(ngModel)]="selectedAccess" (selectionChange)="filterByUsers()">
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="accessFilterCtrl"
+                                        placeholderLabel="Search Access..." noEntriesFoundLabel="'no match found'">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <div class="select-all pl-3">
+                                    <mat-checkbox [(ngModel)]="allSelected" [ngModelOptions]="{standalone: true}"
+                                    *ngIf="(filteredAccess | async)?.length > 0" (change)="toggleAllSelection()">Select All</mat-checkbox>
+                                </div>
+                                <mat-option *ngFor="let data of filteredAccess | async"
+                                    [disabled]="data == 'dashboard' " [value]="data">
+                                    {{data}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error class="errorfix" *ngIf="accessCtrl.hasError('required')">Field Required!
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row btns">
+                    <div class="ml-3 lablestyle col-2"></div>
+                    <div class="col-5 mt-2">
+                        <button *ngIf="!roleIdUpdate" class="btn btn-confirm" color="primary"
+                            [disabled]="RoleFormGroup.invalid || ifRoleNameAvail" (click)="addRole()">Add</button>
+                        <button *ngIf="roleIdUpdate" class="btn btn-confirm" color="primary"
+                            [disabled]="RoleFormGroup.invalid || ifRoleNameAvail "
+                            (click)="updateRole()">Update</button>
+                        <button class="btn btn-cancel" (click)="canceltoggleRole()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

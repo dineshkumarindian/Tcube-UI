@@ -1,0 +1,326 @@
+<!-- <section class="section ">
+    <div class="heading-sec">
+        <h3 class="pull-left header">
+            My Profile</h3>
+    </div>
+</section> -->
+
+<div class="page-header">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="page-title">My Profile
+            </h3>
+        </div>
+    </div>
+</div>
+<section class="myaccount-sect">
+    <section class="section2 container" *ngIf="getData">
+        <div class="d-flex first mb-3">
+            <div class="col-md-6 col-sm-12 firstContent">
+                <img *ngIf="!imgAvailable" class="defaultImg" src="assets/images/user_person.png"
+                    (click)="updateProfileImage('no')">
+                <img *ngIf="imgAvailable" class="firstContentImg" [src]="url" (click)="updateProfileImage('yes')">
+                <span *ngIf="!imgAvailable" class="iconAdd" (click)="updateProfileImage('no')">
+                    <mat-icon>add_a_photo</mat-icon>
+                </span>
+                <span *ngIf="imgAvailable" class="iconAdd" (click)="updateProfileImage('yes')">
+                    <mat-icon>add_a_photo</mat-icon>
+                </span>
+                <div class="firstContentDetails">
+                    <h3>{{Details.firstname}} {{Details.lastname}}</h3>
+                    <p class="mail">{{Details.email}}</p>
+                    <p class="responsibility">{{Details.responsibility}}</p>
+                    <button matTooltip="Update personal details" matTooltipPosition="right"
+                        [routerLink]="['/edit-personal']" routerLinkActive="router-link-active">Update</button>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 secondContent" *ngIf="Details.reporting_manager">
+                <div class="card rounded w-100 cardStyle">
+                    <h6>Reporting To</h6>
+                    <div class="details">
+                        <img *ngIf="!reporterImgAvailable" class="secondContentImg" src="assets/images/user_person.png">
+                        <img *ngIf="reporterImgAvailable" class="secondContentImg" [src]="reporterurl">
+                        <div class="secondContentDetails">
+                            <h5>{{reporterDetails.firstname}} {{reporterDetails.lastname}}</h5>
+                            <p>{{reporterDetails.designationDetails.designation}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row second mb-3">
+            <div class="col-md-6 col-sm-12">
+                <div class="card cardStyle">
+                    <h6>Work Information</h6>
+                    <div id="info" class="mt-2">
+                        <ul>
+                            <li>
+                                <div class="row">
+                                    <p class="col-4 mb-0">Designation</p><span>:</span>
+                                    <p class="col-7 mb-0">{{designation}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Role</p><span>:</span>
+                                    <p class="col-7 mb-0">{{role}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <p class="col-4 mb-0">Date of Joining</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.date_of_joining |date:"dd/MM/yyyy"}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="responsibility">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Responsibility</p><span>:</span>
+                                    <p class="col-7 mb-0">{{responsibility}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="!responsibility">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Responsibility</p><span>:</span>
+                                    <p class="col-7 mb-0"> &nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <p class="col-4 mb-0">Branch</p><span>:</span>
+                                    <p *ngIf="branch" class="col-7 mb-0">{{branch}}</p>
+                                    <p *ngIf="!branch" class="col-7 mb-0"> &nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <p class="col-4 mb-0">Staff Type</p><span>:</span>
+                                    <p *ngIf="stafftypeInProfile" class="col-7 mb-0">{{stafftypeInProfile}}</p>
+                                    <p *ngIf="!stafftypeInProfile" class="col-7 mb-0"> &nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="card cardStyle">
+                    <h6>Basic Information <span class="pull-right"></span></h6>
+                    <div class="mt-2">
+                        <ul>
+                            <li *ngIf="roleForReporter == 'org_admin'">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Organization Id</p><span>:</span>
+                                    <p class="col-7 mb-0">{{org_id}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <p class="col-4 mb-0">Employee Id</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.id}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row ">
+                                    <p class="col-4 mb-0">First Name</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.firstname}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <p class="col-4 mb-0">Last Name</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.lastname}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li>
+                                <div class="row">
+                                    <p class="col-4 mb-0">Email</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.email}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row third mb-3">
+            <div class="col-md-6 col-sm-12">
+                <div class="card cardStyle">
+                    <h6>Contact Details</h6>
+                    <div class="mt-2">
+                        <!-- <button *ngIf="Details.personal_email? 'true' : 'false' " [routerLink]="['/edit-personal']" routerLinkActive="router-link-active">Update Details</button> -->
+                        <ul>
+                            <li *ngIf="Details.personal_mobile_number">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Personal Mobile No</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.personal_mobile_number}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="!Details.personal_mobile_number">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Personal Mobile No</p><span>:</span>
+                                    <p class="col-7 mb-0"> &nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="Details.personal_email">
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Personal Mail Id</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.personal_email}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="!Details.personal_email">
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Personal Mail Id</p><span>:</span>
+                                    <p class="col-7 mb-0"> &nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="Details.present_address">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Present Address</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.present_address}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="!Details.present_address">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Present Address</p><span>:</span>
+                                    <p class="col-7 mb-0"> &nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="Details.permanent_address">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Permanent Address</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.permanent_address}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="!Details.permanent_address">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Permanent Address</p><span>:</span>
+                                    <p class="col-7 mb-0">&nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12 myaccount_responsive mb-5">
+                <div class="card cardStyle">
+                    <h6>Personal Details </h6>
+                    <!--<span class="pull-right"><button [routerLink]="['/edit-personal']" routerLinkActive="router-link-active">Update</button></span>-->
+                    <div class="mt-2">
+                        <ul>
+                            <li *ngIf="Details.date_of_birth">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Date of Birth</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.date_of_birth |date:"dd/MM/yyyy"}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="!Details.date_of_birth">
+                                <div class="row">
+                                    <p class="col-4 mb-0">Date of Birth</p><span>:</span>
+                                    <p class="col-7 mb-0">&nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="Details.marital_status != undefined ">
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Marital Status</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.marital_status}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="Details.marital_status == undefined ">
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Marital Status</p><span>:</span>
+                                    <p class="col-7 mb-0">&nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="Details.gender != undefined ">
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Gender</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.gender}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="Details.gender == undefined ">
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Gender</p><span>:</span>
+                                    <p class="col-7 mb-0">&nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="Details.blood_group">
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Blood Group</p><span>:</span>
+                                    <p class="col-7 mb-0">{{Details.blood_group}}</p>
+                                </div>
+                                <hr>
+                            </li>
+                            <li *ngIf="!Details.blood_group">
+                                <div class="row ">
+                                    <p class="col-4 mb-0">Blood Group</p><span>:</span>
+                                    <p class="col-7 mb-0"> &nbsp; -</p>
+                                </div>
+                                <hr>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section3" *ngIf="!getData">
+        <div class="row loading1 mb-3">
+            <div class="col-md-5 col-sm-12 flexStyle">
+                <div class="card is-loading">
+                </div>
+                <span class="heading">
+                    <h6></h6>
+                    <p></p>
+                </span>
+            </div>
+        </div>
+        <div class="row loading mb-3">
+            <div class="col-md-5 col-sm-12 mb-5">
+                <div class="card is-loading">
+                    <h6 class="mainHeader"></h6>
+                    <div class="image"></div>
+                    <div class="content">
+                        <h2></h2>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12">
+                <div class="card is-loading">
+                    <h6 class="mainHeader"></h6>
+                    <div class="image"></div>
+                    <div class="content">
+                        <h2></h2>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>

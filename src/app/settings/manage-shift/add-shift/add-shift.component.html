@@ -1,0 +1,92 @@
+<div class="add_role">
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-4">
+                <h3 class="page-title" *ngIf="!shiftIdUpdate">Add Shift</h3>
+                <h3 class="page-title" *ngIf="shiftIdUpdate">Update Shift</h3>
+            </div>
+            <div class="col-md-8 designation_back_button">
+                <div class="pfr">
+                    <button mat-icon-button class="backbtn" matTooltip="Back to manage designation" matTooltipPosition="left"
+                    (click)="backToShift()">
+                        <!-- [routerLink]="['/settings']" routerLinkActive="active"> -->
+                        <img src="../../../../assets/images/back.png" class="ph_back_arrow_img"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="container-fluid">
+        <div class="input-content-wrap card card-bg p-3 mb-4">
+            <form [formGroup]="shiftFormGroup" class="shiftFormGroup">
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Shift</div>
+                    <div class="col-5">
+                    <mat-form-field appearance="standard">
+                        <mat-label>Shift</mat-label>
+                        <input matInput formControlName="shift" (keyup)="checkDuplicate($event)"
+                            placeholder="Enter shift" required />
+                            <mat-error>
+                                <p  *ngIf="shiftFormGroup.get('shift').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                            <mat-error>
+                                <p  *ngIf="shiftFormGroup.get('shift').hasError('pattern')">{{validFormatMessage}}</p>
+                            </mat-error>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 lablestyle col-2"></div>
+                    <small class="error_msg col-5" *ngIf="duplicateName">{{existMessage}}</small>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">Start Time</div>
+                    <div class="col-5">
+                        <mat-form-field appearance="standard">
+                            <mat-label>Start Time</mat-label>
+                            <input matInput type="time" formControlName="startTime" required />
+                            <mat-error>
+                                <p  *ngIf="shiftFormGroup.get('startTime').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="ml-3 labelstyle col-2">End Time</div>
+                    <div class="col-5">
+                        <mat-form-field appearance="standard">
+                            <mat-label>End Time</mat-label>
+                            <input matInput type="time" formControlName="endTime" required />
+                            <mat-error>
+                                <p  *ngIf="shiftFormGroup.get('endTime').hasError('required')">{{requiredMessage}}</p>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="ml-3 labelstyle col-2"></div>
+                    <div class="error_msg col-5" *ngIf="ifDesignationAvail">
+                        {{existMessage}}</div>
+                </div> -->
+                <div class="row py-2">
+                    <div class="ml-3 labelstyle col-2">Description</div>
+                    <div class="col-5">
+                    <mat-form-field appearance="fill">
+                        <textarea matInput formControlName="desc"></textarea>
+                    </mat-form-field>
+                    </div>
+                </div>
+                <div class="row btns">
+                    <div class="ml-3 labelstyle col-2"></div>
+                    <div class="col-5">
+                        <button *ngIf="!updateId" class="btn btn-confirm" color="primary"
+                            (click)="checkAverageShiftTime()" [disabled]="shiftFormGroup.invalid || duplicateName">Add</button>
+                        <button *ngIf="updateId" class="btn btn-confirm mr-2" color="primary"
+                            (click)="checkAverageShiftTime()"
+                            [disabled]="shiftFormGroup.invalid || duplicateName">Update</button>
+                        <button class="btn btn-cancel" (click)="backToShift()">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>

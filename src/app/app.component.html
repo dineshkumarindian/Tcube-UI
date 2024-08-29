@@ -1,0 +1,27 @@
+<!-- Application loader -->
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.9)" size="large" color="#fff" type="square-loader" [fullScreen]="true">
+    <img style="width:150px; display: block; margin: 0 auto;" src="../assets/images/TcubeLoader.gif" />
+</ngx-spinner>
+<app-main-nav
+    *ngIf="router.url != '/login' && router.url != '/user-register' && router.url != '/forgot-password' && router.url != '/404' && router.url != '/privacy-policy' && router.url !='/payments' && router.url != '/payment-success' && router.url != '/view-org'">
+    <router-outlet *ngIf="loggedInStatus; else other"></router-outlet>
+    <ng-template #other>
+       <app-orgs-plandetails *ngIf="router.url == '/subscription'"></app-orgs-plandetails>
+       <app-renewal-plan *ngIf ="router.url == '/renewal-plan' || router.url =='/update-plan'"></app-renewal-plan>
+       <app-upgrade-plan *ngIf="router.url == '/upgrade-plan'"></app-upgrade-plan>
+       <app-payment-history *ngIf="router.url == '/payment-history'"></app-payment-history>
+
+       <app-un-available *ngIf="router.url != '/subscription' && router.url != '/renewal-plan' && router.url != '/update-plan' && router.url != '/upgrade-plan' && router.url != '/payment-history'"></app-un-available>
+       
+    </ng-template>
+</app-main-nav>
+<app-payment-success-page *ngIf="router.url == '/payment-success'"></app-payment-success-page>
+<app-maintenance-page *ngIf="router.url == '/404'"></app-maintenance-page>
+<app-login *ngIf="router.url == '/login'"></app-login>
+<app-register *ngIf="router.url == '/user-register'"></app-register>
+<app-forget-password *ngIf="router.url == '/forgot-password'"></app-forget-password>
+<app-landing-page *ngIf="router.url == '/home'"></app-landing-page>
+<app-privacy-policy *ngIf="router.url == '/privacy-policy'"></app-privacy-policy>
+<app-payment *ngIf="router.url == '/payments'"></app-payment>
+<app-footer *ngIf="router.url == '/footer'"></app-footer>
+<!-- <app-add-internship></app-add-internship> -->

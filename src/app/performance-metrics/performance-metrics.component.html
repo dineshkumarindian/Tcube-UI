@@ -1,0 +1,329 @@
+<section class="performance-metrics">
+  <div class="page-header d-flex align-items-center justify-content-between">
+    <h3 class="page-title mt-3">Staff Performance Metrics
+      <p class="subtitle-color" *ngIf="activeusers">(Active staff reports)
+      </p>
+      <p class="subtitle-color" *ngIf="inactiveusers">(Inactive staff reports)
+      </p>
+    </h3>
+
+
+    <div class="d-flex  align-items-center">
+      <button class="redirect-btn timesheet-btn mr-3" matTooltip="Move to active staff report" (click)="activeUsers() "
+        *ngIf="inactiveusers">
+        <span>
+          <mat-icon mat-icon-button class="pl-2">arrow_right_alt</mat-icon>
+        </span>
+      </button>
+      <button class="inactivebtn timesheet-btn mr-3 d-flex justify-content-center align-items-center"
+        matTooltip="Move to inactive staff report" (click)="inactiveUsers()" matTooltipPosition="below"
+        *ngIf="activeusers">
+        <div>
+          <mat-icon mat-icon-button>last_page</mat-icon>
+        </div>
+      </button>
+    </div>
+
+  </div>
+  <div>
+    <div class="mt-4 d-flex search flex-wrap align-items-center justify-content-center container-fluid row">
+      <!-- ***This section for to select a employeee name *** -->
+      <div class="align-items-center h-60">
+        <mat-form-field appearance="outline">
+          <mat-select [formControl]="userCtrl" placeholder="Staff&nbsp;" #singleSelect
+            (selectionChange)="selectEmploy($event.value)">
+            <mat-option>
+              <ngx-mat-select-search [formControl]="userFilterCtrl" placeholderLabel="Search Staff..."
+                noEntriesFoundLabel="'no matching staff found'"></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngIf="employeeData.length==0" disabled="true">No data available!</mat-option>
+            <mat-option *ngFor="let data of filtereduser | async" [value]="data.id" class="text-capitalize">
+              {{data.name}}
+            </mat-option>
+
+          </mat-select>
+          <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- ***This section for to select a date range *** -->
+      <div class="align-items-center h-60">
+        <mat-form-field appearance="outline">
+          <mat-select [formControl]="dateCtrl" placeholder="Date range&nbsp;" #singleSelect
+            (selectionChange)="selectChangeHandler($event.value)">
+            <mat-option>
+              <ngx-mat-select-search [formControl]="dateFilterCtrl" placeholderLabel="Search date range..."
+                noEntriesFoundLabel="'no matching date range found'"></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let data of filtereddate | async" [value]="data.data" class="text-capitalize">
+              {{data.data}}
+            </mat-option>
+          </mat-select>
+          <mat-error class="errorfix" *ngIf="userCtrl.hasError('required')">{{requiredMessage}}</mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Date picker for custom date picker -->
+
+      <mat-form-field *ngIf="customdate" appearance="outline" class="col-md-2 align-items-center h-60">
+        <input matInput type="text" [matDatepicker]="picker1" placeholder="From Date" [max]="maxDate"
+          [formControl]="start" />
+        <mat-error class="errorfix" *ngIf="start.hasError('required')">{{requiredMessage}}</mat-error>
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field *ngIf="customdate" appearance="outline" class="col-md-2 align-items-center h-60">
+        <input matInput type="text" [matDatepicker]="picker2" placeholder="To Date" [disabled]="!start.value"
+          [formControl]="end" [min]="start.value" [max]="maxDate" (dateChange)="todatechange()">
+        <mat-error class="errorfix" *ngIf="end.hasError('required')">{{requiredMessage}}</mat-error>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+
+      <div class="Btns">
+        <div class="fixed-btn align-items-center h-60 ">
+          <button mat-raised-button class="mr-2 sbmt-btn"
+            [disabled]="(customdate && !customdatevalidation) || (userCtrl.hasError('required') || dateCtrl.hasError('required'))"
+            (click)="getReport()">Find</button>
+          <button mat-raised-button color="warn" (click)="cancelform()"> Cancel</button>
+        </div>
+      </div>
+      <div class="export_section" *ngIf="report">
+        <div *ngIf="!No_Data_Found_mybillable || !no_data_found_project || !no_data_found || !no_data_found_attendance || !No_data_found_onleave || !show">
+        <button mat-button class="exprt-btn float-right d-flex justify-content-center" [matMenuTriggerFor]="menu">
+          <span class="mr-2"><img src="../../assets/images/import.png">Export</span>
+          <span class="loaderStyle" *ngIf="loading">
+            <div class="loader"></div>
+          </span>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="capture('png')" class="d-flex align-items-center justify-content-around">
+            <img width="23" src="../../assets/images/img_png.png" alt="png image"> PNG</button>
+          <button mat-menu-item (click)="capture('pdf')" class="d-flex align-items-center justify-content-around">
+            <img width="23" src="../../assets/images/img_pdf.png" alt="png image"> PDF</button>
+        </mat-menu>
+        </div>
+      </div>
+    </div>
+    <div [hidden]="show">
+      <div class="d-flex flex-column align-items-center">
+        <img src="../../../../assets/images/search_report.png" alt="Report search image" class="w-25">
+        <h3>Enter the fields to search reports...!</h3>
+      </div>
+    </div>
+    <div class="text-center"
+      *ngIf="No_Data_Found_mybillable && no_data_found_project && no_data_found && no_data_found_attendance && No_data_found_onleave && GitLab_NoDataFound && show">
+      <img width="350" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+      <div>{{nodataMsg}}</div>
+    </div>
+    <div #screen>
+      <br>
+      <section *ngIf="report">
+        <div *ngIf="!No_Data_Found_mybillable || !no_data_found_project || !no_data_found || !no_data_found_attendance || !No_data_found_onleave || !GitLab_NoDataFound || !show">
+          <h1 class="text-center td_text_firstltr_capitalized">{{username}} ({{startDate |date:"dd-MM-yyyy"}} to
+            {{endDate |date:"dd-MM-yyyy"}})
+            report</h1>
+          <div class="mt-4 row col-md-12 card_section mb-4">
+            <div class="col-md-3 average_card p-3 row">
+              <div class="col-md-2 p-0 d-flex align-items-center">
+                <img src="../../../../assets/images/Check_in_hours.png" alt="working staff image" width="50px">
+              </div>
+              <div class="col-md-10 p-2 pl-2 pr-0">
+                <div>
+                  <p class="mb-0">
+                    Total Checkin - <span>{{Total_checkin_hours}}</span>
+                  </p>
+                </div>
+                <div>
+                  <h4>Average checkin/month </h4>
+                  <!-- <b><span>{{Average_month_log_hours}}</span></b> -->
+                  <b><span>{{Emp_checkin_hours}}
+                    </span></b>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 average_card p-3 row">
+              <div class="col-md-2 p-0 d-flex align-items-center">
+                <img src="../../../../assets/images/Emp_work.png" alt="working staff image" width="50px">
+              </div>
+              <div class="col-md-10 p-2 pl-2" style="padding-right: 0px !important;">
+                <div>
+                  <p class="mb-0">
+                    Total Timesheet - <span>{{Total_log_hours}}</span>
+                  </p>
+                </div>
+                <div>
+                  <h4>Average timesheet/month</h4>
+                  <!-- <b><span>{{Average_month_log_hours}}</span></b> -->
+                  <b><span>{{Average_month_log_hours}}
+                    </span></b>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-md-3 average_card row d-flex align-items-center">
+          <div class="col-md-2 p-0">
+            <img src="../../../../assets/images/Emp_work.png" alt="working employee image" width="50px">
+          </div>
+          <div class="col-md-10">
+            <h4>Average timesheet/Month </h4>
+            <b><span>{{Average_month_log_hours}}</span></b>
+          </div>
+        </div> -->
+          </div>
+          <div class="row col-12 p-0 m-0 d-flex">
+            <section class="w-100 d-contents bil-section col-md-6">
+              <!-- **** My billable/ nonbillable-->
+              <div class="col-md-6 col-sm-12 col-lg-6">
+                <div class="ng-star-inserted card my-2 card-style ">
+                  <h3>Billable/Non Billable</h3>
+                  <div id="bill_status" *ngIf="!No_Data_Found_mybillable"></div>
+                  <div class="text-center" *ngIf="No_Data_Found_mybillable">
+                    <img width="300" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                    <div>{{nodataMsg}}</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="w-100 d-contents bil-section col-md-6">
+              <!-- **** Project(s) and Job(s)-->
+              <div class="col-md-6 col-sm-12 col-lg-6">
+                <div class="ng-star-inserted card my-2 card-style ">
+                  <h3>Projects/Jobs</h3>
+                  <div *ngIf="!no_data_found_project" id="project_job"></div>
+                  <div class="text-center" *ngIf="no_data_found_project">
+                    <img width="300" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                    <div>{{nodataMsg}}</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="p-0 m-0 d-flex flex-column">
+            <section class="w-100 d-contents bil-section">
+              <!-- **** Date Attendance-->
+              <div class="btn table-excel-export-btn d-flex align-items-center justify-content-end pl-0"
+                *ngIf="!no_data_found" type="button">
+                <button class="button" matTooltipPosition="right" matTooltip="Export Report">
+                  <div class="icon">
+                    <img class="shere btn-size" src="../../assets/images/export-file.png">
+                    <button class="icon-shere ml-1" (click)="exportAsXLSX()">
+                      XLSX
+                    </button>
+                    <button class="icon-shere mx-1" (click)="exportAsXLS()">
+                      XLS
+                    </button>
+                    <button class="icon-shere mr-1" (click)="exportAsCSV()">
+                      CSV
+                    </button>
+                  </div>
+                  <p class="m-0">Attendance Report</p>
+                </button>
+              </div>
+              <div class="col-12">
+                <div class="ng-star-inserted card my-2 card-style ">
+                  <h3>Attendance(present days)</h3>
+                  <div *ngIf="!no_data_found" id="Attendance_container"></div>
+                  <div *ngIf="no_data_found" class="text-center mb-1">
+                    <img width="450" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                    <div>{{nodataMsg}}</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+          </div>
+          <div class="row col-12 p-0 m-0 d-flex">
+            <section class="w-100 d-contents bil-section col-md-6">
+              <!-- **** My billable/ nonbillable-->
+              <div class="col-md-6 col-sm-12 col-lg-6">
+                <div class="ng-star-inserted card my-2 card-style ">
+                  <h3>Attendance status</h3>
+                  <div *ngIf="!no_data_found_attendance" id="piechart"></div>
+                  <div *ngIf="no_data_found_attendance" class="text-center mb-1">
+                    <img width="300" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                    <div>{{nodataMsg}}</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="w-100 d-contents bil-section col-md-6">
+              <!-- **** Project(s) and Job(s)-->
+              <div class="col-md-6 col-sm-12 col-lg-6">
+                <div class="ng-star-inserted card my-2 card-style ">
+                  <h3>Leaves</h3>
+                  <div id="container" *ngIf="!No_data_found_onleave"></div>
+                  <div class="text-center" *ngIf="No_data_found_onleave">
+                    <img width="300" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                    <div>{{nodataMsg}}</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <!-- <div class="row col-12 p-0 m-0 d-flex">
+            <section class="w-100 d-contents bil-section col-md-6"> -->
+
+              <!-- **** My billable/ nonbillable-->
+
+              <!-- <div class="col-md-6 col-sm-12 col-lg-6">
+                <div class="ng-star-inserted card my-2 card-style ">
+                  <h3>GitLab Details</h3>
+                  <div class="text-center" *ngIf="GitLab_NoDataFound && gitlabConfigured">
+                    <img width="300" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                    <div>{{nodataMsg}}</div>
+                  </div>
+                  <div *ngIf="gitlabConfigured && !GitLab_NoDataFound"
+                    style="overflow-y: auto;display: flex; flex-wrap: wrap;" class="justify-content-center">
+                    <div class="text-center" *ngFor="let data of Project_object ; let i = index ;"> -->
+
+                      <!-- <div class="mt-3">
+                      <span>{{data.namespace.path}} {{data.path}} :</span>
+                      <button class="mat_chip_style_hours">
+                        {{Project_commits[i]?Project_commits[i].length:0}}
+                      </button>
+                    </div> -->
+
+                      <!-- <div class="cards shadow mt-5">
+                        <div class="card-body" matTooltip="Click to view repository" matTooltipPosition="above">
+                          <a href="{{data.http_url_to_repo}}" target="_blank">
+                            <div class="text-capitalize card_content">
+                              <div class="avatar mx-auto white">
+                                <img src="../../../assets/images/gitlab-logo-og.png" class="rounded-circle img-fluid"
+                                  alt="GitLab avatar">
+                              </div>
+                              {{data.namespace_path}}
+                              <span>
+                                {{data.path}}
+                              </span>
+                            </div>
+                            <p class="card-text mt-2"><button class="mat_chip_style_counts btn-primary">
+                                {{data.commits}}
+                              </button></p>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="!gitlabConfigured" class="text-center mb-1">
+                    <img width="300" src="../../assets/images/No data.png" alt="no data" class="pr-menu-icon">
+                    <div>Not yet configured <a [ngClass]="{'AnchorStyles' : appsIntegraionAccess}"
+                        [class.disabled]="!appsIntegraionAccess ? true: null" (click)="RouterLink()"
+                        matTooltipPosition="above"
+                        [matTooltip]="appsIntegraionAccess ? 'Move to GitLab Intergation' : 'Access needed!'">Click
+                        here</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="w-100 d-contents bil-section col-md-6">
+              <div class="col-md-6 col-sm-12 col-lg-6">
+              </div>
+            </section>
+          </div> -->
+        </div>
+      </section>
+    </div>
+  </div>
+
+</section>

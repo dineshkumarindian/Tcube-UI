@@ -1,0 +1,156 @@
+<div class="delete">
+  <div class="header">
+    <h5>{{ heading }}</h5>
+    <span class="pull-right cls-btn">
+      <mat-icon
+        matTooltip="Close"
+        class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button"
+        (click)="cancel()"
+        >close</mat-icon
+      >
+    </span>
+  </div>
+  <p *ngIf="heading == 'Terms and Conditions'" class="pull-right mr-3 pt-2">
+    Last Revision : 03-05-2022
+  </p>
+  <div class="content" *ngIf="heading == 'Terms and Conditions'">
+    <div class="list">
+      <ol>
+        <li><b>General</b></li>
+        <ul>
+          <li>
+            Lorem Ipsum is not simply random text. It has roots in a piece of
+            classical Latin literature from 45 BC, making it over 2000 years
+            old. Richard McClintock, a Latin professor at Hampden-Sydney College
+            in Virginia, looked up one of the more obscure Latin words,
+            consectetur, from a Lorem Ipsum passage, and going through the cites
+            of the word in classical literature, discovered the undoubtable
+            source.
+          </li>
+        </ul>
+        <li><b>Website</b></li>
+        <ul>
+          <li>
+            Lorem Ipsum is not simply random text. It has roots in a piece of
+            classical Latin literature from 45 BC, making it over 2000 years
+            old. Richard McClintock, a Latin professor at Hampden-Sydney College
+            in Virginia, looked up one of the more obscure Latin words,
+            consectetur, from a Lorem Ipsum passage, and going through the cites
+            of the word in classical literature, discovered the undoubtable
+            source.
+          </li>
+        </ul>
+        <li><b>Disclaimer</b></li>
+        <ul>
+          <li>
+            Lorem Ipsum is not simply random text. It has roots in a piece of
+            classical Latin literature from 45 BC, making it over 2000 years
+            old. Richard McClintock, a Latin professor at Hampden-Sydney College
+            in Virginia, looked up one of the more obscure Latin words,
+            consectetur, from a Lorem Ipsum passage, and going through the cites
+            of the word in classical literature, discovered the undoubtable
+            source.
+          </li>
+          <li>
+            Lorem Ipsum is not simply random text. It has roots in a piece of
+            classical Latin literature from 45 BC, making it over 2000 years
+            old. Richard McClintock, a Latin professor at Hampden-Sydney College
+            in Virginia, looked up one of the more obscure Latin words,
+            consectetur, from a Lorem Ipsum passage, and going through the cites
+            of the word in classical literature, discovered the undoubtable
+            source.
+          </li>
+        </ul>
+        <li><b>End of Terms and Conditions</b></li>
+        <ul>
+          <li>
+            If you have any queries regarding this Agreement, please contact us
+            at
+            <span
+              class="mailStyle"
+              onclick="location.href='mailto:sales@tcube.io';"
+              >sales@tcube.io</span
+            >.
+          </li>
+        </ul>
+      </ol>
+    </div>
+  </div>
+
+  <!-- cards for pricing details -->
+  <div
+    class="shadow bg-white rounded card pricing_card"
+    *ngFor="let data of plandetails"
+  >
+    <div class="card-block">
+      <h5 class="card-title mt-3">{{ data.plan }}</h5>
+      <div class="d-flex justify-content-center align-items-center">
+        <h2 class="price">{{ data.currency }} {{ data.amount }}</h2>
+        <h2 class="mx-2"></h2>
+        <h2 class="price">
+          Days<span class="pl-2 text-dark">{{ data.days }}</span>
+        </h2>
+      </div>
+      <h2 class="price">
+        Max Users<span class="pl-2 text-dark">{{ data.userslimit }}</span>
+      </h2>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" *ngFor="let module of data.modules">
+        {{ module }}
+      </li>
+      <!-- <li class="list-group-item">Max 25 Users</li> -->
+    </ul>
+    <button mat-flat-button mat-dialog-close>Ok</button>
+  </div>
+  <!-- <div class="shadow bg-white rounded card pricing_card" *ngIf="heading == 'Plan B - Pricing details'">
+    <div class="card-block">
+      <h5 class="card-title mt-3">Plan B</h5>
+      <h2 class="price">$ 90</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Dashboard</li>
+      <li class="list-group-item">Attendance</li>
+      <li class="list-group-item">Leave-Tracker</li>
+      <li class="list-group-item">Settings(Manage Attenndance, role, designation, Users, Laeve type)</li>
+      <li class="list-group-item">Reports(Based on modules list based on reports)</li>
+      <li class="list-group-item">Max 25 Users</li>
+    </ul> 
+    <button mat-flat-button  mat-dialog-close>Ok</button>
+</div> -->
+  <!-- <div class="shadow bg-white rounded card pricing_card" *ngIf="heading == 'Plan C - Pricing details'">
+    <div class="card-block">
+      <h5 class="card-title mt-3">Plan C</h5>
+      <h2 class="price">$ 170</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Dashboard</li>
+      <li class="list-group-item">Projects/Jobs</li>
+      <li class="list-group-item">Time-Tracker</li>
+      <li class="list-group-item">Leave Tracker</li>
+      <li class="list-group-item">Settings(Manage clients, role, designation, Users, Leave type)</li>
+      <li class="list-group-item">Reports(Based on modules list based on reports)</li>
+      <li class="list-group-item">Max 25 Users</li>
+    </ul> 
+    <button mat-flat-button  mat-dialog-close>Ok</button>
+</div> -->
+  <!-- <div class="shadow bg-white rounded card pricing_card" *ngIf="heading == 'Plan D - Pricing details'">
+    <div class="card-block">
+      <h5 class="card-title mt-3">Plan D</h5>
+      <h2 class="price">$ 280</h2>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Dashboard</li>
+      <li class="list-group-item">Projects/Jobs</li>
+      <li class="list-group-item">Time-Tracker</li>
+      <li class="list-group-item">Attendance</li>
+      <li class="list-group-item">Leave Tracker</li>
+      <li class="list-group-item">Settings(Entire Module)</li>
+      <li class="list-group-item">Reports</li>
+      <li class="list-group-item">Max 50 Users</li>
+    </ul> 
+    <button mat-flat-button  mat-dialog-close>Ok</button>
+</div>
+</div> -->
+</div>

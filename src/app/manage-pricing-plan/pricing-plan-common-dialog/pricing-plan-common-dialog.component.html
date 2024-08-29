@@ -1,0 +1,40 @@
+<section class="pricing_plan_common_dialog">
+  <div class="dialog-header">
+    <h3 class="page-title">{{heading}}</h3>
+    <span class="pull-right cls-btn">
+      <mat-icon mat-dialog-close matTooltip="Close" class="mat-icon notranslate material-icons mat-icon-no-color"
+        type="button">close</mat-icon>
+    </span>
+  </div>
+  <div class="view-paln-details" *ngIf="heading == 'View Pricing Plan Details'">
+    <div class="shadow bg-white rounded card pricing_card">
+      <div class="card-block">
+        <h5 class="card-title mt-3">{{pricingPlanDetails.plan}}</h5>
+        <div class="d-flex justify-content-center align-items-center">
+          <h2 class="price">{{pricingPlanDetails.currency}}<span
+            class="pl-2 text-dark">{{pricingPlanDetails.amount}}</span></h2>
+            <h2 class="mx-2"></h2>
+        <h2 class="price">Days<span
+            class="pl-2 text-dark">{{pricingPlanDetails.days}}</span></h2>
+        </div>
+        
+        <h2 class="price">Max Users<span
+            class="pl-2 text-dark">{{pricingPlanDetails.userslimit}}</span></h2>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let data of pricingPlanDetails.modules">{{data}}</li>
+        <!-- <li class="list-group-item">Max 25 Users</li> -->
+      </ul>
+      <button mat-flat-button mat-dialog-close>Ok</button>
+    </div>
+  </div>
+  <div class="bulk_delete" *ngIf="heading == 'Bulk Delete'">
+    <div mat-dialog-content>
+      <div>Are you sure want to bulk delete {{data.data.length}} pricing plan details ?</div>
+    </div>
+    <div align="end" class="btns p-3">
+      <button mat-flat-button color="warn" mat-dialog-close class="mx-2">Cancel</button>
+      <button mat-flat-button class="cnfm-btn">Confirm</button>
+    </div>
+  </div>
+</section>

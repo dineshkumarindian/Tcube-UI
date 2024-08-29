@@ -1,0 +1,193 @@
+//   scoll bar style
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+::ng-deep .custom-viewdialogstyle {
+    mat-dialog-container {
+        padding: 0 !important;
+        overflow-y: hidden !important;
+    }
+}
+
+.delete {
+    .header {
+        display: flex;
+        height: 3em;
+        background: #F4F4F5;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        top: 0px;
+        position: sticky;
+        z-index: 1;
+
+        h5 {
+            color: #0a4689;
+            padding-top: 14px;
+            padding-left: 14px;
+        }
+    }
+
+    .cls-btn {
+        border: 0.5px solid #dcd5d5;
+        border-radius: 4px;
+        width: 30px;
+        height: 30px;
+        line-height: 10px;
+        margin-right: 14px;
+        margin-top: 10px;
+
+        .mat-icon {
+            color: #f44336;
+            padding: 5.3px;
+            font-size: 17px;
+        }
+    }
+
+    .cls-btn:hover {
+        border: 0.5px solid #f44336;
+        background-color: #f44336;
+
+        .mat-icon {
+            color: white;
+            padding: 5.3px;
+            font-size: 17px;
+        }
+    }
+
+    .mat-dialog-content {
+        margin: 10px 0 0 0;
+        padding: 0 15px;
+        max-height: 260px !important;
+        .cardRole {
+            ::ng-deep .row {
+                margin-bottom: 10px;
+                padding: 0 10px;
+            }
+
+            ::ng-deep .rowStyle {
+                margin-bottom: 0px !important;
+            }
+
+            .view {
+                margin-top: 50px;
+                margin-left: -20px;
+                font-size: 12px;
+            }
+
+            .view:hover {
+                cursor: pointer;
+                color: #0054b7;
+            }
+
+            .cardRoleStyle {
+                margin-bottom: 25px;
+                align-items: center;
+                background-color: white;
+                transition: 0.3s;
+                border-left: 4px solid #003170;
+                box-shadow: 1px 1px 20px #f1f1f1, 0px 0px 0px #ffffff;
+
+                h6 {
+                    overflow-wrap: anywhere;
+                }
+
+                p {
+                    margin-bottom: 0px;
+                }
+
+                .cardContent {
+                    display: grid;
+                    justify-items: center;
+                }
+            }
+
+            .cardRoleStyle:hover {
+                // box-shadow: rgba(0, 0, 0, 0.178) 0px 6px 15px 0px;
+                box-shadow: #004299ad 0px 7px 20px 0px;
+                transform: translateY(-3px);
+                transition: 0.5s;
+                // background-color: rgba(58,131,207,1);
+                background-color: #004399;
+                border: none !important;
+
+                h6,
+                p {
+                    color: rgb(240, 239, 239);
+                }
+
+                @-webkit-keyframes roleContent {
+                    25% {
+                        -webkit-transform: translateX(4px);
+                        transform: translateX(4px);
+                    }
+
+                    50% {
+                        -webkit-transform: translateX(-4px);
+                        transform: translateX(-4px);
+                    }
+
+                    70% {
+                        -webkit-transform: translateX(2px);
+                        transform: translateX(2px);
+                    }
+
+                    90% {
+                        -webkit-transform: translateX(-2px);
+                        transform: translateX(-2px);
+                    }
+
+                    100% {
+                        -webkit-transform: translateX(0px);
+                        transform: translateX(0px);
+                    }
+                }
+
+                @keyframes roleContent {
+                    25% {
+                        -webkit-transform: translateX(4px);
+                        transform: translateX(4px);
+                    }
+
+                    50% {
+                        -webkit-transform: translateX(-4px);
+                        transform: translateX(-4px);
+                    }
+
+                    70% {
+                        -webkit-transform: translateX(2px);
+                        transform: translateX(2px);
+                    }
+
+                    90% {
+                        -webkit-transform: translateX(-2px);
+                        transform: translateX(-2px);
+                    }
+
+                    100% {
+                        -webkit-transform: translateX(0px);
+                        transform: translateX(0px);
+                    }
+                }
+
+                .cardContent {
+                    -webkit-animation: roleContent 1s ease;
+                    animation: roleContent 1s ease;
+                    -webkit-animation-iteration-count: 1;
+                    animation-iteration-count: 1;
+                }
+            }
+        }
+    }
+
+}

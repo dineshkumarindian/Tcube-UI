@@ -1,0 +1,25 @@
+<div id="popup">
+    <div class="container">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1>Welcome to TCUBE</h1>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-7" id="content">
+                <p>We are so excited you have joined our team, click here to manage your organization <a href="#/settings">"Settings"</a>.</p>
+              </div>
+              <div id="welcome" class="col-5">
+                <img src="../../../assets/images/welcome.png">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button mat-flat-button class="manage-btn mx-2" (click)="btnClick();hidePopup()" mat-dialog-close>Manage options</button>
+          <button mat-flat-button class="manage-btn mx-2" (click)="showPopup()" mat-dialog-close>Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>

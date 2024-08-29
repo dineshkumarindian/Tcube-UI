@@ -1,0 +1,197 @@
+//   scoll bar style
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+::ng-deep .custom-viewdialogstyle {
+    mat-dialog-container {
+        padding: 0 !important;
+        overflow-y: auto;
+    }
+}
+
+.updateImage {
+    background-color: #fafafa;
+
+    .header {
+        display: flex;
+        height: 3em;
+        background: #F4F4F5;
+        -webkit-box-pack: justify;
+        justify-content: space-between;
+        top: 0px;
+        position: sticky;
+        z-index: 1;
+
+        h5 {
+            color: #0a4689;
+            padding-top: 14px;
+            padding-left: 14px;
+            font-weight: 550;
+            font-size: 18px;
+        }
+    }
+
+    .cls-btn {
+        border: 0.5px solid #dcd5d5;
+        border-radius: 4px;
+        width: 30px;
+        height: 30px;
+        line-height: 10px;
+        margin-right: 14px;
+        margin-top: 10px;
+
+        .mat-icon {
+            color: #f44336;
+            padding: 5.3px;
+            font-size: 17px;
+        }
+    }
+
+    .cls-btn:hover {
+        border: 0.5px solid #f44336;
+        background-color: #f44336;
+
+        .mat-icon {
+            color: white;
+            padding: 5.3px;
+            font-size: 17px;
+        }
+    }
+
+    .content {
+
+        .previesImage {
+            display: flex;
+             flex-direction: column;
+            align-items: center;
+
+            .firstContentImg {
+                width: 300px;
+                height: 300px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+            .defaultImg {
+                width: 300px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+            .removeBtn{
+                background-color: red;
+                color: white;
+                margin-left: 20px;
+            }
+
+            button {
+                outline: none;
+                background-color: #00c0ce;
+                color: white;
+                padding: 0px 10px;
+                line-height: 29px;
+            }
+
+            button:hover {
+                color: black;
+                background-color: #fafafa;
+            }
+        }
+
+        .loadingImage{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            .is-loading{
+                height: 300px;
+                width: 300px;
+                margin-top: 10px;
+                // margin-right: 15px;
+                border: none;
+                background: #eee;
+                background: linear-gradient(110deg, #ececec 15%, #f5f5f5 25%, #ececec 33%);
+                background-size: 200% 100%;
+                animation: 1.5s shine linear infinite;
+            }
+            button {
+                outline: none;
+                background-color: #00c0ce;
+                color: white;
+                padding: 0px 10px;
+                line-height: 29px;
+            }
+
+            button:hover {
+                color: black;
+                background-color: #fafafa;
+            }
+        }
+        .newImage {
+            text-align: center;
+
+            .chooseBtn {
+                outline: none;
+                color: white;
+                background-color: #81bcfa;
+                padding: 0px 10px;
+                line-height: 29px;
+            }
+
+            .chooseBtn:hover {
+                color: black;
+                background-color: #ffffff;
+            }
+
+            .imageName {
+                font-size: 14px;
+                margin-left: 13px;
+                // ::ng-deep .material-icons{
+                //     font-size:10px;
+                // }
+            }
+
+        }
+
+        .imageCropper {
+            p {
+                text-align: center;
+                color: #0a4689;
+                font-weight: 600;
+                margin-bottom: 5px;
+            }
+
+            .newCroppedImage {
+                padding: 5px;
+            }
+        }
+
+        .updateBtn {
+            background-color: #00c0ce;
+            color: white;
+            margin-left: 41%;
+            outline: none;
+            padding: 0px 10px;
+            line-height: 29px;
+        }
+        .updateBtn:hover{
+            color: black;
+            background-color: #ffffff;
+        }
+    }
+}
+
+@keyframes shine {
+    to {
+        background-position-x: -200%;
+    }
+}
